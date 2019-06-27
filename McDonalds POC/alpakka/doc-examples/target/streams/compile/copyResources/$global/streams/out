@@ -1,0 +1,7 @@
+[0m[[0m[0mdebug[0m] [0m[0mCopy resource mappings: [0m
+[0m[[0m[0mdebug[0m] [0m[0m	(/root/alpakka/doc-examples/src/main/resources/id_rsa.pub,/root/alpakka/doc-examples/target/scala-2.12/classes/id_rsa.pub)[0m
+[0m[[0m[0mdebug[0m] [0m[0m	(/root/alpakka/doc-examples/src/main/resources/id_rsa,/root/alpakka/doc-examples/target/scala-2.12/classes/id_rsa)[0m
+[0m[[0m[0mdebug[0m] [0m[0m	(/root/alpakka/doc-examples/src/main/resources/ftpusers.properties,/root/alpakka/doc-examples/target/scala-2.12/classes/ftpusers.properties)[0m
+[0m[[0m[0mdebug[0m] [0m[0m	(/root/alpakka/doc-examples/src/main/resources/hostkey.pem,/root/alpakka/doc-examples/target/scala-2.12/classes/hostkey.pem)[0m
+[0m[[0m[0mdebug[0m] [0m[0m	(/root/alpakka/doc-examples/src/main/resources/application.conf,/root/alpakka/doc-examples/target/scala-2.12/classes/application.conf)[0m
+[0m[[0m[0mdebug[0m] [0m[0m	(/root/alpakka/doc-examples/src/main/resources/logback.xml,/root/alpakka/doc-examples/target/scala-2.12/classes/logback.xml)[0m

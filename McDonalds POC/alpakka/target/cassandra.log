@@ -1,0 +1,11 @@
+2019-06-27 14:30:07,612 INFO  [default-akka.actor.default-dispatcher-4] [akka.event.slf4j.Slf4jLogger]  Slf4jLogger started
+2019-06-27 14:30:07,616 DEBUG [default-akka.actor.default-dispatcher-4] [akka.event.EventStream]  logger log1-Slf4jLogger started
+2019-06-27 14:30:07,617 DEBUG [default-akka.actor.default-dispatcher-4] [akka.event.EventStream]  Default Loggers started
+2019-06-27 14:30:07,617 INFO  [default-akka.actor.default-dispatcher-4] [com.datastax.driver.core]  DataStax Java driver 3.5.1 for Apache Cassandra
+2019-06-27 14:30:07,617 INFO  [default-akka.actor.default-dispatcher-4] [c.d.driver.core.GuavaCompatibility]  Detected Guava >= 19 in the classpath, using modern compatibility layer
+2019-06-27 14:30:07,624 INFO  [default-akka.actor.default-dispatcher-4] [akka.event.slf4j.Slf4jLogger]  Slf4jLogger started
+2019-06-27 14:30:07,626 DEBUG [default-akka.actor.default-dispatcher-4] [akka.event.EventStream]  logger log1-Slf4jLogger started
+2019-06-27 14:30:07,626 DEBUG [default-akka.actor.default-dispatcher-4] [akka.event.EventStream]  Default Loggers started
+2019-06-27 14:30:07,825 INFO  [pool-5-thread-3] [c.datastax.driver.core.ClockFactory]  Using native clock to generate timestamps.
+2019-06-27 14:30:07,827 INFO  [pool-5-thread-4] [c.datastax.driver.core.ClockFactory]  Using native clock to generate timestamps.
+2019-06-27 14:30:07,969 INFO  [pool-5-thread-3] [com.datastax.driver.core.NettyUtil]  Did not find Netty's native epoll transport in the classpath, defaulting to NIO.

@@ -1,0 +1,395 @@
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/hbase/src/main/scala/akka/stream/alpakka/hbase/javadsl/HTableStage.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.hbase.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.concurrent.CompletionStage[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hbase.HTableSettings[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hbase.impl.{HBaseFlowStage, HBaseSourceStage}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.{Flow, Keep, Sink, Source}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.{Done, NotUsed}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.hbase.client.{Result, Scan}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.compat.java8.FutureConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject HTableStage {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Writes incoming element to HBase.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * HBase mutations for every incoming element are derived from the converter functions defined in the config.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sink[A](config: HTableSettings[A]): akka.stream.javadsl.Sink[A, CompletionStage[Done]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow[A].via(flow(config)).toMat(Sink.ignore)(Keep.right).mapMaterializedValue(toJava).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Writes incoming element to HBase.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * HBase mutations for every incoming element are derived from the converter functions defined in the config.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def flow[A](settings: HTableSettings[A]): akka.stream.javadsl.Flow[A, A, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow.fromGraph(new HBaseFlowStage[A](settings)).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Reads an element from HBase.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def source[A](scan: Scan, settings: HTableSettings[A]): akka.stream.javadsl.Source[Result, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Source.fromGraph(new HBaseSourceStage[A](scan, settings)).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/hbase/src/main/scala/akka/stream/alpakka/hbase/HTableSettings.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.hbase[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.conf.Configuration[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.hbase.TableName[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.hbase.client.Mutation[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.immutable[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.JavaConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.compat.java8.FunctionConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class HTableSettings[T] private (val conf: Configuration,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                       val tableName: TableName,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                       val columnFamilies: immutable.Seq[String],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                       val converter: T => immutable.Seq[Mutation]) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withConf(conf: Configuration): HTableSettings[T] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(conf = conf)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withTableName(tableName: TableName): HTableSettings[T] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(tableName = tableName)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withColumnFamilies(columnFamilies: immutable.Seq[String]): HTableSettings[T] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(columnFamilies = columnFamilies)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java Api[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withColumnFamilies(columnFamilies: java.util.List[String]): HTableSettings[T] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(columnFamilies = columnFamilies.asScala.toIndexedSeq)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withConverter(converter: T => immutable.Seq[Mutation]): HTableSettings[T] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(converter = converter)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java Api[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withConverter(converter: java.util.function.Function[T, java.util.List[Mutation]]): HTableSettings[T] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(converter = converter.asScala(_).asScala.toIndexedSeq)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString: String =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "HTableSettings(" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"conf=$conf," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"tableName=$tableName," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"columnFamilies=$columnFamilies" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"converter=$converter" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ")"[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def copy(conf: Configuration = conf,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   tableName: TableName = tableName,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   columnFamilies: immutable.Seq[String] = columnFamilies,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   converter: T => immutable.Seq[Mutation] = converter) =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new HTableSettings[T](conf, tableName, columnFamilies, converter)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject HTableSettings {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Create table settings, describing table name, columns and HBase mutations for every model object[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply[T](conf: Configuration,[0m
+[0m[[0m[0mdebug[0m] [0m[0m               tableName: TableName,[0m
+[0m[[0m[0mdebug[0m] [0m[0m               columnFamilies: immutable.Seq[String],[0m
+[0m[[0m[0mdebug[0m] [0m[0m               converter: T => immutable.Seq[Mutation]) =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new HTableSettings(conf, tableName, columnFamilies, converter)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java Api[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Create table settings, describing table name, columns and HBase mutations for every model object[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create[T](conf: Configuration,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                tableName: TableName,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                columnFamilies: java.util.List[String],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                converter: java.util.function.Function[T, java.util.List[Mutation]]): HTableSettings[T] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    HTableSettings(conf, tableName, columnFamilies.asScala.toIndexedSeq, converter.asScala(_).asScala.toIndexedSeq)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/hbase/src/main/scala/akka/stream/alpakka/hbase/scaladsl/HTableStage.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.hbase.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hbase.HTableSettings[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hbase.impl.{HBaseFlowStage, HBaseSourceStage}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.{Flow, Keep, Sink, Source}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.{Done, NotUsed}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.hbase.client.{Result, Scan}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.Future[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject HTableStage {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Writes incoming element to HBase.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * HBase mutations for every incoming element are derived from the converter functions defined in the config.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sink[A](config: HTableSettings[A]): Sink[A, Future[Done]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow[A].via(flow(config)).toMat(Sink.ignore)(Keep.right)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Writes incoming element to HBase.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * HBase mutations for every incoming element are derived from the converter functions defined in the config.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def flow[A](settings: HTableSettings[A]): Flow[A, A, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow.fromGraph(new HBaseFlowStage[A](settings))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Reads an element from HBase.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def source[A](scan: Scan, settings: HTableSettings[A]): Source[Result, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Source.fromGraph(new HBaseSourceStage[A](scan, settings))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/hbase/src/main/scala/akka/stream/alpakka/hbase/impl/HBaseFlowStage.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.hbase.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hbase.HTableSettings[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.hbase.client.{Attributes => _, _}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.util.control.NonFatal[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[hbase] class HBaseFlowStage[A](settings: HTableSettings[A]) extends GraphStage[FlowShape[A, A]] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override protected def initialAttributes: Attributes =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    super.initialAttributes and Attributes.name("HBaseFlow") and ActorAttributes.IODispatcher[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val in = Inlet[A]("messages")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val out = Outlet[A]("result")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override val shape = FlowShape(in, out)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def createLogic(inheritedAttributes: Attributes): GraphStageLogic =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new GraphStageLogic(shape) with StageLogging with HBaseCapabilities {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override protected def logSource = classOf[HBaseFlowStage[A]][0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      implicit val connection = connect(settings.conf)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      lazy val table: Table = getOrCreateTable(settings.tableName, settings.columnFamilies).get[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      setHandler(out, new OutHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        override def onPull() =[0m
+[0m[[0m[0mdebug[0m] [0m[0m          pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      })[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      setHandler([0m
+[0m[[0m[0mdebug[0m] [0m[0m        in,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        new InHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onPush() = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            val msg = grab(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m            val mutations = settings.converter(msg)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m            for (mutation <- mutations) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              mutation match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                case x: Put => table.put(x)[0m
+[0m[[0m[0mdebug[0m] [0m[0m                case x: Delete => table.delete(x)[0m
+[0m[[0m[0mdebug[0m] [0m[0m                case x: Append => table.append(x)[0m
+[0m[[0m[0mdebug[0m] [0m[0m                case x: Increment => table.increment(x)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              }[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m            push(out, msg)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def postStop() = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        log.debug("Stage completed")[0m
+[0m[[0m[0mdebug[0m] [0m[0m        try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          table.close()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          log.debug("table closed")[0m
+[0m[[0m[0mdebug[0m] [0m[0m        } catch {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          case NonFatal(ex) => log.error(ex, "Problem occurred during producer table close")[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          connection.close()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          log.debug("connection closed")[0m
+[0m[[0m[0mdebug[0m] [0m[0m        } catch {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          case NonFatal(ex) => log.error(ex, "Problem occurred during producer connection close")[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/hbase/src/main/scala/akka/stream/alpakka/hbase/impl/HBaseCapabilities.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.hbase.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.io.Closeable[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage.StageLogging[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.hbase.{HColumnDescriptor, HTableDescriptor, TableName}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.hbase.client.{Connection, ConnectionFactory, Table}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.conf.Configuration[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.duration.DurationInt[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.{Await, Future}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.util.{Failure, Success, Try}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.ExecutionContext.Implicits.global[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.language.postfixOps[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[impl] trait HBaseCapabilities { this: StageLogging =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def twr[A <: Closeable, B](resource: A)(doWork: A => B): Try[B] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Success(doWork(resource))[0m
+[0m[[0m[0mdebug[0m] [0m[0m    } catch {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      case e: Exception => Failure(e)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    } finally {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (resource != null) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          resource.close()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      } catch {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case e: Exception => log.error(e, e.getMessage) // should be logged[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Connect to hbase cluster.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param conf[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param timeout in second[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @return[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def connect(conf: Configuration, timeout: Int = 10) =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Await.result(Future(ConnectionFactory.createConnection(conf)), timeout seconds)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[impl] def getOrCreateTable(tableName: TableName, columnFamilies: Seq[String])([0m
+[0m[[0m[0mdebug[0m] [0m[0m      implicit connection: Connection[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Try[Table] = twr(connection.getAdmin) { admin =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val table =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (admin.isTableAvailable(tableName))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        connection.getTable(tableName)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val tableDescriptor: HTableDescriptor = new HTableDescriptor(tableName)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        columnFamilies.foreach { cf =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          tableDescriptor.addFamily(new HColumnDescriptor(cf))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        admin.createTable(tableDescriptor)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        log.info(s"Table $tableName created with cfs: $columnFamilies.")[0m
+[0m[[0m[0mdebug[0m] [0m[0m        connection.getTable(tableName)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    table[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/hbase/src/main/scala/akka/stream/alpakka/hbase/impl/HBaseSourceStage.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.hbase.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.{Attributes, Outlet, SourceShape}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hbase.HTableSettings[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage.{GraphStage, GraphStageLogic, OutHandler, StageLogging}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.hbase.client.{Result, Scan, Table}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.util.control.NonFatal[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[hbase] final class HBaseSourceStage[A](scan: Scan, settings: HTableSettings[A])[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends GraphStage[SourceShape[Result]] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val out: Outlet[Result] = Outlet("HBaseSource.out")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override val shape: SourceShape[Result] = SourceShape(out)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def createLogic(inheritedAttributes: Attributes): GraphStageLogic =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new HBaseSourceLogic[A](scan, settings, out, shape)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[hbase] final class HBaseSourceLogic[A](scan: Scan,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                               settings: HTableSettings[A],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                               out: Outlet[Result],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                               shape: SourceShape[Result])[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends GraphStageLogic(shape)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    with OutHandler[0m
+[0m[[0m[0mdebug[0m] [0m[0m    with StageLogging[0m
+[0m[[0m[0mdebug[0m] [0m[0m    with HBaseCapabilities {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  implicit val connection = connect(settings.conf)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  lazy val table: Table = getOrCreateTable(settings.tableName, settings.columnFamilies).get[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private var results: java.util.Iterator[Result] = null[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  setHandler(out, this)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def preStart(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val scanner = table.getScanner(scan)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      results = scanner.iterator()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    } catch {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      case NonFatal(exc) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m        failStage(exc)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def postStop(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      table.close()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    } catch {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      case NonFatal(exc) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m        failStage(exc)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def onPull(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (results.hasNext) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      emit(out, results.next)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      completeStage()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m

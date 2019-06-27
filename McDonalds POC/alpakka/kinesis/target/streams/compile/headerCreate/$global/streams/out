@@ -1,0 +1,1407 @@
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/kinesis/src/main/scala/akka/stream/alpakka/kinesis/ShardSettings.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.kinesis[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesis.model.ShardIteratorType[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.duration._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.JavaDurationConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class ShardSettings private ([0m
+[0m[[0m[0mdebug[0m] [0m[0m    val streamName: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val shardId: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val shardIteratorType: com.amazonaws.services.kinesis.model.ShardIteratorType,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val startingSequenceNumber: Option[String],[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val atTimestamp: Option[java.time.Instant],[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val refreshInterval: scala.concurrent.duration.FiniteDuration,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val limit: Int[0m
+[0m[[0m[0mdebug[0m] [0m[0m) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  require([0m
+[0m[[0m[0mdebug[0m] [0m[0m    limit >= 1 && limit <= 10000,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "Limit must be between 0 and 10000. See: http://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetRecords.html"[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m  shardIteratorType match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case ShardIteratorType.AFTER_SEQUENCE_NUMBER | ShardIteratorType.AT_SEQUENCE_NUMBER =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      require([0m
+[0m[[0m[0mdebug[0m] [0m[0m        startingSequenceNumber.nonEmpty,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        "a starting sequence number must be set (try using just `withStartingSequenceNumber` or `withStartingAfterSequenceNumber`)"[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case ShardIteratorType.AT_TIMESTAMP =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      require(atTimestamp.nonEmpty, "a timestamp must be set (try using just `withAtTimestamp`)")[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case _ => ()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withStreamName(value: String): ShardSettings = copy(streamName = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withShardId(value: String): ShardSettings = copy(shardId = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withShardIteratorType(value: ShardIteratorType): ShardSettings = copy(shardIteratorType = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Sets `shardIteratorType` to `AT_SEQUENCE_NUMBER` and uses the given value as starting sequence number.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withStartingSequenceNumber(value: String): ShardSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(shardIteratorType = ShardIteratorType.AT_SEQUENCE_NUMBER, startingSequenceNumber = Option(value))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Sets `shardIteratorType` to `AFTER_SEQUENCE_NUMBER` and uses the given value as starting sequence number.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withStartingAfterSequenceNumber(value: String): ShardSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(shardIteratorType = ShardIteratorType.AFTER_SEQUENCE_NUMBER, startingSequenceNumber = Option(value))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Sets `shardIteratorType` to `AT_TIMESTAMP` and uses the given `Instant` as starting timestamp.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @deprecated prefer java.time.Instant to provide the timeout, since 1.0-M3[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @deprecated("prefer java.time.Instant to provide the timeout", "1.0-M3")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withAtTimestamp(value: java.util.Date): ShardSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(shardIteratorType = ShardIteratorType.AT_TIMESTAMP, atTimestamp = Option(value.toInstant))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Sets `shardIteratorType` to `AT_TIMESTAMP` and uses the given `Instant` as starting timestamp.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withAtTimestamp(value: java.time.Instant): ShardSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(shardIteratorType = ShardIteratorType.AT_TIMESTAMP, atTimestamp = Option(value))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Scala API */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withRefreshInterval(value: scala.concurrent.duration.FiniteDuration): ShardSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(refreshInterval = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Java API */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withRefreshInterval(value: java.time.Duration): ShardSettings = copy(refreshInterval = value.asScala)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withLimit(value: Int): ShardSettings = copy(limit = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def copy([0m
+[0m[[0m[0mdebug[0m] [0m[0m      streamName: String = streamName,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      shardId: String = shardId,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      shardIteratorType: com.amazonaws.services.kinesis.model.ShardIteratorType = shardIteratorType,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      startingSequenceNumber: Option[String] = startingSequenceNumber,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      atTimestamp: Option[java.time.Instant] = atTimestamp,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      refreshInterval: scala.concurrent.duration.FiniteDuration = refreshInterval,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      limit: Int = limit[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): ShardSettings = new ShardSettings([0m
+[0m[[0m[0mdebug[0m] [0m[0m    streamName = streamName,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    shardId = shardId,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    shardIteratorType = shardIteratorType,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    startingSequenceNumber = startingSequenceNumber,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    atTimestamp = atTimestamp,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    refreshInterval = refreshInterval,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    limit = limit[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "ShardSettings(" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"streamName=$streamName," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"shardId=$shardId," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"shardIteratorType=$shardIteratorType," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"startingSequenceNumber=$startingSequenceNumber," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"atTimestamp=$atTimestamp," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"refreshInterval=${refreshInterval.toCoarsest}," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"limit=$limit" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ")"[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject ShardSettings {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Create settings using the default configuration[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(streamName: String, shardId: String): ShardSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new ShardSettings(streamName,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      shardId,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      ShardIteratorType.LATEST,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      startingSequenceNumber = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      atTimestamp = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      refreshInterval = 1.second,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      limit = 500)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: Create settings using the default configuration[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(streamName: String, shardId: String): ShardSettings = apply(streamName, shardId)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/kinesis/src/main/scala/akka/stream/alpakka/kinesis/javadsl/KinesisFlow.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.kinesis.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.japi.Pair[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.kinesis.{scaladsl, KinesisFlowSettings}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Flow[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesis.AmazonKinesisAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesis.model.{PutRecordsRequestEntry, PutRecordsResultEntry}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject KinesisFlow {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(streamName: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m             kinesisClient: AmazonKinesisAsync): Flow[PutRecordsRequestEntry, PutRecordsResultEntry, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    create(streamName, KinesisFlowSettings.Defaults, kinesisClient)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(streamName: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m             settings: KinesisFlowSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m             kinesisClient: AmazonKinesisAsync): Flow[PutRecordsRequestEntry, PutRecordsResultEntry, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    scaladsl.KinesisFlow[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .apply(streamName, settings)(kinesisClient)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withUserContext[T]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      streamName: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      kinesisClient: AmazonKinesisAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[Pair[PutRecordsRequestEntry, T], Pair[PutRecordsResultEntry, T], NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    withUserContext(streamName, KinesisFlowSettings.Defaults, kinesisClient)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withUserContext[T]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      streamName: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: KinesisFlowSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      kinesisClient: AmazonKinesisAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[Pair[PutRecordsRequestEntry, T], Pair[PutRecordsResultEntry, T], NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    akka.stream.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .Flow[Pair[PutRecordsRequestEntry, T]][0m
+[0m[[0m[0mdebug[0m] [0m[0m      .map(_.toScala)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .via(scaladsl.KinesisFlow.withUserContext[T](streamName, settings)(kinesisClient))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .map { case (res, ctx) => Pair.create(res, ctx) }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/kinesis/src/main/scala/akka/stream/alpakka/kinesis/javadsl/KinesisSink.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.kinesis.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.kinesis.{scaladsl, KinesisFlowSettings}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Sink[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesis.AmazonKinesisAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesis.model.PutRecordsRequestEntry[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject KinesisSink {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(streamName: String, kinesisClient: AmazonKinesisAsync): Sink[PutRecordsRequestEntry, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    create(streamName, KinesisFlowSettings.Defaults, kinesisClient)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(streamName: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m             settings: KinesisFlowSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m             kinesisClient: AmazonKinesisAsync): Sink[PutRecordsRequestEntry, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    scaladsl.KinesisSink(streamName, settings)(kinesisClient).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/kinesis/src/main/scala/akka/stream/alpakka/kinesis/javadsl/KinesisSource.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.kinesis.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.kinesis.{scaladsl, ShardSettings}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Source[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesis.AmazonKinesisAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesis.model.Record[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.JavaConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject KinesisSource {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Read from one shard into a stream.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def basic(shardSettings: ShardSettings, amazonKinesisAsync: AmazonKinesisAsync): Source[Record, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    scaladsl.KinesisSource.basic(shardSettings, amazonKinesisAsync).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Read from multiple shards into a single stream.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def basicMerge(shardSettings: java.util.List[ShardSettings],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                 amazonKinesisAsync: AmazonKinesisAsync): Source[Record, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    scaladsl.KinesisSource.basicMerge(shardSettings.asScala.toList, amazonKinesisAsync).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/kinesis/src/main/scala/akka/stream/alpakka/kinesis/KinesisFlowSettings.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.kinesis[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.kinesis.KinesisFlowSettings.{Exponential, Linear}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.JavaDurationConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.duration._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class KinesisFlowSettings private (val parallelism: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                         val maxBatchSize: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                         val maxRecordsPerSecond: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                         val maxBytesPerSecond: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                         val maxRetries: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                         val backoffStrategy: KinesisFlowSettings.RetryBackoffStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                         val retryInitialTimeout: scala.concurrent.duration.FiniteDuration) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  require([0m
+[0m[[0m[0mdebug[0m] [0m[0m    maxBatchSize >= 1 && maxBatchSize <= 500,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "Limit must be between 1 and 500. See: http://docs.aws.amazon.com/kinesis/latest/APIReference/API_PutRecords.html"[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m  require(maxRecordsPerSecond >= 1)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  require(maxBytesPerSecond >= 1)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  require(maxRetries >= 0)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withParallelism(value: Int): KinesisFlowSettings = copy(parallelism = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withMaxBatchSize(value: Int): KinesisFlowSettings = copy(maxBatchSize = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withMaxRecordsPerSecond(value: Int): KinesisFlowSettings = copy(maxRecordsPerSecond = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withMaxBytesPerSecond(value: Int): KinesisFlowSettings = copy(maxBytesPerSecond = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withMaxRetries(value: Int): KinesisFlowSettings = copy(maxRetries = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withBackoffStrategyExponential(): KinesisFlowSettings = copy(backoffStrategy = Exponential)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withBackoffStrategyLinear(): KinesisFlowSettings = copy(backoffStrategy = Linear)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withBackoffStrategy(value: KinesisFlowSettings.RetryBackoffStrategy): KinesisFlowSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(backoffStrategy = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Scala API */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withRetryInitialTimeout(value: scala.concurrent.duration.FiniteDuration): KinesisFlowSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(retryInitialTimeout = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Java API */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withRetryInitialTimeout(value: java.time.Duration): KinesisFlowSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(retryInitialTimeout = value.asScala)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def copy([0m
+[0m[[0m[0mdebug[0m] [0m[0m      parallelism: Int = parallelism,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      maxBatchSize: Int = maxBatchSize,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      maxRecordsPerSecond: Int = maxRecordsPerSecond,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      maxBytesPerSecond: Int = maxBytesPerSecond,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      maxRetries: Int = maxRetries,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      backoffStrategy: KinesisFlowSettings.RetryBackoffStrategy = backoffStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      retryInitialTimeout: scala.concurrent.duration.FiniteDuration = retryInitialTimeout[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): KinesisFlowSettings = new KinesisFlowSettings([0m
+[0m[[0m[0mdebug[0m] [0m[0m    parallelism = parallelism,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maxBatchSize = maxBatchSize,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maxRecordsPerSecond = maxRecordsPerSecond,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maxBytesPerSecond = maxBytesPerSecond,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maxRetries = maxRetries,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    backoffStrategy = backoffStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    retryInitialTimeout = retryInitialTimeout[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "KinesisFlowSettings(" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"parallelism=$parallelism," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"maxBatchSize=$maxBatchSize," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"maxRecordsPerSecond=$maxRecordsPerSecond," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"maxBytesPerSecond=$maxBytesPerSecond," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"maxRetries=$maxRetries," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"backoffStrategy=$backoffStrategy," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"retryInitialTimeout=${retryInitialTimeout.toCoarsest}" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ")"[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject KinesisFlowSettings {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val MAX_RECORDS_PER_REQUEST = 500[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val MAX_RECORDS_PER_SHARD_PER_SECOND = 1000[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val MAX_BYTES_PER_SHARD_PER_SECOND = 1000000[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  sealed trait RetryBackoffStrategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case object Exponential extends RetryBackoffStrategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case object Linear extends RetryBackoffStrategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val Defaults: KinesisFlowSettings = byNumberOfShards(1)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(): KinesisFlowSettings = Defaults[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def byNumberOfShards(shards: Int): KinesisFlowSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new KinesisFlowSettings([0m
+[0m[[0m[0mdebug[0m] [0m[0m      parallelism = shards * (MAX_RECORDS_PER_SHARD_PER_SECOND / MAX_RECORDS_PER_REQUEST),[0m
+[0m[[0m[0mdebug[0m] [0m[0m      maxBatchSize = MAX_RECORDS_PER_REQUEST,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      maxRecordsPerSecond = shards * MAX_RECORDS_PER_SHARD_PER_SECOND,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      maxBytesPerSecond = shards * MAX_BYTES_PER_SHARD_PER_SECOND,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      maxRetries = 5,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      backoffStrategy = Exponential,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      retryInitialTimeout = 100.millis[0m
+[0m[[0m[0mdebug[0m] [0m[0m    )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Java API */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(): KinesisFlowSettings = Defaults[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Java API */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val exponential: RetryBackoffStrategy = Exponential[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Java API */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val linear: RetryBackoffStrategy = Linear[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/kinesis/src/main/scala/akka/stream/alpakka/kinesis/scaladsl/KinesisFlow.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.kinesis.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.ByteBuffer[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.ThrottleMode[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.kinesis.KinesisFlowSettings[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.kinesis.impl.KinesisFlowStage[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.Flow[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesis.AmazonKinesisAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesis.model.{PutRecordsRequestEntry, PutRecordsResultEntry}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.immutable.Queue[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.duration._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject KinesisFlow {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(streamName: String, settings: KinesisFlowSettings = KinesisFlowSettings.Defaults)([0m
+[0m[[0m[0mdebug[0m] [0m[0m      implicit kinesisClient: AmazonKinesisAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[PutRecordsRequestEntry, PutRecordsResultEntry, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow[PutRecordsRequestEntry][0m
+[0m[[0m[0mdebug[0m] [0m[0m      .map((_, ()))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .via(withUserContext(streamName, settings))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .map(_._1)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withUserContext[T](streamName: String, settings: KinesisFlowSettings = KinesisFlowSettings.Defaults)([0m
+[0m[[0m[0mdebug[0m] [0m[0m      implicit kinesisClient: AmazonKinesisAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[(PutRecordsRequestEntry, T), (PutRecordsResultEntry, T), NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow[(PutRecordsRequestEntry, T)][0m
+[0m[[0m[0mdebug[0m] [0m[0m      .throttle(settings.maxRecordsPerSecond, 1.second, settings.maxRecordsPerSecond, ThrottleMode.Shaping)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .throttle(settings.maxBytesPerSecond,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                1.second,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                settings.maxBytesPerSecond,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                getPayloadByteSize,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                ThrottleMode.Shaping)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .batch(settings.maxBatchSize, Queue(_))(_ :+ _)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .via([0m
+[0m[[0m[0mdebug[0m] [0m[0m        new KinesisFlowStage([0m
+[0m[[0m[0mdebug[0m] [0m[0m          streamName,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          settings.maxRetries,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          settings.backoffStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          settings.retryInitialTimeout[0m
+[0m[[0m[0mdebug[0m] [0m[0m        )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .mapAsync(settings.parallelism)(identity)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .mapConcat(identity)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def getPayloadByteSize[T](record: (PutRecordsRequestEntry, T)): Int = record match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case (request, _) => request.getPartitionKey.length + request.getData.position()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def byPartitionAndData([0m
+[0m[[0m[0mdebug[0m] [0m[0m      streamName: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: KinesisFlowSettings = KinesisFlowSettings.Defaults[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )([0m
+[0m[[0m[0mdebug[0m] [0m[0m      implicit kinesisClient: AmazonKinesisAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[(String, ByteBuffer), PutRecordsResultEntry, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow[(String, ByteBuffer)][0m
+[0m[[0m[0mdebug[0m] [0m[0m      .map {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case (partitionKey, data) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          new PutRecordsRequestEntry()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            .withPartitionKey(partitionKey)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            .withData(data)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .via(apply(streamName, settings))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def byPartitionAndBytes([0m
+[0m[[0m[0mdebug[0m] [0m[0m      streamName: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: KinesisFlowSettings = KinesisFlowSettings.Defaults[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )([0m
+[0m[[0m[0mdebug[0m] [0m[0m      implicit kinesisClient: AmazonKinesisAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[(String, ByteString), PutRecordsResultEntry, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow[(String, ByteString)][0m
+[0m[[0m[0mdebug[0m] [0m[0m      .map {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case (partitionKey, bytes) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          partitionKey -> bytes.toByteBuffer[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .via(byPartitionAndData(streamName, settings))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/kinesis/src/main/scala/akka/stream/alpakka/kinesis/scaladsl/KinesisSink.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.kinesis.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.ByteBuffer[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.kinesis.KinesisFlowSettings[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.Sink[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesis.AmazonKinesisAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesis.model.PutRecordsRequestEntry[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject KinesisSink {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(streamName: String, settings: KinesisFlowSettings = KinesisFlowSettings.Defaults)([0m
+[0m[[0m[0mdebug[0m] [0m[0m      implicit kinesisClient: AmazonKinesisAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Sink[PutRecordsRequestEntry, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    KinesisFlow(streamName, settings).to(Sink.ignore)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def byPartitionAndData([0m
+[0m[[0m[0mdebug[0m] [0m[0m      streamName: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: KinesisFlowSettings = KinesisFlowSettings.Defaults[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )([0m
+[0m[[0m[0mdebug[0m] [0m[0m      implicit kinesisClient: AmazonKinesisAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Sink[(String, ByteBuffer), NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    KinesisFlow.byPartitionAndData(streamName, settings).to(Sink.ignore)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def byPartitionAndBytes([0m
+[0m[[0m[0mdebug[0m] [0m[0m      streamName: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: KinesisFlowSettings = KinesisFlowSettings.Defaults[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )([0m
+[0m[[0m[0mdebug[0m] [0m[0m      implicit kinesisClient: AmazonKinesisAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Sink[(String, ByteString), NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    KinesisFlow.byPartitionAndBytes(streamName, settings).to(Sink.ignore)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/kinesis/src/main/scala/akka/stream/alpakka/kinesis/scaladsl/KinesisSource.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.kinesis.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.kinesis.KinesisErrors.NoShardsError[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.kinesis.ShardSettings[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.kinesis.impl.KinesisSourceStage[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.{Merge, Source}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesis.AmazonKinesisAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesis.model.Record[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject KinesisSource {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Read from one shard into a stream.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def basic(shardSettings: ShardSettings, amazonKinesisAsync: AmazonKinesisAsync): Source[Record, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Source.fromGraph(new KinesisSourceStage(shardSettings, amazonKinesisAsync))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Read from multiple shards into a single stream.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def basicMerge(shardSettings: List[ShardSettings],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                 amazonKinesisAsync: AmazonKinesisAsync): Source[Record, NotUsed] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    require(shardSettings.nonEmpty, "shard settings need to be specified")[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val create: ShardSettings => Source[Record, NotUsed] = basic(_, amazonKinesisAsync)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    shardSettings match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      case Nil => Source.failed(NoShardsError)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      case first :: Nil => create(first)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      case first :: second :: Nil => Source.combine(create(first), create(second))(Merge(_))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      case first :: second :: rest =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m        Source.combine(create(first), create(second), rest.map(create(_)): _*)(Merge(_))[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/kinesis/src/main/scala/akka/stream/alpakka/kinesis/impl/KinesisSourceStage.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.kinesis.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.actor.ActorRef[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.kinesis.{ShardSettings, KinesisErrors => Errors}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage.GraphStageLogic.StageActor[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.{Attributes, Outlet, SourceShape}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.handlers.AsyncHandler[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesis.AmazonKinesisAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesis.model._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.mutable[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.JavaConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[kinesis] object KinesisSourceStage {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[kinesis] final case class GetShardIteratorSuccess(result: GetShardIteratorResult)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[kinesis] final case class GetShardIteratorFailure(ex: Exception)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[kinesis] final case class GetRecordsSuccess(records: GetRecordsResult)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[kinesis] final case class GetRecordsFailure(ex: Exception)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[kinesis] final case object Pump[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[kinesis] class KinesisSourceStage(shardSettings: ShardSettings, amazonKinesisAsync: => AmazonKinesisAsync)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends GraphStage[SourceShape[Record]] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  import KinesisSourceStage._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val out = Outlet[Record]("Records")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def shape: SourceShape[Record] = new SourceShape[Record](out)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def createLogic(inheritedAttributes: Attributes): GraphStageLogic =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new TimerGraphStageLogic(shape) with StageLogging {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      import shardSettings._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private[this] var currentShardIterator: String = _[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private[this] val buffer = mutable.Queue.empty[Record][0m
+[0m[[0m[0mdebug[0m] [0m[0m      private[this] var self: StageActor = _[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def preStart(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        self = getStageActor(awaitingShardIterator)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        requestShardIterator()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      setHandler(shape.out, new OutHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        override def onPull(): Unit = self.ref ! Pump[0m
+[0m[[0m[0mdebug[0m] [0m[0m      })[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private def awaitingShardIterator(in: (ActorRef, Any)): Unit = in match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case (_, GetShardIteratorSuccess(result)) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          currentShardIterator = result.getShardIterator[0m
+[0m[[0m[0mdebug[0m] [0m[0m          self.become(awaitingRecords)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          requestRecords()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case (_, GetShardIteratorFailure(ex)) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          log.error(ex, "Failed to get a shard iterator for shard {}", shardId)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          failStage(new Errors.GetShardIteratorError(shardId, ex))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case (_, Pump) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case (_, msg) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          throw new IllegalArgumentException(s"unexpected message $msg in state `ready`")[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private def awaitingRecords(in: (ActorRef, Any)): Unit = in match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case (_, GetRecordsSuccess(result)) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          val records = result.getRecords.asScala[0m
+[0m[[0m[0mdebug[0m] [0m[0m          if (result.getNextShardIterator == null) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            log.info("Shard {} returned a null iterator and will now complete.", shardId)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            completeStage()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            currentShardIterator = result.getNextShardIterator[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m          if (records.nonEmpty) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            records.foreach(buffer.enqueue(_))[0m
+[0m[[0m[0mdebug[0m] [0m[0m            self.become(ready)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            self.ref ! Pump[0m
+[0m[[0m[0mdebug[0m] [0m[0m          } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            scheduleOnce('GET_RECORDS, refreshInterval)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case (_, GetRecordsFailure(ex)) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          log.error(ex, "Failed to fetch records from Kinesis for shard {}", shardId)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          failStage(new Errors.GetRecordsError(shardId, ex))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case (_, Pump) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case (_, msg) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          throw new IllegalArgumentException(s"unexpected message $msg in state `ready`")[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private def ready(in: (ActorRef, Any)): Unit = in match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case (_, Pump) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          if (isAvailable(shape.out)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            push(shape.out, buffer.dequeue())[0m
+[0m[[0m[0mdebug[0m] [0m[0m            self.ref ! Pump[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m          if (buffer.isEmpty) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            self.become(awaitingRecords)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            requestRecords()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case (_, msg) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          throw new IllegalArgumentException(s"unexpected message $msg in state `ready`")[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override protected def onTimer(timerKey: Any): Unit = timerKey match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case 'GET_RECORDS => requestRecords()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private[this] val handleGetRecords =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        new AsyncHandler[GetRecordsRequest, GetRecordsResult] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onSuccess(request: GetRecordsRequest, result: GetRecordsResult): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m            self.ref ! GetRecordsSuccess(result)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onError(exception: Exception): Unit = self.ref ! GetRecordsFailure(exception)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private[this] def requestRecords(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        amazonKinesisAsync.getRecordsAsync([0m
+[0m[[0m[0mdebug[0m] [0m[0m          new GetRecordsRequest().withLimit(limit).withShardIterator(currentShardIterator),[0m
+[0m[[0m[0mdebug[0m] [0m[0m          handleGetRecords[0m
+[0m[[0m[0mdebug[0m] [0m[0m        )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private[this] def requestShardIterator(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val request = Function.chain[GetShardIteratorRequest]([0m
+[0m[[0m[0mdebug[0m] [0m[0m          Seq([0m
+[0m[[0m[0mdebug[0m] [0m[0m            r => startingSequenceNumber.fold(r)(r.withStartingSequenceNumber),[0m
+[0m[[0m[0mdebug[0m] [0m[0m            r => atTimestamp.fold(r)(instant => r.withTimestamp(java.util.Date.from(instant)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m          )[0m
+[0m[[0m[0mdebug[0m] [0m[0m        )([0m
+[0m[[0m[0mdebug[0m] [0m[0m          new GetShardIteratorRequest()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            .withStreamName(streamName)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            .withShardId(shardId)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            .withShardIteratorType(shardIteratorType)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        )[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val handleShardIterator =[0m
+[0m[[0m[0mdebug[0m] [0m[0m          new AsyncHandler[GetShardIteratorRequest, GetShardIteratorResult] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            override def onSuccess(request: GetShardIteratorRequest, result: GetShardIteratorResult): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m              self.ref ! GetShardIteratorSuccess(result)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            override def onError(exception: Exception): Unit = self.ref ! GetShardIteratorFailure(exception)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        amazonKinesisAsync.getShardIteratorAsync(request, handleShardIterator)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/kinesis/src/main/scala/akka/stream/alpakka/kinesis/impl/KinesisFlowStage.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.kinesis.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.kinesis.KinesisErrors.{ErrorPublishingRecords, FailurePublishingRecords}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.kinesis.KinesisFlowSettings.{Exponential, Linear, RetryBackoffStrategy}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.{Attributes, FlowShape, Inlet, Outlet}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.handlers.AsyncHandler[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesis.AmazonKinesisAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesis.model.{[0m
+[0m[[0m[0mdebug[0m] [0m[0m  PutRecordsRequest,[0m
+[0m[[0m[0mdebug[0m] [0m[0m  PutRecordsRequestEntry,[0m
+[0m[[0m[0mdebug[0m] [0m[0m  PutRecordsResult,[0m
+[0m[[0m[0mdebug[0m] [0m[0m  PutRecordsResultEntry[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.JavaConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.mutable[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.immutable[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.duration.FiniteDuration[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.{Future, Promise}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.util.{Failure, Success, Try}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * @tparam T pass-through type[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[kinesis] final class KinesisFlowStage[T]([0m
+[0m[[0m[0mdebug[0m] [0m[0m    streamName: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maxRetries: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    backoffStrategy: RetryBackoffStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    retryInitialTimeout: FiniteDuration[0m
+[0m[[0m[0mdebug[0m] [0m[0m)(implicit kinesisClient: AmazonKinesisAsync)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends GraphStage[[0m
+[0m[[0m[0mdebug[0m] [0m[0m      FlowShape[immutable.Seq[(PutRecordsRequestEntry, T)], Future[immutable.Seq[(PutRecordsResultEntry, T)]]][0m
+[0m[[0m[0mdebug[0m] [0m[0m    ] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  import KinesisFlowStage._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val in = Inlet[immutable.Seq[(PutRecordsRequestEntry, T)]]("KinesisFlowStage.in")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val out = Outlet[Future[immutable.Seq[(PutRecordsResultEntry, T)]]]("KinesisFlowStage.out")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override val shape = FlowShape(in, out)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def createLogic(inheritedAttributes: Attributes): GraphStageLogic =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new TimerGraphStageLogic(shape) with StageLogging with InHandler with OutHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      type Token = Int[0m
+[0m[[0m[0mdebug[0m] [0m[0m      type RetryCount = Int[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private var completionState: Option[Try[Unit]] = None[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private val pendingRequests: mutable.Queue[Job[T]] = mutable.Queue.empty[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private var inFlight: Int = 0[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private val putRecordsSuccessfulCallback: AsyncCallback[NotUsed] = getAsyncCallback(_ => putRecordsSuccessful())[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private val resendCallback: AsyncCallback[Result[T]] = getAsyncCallback(resend)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private val failAfterResendsCallback: AsyncCallback[Result[T]] = getAsyncCallback(failAfterResends)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private val waitingRetries: mutable.HashMap[Token, Job[T]] = mutable.HashMap.empty[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private var retryToken: Token = 0[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private def tryToExecute(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (pendingRequests.nonEmpty && isAvailable(out)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          inFlight += 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m          val job = pendingRequests.dequeue()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          push(out, putRecords(job))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private def putRecords(job: Job[T]): Future[immutable.Seq[(PutRecordsResultEntry, T)]] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val p = Promise[immutable.Seq[(PutRecordsResultEntry, T)]][0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val request = new PutRecordsRequest()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .withStreamName(streamName)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .withRecords(job.records.map(_._1).asJavaCollection)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val handler = new AsyncHandler[PutRecordsRequest, PutRecordsResult] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onError(exception: Exception): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m            p.failure(FailurePublishingRecords(exception))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onSuccess(request: PutRecordsRequest, result: PutRecordsResult): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            val correlatedRequestResult = result.getRecords.asScala.zip(job.records).toList[0m
+[0m[[0m[0mdebug[0m] [0m[0m            if (result.getFailedRecordCount > 0) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              val result = Result(job.attempt,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                  correlatedRequestResult[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                    .filter {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                      case (res, _) => res.getErrorCode != null[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                    })[0m
+[0m[[0m[0mdebug[0m] [0m[0m              if (job.attempt > maxRetries) failAfterResendsCallback.invoke(result)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              else resendCallback.invoke(result)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              putRecordsSuccessfulCallback.invoke(NotUsed)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m            p.success([0m
+[0m[[0m[0mdebug[0m] [0m[0m              correlatedRequestResult[0m
+[0m[[0m[0mdebug[0m] [0m[0m                .filter {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  case (res, _) => res.getErrorCode == null[0m
+[0m[[0m[0mdebug[0m] [0m[0m                }[0m
+[0m[[0m[0mdebug[0m] [0m[0m                .map { case (res, (_, ctx)) => (res, ctx) }[0m
+[0m[[0m[0mdebug[0m] [0m[0m            )[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        kinesisClient.putRecordsAsync(request, handler)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        p.future[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private def putRecordsSuccessful(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        inFlight -= 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m        tryToExecute()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (!hasBeenPulled(in)) tryPull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        checkForCompletion()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private def resend(result: Result[T]): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        log.debug("PutRecords call finished with partial errors; scheduling retry")[0m
+[0m[[0m[0mdebug[0m] [0m[0m        inFlight -= 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m        waitingRetries.put(retryToken, Job(result.attempt + 1, result.recordsToRetry.map {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          case (_, reqCtx) => reqCtx[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        scheduleOnce([0m
+[0m[[0m[0mdebug[0m] [0m[0m          retryToken,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          backoffStrategy match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case Exponential => retryInitialTimeout * scala.math.pow(2, result.attempt - 1).toInt[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case Linear => retryInitialTimeout * result.attempt[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        )[0m
+[0m[[0m[0mdebug[0m] [0m[0m        retryToken += 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private def failAfterResends(result: Result[T]): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        log.debug("PutRecords call finished with partial errors after {} attempts", result.attempt)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        failStage([0m
+[0m[[0m[0mdebug[0m] [0m[0m          ErrorPublishingRecords(result.attempt, result.recordsToRetry.map { case (res, (_, ctx)) => (res, ctx) })[0m
+[0m[[0m[0mdebug[0m] [0m[0m        )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private def checkForCompletion(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (inFlight == 0 && pendingRequests.isEmpty && waitingRetries.isEmpty && isClosed(in)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          completionState match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case Some(Success(_)) => completeStage()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case Some(Failure(ex)) => failStage(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case None => failStage(new IllegalStateException("Stage completed, but there is no info about status"))[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override protected def onTimer(timerKey: Any): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        waitingRetries.remove(timerKey.asInstanceOf[Token]) foreach { job =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          log.debug("New PutRecords retry attempt available")[0m
+[0m[[0m[0mdebug[0m] [0m[0m          pendingRequests.enqueue(job)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          tryToExecute()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def postStop(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        pendingRequests.clear()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        waitingRetries.clear()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def onUpstreamFinish(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        completionState = Some(Success(()))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        checkForCompletion()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def onUpstreamFailure(ex: Throwable): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        completionState = Some(Failure(ex))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        checkForCompletion()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def onPull(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        tryToExecute()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (waitingRetries.isEmpty && !hasBeenPulled(in)) tryPull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def onPush(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        pendingRequests.enqueue(Job(1, grab(in)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        tryToExecute()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      setHandlers(in, out, this)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[kinesis] object KinesisFlowStage {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private case class Result[T](attempt: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                               recordsToRetry: immutable.Seq[(PutRecordsResultEntry, (PutRecordsRequestEntry, T))])[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private case class Job[T](attempt: Int, records: immutable.Seq[(PutRecordsRequestEntry, T)])[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/kinesis/src/main/scala/akka/stream/alpakka/kinesis/KinesisErrors.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.kinesis[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesis.model.PutRecordsResultEntry[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.util.control.NoStackTrace[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject KinesisErrors {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  sealed trait KinesisSourceError extends NoStackTrace[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case object NoShardsError extends KinesisSourceError[0m
+[0m[[0m[0mdebug[0m] [0m[0m  class GetShardIteratorError(val shardId: String, e: Exception)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      extends RuntimeException(s"Failed to get a shard iterator for shard [$shardId]", e)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      with KinesisSourceError[0m
+[0m[[0m[0mdebug[0m] [0m[0m  class GetRecordsError(val shardId: String, e: Exception)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      extends RuntimeException(s"Failed to fetch records from Kinesis for shard [$shardId]", e)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      with KinesisSourceError[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  sealed trait KinesisFlowErrors extends NoStackTrace[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case class FailurePublishingRecords(e: Exception)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      extends RuntimeException("Failure publishing records to Kinesis", e)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      with KinesisFlowErrors[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case class ErrorPublishingRecords[T](attempts: Int, recordsWithContext: Seq[(PutRecordsResultEntry, T)])[0m
+[0m[[0m[0mdebug[0m] [0m[0m      extends RuntimeException(s"Unable to publish records after $attempts attempts")[0m
+[0m[[0m[0mdebug[0m] [0m[0m      with KinesisFlowErrors {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val records = recordsWithContext.map(_._1)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/kinesis/src/main/scala/akka/stream/alpakka/kinesisfirehose/javadsl/KinesisFirehoseFlow.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.kinesisfirehose.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.kinesisfirehose.{scaladsl, KinesisFirehoseFlowSettings}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Flow[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesisfirehose.AmazonKinesisFirehoseAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesisfirehose.model.{PutRecordBatchResponseEntry, Record}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject KinesisFirehoseFlow {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(streamName: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            kinesisClient: AmazonKinesisFirehoseAsync): Flow[Record, PutRecordBatchResponseEntry, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    apply(streamName, KinesisFirehoseFlowSettings.Defaults, kinesisClient)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(streamName: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            settings: KinesisFirehoseFlowSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            kinesisClient: AmazonKinesisFirehoseAsync): Flow[Record, PutRecordBatchResponseEntry, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    scaladsl.KinesisFirehoseFlow.apply(streamName, settings)(kinesisClient).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/kinesis/src/main/scala/akka/stream/alpakka/kinesisfirehose/javadsl/KinesisFirehoseSink.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.kinesisfirehose.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.kinesisfirehose.{scaladsl, KinesisFirehoseFlowSettings}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Sink[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesisfirehose.AmazonKinesisFirehoseAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesisfirehose.model.Record[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject KinesisFirehoseSink {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(streamName: String, kinesisClient: AmazonKinesisFirehoseAsync): Sink[Record, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    apply(streamName, KinesisFirehoseFlowSettings.Defaults, kinesisClient)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(streamName: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            settings: KinesisFirehoseFlowSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            kinesisClient: AmazonKinesisFirehoseAsync): Sink[Record, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    (scaladsl.KinesisFirehoseSink.apply(streamName, settings)(kinesisClient)).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/kinesis/src/main/scala/akka/stream/alpakka/kinesisfirehose/scaladsl/KinesisFirehoseFlow.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.kinesisfirehose.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.ThrottleMode[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.kinesisfirehose.KinesisFirehoseFlowSettings[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.kinesisfirehose.impl.KinesisFirehoseFlowStage[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.Flow[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesisfirehose.AmazonKinesisFirehoseAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesisfirehose.model.{PutRecordBatchResponseEntry, Record}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.JavaConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.immutable.Queue[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.duration._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject KinesisFirehoseFlow {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(streamName: String, settings: KinesisFirehoseFlowSettings = KinesisFirehoseFlowSettings.Defaults)([0m
+[0m[[0m[0mdebug[0m] [0m[0m      implicit kinesisClient: AmazonKinesisFirehoseAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[Record, PutRecordBatchResponseEntry, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow[Record][0m
+[0m[[0m[0mdebug[0m] [0m[0m      .throttle(settings.maxRecordsPerSecond, 1.second, settings.maxRecordsPerSecond, ThrottleMode.Shaping)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .throttle(settings.maxBytesPerSecond, 1.second, settings.maxBytesPerSecond, getByteSize, ThrottleMode.Shaping)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .batch(settings.maxBatchSize, Queue(_))(_ :+ _)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .via([0m
+[0m[[0m[0mdebug[0m] [0m[0m        new KinesisFirehoseFlowStage([0m
+[0m[[0m[0mdebug[0m] [0m[0m          streamName,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          settings.maxRetries,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          settings.backoffStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          settings.retryInitialTimeout[0m
+[0m[[0m[0mdebug[0m] [0m[0m        )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .mapAsync(settings.parallelism)(identity)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .mapConcat(_.getRequestResponses.asScala.toIndexedSeq)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .filter(_.getErrorCode == null)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def getByteSize(record: Record): Int = record.getData.position[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/kinesis/src/main/scala/akka/stream/alpakka/kinesisfirehose/scaladsl/KinesisFirehoseSink.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.kinesisfirehose.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.kinesisfirehose.KinesisFirehoseFlowSettings[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.Sink[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesisfirehose.AmazonKinesisFirehoseAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesisfirehose.model.Record[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject KinesisFirehoseSink {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(streamName: String, settings: KinesisFirehoseFlowSettings = KinesisFirehoseFlowSettings.Defaults)([0m
+[0m[[0m[0mdebug[0m] [0m[0m      implicit kinesisClient: AmazonKinesisFirehoseAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Sink[Record, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    KinesisFirehoseFlow(streamName, settings).to(Sink.ignore)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/kinesis/src/main/scala/akka/stream/alpakka/kinesisfirehose/KinesisFirehoseErrors.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.kinesisfirehose[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesisfirehose.model.PutRecordBatchResponseEntry[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.util.control.NoStackTrace[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject KinesisFirehoseErrors {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  sealed trait KinesisSourceError extends NoStackTrace[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case object NoShardsError extends KinesisSourceError[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case object GetShardIteratorError extends KinesisSourceError[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case object GetRecordsError extends KinesisSourceError[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  sealed trait KinesisFlowErrors extends NoStackTrace[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case class FailurePublishingRecords(e: Exception) extends RuntimeException(e) with KinesisFlowErrors[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case class ErrorPublishingRecords(attempts: Int, records: Seq[PutRecordBatchResponseEntry])[0m
+[0m[[0m[0mdebug[0m] [0m[0m      extends RuntimeException(s"Unable to publish records after $attempts attempts")[0m
+[0m[[0m[0mdebug[0m] [0m[0m      with KinesisFlowErrors[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/kinesis/src/main/scala/akka/stream/alpakka/kinesisfirehose/impl/KinesisFirehoseFlowStage.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.kinesisfirehose.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.kinesisfirehose.KinesisFirehoseErrors.{ErrorPublishingRecords, FailurePublishingRecords}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.kinesisfirehose.KinesisFirehoseFlowSettings.{Exponential, Linear, RetryBackoffStrategy}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.{Attributes, FlowShape, Inlet, Outlet}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.handlers.AsyncHandler[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesisfirehose.AmazonKinesisFirehoseAsync[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.amazonaws.services.kinesisfirehose.model.{[0m
+[0m[[0m[0mdebug[0m] [0m[0m  PutRecordBatchRequest,[0m
+[0m[[0m[0mdebug[0m] [0m[0m  PutRecordBatchResponseEntry,[0m
+[0m[[0m[0mdebug[0m] [0m[0m  PutRecordBatchResult,[0m
+[0m[[0m[0mdebug[0m] [0m[0m  Record[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.JavaConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.mutable[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.duration.FiniteDuration[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.{Future, Promise}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.util.{Failure, Success, Try}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[kinesisfirehose] final class KinesisFirehoseFlowStage([0m
+[0m[[0m[0mdebug[0m] [0m[0m    streamName: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maxRetries: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    backoffStrategy: RetryBackoffStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    retryInitialTimeout: FiniteDuration[0m
+[0m[[0m[0mdebug[0m] [0m[0m)(implicit kinesisClient: AmazonKinesisFirehoseAsync)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends GraphStage[FlowShape[Seq[Record], Future[PutRecordBatchResult]]] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  import KinesisFirehoseFlowStage._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val in = Inlet[Seq[Record]]("KinesisFirehoseFlowStage.in")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val out = Outlet[Future[PutRecordBatchResult]]("KinesisFirehoseFlowStage.out")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override val shape = FlowShape(in, out)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def createLogic(inheritedAttributes: Attributes): GraphStageLogic =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new TimerGraphStageLogic(shape) with StageLogging with InHandler with OutHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      type Token = Int[0m
+[0m[[0m[0mdebug[0m] [0m[0m      type RetryCount = Int[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private var completionState: Option[Try[Unit]] = _[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private val pendingRequests: mutable.Queue[Job] = mutable.Queue.empty[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private var resultCallback: AsyncCallback[Result] = _[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private var inFlight: Int = _[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private val waitingRetries: mutable.HashMap[Token, Job] = mutable.HashMap.empty[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private var retryToken: Token = _[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private def tryToExecute() =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (pendingRequests.nonEmpty && isAvailable(out)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          log.debug("Executing PutRecordBatch call")[0m
+[0m[[0m[0mdebug[0m] [0m[0m          inFlight += 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m          val job = pendingRequests.dequeue()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          push([0m
+[0m[[0m[0mdebug[0m] [0m[0m            out,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            putRecordBatch([0m
+[0m[[0m[0mdebug[0m] [0m[0m              streamName,[0m
+[0m[[0m[0mdebug[0m] [0m[0m              job.records,[0m
+[0m[[0m[0mdebug[0m] [0m[0m              recordsToRetry => resultCallback.invoke(Result(job.attempt, recordsToRetry))[0m
+[0m[[0m[0mdebug[0m] [0m[0m            )[0m
+[0m[[0m[0mdebug[0m] [0m[0m          )[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private def handleResult(result: Result): Unit = result match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case Result(_, Nil) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          log.debug("PutRecordBatch call finished successfully")[0m
+[0m[[0m[0mdebug[0m] [0m[0m          inFlight -= 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m          tryToExecute()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          if (!hasBeenPulled(in)) tryPull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          checkForCompletion()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case Result(attempt, errors) if attempt > maxRetries =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          log.debug("PutRecordBatch call finished with partial errors after {} attempts", attempt)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          failStage(ErrorPublishingRecords(attempt, errors.map(_._1)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case Result(attempt, errors) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          log.debug("PutRecordBatch call finished with partial errors; scheduling retry")[0m
+[0m[[0m[0mdebug[0m] [0m[0m          inFlight -= 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m          waitingRetries.put(retryToken, Job(attempt + 1, errors.map(_._2)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m          scheduleOnce(retryToken, backoffStrategy match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case Exponential => retryInitialTimeout * scala.math.pow(2, attempt - 1).toInt[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case Linear => retryInitialTimeout * attempt[0m
+[0m[[0m[0mdebug[0m] [0m[0m          })[0m
+[0m[[0m[0mdebug[0m] [0m[0m          retryToken += 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private def checkForCompletion() =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (inFlight == 0 && pendingRequests.isEmpty && waitingRetries.isEmpty && isClosed(in)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          completionState match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case Some(Success(_)) => completeStage()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case Some(Failure(ex)) => failStage(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case None => failStage(new IllegalStateException("Stage completed, but there is no info about status"))[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override protected def onTimer(timerKey: Any) =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        waitingRetries.remove(timerKey.asInstanceOf[Token]) foreach { job =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          log.debug("New PutRecordBatch retry attempt available")[0m
+[0m[[0m[0mdebug[0m] [0m[0m          pendingRequests.enqueue(job)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          tryToExecute()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def preStart() = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        completionState = None[0m
+[0m[[0m[0mdebug[0m] [0m[0m        inFlight = 0[0m
+[0m[[0m[0mdebug[0m] [0m[0m        retryToken = 0[0m
+[0m[[0m[0mdebug[0m] [0m[0m        resultCallback = getAsyncCallback[Result](handleResult)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def postStop(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        pendingRequests.clear()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        waitingRetries.clear()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def onUpstreamFinish(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        completionState = Some(Success(()))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        checkForCompletion()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def onUpstreamFailure(ex: Throwable): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        completionState = Some(Failure(ex))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        checkForCompletion()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def onPull(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        tryToExecute()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (waitingRetries.isEmpty && !hasBeenPulled(in)) tryPull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def onPush(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        log.debug("New PutRecordBatch request available")[0m
+[0m[[0m[0mdebug[0m] [0m[0m        pendingRequests.enqueue(Job(1, grab(in)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        tryToExecute()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      setHandlers(in, out, this)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[kinesisfirehose] object KinesisFirehoseFlowStage {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def putRecordBatch([0m
+[0m[[0m[0mdebug[0m] [0m[0m      streamName: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      recordEntries: Seq[Record],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      retryRecordsCallback: Seq[(PutRecordBatchResponseEntry, Record)] => Unit[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )(implicit kinesisClient: AmazonKinesisFirehoseAsync): Future[PutRecordBatchResult] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val p = Promise[PutRecordBatchResult][0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    kinesisClient[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .putRecordBatchAsync([0m
+[0m[[0m[0mdebug[0m] [0m[0m        new PutRecordBatchRequest()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .withDeliveryStreamName(streamName)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .withRecords(recordEntries.asJavaCollection),[0m
+[0m[[0m[0mdebug[0m] [0m[0m        new AsyncHandler[PutRecordBatchRequest, PutRecordBatchResult] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onError(exception: Exception): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m            p.failure(FailurePublishingRecords(exception))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onSuccess(request: PutRecordBatchRequest, result: PutRecordBatchResult): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            if (result.getFailedPutCount > 0) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              retryRecordsCallback([0m
+[0m[[0m[0mdebug[0m] [0m[0m                result.getRequestResponses.asScala[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  .zip(request.getRecords.asScala)[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  .filter(_._1.getErrorCode != null)[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  .toIndexedSeq[0m
+[0m[[0m[0mdebug[0m] [0m[0m              )[0m
+[0m[[0m[0mdebug[0m] [0m[0m            } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              retryRecordsCallback(Nil)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m            p.success(result)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    p.future[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private case class Result(attempt: Int, recordsToRetry: Seq[(PutRecordBatchResponseEntry, Record)])[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private case class Job(attempt: Int, records: Seq[Record])[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/kinesis/src/main/scala/akka/stream/alpakka/kinesisfirehose/KinesisFirehoseFlowSettings.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.kinesisfirehose[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.kinesisfirehose.KinesisFirehoseFlowSettings.{Exponential, Linear}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.JavaDurationConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.duration._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class KinesisFirehoseFlowSettings private (val parallelism: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                 val maxBatchSize: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                 val maxRecordsPerSecond: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                 val maxBytesPerSecond: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                 val maxRetries: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                 val backoffStrategy: KinesisFirehoseFlowSettings.RetryBackoffStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                 val retryInitialTimeout: scala.concurrent.duration.FiniteDuration) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  require([0m
+[0m[[0m[0mdebug[0m] [0m[0m    maxBatchSize >= 1 && maxBatchSize <= 500,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "Limit must be between 1 and 500. See: https://docs.aws.amazon.com/firehose/latest/APIReference/API_PutRecordBatch.html"[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m  require(maxRecordsPerSecond >= 1)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  require(maxBytesPerSecond >= 1)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  require(maxRetries >= 0)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withParallelism(value: Int): KinesisFirehoseFlowSettings = copy(parallelism = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withMaxBatchSize(value: Int): KinesisFirehoseFlowSettings = copy(maxBatchSize = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withMaxRecordsPerSecond(value: Int): KinesisFirehoseFlowSettings = copy(maxRecordsPerSecond = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withMaxBytesPerSecond(value: Int): KinesisFirehoseFlowSettings = copy(maxBytesPerSecond = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withMaxRetries(value: Int): KinesisFirehoseFlowSettings = copy(maxRetries = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withBackoffStrategyExponential(): KinesisFirehoseFlowSettings = copy(backoffStrategy = Exponential)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withBackoffStrategyLinear(): KinesisFirehoseFlowSettings = copy(backoffStrategy = Linear)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withBackoffStrategy(value: KinesisFirehoseFlowSettings.RetryBackoffStrategy): KinesisFirehoseFlowSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(backoffStrategy = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Scala API */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withRetryInitialTimeout(value: scala.concurrent.duration.FiniteDuration): KinesisFirehoseFlowSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(retryInitialTimeout = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Java API */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withRetryInitialTimeout(value: java.time.Duration): KinesisFirehoseFlowSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(retryInitialTimeout = value.asScala)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def copy([0m
+[0m[[0m[0mdebug[0m] [0m[0m      parallelism: Int = parallelism,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      maxBatchSize: Int = maxBatchSize,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      maxRecordsPerSecond: Int = maxRecordsPerSecond,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      maxBytesPerSecond: Int = maxBytesPerSecond,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      maxRetries: Int = maxRetries,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      backoffStrategy: KinesisFirehoseFlowSettings.RetryBackoffStrategy = backoffStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      retryInitialTimeout: scala.concurrent.duration.FiniteDuration = retryInitialTimeout[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): KinesisFirehoseFlowSettings = new KinesisFirehoseFlowSettings([0m
+[0m[[0m[0mdebug[0m] [0m[0m    parallelism = parallelism,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maxBatchSize = maxBatchSize,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maxRecordsPerSecond = maxRecordsPerSecond,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maxBytesPerSecond = maxBytesPerSecond,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maxRetries = maxRetries,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    backoffStrategy = backoffStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    retryInitialTimeout = retryInitialTimeout[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "KinesisFirehoseFlowSettings(" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"parallelism=$parallelism," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"maxBatchSize=$maxBatchSize," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"maxRecordsPerSecond=$maxRecordsPerSecond," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"maxBytesPerSecond=$maxBytesPerSecond," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"maxRetries=$maxRetries," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"backoffStrategy=$backoffStrategy," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"retryInitialTimeout=${retryInitialTimeout.toCoarsest}" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ")"[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject KinesisFirehoseFlowSettings {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val MaxRecordsPerRequest = 500[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val MaxRecordsPerSecond = 5000[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val MaxBytesPerSecond = 4000000[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  sealed trait RetryBackoffStrategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case object Exponential extends RetryBackoffStrategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case object Linear extends RetryBackoffStrategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val exponential: RetryBackoffStrategy = Exponential[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val linear: RetryBackoffStrategy = Linear[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val Defaults: KinesisFirehoseFlowSettings = new KinesisFirehoseFlowSettings([0m
+[0m[[0m[0mdebug[0m] [0m[0m    parallelism = MaxRecordsPerSecond / MaxRecordsPerRequest,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maxBatchSize = MaxRecordsPerRequest,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maxRecordsPerSecond = MaxRecordsPerSecond,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maxBytesPerSecond = MaxBytesPerSecond,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maxRetries = 5,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    backoffStrategy = Exponential,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    retryInitialTimeout = 100.millis[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Scala API */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(): KinesisFirehoseFlowSettings = Defaults[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Java API */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(): KinesisFirehoseFlowSettings = Defaults[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m

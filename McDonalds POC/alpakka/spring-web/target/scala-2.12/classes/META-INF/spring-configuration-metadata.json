@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "akka.stream.alpakka.spring.web",
+      "type": "akka.stream.alpakka.spring.web.SpringWebAkkaStreamsProperties",
+      "sourceType": "akka.stream.alpakka.spring.web.SpringWebAkkaStreamsProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "akka.stream.alpakka.spring.web.actor-system-name",
+      "type": "java.lang.String",
+      "sourceType": "akka.stream.alpakka.spring.web.SpringWebAkkaStreamsProperties"
+    }
+  ],
+  "hints": []
+}

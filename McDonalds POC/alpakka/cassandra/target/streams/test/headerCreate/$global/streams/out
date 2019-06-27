@@ -1,0 +1,462 @@
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/cassandra/src/test/java/docs/javadsl/CassandraSourceTest.java[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage docs.javadsl;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.Done;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.cassandra.CassandraBatchSettings;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.cassandra.javadsl.CassandraFlow;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.cassandra.javadsl.CassandraSink;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.cassandra.javadsl.CassandraSource;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Flow;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Source;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.testkit.javadsl.StreamTestKit;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.testkit.javadsl.TestKit;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.datastax.driver.core.*;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.junit.After;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.junit.AfterClass;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.junit.BeforeClass;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.junit.Test;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport static org.junit.Assert.*;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.actor.ActorSystem;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.japi.Pair;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.ActorMaterializer;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.Materializer;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Sink;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.List;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.Set;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.concurrent.CompletionStage;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.concurrent.TimeUnit;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.function.BiFunction;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.stream.Collectors;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.stream.IntStream;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/** All the tests must be run with a local Cassandra running on default port 9042. */[0m
+[0m[[0m[0mdebug[0m] [0m[0mpublic class CassandraSourceTest {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  // #element-to-insert[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private class ToInsert {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Integer id;[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Integer cc;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    public ToInsert(Integer id, Integer cc) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      this.id = id;[0m
+[0m[[0m[0mdebug[0m] [0m[0m      this.cc = cc;[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  // #element-to-insert[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private static ActorSystem system;[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private static Materializer materializer;[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private static Session session;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private static Session setupSession() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #init-session[0m
+[0m[[0m[0mdebug[0m] [0m[0m    final Session session =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        Cluster.builder().addContactPoint("127.0.0.1").withPort(9042).build().connect();[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #init-session[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return session;[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private static Pair<ActorSystem, Materializer> setupMaterializer() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #init-mat[0m
+[0m[[0m[0mdebug[0m] [0m[0m    final ActorSystem system = ActorSystem.create();[0m
+[0m[[0m[0mdebug[0m] [0m[0m    final Materializer materializer = ActorMaterializer.create(system);[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #init-mat[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return Pair.create(system, materializer);[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @BeforeClass[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static void setup() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    final Pair<ActorSystem, Materializer> sysmat = setupMaterializer();[0m
+[0m[[0m[0mdebug[0m] [0m[0m    system = sysmat.first();[0m
+[0m[[0m[0mdebug[0m] [0m[0m    materializer = sysmat.second();[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    session = setupSession();[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    session.execute([0m
+[0m[[0m[0mdebug[0m] [0m[0m        "CREATE KEYSPACE IF NOT EXISTS akka_stream_java_test WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}");[0m
+[0m[[0m[0mdebug[0m] [0m[0m    session.execute("CREATE TABLE IF NOT EXISTS akka_stream_java_test.test (id int PRIMARY KEY);");[0m
+[0m[[0m[0mdebug[0m] [0m[0m    session.execute([0m
+[0m[[0m[0mdebug[0m] [0m[0m        "CREATE TABLE IF NOT EXISTS akka_stream_java_test.test_batch (id int, cc int, PRIMARY KEY (id, cc));");[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @AfterClass[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static void teardown() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    session.execute("DROP TABLE IF EXISTS akka_stream_java_test.test;");[0m
+[0m[[0m[0mdebug[0m] [0m[0m    session.execute("DROP KEYSPACE IF EXISTS akka_stream_java_test;");[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    TestKit.shutdownActorSystem(system);[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @After[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public void cleanUp() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    session.execute("truncate akka_stream_java_test.test");[0m
+[0m[[0m[0mdebug[0m] [0m[0m    StreamTestKit.assertAllStagesStopped(materializer);[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @Test[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public void streamStatementResult() throws Exception {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    for (Integer i = 1; i < 103; i++) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      session.execute("INSERT INTO akka_stream_java_test.test(id) VALUES (" + i + ")");[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #statement[0m
+[0m[[0m[0mdebug[0m] [0m[0m    final Statement stmt =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        new SimpleStatement("SELECT * FROM akka_stream_java_test.test").setFetchSize(20);[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #statement[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #run-source[0m
+[0m[[0m[0mdebug[0m] [0m[0m    final CompletionStage<List<Row>> rows =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        CassandraSource.create(stmt, session).runWith(Sink.seq(), materializer);[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #run-source[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    assertEquals([0m
+[0m[[0m[0mdebug[0m] [0m[0m        IntStream.range(1, 103).boxed().collect(Collectors.toSet()),[0m
+[0m[[0m[0mdebug[0m] [0m[0m        rows.toCompletableFuture().get(3, TimeUnit.SECONDS).stream()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            .map(r -> r.getInt("id"))[0m
+[0m[[0m[0mdebug[0m] [0m[0m            .collect(Collectors.toSet()));[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @Test[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public void flowInputValues() throws Exception {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #prepared-statement-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m    final PreparedStatement preparedStatement =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        session.prepare("insert into akka_stream_java_test.test (id) values (?)");[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #prepared-statement-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #statement-binder-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m    BiFunction<Integer, PreparedStatement, BoundStatement> statementBinder =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        (myInteger, statement) -> statement.bind(myInteger);[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #statement-binder-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Source<Integer, NotUsed> source =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        Source.from(IntStream.range(1, 10).boxed().collect(Collectors.toList()));[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #run-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m    final Flow<Integer, Integer, NotUsed> flow =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        CassandraFlow.createWithPassThrough(2, preparedStatement, statementBinder, session);[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    CompletionStage<List<Integer>> result = source.via(flow).runWith(Sink.seq(), materializer);[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #run-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    List<Integer> resultToAssert = result.toCompletableFuture().get();[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Set<Integer> found =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        session.execute("select * from akka_stream_java_test.test").all().stream()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            .map(r -> r.getInt("id"))[0m
+[0m[[0m[0mdebug[0m] [0m[0m            .collect(Collectors.toSet());[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    assertEquals(resultToAssert, IntStream.range(1, 10).boxed().collect(Collectors.toList()));[0m
+[0m[[0m[0mdebug[0m] [0m[0m    assertEquals(found, IntStream.range(1, 10).boxed().collect(Collectors.toSet()));[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @Test[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public void flowBatchInputValues() throws Exception {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #prepared-statement-batching-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m    final PreparedStatement preparedStatement =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        session.prepare("insert into akka_stream_java_test.test_batch(id, cc) values (?, ?)");[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #prepared-statement-batching-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #statement-binder-batching-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m    BiFunction<ToInsert, PreparedStatement, BoundStatement> statementBinder =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        (toInsert, statement) -> statement.bind(toInsert.id, toInsert.cc);[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #statement-binder-batching-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Source<ToInsert, NotUsed> source =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        Source.from([0m
+[0m[[0m[0mdebug[0m] [0m[0m            IntStream.range(1, 100)[0m
+[0m[[0m[0mdebug[0m] [0m[0m                .boxed()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                .map(i -> new ToInsert(i % 2, i))[0m
+[0m[[0m[0mdebug[0m] [0m[0m                .collect(Collectors.toList()));[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #settings-batching-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m    CassandraBatchSettings defaultSettings = CassandraBatchSettings.create();[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #settings-batching-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #run-batching-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m    final Flow<ToInsert, ToInsert, NotUsed> flow =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        CassandraFlow.createUnloggedBatchWithPassThrough([0m
+[0m[[0m[0mdebug[0m] [0m[0m            2, preparedStatement, statementBinder, (ti) -> ti.id, defaultSettings, session);[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    CompletionStage<List<ToInsert>> result = source.via(flow).runWith(Sink.seq(), materializer);[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #run-batching-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Set<Integer> resultToAssert =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        result.toCompletableFuture().get().stream().map(ti -> ti.cc).collect(Collectors.toSet());[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Set<Integer> found =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        session.execute("select * from akka_stream_java_test.test_batch").all().stream()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            .map(r -> r.getInt("cc"))[0m
+[0m[[0m[0mdebug[0m] [0m[0m            .collect(Collectors.toSet());[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    assertEquals(resultToAssert, IntStream.range(1, 100).boxed().collect(Collectors.toSet()));[0m
+[0m[[0m[0mdebug[0m] [0m[0m    assertEquals(found, IntStream.range(1, 100).boxed().collect(Collectors.toSet()));[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @Test[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public void sinkInputValues() throws Exception {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #prepared-statement[0m
+[0m[[0m[0mdebug[0m] [0m[0m    final PreparedStatement preparedStatement =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        session.prepare("insert into akka_stream_java_test.test (id) values (?)");[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #prepared-statement[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #statement-binder[0m
+[0m[[0m[0mdebug[0m] [0m[0m    BiFunction<Integer, PreparedStatement, BoundStatement> statementBinder =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        (myInteger, statement) -> statement.bind(myInteger);[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #statement-binder[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Source<Integer, NotUsed> source =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        Source.from(IntStream.range(1, 10).boxed().collect(Collectors.toList()));[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #run-sink[0m
+[0m[[0m[0mdebug[0m] [0m[0m    final Sink<Integer, CompletionStage<Done>> sink =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        CassandraSink.create(2, preparedStatement, statementBinder, session);[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    CompletionStage<Done> result = source.runWith(sink, materializer);[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // #run-sink[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    result.toCompletableFuture().get();[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Set<Integer> found =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        session.execute("select * from akka_stream_java_test.test").all().stream()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            .map(r -> r.getInt("id"))[0m
+[0m[[0m[0mdebug[0m] [0m[0m            .collect(Collectors.toSet());[0m
+[0m[[0m[0mdebug[0m] [0m[0m    assertEquals(found, IntStream.range(1, 10).boxed().collect(Collectors.toSet()));[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/cassandra/src/test/scala/docs/scaladsl/CassandraSourceSpec.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage docs.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.actor.ActorSystem[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.ActorMaterializer[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.cassandra.CassandraBatchSettings[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.cassandra.scaladsl.{CassandraFlow, CassandraSink, CassandraSource}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.{Sink, Source}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.datastax.driver.core.{Cluster, PreparedStatement, SimpleStatement}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.scalatest._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.scalatest.concurrent.ScalaFutures[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.JavaConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.duration._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * All the tests must be run with a local Cassandra running on default port 9042.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mclass CassandraSourceSpec[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends WordSpec[0m
+[0m[[0m[0mdebug[0m] [0m[0m    with ScalaFutures[0m
+[0m[[0m[0mdebug[0m] [0m[0m    with BeforeAndAfterEach[0m
+[0m[[0m[0mdebug[0m] [0m[0m    with BeforeAndAfterAll[0m
+[0m[[0m[0mdebug[0m] [0m[0m    with MustMatchers {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  //#element-to-insert[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case class ToInsert(id: Integer, cc: Integer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  //#element-to-insert[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  //#init-mat[0m
+[0m[[0m[0mdebug[0m] [0m[0m  implicit val system = ActorSystem()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  implicit val mat = ActorMaterializer()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  //#init-mat[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  implicit val ec = system.dispatcher[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  //#init-session[0m
+[0m[[0m[0mdebug[0m] [0m[0m  implicit val session = Cluster.builder[0m
+[0m[[0m[0mdebug[0m] [0m[0m    .addContactPoint("127.0.0.1")[0m
+[0m[[0m[0mdebug[0m] [0m[0m    .withPort(9042)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    .build[0m
+[0m[[0m[0mdebug[0m] [0m[0m    .connect()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  //#init-session[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  implicit val defaultPatience =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    PatienceConfig(timeout = 2.seconds, interval = 50.millis)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  var keyspaceName: String = _[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def beforeEach(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    // keyspaceName = s"akka${System.nanoTime()}"[0m
+[0m[[0m[0mdebug[0m] [0m[0m    keyspaceName = "jsb"[0m
+[0m[[0m[0mdebug[0m] [0m[0m    session.execute([0m
+[0m[[0m[0mdebug[0m] [0m[0m      s"""[0m
+[0m[[0m[0mdebug[0m] [0m[0m        |CREATE KEYSPACE IF NOT EXISTS $keyspaceName WITH replication = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        |  'class': 'SimpleStrategy',[0m
+[0m[[0m[0mdebug[0m] [0m[0m        |  'replication_factor': '1'[0m
+[0m[[0m[0mdebug[0m] [0m[0m        |};[0m
+[0m[[0m[0mdebug[0m] [0m[0m      """.stripMargin[0m
+[0m[[0m[0mdebug[0m] [0m[0m    )[0m
+[0m[[0m[0mdebug[0m] [0m[0m    session.execute([0m
+[0m[[0m[0mdebug[0m] [0m[0m      s"""[0m
+[0m[[0m[0mdebug[0m] [0m[0m        |CREATE TABLE IF NOT EXISTS $keyspaceName.test ([0m
+[0m[[0m[0mdebug[0m] [0m[0m        |    id int PRIMARY KEY[0m
+[0m[[0m[0mdebug[0m] [0m[0m        |);[0m
+[0m[[0m[0mdebug[0m] [0m[0m      """.stripMargin[0m
+[0m[[0m[0mdebug[0m] [0m[0m    )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    session.execute([0m
+[0m[[0m[0mdebug[0m] [0m[0m      s"""[0m
+[0m[[0m[0mdebug[0m] [0m[0m         |CREATE TABLE IF NOT EXISTS $keyspaceName.test_batch ([0m
+[0m[[0m[0mdebug[0m] [0m[0m         |	id int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m         |	cc int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m         |	PRIMARY KEY (id, cc)[0m
+[0m[[0m[0mdebug[0m] [0m[0m         |);[0m
+[0m[[0m[0mdebug[0m] [0m[0m      """.stripMargin[0m
+[0m[[0m[0mdebug[0m] [0m[0m    )[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def afterEach(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    session.execute(s"DROP KEYSPACE IF EXISTS $keyspaceName;")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def afterAll(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Await.result(system.terminate(), 5.seconds)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def populate() =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    (1 until 103).map { i =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      session.execute(s"INSERT INTO $keyspaceName.test(id) VALUES ($i)")[0m
+[0m[[0m[0mdebug[0m] [0m[0m      i[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  "CassandraSourceSpec" must {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "stream the result of a Cassandra statement with one page" in assertAllStagesStopped {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val data = populate()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val stmt = new SimpleStatement(s"SELECT * FROM $keyspaceName.test").setFetchSize(200)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val rows = CassandraSource(stmt).runWith(Sink.seq).futureValue[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rows.map(_.getInt("id")) must contain theSameElementsAs data[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "stream the result of a Cassandra statement with several pages" in {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val data = populate()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#statement[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val stmt = new SimpleStatement(s"SELECT * FROM $keyspaceName.test").setFetchSize(20)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#statement[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#run-source[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val rows = CassandraSource(stmt).runWith(Sink.seq)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#run-source[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rows.futureValue.map(_.getInt("id")) must contain theSameElementsAs data[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "support multiple materializations" in assertAllStagesStopped {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val data = populate()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val stmt = new SimpleStatement(s"SELECT * FROM $keyspaceName.test")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val source = CassandraSource(stmt)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      source.runWith(Sink.seq).futureValue.map(_.getInt("id")) must contain theSameElementsAs data[0m
+[0m[[0m[0mdebug[0m] [0m[0m      source.runWith(Sink.seq).futureValue.map(_.getInt("id")) must contain theSameElementsAs data[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "stream the result of Cassandra statement that results in no data" in assertAllStagesStopped {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val stmt = new SimpleStatement(s"SELECT * FROM $keyspaceName.test")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val rows = CassandraSource(stmt).runWith(Sink.seq).futureValue[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rows mustBe empty[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "write to the table using the flow and emit the elements in order" in assertAllStagesStopped {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val source = Source(0 to 10).map(i => i: Integer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#prepared-statement-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val preparedStatement = session.prepare(s"INSERT INTO $keyspaceName.test(id) VALUES (?)")[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#prepared-statement-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#statement-binder-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val statementBinder = (myInteger: Integer, statement: PreparedStatement) => statement.bind(myInteger)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#statement-binder-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#run-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val flow = CassandraFlow.createWithPassThrough[Integer](parallelism = 2, preparedStatement, statementBinder)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val result = source.via(flow).runWith(Sink.seq)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#run-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val resultToAssert = result.futureValue[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val found = session.execute(s"select id from $keyspaceName.test").all().asScala.map(_.getInt("id"))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      resultToAssert mustBe (0 to 10).toList[0m
+[0m[[0m[0mdebug[0m] [0m[0m      found.toSet mustBe (0 to 10).toSet[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "write to the table using the batching flow emitting the elements in any order" in assertAllStagesStopped {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val source = Source(0 to 100).map(i => ToInsert(i % 2, i))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#prepared-statement-batching-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val preparedStatement = session.prepare(s"INSERT INTO $keyspaceName.test_batch(id, cc) VALUES (?, ?)")[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#prepared-statement-batching-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#statement-binder-batching-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val statementBinder =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        (elemToInsert: ToInsert, statement: PreparedStatement) => statement.bind(elemToInsert.id, elemToInsert.cc)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#statement-binder-batching-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#settings-batching-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val settings: CassandraBatchSettings = CassandraBatchSettings()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#settings-batching-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#run-batching-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val flow = CassandraFlow.createUnloggedBatchWithPassThrough[ToInsert, Integer](parallelism = 2,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                                                     preparedStatement,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                                                     statementBinder,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                                                     ti => ti.id,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                                                     settings)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val result = source.via(flow).runWith(Sink.seq)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#run-batching-flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val resultToAssert = result.futureValue[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val found = session.execute(s"select cc from $keyspaceName.test_batch").all().asScala.map(_.getInt("cc"))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      resultToAssert.map(_.cc) must contain theSameElementsAs (0 to 100).toList[0m
+[0m[[0m[0mdebug[0m] [0m[0m      found.toSet mustBe (0 to 100).toSet[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "write to the table using the sink" in assertAllStagesStopped {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val source = Source(0 to 10).map(i => i: Integer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#prepared-statement[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val preparedStatement = session.prepare(s"INSERT INTO $keyspaceName.test(id) VALUES (?)")[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#prepared-statement[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#statement-binder[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val statementBinder = (myInteger: Integer, statement: PreparedStatement) => statement.bind(myInteger)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#statement-binder[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#run-sink[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val sink = CassandraSink[Integer](parallelism = 2, preparedStatement, statementBinder)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val result = source.runWith(sink)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      //#run-sink[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      result.futureValue[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val found = session.execute(s"select id from $keyspaceName.test").all().asScala.map(_.getInt("id"))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      found.toSet mustBe (0 to 10).toSet[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m

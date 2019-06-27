@@ -1,0 +1,730 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="com.lightbend.akka"
+		module="akka-stream-alpakka-google-cloud-pub-sub-grpc_2.12"
+		revision="1.0.1"
+		extra-info.apiURL="https://doc.akka.io/api/alpakka/1.0.1/akka/stream/alpakka/index.html"
+		conf="runtime-internal"
+		confs="compile, runtime, test, provided, optional, protobuf, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool, javaagent"
+		date="20190614195202"/>
+	<dependencies>
+		<module organisation="com.google.auth" name="google-auth-library-oauth2-http">
+			<revision name="0.15.0" status="release" pubdate="20190327195545" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="37">
+				<license name="BSD New license" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="no" details="" size="6504" time="0" location="/root/.ivy2/cache/com.google.auth/google-auth-library-oauth2-http/ivy-0.15.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/google/auth/google-auth-library-oauth2-http/0.15.0/google-auth-library-oauth2-http-0.15.0.pom"/>
+				<caller organisation="com.lightbend.akka" name="akka-stream-alpakka-google-cloud-pub-sub-grpc_2.12" conf="compile, runtime-internal, runtime, optional" rev="0.15.0" rev-constraint-default="0.15.0" rev-constraint-dynamic="0.15.0" callerrev="1.0.1"/>
+				<artifacts>
+					<artifact name="google-auth-library-oauth2-http" type="jar" ext="jar" status="no" details="" size="82857" time="0" location="/root/.ivy2/cache/com.google.auth/google-auth-library-oauth2-http/jars/google-auth-library-oauth2-http-0.15.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/google/auth/google-auth-library-oauth2-http/0.15.0/google-auth-library-oauth2-http-0.15.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.google.guava" name="guava">
+			<revision name="27.1-android" status="release" pubdate="20190308161141" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="44">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="7322" time="0" location="/root/.ivy2/cache/com.google.guava/guava/ivy-27.1-android.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/google/guava/guava/27.1-android/guava-27.1-android.pom"/>
+				<caller organisation="io.opencensus" name="opencensus-contrib-http-util" conf="compile, runtime" rev="20.0" rev-constraint-default="20.0" rev-constraint-dynamic="20.0" callerrev="0.18.0"/>
+				<caller organisation="io.grpc" name="grpc-core" conf="compile, runtime" rev="26.0-android" rev-constraint-default="26.0-android" rev-constraint-dynamic="26.0-android" callerrev="1.20.0"/>
+				<caller organisation="com.google.auth" name="google-auth-library-oauth2-http" conf="default, compile, runtime, master" rev="27.1-android" rev-constraint-default="27.1-android" rev-constraint-dynamic="27.1-android" callerrev="0.15.0"/>
+				<caller organisation="com.google.http-client" name="google-http-client" conf="compile, runtime" rev="26.0-android" rev-constraint-default="26.0-android" rev-constraint-dynamic="26.0-android" callerrev="1.29.0"/>
+				<artifacts>
+					<artifact name="guava" type="bundle" ext="jar" status="no" details="" size="2603938" time="0" location="/root/.ivy2/cache/com.google.guava/guava/bundles/guava-27.1-android.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/google/guava/guava/27.1-android/guava-27.1-android.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+			<revision name="26.0-android" status="release" pubdate="20180801214132" resolver="sbt-chain" artresolver="sbt-chain" evicted="latest-revision" evicted-reason="" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="-1">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="6987" time="0" location="/root/.ivy2/cache/com.google.guava/guava/ivy-26.0-android.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/google/guava/guava/26.0-android/guava-26.0-android.pom"/>
+				<evicted-by rev="27.1-android"/>
+				<caller organisation="io.opencensus" name="opencensus-contrib-http-util" conf="compile, runtime" rev="20.0" rev-constraint-default="20.0" rev-constraint-dynamic="20.0" callerrev="0.18.0"/>
+				<caller organisation="io.grpc" name="grpc-core" conf="compile, runtime" rev="26.0-android" rev-constraint-default="26.0-android" rev-constraint-dynamic="26.0-android" callerrev="1.20.0"/>
+				<caller organisation="com.google.auth" name="google-auth-library-oauth2-http" conf="default, compile, runtime, master" rev="27.1-android" rev-constraint-default="27.1-android" rev-constraint-dynamic="27.1-android" callerrev="0.15.0"/>
+				<caller organisation="com.google.http-client" name="google-http-client" conf="compile, runtime" rev="26.0-android" rev-constraint-default="26.0-android" rev-constraint-dynamic="26.0-android" callerrev="1.29.0"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+			<revision name="20.0" evicted="latest-revision" evicted-reason="" downloaded="false" searched="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="-1">
+				<evicted-by rev="27.1-android"/>
+				<caller organisation="io.opencensus" name="opencensus-contrib-http-util" conf="compile, runtime" rev="20.0" rev-constraint-default="20.0" rev-constraint-dynamic="20.0" callerrev="0.18.0"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.google.guava" name="listenablefuture">
+			<revision name="9999.0-empty-to-avoid-conflict-with-guava" status="release" pubdate="20180911194043" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="46">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="6957" time="0" location="/root/.ivy2/cache/com.google.guava/listenablefuture/ivy-9999.0-empty-to-avoid-conflict-with-guava.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.pom"/>
+				<caller organisation="com.google.guava" name="guava" conf="compile, runtime" rev="9999.0-empty-to-avoid-conflict-with-guava" rev-constraint-default="9999.0-empty-to-avoid-conflict-with-guava" rev-constraint-dynamic="9999.0-empty-to-avoid-conflict-with-guava" callerrev="27.1-android"/>
+				<artifacts>
+					<artifact name="listenablefuture" type="jar" ext="jar" status="no" details="" size="2199" time="0" location="/root/.ivy2/cache/com.google.guava/listenablefuture/jars/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.google.guava" name="failureaccess">
+			<revision name="1.0.1" status="release" pubdate="20181119175727" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="45">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="6356" time="0" location="/root/.ivy2/cache/com.google.guava/failureaccess/ivy-1.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.pom"/>
+				<caller organisation="com.google.guava" name="guava" conf="compile, runtime" rev="1.0.1" rev-constraint-default="1.0.1" rev-constraint-dynamic="1.0.1" callerrev="27.1-android"/>
+				<artifacts>
+					<artifact name="failureaccess" type="bundle" ext="jar" status="no" details="" size="4617" time="0" location="/root/.ivy2/cache/com.google.guava/failureaccess/bundles/failureaccess-1.0.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.google.http-client" name="google-http-client-jackson2">
+			<revision name="1.29.0" status="release" pubdate="20190325181033" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="48">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="10949" time="0" location="/root/.ivy2/cache/com.google.http-client/google-http-client-jackson2/ivy-1.29.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/google/http-client/google-http-client-jackson2/1.29.0/google-http-client-jackson2-1.29.0.pom"/>
+				<caller organisation="com.google.auth" name="google-auth-library-oauth2-http" conf="default, compile, runtime, master" rev="1.29.0" rev-constraint-default="1.29.0" rev-constraint-dynamic="1.29.0" callerrev="0.15.0"/>
+				<artifacts>
+					<artifact name="google-http-client-jackson2" type="jar" ext="jar" status="no" details="" size="8542" time="0" location="/root/.ivy2/cache/com.google.http-client/google-http-client-jackson2/jars/google-http-client-jackson2-1.29.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/google/http-client/google-http-client-jackson2/1.29.0/google-http-client-jackson2-1.29.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.fasterxml.jackson.core" name="jackson-core">
+			<revision name="2.9.6" status="release" pubdate="20180612005451" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/FasterXML/jackson-core" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="49">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="22538" time="0" location="/root/.ivy2/cache/com.fasterxml.jackson.core/jackson-core/ivy-2.9.6.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.9.6/jackson-core-2.9.6.pom"/>
+				<caller organisation="com.google.http-client" name="google-http-client-jackson2" conf="compile, runtime" rev="2.9.6" rev-constraint-default="2.9.6" rev-constraint-dynamic="2.9.6" callerrev="1.29.0"/>
+				<artifacts>
+					<artifact name="jackson-core" type="bundle" ext="jar" status="no" details="" size="323848" time="0" location="/root/.ivy2/cache/com.fasterxml.jackson.core/jackson-core/bundles/jackson-core-2.9.6.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.9.6/jackson-core-2.9.6.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.google.http-client" name="google-http-client">
+			<revision name="1.29.0" status="release" pubdate="20190325181022" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="39">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="11854" time="0" location="/root/.ivy2/cache/com.google.http-client/google-http-client/ivy-1.29.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/google/http-client/google-http-client/1.29.0/google-http-client-1.29.0.pom"/>
+				<caller organisation="com.google.http-client" name="google-http-client-jackson2" conf="compile, runtime" rev="1.29.0" rev-constraint-default="1.29.0" rev-constraint-dynamic="1.29.0" callerrev="1.29.0"/>
+				<caller organisation="com.google.auth" name="google-auth-library-oauth2-http" conf="default, compile, runtime, master" rev="1.29.0" rev-constraint-default="1.29.0" rev-constraint-dynamic="1.29.0" callerrev="0.15.0"/>
+				<artifacts>
+					<artifact name="google-http-client" type="jar" ext="jar" status="no" details="" size="281875" time="0" location="/root/.ivy2/cache/com.google.http-client/google-http-client/jars/google-http-client-1.29.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/google/http-client/google-http-client/1.29.0/google-http-client-1.29.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="io.opencensus" name="opencensus-contrib-http-util">
+			<revision name="0.18.0" status="release" pubdate="20181128020625" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/census-instrumentation/opencensus-java" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="47">
+				<license name="The Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3325" time="0" location="/root/.ivy2/cache/io.opencensus/opencensus-contrib-http-util/ivy-0.18.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/opencensus/opencensus-contrib-http-util/0.18.0/opencensus-contrib-http-util-0.18.0.pom"/>
+				<caller organisation="com.google.http-client" name="google-http-client" conf="compile, runtime" rev="0.18.0" rev-constraint-default="0.18.0" rev-constraint-dynamic="0.18.0" callerrev="1.29.0"/>
+				<artifacts>
+					<artifact name="opencensus-contrib-http-util" type="jar" ext="jar" status="no" details="" size="18741" time="0" location="/root/.ivy2/cache/io.opencensus/opencensus-contrib-http-util/jars/opencensus-contrib-http-util-0.18.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/opencensus/opencensus-contrib-http-util/0.18.0/opencensus-contrib-http-util-0.18.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.httpcomponents" name="httpclient">
+			<revision name="4.5.5" status="release" pubdate="20180118115409" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://hc.apache.org/httpcomponents-client" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="40">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="10932" time="0" location="/root/.ivy2/cache/org.apache.httpcomponents/httpclient/ivy-4.5.5.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.5/httpclient-4.5.5.pom"/>
+				<caller organisation="com.google.http-client" name="google-http-client" conf="compile, runtime" rev="4.5.5" rev-constraint-default="4.5.5" rev-constraint-dynamic="4.5.5" callerrev="1.29.0"/>
+				<artifacts>
+					<artifact name="httpclient" type="jar" ext="jar" status="no" details="" size="766123" time="0" location="/root/.ivy2/cache/org.apache.httpcomponents/httpclient/jars/httpclient-4.5.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.5/httpclient-4.5.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="commons-codec" name="commons-codec">
+			<revision name="1.10" status="release" pubdate="20141106141535" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://commons.apache.org/proper/commons-codec/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="43">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="10608" time="0" location="/root/.ivy2/cache/commons-codec/commons-codec/ivy-1.10.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/commons-codec/commons-codec/1.10/commons-codec-1.10.pom"/>
+				<caller organisation="org.apache.httpcomponents" name="httpclient" conf="compile, runtime" rev="1.10" rev-constraint-default="1.10" rev-constraint-dynamic="1.10" callerrev="4.5.5"/>
+				<artifacts>
+					<artifact name="commons-codec" type="jar" ext="jar" status="no" details="" size="284184" time="0" location="/root/.ivy2/cache/commons-codec/commons-codec/jars/commons-codec-1.10.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/commons-codec/commons-codec/1.10/commons-codec-1.10.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.httpcomponents" name="httpcore">
+			<revision name="4.4.9" status="release" pubdate="20180112034227" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://hc.apache.org/httpcomponents-core-ga" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="41">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="9276" time="0" location="/root/.ivy2/cache/org.apache.httpcomponents/httpcore/ivy-4.4.9.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.9/httpcore-4.4.9.pom"/>
+				<caller organisation="org.apache.httpcomponents" name="httpclient" conf="compile, runtime" rev="4.4.9" rev-constraint-default="4.4.9" rev-constraint-dynamic="4.4.9" callerrev="4.5.5"/>
+				<artifacts>
+					<artifact name="httpcore" type="jar" ext="jar" status="no" details="" size="325500" time="0" location="/root/.ivy2/cache/org.apache.httpcomponents/httpcore/jars/httpcore-4.4.9.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.9/httpcore-4.4.9.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="commons-logging" name="commons-logging">
+			<revision name="1.2" status="release" pubdate="20140705181228" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://commons.apache.org/proper/commons-logging/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="42">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="11623" time="0" location="/root/.ivy2/cache/commons-logging/commons-logging/ivy-1.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.pom"/>
+				<caller organisation="org.apache.httpcomponents" name="httpclient" conf="compile, runtime" rev="1.2" rev-constraint-default="1.2" rev-constraint-dynamic="1.2" callerrev="4.5.5"/>
+				<artifacts>
+					<artifact name="commons-logging" type="jar" ext="jar" status="no" details="" size="61829" time="0" location="/root/.ivy2/cache/commons-logging/commons-logging/jars/commons-logging-1.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.google.auth" name="google-auth-library-credentials">
+			<revision name="0.15.0" status="release" pubdate="20190327195542" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="38">
+				<license name="BSD New license" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="no" details="" size="5862" time="0" location="/root/.ivy2/cache/com.google.auth/google-auth-library-credentials/ivy-0.15.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/google/auth/google-auth-library-credentials/0.15.0/google-auth-library-credentials-0.15.0.pom"/>
+				<caller organisation="io.grpc" name="grpc-auth" conf="default, compile, runtime, master" rev="0.13.0" rev-constraint-default="0.13.0" rev-constraint-dynamic="0.13.0" callerrev="1.20.0"/>
+				<caller organisation="com.google.auth" name="google-auth-library-oauth2-http" conf="default, compile, runtime, master" rev="0.15.0" rev-constraint-default="0.15.0" rev-constraint-dynamic="0.15.0" callerrev="0.15.0"/>
+				<artifacts>
+					<artifact name="google-auth-library-credentials" type="jar" ext="jar" status="no" details="" size="5721" time="0" location="/root/.ivy2/cache/com.google.auth/google-auth-library-credentials/jars/google-auth-library-credentials-0.15.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/google/auth/google-auth-library-credentials/0.15.0/google-auth-library-credentials-0.15.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+			<revision name="0.13.0" status="release" pubdate="20190117211444" resolver="sbt-chain" artresolver="sbt-chain" evicted="latest-revision" evicted-reason="" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="-1">
+				<license name="BSD New license" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="no" details="" size="5580" time="0" location="/root/.ivy2/cache/com.google.auth/google-auth-library-credentials/ivy-0.13.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/google/auth/google-auth-library-credentials/0.13.0/google-auth-library-credentials-0.13.0.pom"/>
+				<evicted-by rev="0.15.0"/>
+				<caller organisation="io.grpc" name="grpc-auth" conf="default, compile, runtime, master" rev="0.13.0" rev-constraint-default="0.13.0" rev-constraint-dynamic="0.13.0" callerrev="1.20.0"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="io.grpc" name="grpc-auth">
+			<revision name="1.20.0" status="release" pubdate="20190410005337" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/grpc/grpc-java" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="36">
+				<license name="Apache 2.0" url="https://opensource.org/licenses/Apache-2.0"/>
+				<metadata-artifact status="no" details="" size="2790" time="0" location="/root/.ivy2/cache/io.grpc/grpc-auth/ivy-1.20.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/grpc/grpc-auth/1.20.0/grpc-auth-1.20.0.pom"/>
+				<caller organisation="com.lightbend.akka" name="akka-stream-alpakka-google-cloud-pub-sub-grpc_2.12" conf="compile, runtime-internal, runtime, optional" rev="1.20.0" rev-constraint-default="1.20.0" rev-constraint-dynamic="1.20.0" callerrev="1.0.1"/>
+				<artifacts>
+					<artifact name="grpc-auth" type="jar" ext="jar" status="no" details="" size="13289" time="0" location="/root/.ivy2/cache/io.grpc/grpc-auth/jars/grpc-auth-1.20.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/grpc/grpc-auth/1.20.0/grpc-auth-1.20.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.google.protobuf" name="protobuf-java">
+			<revision name="3.5.1" status="release" pubdate="20171221200905" resolver="sbt-chain" artresolver="sbt-chain" evicted="latest-revision" evicted-reason="" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="-1">
+				<license name="3-Clause BSD License" url="https://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="no" details="" size="5084" time="0" location="/root/.ivy2/cache/com.google.protobuf/protobuf-java/ivy-3.5.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.5.1/protobuf-java-3.5.1.pom"/>
+				<evicted-by rev="3.6.1"/>
+				<caller organisation="com.lightbend.akka" name="akka-stream-alpakka-google-cloud-pub-sub-grpc_2.12" conf="compile, runtime-internal, runtime, optional" rev="3.5.1" rev-constraint-default="3.5.1" rev-constraint-dynamic="3.5.1" callerrev="1.0.1"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+			<revision name="3.6.1" status="release" pubdate="20180730232705" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master, default(compile)" position="6">
+				<license name="3-Clause BSD License" url="https://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="no" details="" size="4797" time="0" location="/root/.ivy2/cache/com.google.protobuf/protobuf-java/ivy-3.6.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.6.1/protobuf-java-3.6.1.pom"/>
+				<caller organisation="com.lightbend.akka" name="akka-stream-alpakka-google-cloud-pub-sub-grpc_2.12" conf="compile, runtime-internal, runtime, optional" rev="3.5.1" rev-constraint-default="3.5.1" rev-constraint-dynamic="3.5.1" callerrev="1.0.1"/>
+				<caller organisation="com.thesamet.scalapb" name="scalapb-runtime_2.12" conf="default, compile, runtime, master" rev="3.6.1" rev-constraint-default="3.6.1" rev-constraint-dynamic="3.6.1" callerrev="0.8.4"/>
+				<artifacts>
+					<artifact name="protobuf-java" type="bundle" ext="jar" status="no" details="" size="1421323" time="0" location="/root/.ivy2/cache/com.google.protobuf/protobuf-java/bundles/protobuf-java-3.6.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.6.1/protobuf-java-3.6.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.typesafe.akka" name="akka-stream_2.12">
+			<revision name="2.5.22" status="release" pubdate="20190403081119" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://akka.io/" extra-info.apiURL="https://doc.akka.io/api/akka/2.5.22" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master, runtime(*), master(compile), compile(*)" position="23">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="3697" time="0" location="/root/.ivy2/cache/com.typesafe.akka/akka-stream_2.12/ivy-2.5.22.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-stream_2.12/2.5.22/akka-stream_2.12-2.5.22.pom"/>
+				<caller organisation="com.lightbend.akka" name="akka-stream-alpakka-google-cloud-pub-sub-grpc_2.12" conf="compile, runtime-internal, runtime, optional" rev="2.5.22" rev-constraint-default="2.5.22" rev-constraint-dynamic="2.5.22" callerrev="1.0.1"/>
+				<caller organisation="com.lightbend.akka.grpc" name="akka-grpc-runtime_2.12" conf="default, compile, runtime, master" rev="2.5.20" rev-constraint-default="2.5.20" rev-constraint-dynamic="2.5.20" callerrev="0.6.1"/>
+				<artifacts>
+					<artifact name="akka-stream_2.12" type="jar" ext="jar" status="no" details="" size="4451396" time="0" location="/root/.ivy2/cache/com.typesafe.akka/akka-stream_2.12/jars/akka-stream_2.12-2.5.22.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-stream_2.12/2.5.22/akka-stream_2.12-2.5.22.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+			<revision name="2.5.20" evicted="latest-revision" evicted-reason="" downloaded="false" searched="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master, default(compile)" position="-1">
+				<evicted-by rev="2.5.22"/>
+				<caller organisation="com.lightbend.akka" name="akka-stream-alpakka-google-cloud-pub-sub-grpc_2.12" conf="compile, runtime-internal, runtime, optional" rev="2.5.22" rev-constraint-default="2.5.22" rev-constraint-dynamic="2.5.22" callerrev="1.0.1"/>
+				<caller organisation="com.lightbend.akka.grpc" name="akka-grpc-runtime_2.12" conf="default, compile, runtime, master" rev="2.5.20" rev-constraint-default="2.5.20" rev-constraint-dynamic="2.5.20" callerrev="0.6.1"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.typesafe" name="ssl-config-core_2.12">
+			<revision name="0.3.7" status="release" pubdate="20181025012015" resolver="sbt-chain" artresolver="sbt-chain" evicted="latest-revision" evicted-reason="" homepage="https://github.com/lightbend/ssl-config" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="-1">
+				<license name="Apache-2.0" url="https://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3715" time="0" location="/root/.ivy2/cache/com.typesafe/ssl-config-core_2.12/ivy-0.3.7.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/ssl-config-core_2.12/0.3.7/ssl-config-core_2.12-0.3.7.pom"/>
+				<evicted-by rev="0.3.6"/>
+				<caller organisation="com.typesafe.akka" name="akka-stream_2.12" conf="compile, runtime" rev="0.3.7" rev-constraint-default="0.3.7" rev-constraint-dynamic="0.3.7" callerrev="2.5.22"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+			<revision name="0.3.6" status="release" pubdate="20181011090751" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/lightbend/ssl-config" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="21">
+				<license name="Apache-2.0" url="https://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3715" time="0" location="/root/.ivy2/cache/com.typesafe/ssl-config-core_2.12/ivy-0.3.6.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/ssl-config-core_2.12/0.3.6/ssl-config-core_2.12-0.3.6.pom"/>
+				<caller organisation="com.lightbend.akka.grpc" name="akka-grpc-runtime_2.12" conf="default, compile, runtime, master" rev="0.3.6" rev-constraint-default="0.3.6" rev-constraint-dynamic="0.3.6" callerrev="0.6.1"/>
+				<caller organisation="com.typesafe.akka" name="akka-stream_2.12" conf="compile, runtime" rev="0.3.7" rev-constraint-default="0.3.7" rev-constraint-dynamic="0.3.7" callerrev="2.5.22"/>
+				<artifacts>
+					<artifact name="ssl-config-core_2.12" type="bundle" ext="jar" status="no" details="" size="271326" time="0" location="/root/.ivy2/cache/com.typesafe/ssl-config-core_2.12/bundles/ssl-config-core_2.12-0.3.6.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/typesafe/ssl-config-core_2.12/0.3.6/ssl-config-core_2.12-0.3.6.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.reactivestreams" name="reactive-streams">
+			<revision name="1.0.2" status="release" pubdate="20171218200638" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.reactive-streams.org/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="27">
+				<license name="CC0" url="http://creativecommons.org/publicdomain/zero/1.0/"/>
+				<metadata-artifact status="no" details="" size="2523" time="0" location="/root/.ivy2/cache/org.reactivestreams/reactive-streams/ivy-1.0.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/reactivestreams/reactive-streams/1.0.2/reactive-streams-1.0.2.pom"/>
+				<caller organisation="com.typesafe.akka" name="akka-stream_2.12" conf="compile, runtime" rev="1.0.2" rev-constraint-default="1.0.2" rev-constraint-dynamic="1.0.2" callerrev="2.5.22"/>
+				<artifacts>
+					<artifact name="reactive-streams" type="jar" ext="jar" status="no" details="" size="2097" time="0" location="/root/.ivy2/cache/org.reactivestreams/reactive-streams/jars/reactive-streams-1.0.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/reactivestreams/reactive-streams/1.0.2/reactive-streams-1.0.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.typesafe.akka" name="akka-protobuf_2.12">
+			<revision name="2.5.22" status="release" pubdate="20190403080510" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://akka.io/" extra-info.apiURL="https://doc.akka.io/api/akka/2.5.22" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="26">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="2968" time="0" location="/root/.ivy2/cache/com.typesafe.akka/akka-protobuf_2.12/ivy-2.5.22.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-protobuf_2.12/2.5.22/akka-protobuf_2.12-2.5.22.pom"/>
+				<caller organisation="com.typesafe.akka" name="akka-stream_2.12" conf="compile, runtime" rev="2.5.22" rev-constraint-default="2.5.22" rev-constraint-dynamic="2.5.22" callerrev="2.5.22"/>
+				<artifacts>
+					<artifact name="akka-protobuf_2.12" type="jar" ext="jar" status="no" details="" size="479628" time="0" location="/root/.ivy2/cache/com.typesafe.akka/akka-protobuf_2.12/jars/akka-protobuf_2.12-2.5.22.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-protobuf_2.12/2.5.22/akka-protobuf_2.12-2.5.22.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.typesafe.akka" name="akka-actor_2.12">
+			<revision name="2.5.22" status="release" pubdate="20190403080609" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://akka.io/" extra-info.apiURL="https://doc.akka.io/api/akka/2.5.22" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="24">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="3260" time="0" location="/root/.ivy2/cache/com.typesafe.akka/akka-actor_2.12/ivy-2.5.22.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-actor_2.12/2.5.22/akka-actor_2.12-2.5.22.pom"/>
+				<caller organisation="com.typesafe.akka" name="akka-discovery_2.12" conf="compile, runtime" rev="2.5.20" rev-constraint-default="2.5.20" rev-constraint-dynamic="2.5.20" callerrev="2.5.20"/>
+				<caller organisation="com.typesafe.akka" name="akka-stream_2.12" conf="compile, runtime" rev="2.5.22" rev-constraint-default="2.5.22" rev-constraint-dynamic="2.5.22" callerrev="2.5.22"/>
+				<artifacts>
+					<artifact name="akka-actor_2.12" type="jar" ext="jar" status="no" details="" size="3519170" time="0" location="/root/.ivy2/cache/com.typesafe.akka/akka-actor_2.12/jars/akka-actor_2.12-2.5.22.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-actor_2.12/2.5.22/akka-actor_2.12-2.5.22.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+			<revision name="2.5.20" status="release" pubdate="20190129082920" resolver="sbt-chain" artresolver="sbt-chain" evicted="latest-revision" evicted-reason="" homepage="http://akka.io/" extra-info.apiURL="http://doc.akka.io/api/akka/2.5.20" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="-1">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="3102" time="0" location="/root/.ivy2/cache/com.typesafe.akka/akka-actor_2.12/ivy-2.5.20.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-actor_2.12/2.5.20/akka-actor_2.12-2.5.20.pom"/>
+				<evicted-by rev="2.5.22"/>
+				<caller organisation="com.typesafe.akka" name="akka-discovery_2.12" conf="compile, runtime" rev="2.5.20" rev-constraint-default="2.5.20" rev-constraint-dynamic="2.5.20" callerrev="2.5.20"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.lightbend.akka.grpc" name="akka-grpc-runtime_2.12">
+			<revision name="0.6.1" status="release" pubdate="20190423093900" resolver="public" artresolver="public" homepage="https://developer.lightbend.com/docs/akka-grpc/current/" downloaded="true" searched="true" default="false" conf="default, compile, runtime, default(compile), master" position="7">
+				<license name="Apache-2.0" url="https://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="successful" details="" size="5609" time="21" location="/root/.ivy2/cache/com.lightbend.akka.grpc/akka-grpc-runtime_2.12/ivy-0.6.1.xml" searched="true" original-local-location="/root/.ivy2/cache/com.lightbend.akka.grpc/akka-grpc-runtime_2.12/ivy-0.6.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/lightbend/akka/grpc/akka-grpc-runtime_2.12/0.6.1/akka-grpc-runtime_2.12-0.6.1.pom"/>
+				<caller organisation="com.lightbend.akka" name="akka-stream-alpakka-google-cloud-pub-sub-grpc_2.12" conf="compile, runtime-internal, runtime, optional" rev="0.6.1" rev-constraint-default="0.6.1" rev-constraint-dynamic="0.6.1" callerrev="1.0.1"/>
+				<artifacts>
+					<artifact name="akka-grpc-runtime_2.12" type="jar" ext="jar" status="successful" details="" size="267280" time="73" location="/root/.ivy2/cache/com.lightbend.akka.grpc/akka-grpc-runtime_2.12/jars/akka-grpc-runtime_2.12-0.6.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/lightbend/akka/grpc/akka-grpc-runtime_2.12/0.6.1/akka-grpc-runtime_2.12-0.6.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.typesafe.akka" name="akka-discovery_2.12">
+			<revision name="2.5.20" status="release" pubdate="20190129083446" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://akka.io/" extra-info.apiURL="http://doc.akka.io/api/akka/2.5.20" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="34">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="3465" time="0" location="/root/.ivy2/cache/com.typesafe.akka/akka-discovery_2.12/ivy-2.5.20.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-discovery_2.12/2.5.20/akka-discovery_2.12-2.5.20.pom"/>
+				<caller organisation="com.lightbend.akka.grpc" name="akka-grpc-runtime_2.12" conf="default, compile, runtime, master" rev="2.5.20" rev-constraint-default="2.5.20" rev-constraint-dynamic="2.5.20" callerrev="0.6.1"/>
+				<artifacts>
+					<artifact name="akka-discovery_2.12" type="jar" ext="jar" status="no" details="" size="54187" time="0" location="/root/.ivy2/cache/com.typesafe.akka/akka-discovery_2.12/jars/akka-discovery_2.12-2.5.20.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-discovery_2.12/2.5.20/akka-discovery_2.12-2.5.20.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-lang.modules" name="scala-java8-compat_2.12">
+			<revision name="0.8.0" status="release" pubdate="20161029221227" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="25">
+				<license name="BSD 3-clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="no" details="" size="3036" time="0" location="/root/.ivy2/cache/org.scala-lang.modules/scala-java8-compat_2.12/ivy-0.8.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/modules/scala-java8-compat_2.12/0.8.0/scala-java8-compat_2.12-0.8.0.pom"/>
+				<caller organisation="com.typesafe.akka" name="akka-actor_2.12" conf="compile, runtime" rev="0.8.0" rev-constraint-default="0.8.0" rev-constraint-dynamic="0.8.0" callerrev="2.5.22"/>
+				<artifacts>
+					<artifact name="scala-java8-compat_2.12" type="bundle" ext="jar" status="no" details="" size="1165728" time="0" location="/root/.ivy2/cache/org.scala-lang.modules/scala-java8-compat_2.12/bundles/scala-java8-compat_2.12-0.8.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-lang/modules/scala-java8-compat_2.12/0.8.0/scala-java8-compat_2.12-0.8.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.typesafe.akka" name="akka-http2-support_2.12">
+			<revision name="10.1.8" status="release" pubdate="20190321113223" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://akka.io" extra-info.apiURL="https://doc.akka.io/api/akka-http/10.1.8/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="31">
+				<license name="Apache-2.0" url="https://opensource.org/licenses/Apache-2.0"/>
+				<metadata-artifact status="no" details="" size="3763" time="0" location="/root/.ivy2/cache/com.typesafe.akka/akka-http2-support_2.12/ivy-10.1.8.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-http2-support_2.12/10.1.8/akka-http2-support_2.12-10.1.8.pom"/>
+				<caller organisation="com.lightbend.akka.grpc" name="akka-grpc-runtime_2.12" conf="default, compile, runtime, master" rev="10.1.8" rev-constraint-default="10.1.8" rev-constraint-dynamic="10.1.8" callerrev="0.6.1"/>
+				<artifacts>
+					<artifact name="akka-http2-support_2.12" type="jar" ext="jar" status="no" details="" size="388963" time="0" location="/root/.ivy2/cache/com.typesafe.akka/akka-http2-support_2.12/jars/akka-http2-support_2.12-10.1.8.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-http2-support_2.12/10.1.8/akka-http2-support_2.12-10.1.8.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.eclipse.jetty.alpn" name="alpn-api">
+			<revision name="1.1.3.v20160715" status="release" pubdate="20160715032221" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="33">
+				<license name="Apache Software License - Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<license name="Eclipse Public License - Version 1.0" url="http://www.eclipse.org/org/documents/epl-v10.php"/>
+				<metadata-artifact status="no" details="" size="3360" time="0" location="/root/.ivy2/cache/org.eclipse.jetty.alpn/alpn-api/ivy-1.1.3.v20160715.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/eclipse/jetty/alpn/alpn-api/1.1.3.v20160715/alpn-api-1.1.3.v20160715.pom"/>
+				<caller organisation="com.typesafe.akka" name="akka-http2-support_2.12" conf="compile, runtime" rev="1.1.3.v20160715" rev-constraint-default="1.1.3.v20160715" rev-constraint-dynamic="1.1.3.v20160715" callerrev="10.1.8"/>
+				<artifacts>
+					<artifact name="alpn-api" type="jar" ext="jar" status="no" details="" size="5557" time="0" location="/root/.ivy2/cache/org.eclipse.jetty.alpn/alpn-api/jars/alpn-api-1.1.3.v20160715.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/eclipse/jetty/alpn/alpn-api/1.1.3.v20160715/alpn-api-1.1.3.v20160715.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.twitter" name="hpack">
+			<revision name="1.0.2" status="release" pubdate="20160324222836" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="32">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="4897" time="0" location="/root/.ivy2/cache/com.twitter/hpack/ivy-1.0.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/twitter/hpack/1.0.2/hpack-1.0.2.pom"/>
+				<caller organisation="com.typesafe.akka" name="akka-http2-support_2.12" conf="compile, runtime" rev="1.0.2" rev-constraint-default="1.0.2" rev-constraint-dynamic="1.0.2" callerrev="10.1.8"/>
+				<artifacts>
+					<artifact name="hpack" type="jar" ext="jar" status="no" details="" size="29339" time="0" location="/root/.ivy2/cache/com.twitter/hpack/jars/hpack-1.0.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/twitter/hpack/1.0.2/hpack-1.0.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.typesafe.akka" name="akka-http_2.12">
+			<revision name="10.1.8" status="release" pubdate="20190321111518" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://akka.io" extra-info.apiURL="https://doc.akka.io/api/akka-http/10.1.8/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="30">
+				<license name="Apache-2.0" url="https://opensource.org/licenses/Apache-2.0"/>
+				<metadata-artifact status="no" details="" size="3177" time="0" location="/root/.ivy2/cache/com.typesafe.akka/akka-http_2.12/ivy-10.1.8.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-http_2.12/10.1.8/akka-http_2.12-10.1.8.pom"/>
+				<caller organisation="com.lightbend.akka.grpc" name="akka-grpc-runtime_2.12" conf="default, compile, runtime, master" rev="10.1.8" rev-constraint-default="10.1.8" rev-constraint-dynamic="10.1.8" callerrev="0.6.1"/>
+				<artifacts>
+					<artifact name="akka-http_2.12" type="jar" ext="jar" status="no" details="" size="1752872" time="0" location="/root/.ivy2/cache/com.typesafe.akka/akka-http_2.12/jars/akka-http_2.12-10.1.8.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-http_2.12/10.1.8/akka-http_2.12-10.1.8.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.typesafe.akka" name="akka-http-core_2.12">
+			<revision name="10.1.8" status="release" pubdate="20190321113735" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://akka.io" extra-info.apiURL="https://doc.akka.io/api/akka-http/10.1.8/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="28">
+				<license name="Apache-2.0" url="https://opensource.org/licenses/Apache-2.0"/>
+				<metadata-artifact status="no" details="" size="3796" time="0" location="/root/.ivy2/cache/com.typesafe.akka/akka-http-core_2.12/ivy-10.1.8.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-http-core_2.12/10.1.8/akka-http-core_2.12-10.1.8.pom"/>
+				<caller organisation="com.typesafe.akka" name="akka-http_2.12" conf="compile, runtime" rev="10.1.8" rev-constraint-default="10.1.8" rev-constraint-dynamic="10.1.8" callerrev="10.1.8"/>
+				<caller organisation="com.typesafe.akka" name="akka-http2-support_2.12" conf="compile, runtime" rev="10.1.8" rev-constraint-default="10.1.8" rev-constraint-dynamic="10.1.8" callerrev="10.1.8"/>
+				<caller organisation="com.lightbend.akka.grpc" name="akka-grpc-runtime_2.12" conf="default, compile, runtime, master" rev="10.1.8" rev-constraint-default="10.1.8" rev-constraint-dynamic="10.1.8" callerrev="0.6.1"/>
+				<artifacts>
+					<artifact name="akka-http-core_2.12" type="jar" ext="jar" status="no" details="" size="3550850" time="0" location="/root/.ivy2/cache/com.typesafe.akka/akka-http-core_2.12/jars/akka-http-core_2.12-10.1.8.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-http-core_2.12/10.1.8/akka-http-core_2.12-10.1.8.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.typesafe.akka" name="akka-parsing_2.12">
+			<revision name="10.1.8" status="release" pubdate="20190321113641" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://akka.io" extra-info.apiURL="https://doc.akka.io/api/akka-http/10.1.8/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="29">
+				<license name="Apache-2.0" url="https://opensource.org/licenses/Apache-2.0"/>
+				<metadata-artifact status="no" details="" size="3177" time="0" location="/root/.ivy2/cache/com.typesafe.akka/akka-parsing_2.12/ivy-10.1.8.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-parsing_2.12/10.1.8/akka-parsing_2.12-10.1.8.pom"/>
+				<caller organisation="com.typesafe.akka" name="akka-http-core_2.12" conf="compile, runtime" rev="10.1.8" rev-constraint-default="10.1.8" rev-constraint-dynamic="10.1.8" callerrev="10.1.8"/>
+				<artifacts>
+					<artifact name="akka-parsing_2.12" type="jar" ext="jar" status="no" details="" size="971726" time="0" location="/root/.ivy2/cache/com.typesafe.akka/akka-parsing_2.12/jars/akka-parsing_2.12-10.1.8.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-parsing_2.12/10.1.8/akka-parsing_2.12-10.1.8.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-lang.modules" name="scala-parser-combinators_2.12">
+			<revision name="1.1.1" status="release" pubdate="20180609010928" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="22">
+				<license name="BSD 3-clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="no" details="" size="2929" time="0" location="/root/.ivy2/cache/org.scala-lang.modules/scala-parser-combinators_2.12/ivy-1.1.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/modules/scala-parser-combinators_2.12/1.1.1/scala-parser-combinators_2.12-1.1.1.pom"/>
+				<caller organisation="com.typesafe" name="ssl-config-core_2.12" conf="compile, runtime" rev="1.1.1" rev-constraint-default="1.1.1" rev-constraint-dynamic="1.1.1" callerrev="0.3.6"/>
+				<artifacts>
+					<artifact name="scala-parser-combinators_2.12" type="bundle" ext="jar" status="no" details="" size="226573" time="0" location="/root/.ivy2/cache/org.scala-lang.modules/scala-parser-combinators_2.12/bundles/scala-parser-combinators_2.12-1.1.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-lang/modules/scala-parser-combinators_2.12/1.1.1/scala-parser-combinators_2.12-1.1.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.typesafe" name="config">
+			<revision name="1.3.3" status="release" pubdate="20180221140821" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/lightbend/config" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="20">
+				<license name="Apache License, Version 2.0" url="https://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="2874" time="0" location="/root/.ivy2/cache/com.typesafe/config/ivy-1.3.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/config/1.3.3/config-1.3.3.pom"/>
+				<caller organisation="com.typesafe" name="ssl-config-core_2.12" conf="compile, runtime" rev="1.3.3" rev-constraint-default="1.3.3" rev-constraint-dynamic="1.3.3" callerrev="0.3.6"/>
+				<caller organisation="com.typesafe.akka" name="akka-actor_2.12" conf="compile, runtime" rev="1.3.3" rev-constraint-default="1.3.3" rev-constraint-dynamic="1.3.3" callerrev="2.5.22"/>
+				<caller organisation="com.lightbend.akka.grpc" name="akka-grpc-runtime_2.12" conf="default, compile, runtime, master" rev="1.3.3" rev-constraint-default="1.3.3" rev-constraint-dynamic="1.3.3" callerrev="0.6.1"/>
+				<artifacts>
+					<artifact name="config" type="bundle" ext="jar" status="no" details="" size="286090" time="0" location="/root/.ivy2/cache/com.typesafe/config/bundles/config-1.3.3.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/typesafe/config/1.3.3/config-1.3.3.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="io.grpc" name="grpc-netty-shaded">
+			<revision name="1.20.0" status="release" pubdate="20190410005319" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/grpc/grpc-java" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="19">
+				<license name="Apache 2.0" url="https://opensource.org/licenses/Apache-2.0"/>
+				<metadata-artifact status="no" details="" size="2639" time="0" location="/root/.ivy2/cache/io.grpc/grpc-netty-shaded/ivy-1.20.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/grpc/grpc-netty-shaded/1.20.0/grpc-netty-shaded-1.20.0.pom"/>
+				<caller organisation="com.lightbend.akka.grpc" name="akka-grpc-runtime_2.12" conf="default, compile, runtime, master" rev="1.20.0" rev-constraint-default="1.20.0" rev-constraint-dynamic="1.20.0" callerrev="0.6.1"/>
+				<artifacts>
+					<artifact name="grpc-netty-shaded" type="jar" ext="jar" status="no" details="" size="6589122" time="0" location="/root/.ivy2/cache/io.grpc/grpc-netty-shaded/jars/grpc-netty-shaded-1.20.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/grpc/grpc-netty-shaded/1.20.0/grpc-netty-shaded-1.20.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="io.grpc" name="grpc-stub">
+			<revision name="1.20.0" status="release" pubdate="20190410005402" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/grpc/grpc-java" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="35">
+				<license name="Apache 2.0" url="https://opensource.org/licenses/Apache-2.0"/>
+				<metadata-artifact status="no" details="" size="2624" time="0" location="/root/.ivy2/cache/io.grpc/grpc-stub/ivy-1.20.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/grpc/grpc-stub/1.20.0/grpc-stub-1.20.0.pom"/>
+				<caller organisation="com.lightbend.akka" name="akka-stream-alpakka-google-cloud-pub-sub-grpc_2.12" conf="compile, runtime-internal, runtime, optional" rev="1.20.0" rev-constraint-default="1.20.0" rev-constraint-dynamic="1.20.0" callerrev="1.0.1"/>
+				<artifacts>
+					<artifact name="grpc-stub" type="jar" ext="jar" status="no" details="" size="39549" time="0" location="/root/.ivy2/cache/io.grpc/grpc-stub/jars/grpc-stub-1.20.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/grpc/grpc-stub/1.20.0/grpc-stub-1.20.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="io.grpc" name="grpc-core">
+			<revision name="1.20.0" status="release" pubdate="20190410005413" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/grpc/grpc-java" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="8">
+				<license name="Apache 2.0" url="https://opensource.org/licenses/Apache-2.0"/>
+				<metadata-artifact status="no" details="" size="4880" time="0" location="/root/.ivy2/cache/io.grpc/grpc-core/ivy-1.20.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/grpc/grpc-core/1.20.0/grpc-core-1.20.0.pom"/>
+				<caller organisation="io.grpc" name="grpc-auth" conf="default, compile, runtime, master" rev="1.20.0" rev-constraint-default="1.20.0" rev-constraint-dynamic="1.20.0" callerrev="1.20.0"/>
+				<caller organisation="io.grpc" name="grpc-stub" conf="default, compile, runtime, master" rev="1.20.0" rev-constraint-default="1.20.0" rev-constraint-dynamic="1.20.0" callerrev="1.20.0"/>
+				<caller organisation="com.lightbend.akka.grpc" name="akka-grpc-runtime_2.12" conf="default, compile, runtime, master" rev="1.20.0" rev-constraint-default="1.20.0" rev-constraint-dynamic="1.20.0" callerrev="0.6.1"/>
+				<caller organisation="io.grpc" name="grpc-netty-shaded" conf="compile, runtime" rev="1.20.0" rev-constraint-default="1.20.0" rev-constraint-dynamic="1.20.0" callerrev="1.20.0"/>
+				<artifacts>
+					<artifact name="grpc-core" type="jar" ext="jar" status="no" details="" size="781156" time="0" location="/root/.ivy2/cache/io.grpc/grpc-core/jars/grpc-core-1.20.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/grpc/grpc-core/1.20.0/grpc-core-1.20.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="io.opencensus" name="opencensus-contrib-grpc-metrics">
+			<revision name="0.19.2" status="release" pubdate="20190207005949" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/census-instrumentation/opencensus-java" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="18">
+				<license name="The Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3347" time="0" location="/root/.ivy2/cache/io.opencensus/opencensus-contrib-grpc-metrics/ivy-0.19.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/opencensus/opencensus-contrib-grpc-metrics/0.19.2/opencensus-contrib-grpc-metrics-0.19.2.pom"/>
+				<caller organisation="io.grpc" name="grpc-core" conf="compile, runtime" rev="0.19.2" rev-constraint-default="0.19.2" rev-constraint-dynamic="0.19.2" callerrev="1.20.0"/>
+				<artifacts>
+					<artifact name="opencensus-contrib-grpc-metrics" type="jar" ext="jar" status="no" details="" size="14961" time="0" location="/root/.ivy2/cache/io.opencensus/opencensus-contrib-grpc-metrics/jars/opencensus-contrib-grpc-metrics-0.19.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/opencensus/opencensus-contrib-grpc-metrics/0.19.2/opencensus-contrib-grpc-metrics-0.19.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="io.opencensus" name="opencensus-api">
+			<revision name="0.19.2" status="release" pubdate="20190207005830" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/census-instrumentation/opencensus-java" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="17">
+				<license name="The Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3158" time="0" location="/root/.ivy2/cache/io.opencensus/opencensus-api/ivy-0.19.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/opencensus/opencensus-api/0.19.2/opencensus-api-0.19.2.pom"/>
+				<caller organisation="io.opencensus" name="opencensus-contrib-http-util" conf="compile, runtime" rev="0.18.0" rev-constraint-default="0.18.0" rev-constraint-dynamic="0.18.0" callerrev="0.18.0"/>
+				<caller organisation="io.opencensus" name="opencensus-contrib-grpc-metrics" conf="compile, runtime" rev="0.19.2" rev-constraint-default="0.19.2" rev-constraint-dynamic="0.19.2" callerrev="0.19.2"/>
+				<caller organisation="io.grpc" name="grpc-core" conf="compile, runtime" rev="0.19.2" rev-constraint-default="0.19.2" rev-constraint-dynamic="0.19.2" callerrev="1.20.0"/>
+				<caller organisation="com.google.http-client" name="google-http-client" conf="compile, runtime" rev="0.18.0" rev-constraint-default="0.18.0" rev-constraint-dynamic="0.18.0" callerrev="1.29.0"/>
+				<artifacts>
+					<artifact name="opencensus-api" type="jar" ext="jar" status="no" details="" size="327600" time="0" location="/root/.ivy2/cache/io.opencensus/opencensus-api/jars/opencensus-api-0.19.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/opencensus/opencensus-api/0.19.2/opencensus-api-0.19.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+			<revision name="0.18.0" evicted="latest-revision" evicted-reason="" downloaded="false" searched="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="-1">
+				<evicted-by rev="0.19.2"/>
+				<caller organisation="io.opencensus" name="opencensus-contrib-http-util" conf="compile, runtime" rev="0.18.0" rev-constraint-default="0.18.0" rev-constraint-dynamic="0.18.0" callerrev="0.18.0"/>
+				<caller organisation="com.google.http-client" name="google-http-client" conf="compile, runtime" rev="0.18.0" rev-constraint-default="0.18.0" rev-constraint-dynamic="0.18.0" callerrev="1.29.0"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.google.j2objc" name="j2objc-annotations">
+			<revision name="1.1" status="release" pubdate="20170118230659" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/google/j2objc/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="16">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3174" time="0" location="/root/.ivy2/cache/com.google.j2objc/j2objc-annotations/ivy-1.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/google/j2objc/j2objc-annotations/1.1/j2objc-annotations-1.1.pom"/>
+				<caller organisation="com.google.guava" name="guava" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="26.0-android"/>
+				<caller organisation="com.google.guava" name="guava" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="27.1-android"/>
+				<caller organisation="com.google.http-client" name="google-http-client" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.29.0"/>
+				<artifacts>
+					<artifact name="j2objc-annotations" type="jar" ext="jar" status="no" details="" size="8782" time="0" location="/root/.ivy2/cache/com.google.j2objc/j2objc-annotations/jars/j2objc-annotations-1.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/google/j2objc/j2objc-annotations/1.1/j2objc-annotations-1.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.checkerframework" name="checker-compat-qual">
+			<revision name="2.5.2" status="release" pubdate="20180601185749" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://checkerframework.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="15">
+				<license name="GNU General Public License, version 2 (GPL2), with the classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
+				<license name="The MIT License" url="http://opensource.org/licenses/MIT"/>
+				<metadata-artifact status="no" details="" size="2833" time="0" location="/root/.ivy2/cache/org.checkerframework/checker-compat-qual/ivy-2.5.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/checkerframework/checker-compat-qual/2.5.2/checker-compat-qual-2.5.2.pom"/>
+				<caller organisation="com.google.guava" name="guava" conf="compile, runtime" rev="2.5.2" rev-constraint-default="2.5.2" rev-constraint-dynamic="2.5.2" callerrev="26.0-android"/>
+				<caller organisation="com.google.guava" name="guava" conf="compile, runtime" rev="2.5.2" rev-constraint-default="2.5.2" rev-constraint-dynamic="2.5.2" callerrev="27.1-android"/>
+				<artifacts>
+					<artifact name="checker-compat-qual" type="jar" ext="jar" status="no" details="" size="5816" time="0" location="/root/.ivy2/cache/org.checkerframework/checker-compat-qual/jars/checker-compat-qual-2.5.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/checkerframework/checker-compat-qual/2.5.2/checker-compat-qual-2.5.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.codehaus.mojo" name="animal-sniffer-annotations">
+			<revision name="1.17" status="release" pubdate="20180622012035" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="14">
+				<license name="MIT license" url="http://www.opensource.org/licenses/mit-license.php"/>
+				<metadata-artifact status="no" details="" size="5135" time="0" location="/root/.ivy2/cache/org.codehaus.mojo/animal-sniffer-annotations/ivy-1.17.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/codehaus/mojo/animal-sniffer-annotations/1.17/animal-sniffer-annotations-1.17.pom"/>
+				<caller organisation="com.google.guava" name="guava" conf="compile, runtime" rev="1.17" rev-constraint-default="1.17" rev-constraint-dynamic="1.17" callerrev="27.1-android"/>
+				<caller organisation="io.grpc" name="grpc-core" conf="compile, runtime" rev="1.17" rev-constraint-default="1.17" rev-constraint-dynamic="1.17" callerrev="1.20.0"/>
+				<artifacts>
+					<artifact name="animal-sniffer-annotations" type="jar" ext="jar" status="no" details="" size="3448" time="0" location="/root/.ivy2/cache/org.codehaus.mojo/animal-sniffer-annotations/jars/animal-sniffer-annotations-1.17.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/codehaus/mojo/animal-sniffer-annotations/1.17/animal-sniffer-annotations-1.17.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.google.android" name="annotations">
+			<revision name="4.1.1.4" status="release" pubdate="20120831233343" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://source.android.com/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="13">
+				<license name="Apache 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="3182" time="0" location="/root/.ivy2/cache/com.google.android/annotations/ivy-4.1.1.4.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/google/android/annotations/4.1.1.4/annotations-4.1.1.4.pom"/>
+				<caller organisation="io.grpc" name="grpc-core" conf="compile, runtime" rev="4.1.1.4" rev-constraint-default="4.1.1.4" rev-constraint-dynamic="4.1.1.4" callerrev="1.20.0"/>
+				<artifacts>
+					<artifact name="annotations" type="jar" ext="jar" status="no" details="" size="3120" time="0" location="/root/.ivy2/cache/com.google.android/annotations/jars/annotations-4.1.1.4.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/google/android/annotations/4.1.1.4/annotations-4.1.1.4.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.google.code.findbugs" name="jsr305">
+			<revision name="3.0.2" status="release" pubdate="20170331045548" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://findbugs.sourceforge.net/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="12">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3268" time="0" location="/root/.ivy2/cache/com.google.code.findbugs/jsr305/ivy-3.0.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.pom"/>
+				<caller organisation="com.google.guava" name="guava" conf="compile, runtime" rev="3.0.2" rev-constraint-default="3.0.2" rev-constraint-dynamic="3.0.2" callerrev="27.1-android"/>
+				<caller organisation="io.grpc" name="grpc-core" conf="compile, runtime" rev="3.0.2" rev-constraint-default="3.0.2" rev-constraint-dynamic="3.0.2" callerrev="1.20.0"/>
+				<caller organisation="com.google.http-client" name="google-http-client" conf="compile, runtime" rev="3.0.2" rev-constraint-default="3.0.2" rev-constraint-dynamic="3.0.2" callerrev="1.29.0"/>
+				<artifacts>
+					<artifact name="jsr305" type="jar" ext="jar" status="no" details="" size="19936" time="0" location="/root/.ivy2/cache/com.google.code.findbugs/jsr305/jars/jsr305-3.0.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.google.errorprone" name="error_prone_annotations">
+			<revision name="2.3.2" status="release" pubdate="20181009223652" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="11">
+				<license name="Apache 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="4182" time="0" location="/root/.ivy2/cache/com.google.errorprone/error_prone_annotations/ivy-2.3.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/google/errorprone/error_prone_annotations/2.3.2/error_prone_annotations-2.3.2.pom"/>
+				<caller organisation="com.google.guava" name="guava" conf="compile, runtime" rev="2.2.0" rev-constraint-default="2.2.0" rev-constraint-dynamic="2.2.0" callerrev="27.1-android"/>
+				<caller organisation="io.grpc" name="grpc-core" conf="compile, runtime" rev="2.3.2" rev-constraint-default="2.3.2" rev-constraint-dynamic="2.3.2" callerrev="1.20.0"/>
+				<artifacts>
+					<artifact name="error_prone_annotations" type="jar" ext="jar" status="no" details="" size="13166" time="0" location="/root/.ivy2/cache/com.google.errorprone/error_prone_annotations/jars/error_prone_annotations-2.3.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/google/errorprone/error_prone_annotations/2.3.2/error_prone_annotations-2.3.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+			<revision name="2.2.0" evicted="latest-revision" evicted-reason="" downloaded="false" searched="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="-1">
+				<evicted-by rev="2.3.2"/>
+				<caller organisation="com.google.guava" name="guava" conf="compile, runtime" rev="2.2.0" rev-constraint-default="2.2.0" rev-constraint-dynamic="2.2.0" callerrev="27.1-android"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.google.code.gson" name="gson">
+			<revision name="2.7" status="release" pubdate="20160614235554" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="10">
+				<license name="Apache 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3503" time="0" location="/root/.ivy2/cache/com.google.code.gson/gson/ivy-2.7.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/google/code/gson/gson/2.7/gson-2.7.pom"/>
+				<caller organisation="io.grpc" name="grpc-core" conf="compile, runtime" rev="2.7" rev-constraint-default="2.7" rev-constraint-dynamic="2.7" callerrev="1.20.0"/>
+				<artifacts>
+					<artifact name="gson" type="jar" ext="jar" status="no" details="" size="231952" time="0" location="/root/.ivy2/cache/com.google.code.gson/gson/jars/gson-2.7.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/google/code/gson/gson/2.7/gson-2.7.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="io.grpc" name="grpc-context">
+			<revision name="1.20.0" status="release" pubdate="20190410005300" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/grpc/grpc-java" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="9">
+				<license name="Apache 2.0" url="https://opensource.org/licenses/Apache-2.0"/>
+				<metadata-artifact status="no" details="" size="2464" time="0" location="/root/.ivy2/cache/io.grpc/grpc-context/ivy-1.20.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/grpc/grpc-context/1.20.0/grpc-context-1.20.0.pom"/>
+				<caller organisation="io.grpc" name="grpc-core" conf="compile, runtime" rev="1.20.0" rev-constraint-default="1.20.0" rev-constraint-dynamic="1.20.0" callerrev="1.20.0"/>
+				<artifacts>
+					<artifact name="grpc-context" type="jar" ext="jar" status="no" details="" size="29016" time="0" location="/root/.ivy2/cache/io.grpc/grpc-context/jars/grpc-context-1.20.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/grpc/grpc-context/1.20.0/grpc-context-1.20.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.thesamet.scalapb" name="scalapb-runtime_2.12">
+			<revision name="0.8.4" status="release" pubdate="20190117034743" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/scalapb/ScalaPB" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="1">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3742" time="0" location="/root/.ivy2/cache/com.thesamet.scalapb/scalapb-runtime_2.12/ivy-0.8.4.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/thesamet/scalapb/scalapb-runtime_2.12/0.8.4/scalapb-runtime_2.12-0.8.4.pom"/>
+				<caller organisation="com.lightbend.akka" name="akka-stream-alpakka-google-cloud-pub-sub-grpc_2.12" conf="compile, runtime-internal, runtime, optional" rev="0.8.4" rev-constraint-default="0.8.4" rev-constraint-dynamic="0.8.4" callerrev="1.0.1"/>
+				<caller organisation="com.lightbend.akka.grpc" name="akka-grpc-runtime_2.12" conf="default, compile, runtime, master" rev="0.8.4" rev-constraint-default="0.8.4" rev-constraint-dynamic="0.8.4" callerrev="0.6.1"/>
+				<artifacts>
+					<artifact name="scalapb-runtime_2.12" type="jar" ext="jar" status="no" details="" size="1987396" time="0" location="/root/.ivy2/cache/com.thesamet.scalapb/scalapb-runtime_2.12/jars/scalapb-runtime_2.12-0.8.4.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/thesamet/scalapb/scalapb-runtime_2.12/0.8.4/scalapb-runtime_2.12-0.8.4.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.lihaoyi" name="fastparse_2.12">
+			<revision name="1.0.0" status="release" pubdate="20171014213807" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/lihaoyi/scala-parser" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="3">
+				<license name="MIT license" url="http://www.opensource.org/licenses/mit-license.php"/>
+				<metadata-artifact status="no" details="" size="3523" time="0" location="/root/.ivy2/cache/com.lihaoyi/fastparse_2.12/ivy-1.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/lihaoyi/fastparse_2.12/1.0.0/fastparse_2.12-1.0.0.pom"/>
+				<caller organisation="com.thesamet.scalapb" name="scalapb-runtime_2.12" conf="default, compile, runtime, master" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="0.8.4"/>
+				<artifacts>
+					<artifact name="fastparse_2.12" type="jar" ext="jar" status="no" details="" size="327502" time="0" location="/root/.ivy2/cache/com.lihaoyi/fastparse_2.12/jars/fastparse_2.12-1.0.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/lihaoyi/fastparse_2.12/1.0.0/fastparse_2.12-1.0.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.lihaoyi" name="fastparse-utils_2.12">
+			<revision name="1.0.0" status="release" pubdate="20171014213737" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/lihaoyi/scala-parser" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="4">
+				<license name="MIT license" url="http://www.opensource.org/licenses/mit-license.php"/>
+				<metadata-artifact status="no" details="" size="3391" time="0" location="/root/.ivy2/cache/com.lihaoyi/fastparse-utils_2.12/ivy-1.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/lihaoyi/fastparse-utils_2.12/1.0.0/fastparse-utils_2.12-1.0.0.pom"/>
+				<caller organisation="com.lihaoyi" name="fastparse_2.12" conf="compile, runtime" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="1.0.0"/>
+				<artifacts>
+					<artifact name="fastparse-utils_2.12" type="jar" ext="jar" status="no" details="" size="69262" time="0" location="/root/.ivy2/cache/com.lihaoyi/fastparse-utils_2.12/jars/fastparse-utils_2.12-1.0.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/lihaoyi/fastparse-utils_2.12/1.0.0/fastparse-utils_2.12-1.0.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.lihaoyi" name="sourcecode_2.12">
+			<revision name="0.1.4" status="release" pubdate="20170708234037" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/lihaoyi/sourcecode" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="5">
+				<license name="MIT" url="http://www.opensource.org/licenses/mit-license.html"/>
+				<metadata-artifact status="no" details="" size="2962" time="0" location="/root/.ivy2/cache/com.lihaoyi/sourcecode_2.12/ivy-0.1.4.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/lihaoyi/sourcecode_2.12/0.1.4/sourcecode_2.12-0.1.4.pom"/>
+				<caller organisation="com.lihaoyi" name="fastparse_2.12" conf="compile, runtime" rev="0.1.4" rev-constraint-default="0.1.4" rev-constraint-dynamic="0.1.4" callerrev="1.0.0"/>
+				<caller organisation="com.lihaoyi" name="fastparse-utils_2.12" conf="compile, runtime" rev="0.1.4" rev-constraint-default="0.1.4" rev-constraint-dynamic="0.1.4" callerrev="1.0.0"/>
+				<artifacts>
+					<artifact name="sourcecode_2.12" type="bundle" ext="jar" status="no" details="" size="110958" time="0" location="/root/.ivy2/cache/com.lihaoyi/sourcecode_2.12/bundles/sourcecode_2.12-0.1.4.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/lihaoyi/sourcecode_2.12/0.1.4/sourcecode_2.12-0.1.4.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.thesamet.scalapb" name="lenses_2.12">
+			<revision name="0.8.4" status="release" pubdate="20190117034639" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/scalapb/ScalaPB" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="2">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="2767" time="0" location="/root/.ivy2/cache/com.thesamet.scalapb/lenses_2.12/ivy-0.8.4.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/thesamet/scalapb/lenses_2.12/0.8.4/lenses_2.12-0.8.4.pom"/>
+				<caller organisation="com.thesamet.scalapb" name="scalapb-runtime_2.12" conf="default, compile, runtime, master" rev="0.8.4" rev-constraint-default="0.8.4" rev-constraint-dynamic="0.8.4" callerrev="0.8.4"/>
+				<artifacts>
+					<artifact name="lenses_2.12" type="jar" ext="jar" status="no" details="" size="35283" time="0" location="/root/.ivy2/cache/com.thesamet.scalapb/lenses_2.12/jars/lenses_2.12-0.8.4.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/thesamet/scalapb/lenses_2.12/0.8.4/lenses_2.12-0.8.4.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-lang" name="scala-library">
+			<revision name="2.12.7" status="release" pubdate="20180927083542" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" extra-info.apiURL="http://www.scala-lang.org/api/2.12.7/" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="0">
+				<license name="BSD 3-Clause" url="http://www.scala-lang.org/license.html"/>
+				<metadata-artifact status="no" details="" size="2471" time="0" location="/root/.ivy2/cache/org.scala-lang/scala-library/ivy-2.12.7.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.7/scala-library-2.12.7.pom"/>
+				<caller organisation="com.lightbend.akka" name="akka-stream-alpakka-google-cloud-pub-sub-grpc_2.12" conf="compile, runtime-internal, runtime, optional" rev="2.12.7" rev-constraint-default="2.12.7" rev-constraint-dynamic="2.12.7" callerrev="1.0.1"/>
+				<caller organisation="org.scala-lang.modules" name="scala-parser-combinators_2.12" conf="compile, runtime" rev="2.12.7" rev-constraint-default="2.12.7" rev-constraint-dynamic="2.12.7" callerrev="1.1.1"/>
+				<caller organisation="com.typesafe.akka" name="akka-parsing_2.12" conf="compile, runtime" rev="2.12.7" rev-constraint-default="2.12.7" rev-constraint-dynamic="2.12.7" callerrev="10.1.8"/>
+				<caller organisation="com.thesamet.scalapb" name="scalapb-runtime_2.12" conf="default, compile, runtime, master" rev="2.12.7" rev-constraint-default="2.12.7" rev-constraint-dynamic="2.12.7" callerrev="0.8.4"/>
+				<caller organisation="org.scala-lang.modules" name="scala-java8-compat_2.12" conf="compile, runtime" rev="2.12.7" rev-constraint-default="2.12.7" rev-constraint-dynamic="2.12.7" callerrev="0.8.0"/>
+				<caller organisation="com.typesafe.akka" name="akka-http_2.12" conf="compile, runtime" rev="2.12.7" rev-constraint-default="2.12.7" rev-constraint-dynamic="2.12.7" callerrev="10.1.8"/>
+				<caller organisation="com.typesafe.akka" name="akka-http2-support_2.12" conf="compile, runtime" rev="2.12.7" rev-constraint-default="2.12.7" rev-constraint-dynamic="2.12.7" callerrev="10.1.8"/>
+				<caller organisation="com.lihaoyi" name="sourcecode_2.12" conf="compile, runtime" rev="2.12.7" rev-constraint-default="2.12.7" rev-constraint-dynamic="2.12.7" callerrev="0.1.4"/>
+				<caller organisation="com.thesamet.scalapb" name="lenses_2.12" conf="compile, runtime" rev="2.12.7" rev-constraint-default="2.12.7" rev-constraint-dynamic="2.12.7" callerrev="0.8.4"/>
+				<caller organisation="com.typesafe.akka" name="akka-http-core_2.12" conf="compile, runtime" rev="2.12.7" rev-constraint-default="2.12.7" rev-constraint-dynamic="2.12.7" callerrev="10.1.8"/>
+				<caller organisation="com.typesafe" name="ssl-config-core_2.12" conf="compile, runtime" rev="2.12.7" rev-constraint-default="2.12.7" rev-constraint-dynamic="2.12.7" callerrev="0.3.6"/>
+				<caller organisation="com.lihaoyi" name="fastparse_2.12" conf="compile, runtime" rev="2.12.7" rev-constraint-default="2.12.7" rev-constraint-dynamic="2.12.7" callerrev="1.0.0"/>
+				<caller organisation="com.typesafe.akka" name="akka-protobuf_2.12" conf="compile, runtime" rev="2.12.7" rev-constraint-default="2.12.7" rev-constraint-dynamic="2.12.7" callerrev="2.5.22"/>
+				<caller organisation="com.lihaoyi" name="fastparse-utils_2.12" conf="compile, runtime" rev="2.12.7" rev-constraint-default="2.12.7" rev-constraint-dynamic="2.12.7" callerrev="1.0.0"/>
+				<caller organisation="com.typesafe.akka" name="akka-discovery_2.12" conf="compile, runtime" rev="2.12.7" rev-constraint-default="2.12.7" rev-constraint-dynamic="2.12.7" callerrev="2.5.20"/>
+				<caller organisation="com.typesafe.akka" name="akka-actor_2.12" conf="compile, runtime" rev="2.12.7" rev-constraint-default="2.12.7" rev-constraint-dynamic="2.12.7" callerrev="2.5.22"/>
+				<caller organisation="com.lightbend.akka.grpc" name="akka-grpc-runtime_2.12" conf="default, compile, runtime, master" rev="2.12.7" rev-constraint-default="2.12.7" rev-constraint-dynamic="2.12.7" callerrev="0.6.1"/>
+				<caller organisation="com.typesafe.akka" name="akka-stream_2.12" conf="compile, runtime" rev="2.12.7" rev-constraint-default="2.12.7" rev-constraint-dynamic="2.12.7" callerrev="2.5.22"/>
+				<artifacts>
+					<artifact name="scala-library" type="jar" ext="jar" status="no" details="" size="5277511" time="0" location="/root/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.12.7.jar">
+						<origin-location is-local="false" location="UNKNOWN"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

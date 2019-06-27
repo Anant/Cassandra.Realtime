@@ -1,0 +1,4 @@
+[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/reference/src/main/scala/akka/stream/alpakka/reference/settings.scala:139:22: private default argument in class Provided is never used[0m
+[0m[[0m[33mwarn[0m] [0m[0m    private def copy(verifier: String => Boolean = verifier) =[0m
+[0m[[0m[33mwarn[0m] [0m[0m                     ^[0m
+[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m

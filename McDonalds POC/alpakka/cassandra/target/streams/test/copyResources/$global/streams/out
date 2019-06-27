@@ -1,0 +1,3 @@
+[0m[[0m[0mdebug[0m] [0m[0mCopy resource mappings: [0m
+[0m[[0m[0mdebug[0m] [0m[0m	(/root/alpakka/cassandra/src/test/resources/application.conf,/root/alpakka/cassandra/target/scala-2.12/test-classes/application.conf)[0m
+[0m[[0m[0mdebug[0m] [0m[0m	(/root/alpakka/cassandra/src/test/resources/logback-test.xml,/root/alpakka/cassandra/target/scala-2.12/test-classes/logback-test.xml)[0m

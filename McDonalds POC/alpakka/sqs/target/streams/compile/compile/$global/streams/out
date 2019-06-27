@@ -1,0 +1,13 @@
+[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/sqs/src/main/scala/akka/stream/alpakka/sqs/SqsAckBatchSettings.scala:13:20: private default argument in class SqsAckBatchSettings is never used[0m
+[0m[[0m[33mwarn[0m] [0m[0m  private def copy(concurrentRequests: Int = concurrentRequests): SqsAckBatchSettings =[0m
+[0m[[0m[33mwarn[0m] [0m[0m                   ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/sqs/src/main/scala/akka/stream/alpakka/sqs/SqsAckSettings.scala:13:20: private default argument in class SqsAckSettings is never used[0m
+[0m[[0m[33mwarn[0m] [0m[0m  private def copy(maxInFlight: Int = maxInFlight): SqsAckSettings =[0m
+[0m[[0m[33mwarn[0m] [0m[0m                   ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/sqs/src/main/scala/akka/stream/alpakka/sqs/SqsPublishBatchSettings.scala:11:20: private default argument in class SqsPublishBatchSettings is never used[0m
+[0m[[0m[33mwarn[0m] [0m[0m  private def copy(concurrentRequests: Int = concurrentRequests): SqsPublishBatchSettings =[0m
+[0m[[0m[33mwarn[0m] [0m[0m                   ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/sqs/src/main/scala/akka/stream/alpakka/sqs/SqsPublishSettings.scala:12:20: private default argument in class SqsPublishSettings is never used[0m
+[0m[[0m[33mwarn[0m] [0m[0m  private def copy(maxInFlight: Int = maxInFlight) = new SqsPublishSettings(maxInFlight)[0m
+[0m[[0m[33mwarn[0m] [0m[0m                   ^[0m
+[0m[[0m[33mwarn[0m] [0m[0mfour warnings found[0m

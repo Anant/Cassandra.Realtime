@@ -1,0 +1,1123 @@
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/file/src/main/scala/akka/stream/alpakka/file/javadsl/LogRotatorSink.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.file.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.file.{Path, StandardOpenOption}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.Optional[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.concurrent.CompletionStage[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.Done[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Sink[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.japi.function[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.JavaConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.Future[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.compat.java8.FutureConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.compat.java8.OptionConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Java API.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject LogRotatorSink {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Sink directing the incoming `ByteString`s to new files whenever `triggerGenerator` returns a value.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param triggerGeneratorCreator creates a function that triggers rotation by returning a value[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def createFromFunction([0m
+[0m[[0m[0mdebug[0m] [0m[0m      triggerGeneratorCreator: function.Creator[function.Function[ByteString, Optional[Path]]][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): javadsl.Sink[ByteString, CompletionStage[Done]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new Sink([0m
+[0m[[0m[0mdebug[0m] [0m[0m      akka.stream.alpakka.file.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .LogRotatorSink(asScala(triggerGeneratorCreator))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .toCompletionStage()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Sink directing the incoming `ByteString`s to new files whenever `triggerGenerator` returns a value.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param triggerGeneratorCreator creates a function that triggers rotation by returning a value[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fileOpenOptions file options for file creation[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def createFromFunctionAndOptions([0m
+[0m[[0m[0mdebug[0m] [0m[0m      triggerGeneratorCreator: function.Creator[function.Function[ByteString, Optional[Path]]],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      fileOpenOptions: java.util.Set[StandardOpenOption][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): javadsl.Sink[ByteString, CompletionStage[Done]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new Sink([0m
+[0m[[0m[0mdebug[0m] [0m[0m      akka.stream.alpakka.file.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .LogRotatorSink(asScala(triggerGeneratorCreator), fileOpenOptions.asScala.toSet)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .toCompletionStage()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Sink directing the incoming `ByteString`s to a new `Sink` created by `sinkFactory` whenever `triggerGenerator` returns a value.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param triggerGeneratorCreator creates a function that triggers rotation by returning a value[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param sinkFactory creates sinks for `ByteString`s from the value returned by `triggerGenerator`[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @tparam C criterion type (for files a `Path`)[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @tparam R result type in materialized futures of `sinkFactory`[0m
+[0m[[0m[0mdebug[0m] [0m[0m    **/[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withSinkFactory[C, R]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      triggerGeneratorCreator: function.Creator[function.Function[ByteString, Optional[C]]],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      sinkFactory: function.Function[C, Sink[ByteString, CompletionStage[R]]][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): javadsl.Sink[ByteString, CompletionStage[Done]] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val t: C => scaladsl.Sink[ByteString, Future[R]] = path =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      sinkFactory.apply(path).asScala.mapMaterializedValue(_.toScala)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new Sink([0m
+[0m[[0m[0mdebug[0m] [0m[0m      akka.stream.alpakka.file.scaladsl.LogRotatorSink[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .withSinkFactory(asScala[C](triggerGeneratorCreator), t)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .toCompletionStage()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    )[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def asScala[C]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      f: function.Creator[function.Function[ByteString, Optional[C]]][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): () => ByteString => Option[C] = () => {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val fun = f.create()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    elem =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      fun(elem).asScala[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/file/src/main/scala/akka/stream/alpakka/file/scaladsl/DirectoryChangesSource.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.file.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.file.Path[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.function.BiFunction[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.file.DirectoryChange[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.Source[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.duration.FiniteDuration[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject DirectoryChangesSource {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val tupler = new BiFunction[Path, DirectoryChange, (Path, DirectoryChange)] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    override def apply(t: Path, u: DirectoryChange): (Path, DirectoryChange) = (t, u)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Watch directory and emit changes as a stream of tuples containing the path and type of change.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param directoryPath Directory to watch[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param pollInterval  Interval between polls to the JDK watch service when a push comes in and there was no changes, if[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                      the JDK implementation is slow, it will not help lowering this[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param maxBufferSize Maximum number of buffered directory changes before the stage fails[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(directoryPath: Path,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            pollInterval: FiniteDuration,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            maxBufferSize: Int): Source[(Path, DirectoryChange), NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Source.fromGraph([0m
+[0m[[0m[0mdebug[0m] [0m[0m      new akka.stream.alpakka.file.impl.DirectoryChangesSource(directoryPath, pollInterval, maxBufferSize, tupler)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/file/src/main/scala/akka/stream/alpakka/file/scaladsl/Directory.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.file.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.file.{FileVisitOption, Files, Path}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.{Source, StreamConverters}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.immutable[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject Directory {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * List all files in the given directory[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def ls(directory: Path): Source[Path, NotUsed] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    require(Files.isDirectory(directory), s"Path must be a directory, $directory isn't")[0m
+[0m[[0m[0mdebug[0m] [0m[0m    StreamConverters.fromJavaStream(() => Files.list(directory))[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Recursively list files and directories in the given directory and its subdirectories. Listing is done[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * depth first.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param maxDepth If defined limits the depth of the directory structure to walk through[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fileVisitOptions See `java.nio.files.Files.walk()` for details[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def walk(directory: Path,[0m
+[0m[[0m[0mdebug[0m] [0m[0m           maxDepth: Option[Int] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m           fileVisitOptions: immutable.Seq[FileVisitOption] = Nil): Source[Path, NotUsed] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    require(Files.isDirectory(directory), s"Path must be a directory, $directory isn't")[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val factory = maxDepth match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      case None =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m        () =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          Files.walk(directory, fileVisitOptions: _*)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      case Some(maxDepth) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m        () =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          Files.walk(directory, maxDepth, fileVisitOptions: _*)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    StreamConverters.fromJavaStream(factory)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/file/src/main/scala/akka/stream/alpakka/file/scaladsl/LogRotatorSink.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.file.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.file.{OpenOption, Path, StandardOpenOption}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.Done[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.ActorAttributes.SupervisionStrategy[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.Supervision.Decider[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.impl.fusing.MapAsync.{Holder, NotYetThere}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.{FileIO, Sink, Source}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.immutable[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.{ExecutionContext, Future, Promise}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.util.{Failure, Success}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Scala API.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject LogRotatorSink {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Sink directing the incoming `ByteString`s to new files whenever `triggerGenerator` returns a value.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param triggerGeneratorCreator creates a function that triggers rotation by returning a value[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fileOpenOptions file options for file creation[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply([0m
+[0m[[0m[0mdebug[0m] [0m[0m      triggerGeneratorCreator: () => ByteString => Option[Path],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      fileOpenOptions: Set[OpenOption] = Set(StandardOpenOption.APPEND, StandardOpenOption.CREATE)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Sink[ByteString, Future[Done]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Sink.fromGraph([0m
+[0m[[0m[0mdebug[0m] [0m[0m      new LogRotatorSink[Path, IOResult](triggerGeneratorCreator, sinkFactory = FileIO.toPath(_, fileOpenOptions))[0m
+[0m[[0m[0mdebug[0m] [0m[0m    )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Sink directing the incoming `ByteString`s to a new `Sink` created by `sinkFactory` whenever `triggerGenerator` returns a value.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param triggerGeneratorCreator creates a function that triggers rotation by returning a value[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param sinkFactory creates sinks for `ByteString`s from the value returned by `triggerGenerator`[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @tparam C criterion type (for files a `Path`)[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @tparam R result type in materialized futures of `sinkFactory`[0m
+[0m[[0m[0mdebug[0m] [0m[0m   **/[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withSinkFactory[C, R]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      triggerGeneratorCreator: () => ByteString => Option[C],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      sinkFactory: C => Sink[ByteString, Future[R]][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Sink[ByteString, Future[Done]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Sink.fromGraph(new LogRotatorSink[C, R](triggerGeneratorCreator, sinkFactory))[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * "Log Rotator Sink" graph stage[0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * @param triggerGeneratorCreator creates a function that triggers rotation by returning a value[0m
+[0m[[0m[0mdebug[0m] [0m[0m * @param sinkFactory creates sinks for `ByteString`s from the value returned by `triggerGenerator`[0m
+[0m[[0m[0mdebug[0m] [0m[0m * @tparam C criterion type (for files a `Path`)[0m
+[0m[[0m[0mdebug[0m] [0m[0m * @tparam R result type in materialized futures of `sinkFactory`[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal private class LogRotatorSink[C, R](triggerGeneratorCreator: () => ByteString => Option[C],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                         sinkFactory: C => Sink[ByteString, Future[R]])[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends GraphStageWithMaterializedValue[SinkShape[ByteString], Future[Done]] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val in = Inlet[ByteString]("LogRotatorSink.in")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override val shape = SinkShape.of(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def createLogicAndMaterializedValue(inheritedAttributes: Attributes): (GraphStageLogic, Future[Done]) = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val promise = Promise[Done]()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val decider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      inheritedAttributes.get[SupervisionStrategy].map(_.decider).getOrElse(Supervision.stoppingDecider)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val logic = new Logic(promise, decider)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    (logic, promise.future)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final class Logic(promise: Promise[Done], decider: Decider) extends GraphStageLogic(shape) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val triggerGenerator: ByteString => Option[C] = triggerGeneratorCreator()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    var sourceOut: SubSourceOutlet[ByteString] = _[0m
+[0m[[0m[0mdebug[0m] [0m[0m    var sinkCompletions: immutable.Seq[Future[R]] = immutable.Seq.empty[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def failThisStage(ex: Throwable): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (!promise.isCompleted) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (sourceOut != null) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          sourceOut.fail(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        cancel(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        promise.failure(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def checkTrigger(data: ByteString): Option[C] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        triggerGenerator(data)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      } catch {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case ex: Throwable =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          failThisStage(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          None[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def sinkCompletionCallbackHandler(future: Future[R])(h: Holder[R]): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      h.elem match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case Success(IOResult(_, Failure(ex))) if decider(ex) == Supervision.Stop =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          promise.failure(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case Success(x) if sinkCompletions.size == 1 && sinkCompletions.head == future =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          promise.trySuccess(Done)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          completeStage()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case x: Success[R] =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          sinkCompletions = sinkCompletions.filter(_ != future)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case Failure(ex) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          failThisStage(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    //init stage where we are waiting for the first path[0m
+[0m[[0m[0mdebug[0m] [0m[0m    setHandler([0m
+[0m[[0m[0mdebug[0m] [0m[0m      in,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      new InHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        override def onPush(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          val data = grab(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          checkTrigger(data) match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case None => if (!isClosed(in)) pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case Some(triggerValue) => rotate(triggerValue, data)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        override def onUpstreamFinish(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          promise.trySuccess(Done)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          completeStage()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        override def onUpstreamFailure(ex: Throwable): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m          failThisStage(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    //we must pull the first element cos we are a sink[0m
+[0m[[0m[0mdebug[0m] [0m[0m    override def preStart(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      super.preStart()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def futureCB(newFuture: Future[R]) =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      getAsyncCallback[Holder[R]](sinkCompletionCallbackHandler(newFuture))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    //we recreate the tail of the stream, and emit the data for the next req[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def rotate(triggerValue: C, data: ByteString): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val prevOut = Option(sourceOut)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      sourceOut = new SubSourceOutlet[ByteString]("LogRotatorSink.sub-out")[0m
+[0m[[0m[0mdebug[0m] [0m[0m      sourceOut.setHandler(new OutHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        override def onPull(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          sourceOut.push(data)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          switchToNormalMode()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      })[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val newFuture = Source[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .fromGraph(sourceOut.source)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .runWith(sinkFactory(triggerValue))(interpreter.subFusingMaterializer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      sinkCompletions = sinkCompletions :+ newFuture[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val holder = new Holder[R](NotYetThere, futureCB(newFuture))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      newFuture.onComplete(holder)([0m
+[0m[[0m[0mdebug[0m] [0m[0m        akka.dispatch.ExecutionContexts.sameThreadExecutionContext[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      prevOut.foreach(_.complete())[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    //we change path if needed or push the grabbed data[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def switchToNormalMode(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      setHandler([0m
+[0m[[0m[0mdebug[0m] [0m[0m        in,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        new InHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onPush(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            val data = grab(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            checkTrigger(data) match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              case None => sourceOut.push(data)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              case Some(triggerValue) => rotate(triggerValue, data)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onUpstreamFinish(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            implicit val executionContext: ExecutionContext =[0m
+[0m[[0m[0mdebug[0m] [0m[0m              akka.dispatch.ExecutionContexts.sameThreadExecutionContext[0m
+[0m[[0m[0mdebug[0m] [0m[0m            promise.completeWith(Future.sequence(sinkCompletions).map(_ => Done))[0m
+[0m[[0m[0mdebug[0m] [0m[0m            sourceOut.complete()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onUpstreamFailure(ex: Throwable): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m            failThisStage(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      sourceOut.setHandler(new OutHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        override def onPull(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m          pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      })[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/file/src/main/scala/akka/stream/alpakka/file/scaladsl/FileTailSource.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.file.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.charset.{Charset, StandardCharsets}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.file.Path[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.Source[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.duration.FiniteDuration[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Scala API:[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Factory methods for the `FileTailSource`[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject FileTailSource {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: Read the entire contents of a file, and then when the end is reached, keep reading[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * newly appended data. Like the unix command `tail -f`.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Aborting the stage can be done by combining with a [[akka.stream.KillSwitch]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param path             a file path to tail[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param maxChunkSize     The max emitted size of the `ByteString`s[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param startingPosition Offset into the file to start reading[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param pollingInterval  When the end has been reached, look for new content with this interval[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(path: Path,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            maxChunkSize: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            startingPosition: Long,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            pollingInterval: FiniteDuration): Source[ByteString, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Source.fromGraph([0m
+[0m[[0m[0mdebug[0m] [0m[0m      new akka.stream.alpakka.file.impl.FileTailSource(path, maxChunkSize, startingPosition, pollingInterval)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: Read the entire contents of a file as text lines, and then when the end is reached, keep reading[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * newly appended data. Like the unix command `tail -f`.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * If a line is longer than `maxChunkSize` the stream will fail.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Aborting the stage can be done by combining with a [[akka.stream.KillSwitch]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param path            a file path to tail[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param maxLineSize     The max emitted size of the `ByteString`s[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param pollingInterval When the end has been reached, look for new content with this interval[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param lf              The character or characters used as line separator, default is fetched from OS[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param charset         The charset of the file, defaults to UTF-8[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def lines(path: Path,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            maxLineSize: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            pollingInterval: FiniteDuration,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            lf: String = System.getProperty("line.separator"),[0m
+[0m[[0m[0mdebug[0m] [0m[0m            charset: Charset = StandardCharsets.UTF_8): Source[String, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    apply(path, maxLineSize, 0, pollingInterval)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .via(akka.stream.scaladsl.Framing.delimiter(ByteString.fromString(lf, charset.name), maxLineSize, false))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .map(_.decodeString(charset))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/file/src/main/java/akka/stream/alpakka/file/javadsl/Directory.java[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.file.javadsl;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Source;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.StreamConverters;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.file.FileVisitOption;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.file.Files;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.file.Path;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpublic final class Directory {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** List all files in the given directory */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static Source<Path, NotUsed> ls(Path directory) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return akka.stream.alpakka.file.scaladsl.Directory.ls(directory).asJava();[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Recursively list files and directories in the given directory, depth first. */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static Source<Path, NotUsed> walk(Path directory) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return StreamConverters.fromJavaStream(() -> Files.walk(directory));[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Recursively list files and directories in the given directory, depth first, with a maximum[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * directory depth limit and a possibly set of options (See {@link java.nio.file.Files#walk} for[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * details.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static Source<Path, NotUsed> walk([0m
+[0m[[0m[0mdebug[0m] [0m[0m      Path directory, int maxDepth, FileVisitOption... options) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return StreamConverters.fromJavaStream(() -> Files.walk(directory, maxDepth, options));[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/file/src/main/java/akka/stream/alpakka/file/javadsl/FileTailSource.java[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.file.javadsl;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Framing;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Source;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.JavaDurationConverters;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.duration.FiniteDuration;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.charset.Charset;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.charset.StandardCharsets;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.file.Path;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * <p>Read the entire contents of a file, and then when the end is reached, keep reading newly[0m
+[0m[[0m[0mdebug[0m] [0m[0m * appended data. Like the unix command `tail -f`.[0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * <p>Aborting the stage can be done by combining with a [[akka.stream.KillSwitch]][0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * <p>To use the stage from Scala see the factory methods in {@link[0m
+[0m[[0m[0mdebug[0m] [0m[0m * akka.stream.alpakka.file.scaladsl.FileTailSource}[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mpublic final class FileTailSource {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Read the entire contents of a file as chunks of bytes and when the end is reached, keep reading[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * newly appended data. Like the unix command `tail -f` but for bytes.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * <p>Reading text lines can be done with the `createLines` factory methods or by composing with[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * other stages manually depending on your needs. Aborting the stage can be done by combining with[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * a [[akka.stream.KillSwitch]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param path a file path to tail[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param maxChunkSize The max emitted size of the `ByteString`s[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param startingPosition Offset into the file to start reading[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param pollingInterval When the end has been reached, look for new content with this interval[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @deprecated use method taking `java.time.Duration` instead[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @Deprecated[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static Source<ByteString, NotUsed> create([0m
+[0m[[0m[0mdebug[0m] [0m[0m      Path path, int maxChunkSize, long startingPosition, FiniteDuration pollingInterval) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return Source.fromGraph([0m
+[0m[[0m[0mdebug[0m] [0m[0m        new akka.stream.alpakka.file.impl.FileTailSource([0m
+[0m[[0m[0mdebug[0m] [0m[0m            path, maxChunkSize, startingPosition, pollingInterval));[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Read the entire contents of a file as chunks of bytes and when the end is reached, keep reading[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * newly appended data. Like the unix command `tail -f` but for bytes.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * <p>Reading text lines can be done with the `createLines` factory methods or by composing with[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * other stages manually depending on your needs. Aborting the stage can be done by combining with[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * a [[akka.stream.KillSwitch]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param path a file path to tail[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param maxChunkSize The max emitted size of the `ByteString`s[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param startingPosition Offset into the file to start reading[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param pollingInterval When the end has been reached, look for new content with this interval[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static Source<ByteString, NotUsed> create([0m
+[0m[[0m[0mdebug[0m] [0m[0m      Path path, int maxChunkSize, long startingPosition, java.time.Duration pollingInterval) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return Source.fromGraph([0m
+[0m[[0m[0mdebug[0m] [0m[0m        new akka.stream.alpakka.file.impl.FileTailSource([0m
+[0m[[0m[0mdebug[0m] [0m[0m            path,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            maxChunkSize,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            startingPosition,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            JavaDurationConverters.asFiniteDuration(pollingInterval)));[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Read the entire contents of a file as text lines, and then when the end is reached, keep[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * reading newly appended data. Like the unix command `tail -f`.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * <p>If a line is longer than `maxChunkSize` the stream will fail.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * <p>Aborting the stage can be done by combining with a [[akka.stream.KillSwitch]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param path a file path to tail[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param maxLineSize The max emitted size of the `ByteString`s[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param pollingInterval When the end has been reached, look for new content with this interval[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param lf The character or characters used as line separator[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param charset The charset of the file[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @deprecated use method taking `java.time.Duration` instead[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @Deprecated[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static Source<String, NotUsed> createLines([0m
+[0m[[0m[0mdebug[0m] [0m[0m      Path path, int maxLineSize, FiniteDuration pollingInterval, String lf, Charset charset) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return create(path, maxLineSize, 0, pollingInterval)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .via(Framing.delimiter(ByteString.fromString(lf, charset.name()), maxLineSize))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .map(bytes -> bytes.decodeString(charset));[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Read the entire contents of a file as text lines, and then when the end is reached, keep[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * reading newly appended data. Like the unix command `tail -f`.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * <p>If a line is longer than `maxChunkSize` the stream will fail.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * <p>Aborting the stage can be done by combining with a [[akka.stream.KillSwitch]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param path a file path to tail[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param maxLineSize The max emitted size of the `ByteString`s[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param pollingInterval When the end has been reached, look for new content with this interval[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param lf The character or characters used as line separator[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param charset The charset of the file[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static Source<String, NotUsed> createLines([0m
+[0m[[0m[0mdebug[0m] [0m[0m      Path path, int maxLineSize, java.time.Duration pollingInterval, String lf, Charset charset) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return create(path, maxLineSize, 0, pollingInterval)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .via(Framing.delimiter(ByteString.fromString(lf, charset.name()), maxLineSize))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .map(bytes -> bytes.decodeString(charset));[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Same as {@link #createLines(Path, int, java.time.Duration, String, Charset)} but using the OS[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * default line separator and UTF-8 for charset[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static Source<String, NotUsed> createLines([0m
+[0m[[0m[0mdebug[0m] [0m[0m      Path path, int maxChunkSize, FiniteDuration pollingInterval) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return createLines([0m
+[0m[[0m[0mdebug[0m] [0m[0m        path,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        maxChunkSize,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        pollingInterval,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        System.getProperty("line.separator"),[0m
+[0m[[0m[0mdebug[0m] [0m[0m        StandardCharsets.UTF_8);[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Same as {@link #createLines(Path, int, java.time.Duration, String, Charset)} but using the OS[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * default line separator and UTF-8 for charset[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static Source<String, NotUsed> createLines([0m
+[0m[[0m[0mdebug[0m] [0m[0m      Path path, int maxChunkSize, java.time.Duration pollingInterval) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return createLines([0m
+[0m[[0m[0mdebug[0m] [0m[0m        path,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        maxChunkSize,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        pollingInterval,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        System.getProperty("line.separator"),[0m
+[0m[[0m[0mdebug[0m] [0m[0m        StandardCharsets.UTF_8);[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/file/src/main/java/akka/stream/alpakka/file/javadsl/DirectoryChangesSource.java[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.file.javadsl;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.japi.Pair;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.file.DirectoryChange;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Source;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.JavaDurationConverters;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.duration.FiniteDuration;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.file.Path;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Watches a file system directory and streams change events from it.[0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * <p>Note that the JDK watcher is notoriously slow on some platform (up to 1s after event actually[0m
+[0m[[0m[0mdebug[0m] [0m[0m * happened on OSX for example)[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mpublic final class DirectoryChangesSource {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param directoryPath Directory to watch[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param pollInterval Interval between polls to the JDK watch service when a push comes in and[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *     there was no changes, if the JDK implementation is slow, it will not help lowering this[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param maxBufferSize Maximum number of buffered directory changes before the stage fails[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @deprecated Use the method taking `java.time.Duration` instead[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @Deprecated[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @SuppressWarnings("unchecked")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static Source<Pair<Path, DirectoryChange>, NotUsed> create([0m
+[0m[[0m[0mdebug[0m] [0m[0m      Path directoryPath, FiniteDuration pollInterval, int maxBufferSize) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return Source.fromGraph([0m
+[0m[[0m[0mdebug[0m] [0m[0m        new akka.stream.alpakka.file.impl.DirectoryChangesSource([0m
+[0m[[0m[0mdebug[0m] [0m[0m            directoryPath, pollInterval, maxBufferSize, Pair::apply));[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param directoryPath Directory to watch[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param pollInterval Interval between polls to the JDK watch service when a push comes in and[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *     there was no changes, if the JDK implementation is slow, it will not help lowering this[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param maxBufferSize Maximum number of buffered directory changes before the stage fails[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @SuppressWarnings("unchecked")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static Source<Pair<Path, DirectoryChange>, NotUsed> create([0m
+[0m[[0m[0mdebug[0m] [0m[0m      Path directoryPath, java.time.Duration pollInterval, int maxBufferSize) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return Source.fromGraph([0m
+[0m[[0m[0mdebug[0m] [0m[0m        new akka.stream.alpakka.file.impl.DirectoryChangesSource([0m
+[0m[[0m[0mdebug[0m] [0m[0m            directoryPath,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            JavaDurationConverters.asFiniteDuration(pollInterval),[0m
+[0m[[0m[0mdebug[0m] [0m[0m            maxBufferSize,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            Pair::apply));[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/file/src/main/java/akka/stream/alpakka/file/DirectoryChange.java[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.file;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/** Enumeration of the possible changes that can happen to a directory */[0m
+[0m[[0m[0mdebug[0m] [0m[0mpublic enum DirectoryChange {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  Modification,[0m
+[0m[[0m[0mdebug[0m] [0m[0m  Creation,[0m
+[0m[[0m[0mdebug[0m] [0m[0m  Deletion[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/file/src/main/java/akka/stream/alpakka/file/impl/FileTailSource.java[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.file.impl;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.Attributes;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.Outlet;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.SourceShape;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Framing;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Source;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage.*;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.duration.FiniteDuration;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.util.Failure;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.util.Success;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.util.Try;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.io.IOException;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.ByteBuffer;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.channels.AsynchronousFileChannel;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.channels.CompletionHandler;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.charset.Charset;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.charset.StandardCharsets;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.file.Files;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.file.Path;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.file.StandardOpenOption;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * INTERNAL API[0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * <p>Read the entire contents of a file, and then when the end is reached, keep reading newly[0m
+[0m[[0m[0mdebug[0m] [0m[0m * appended data. Like the unix command `tail -f`.[0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * <p>Aborting the stage can be done by combining with a [[akka.stream.KillSwitch]][0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * <p>To use the stage from Scala see the factory methods in {@link[0m
+[0m[[0m[0mdebug[0m] [0m[0m * akka.stream.alpakka.file.scaladsl.FileTailSource}[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mpublic final class FileTailSource extends GraphStage<SourceShape<ByteString>> {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final Path path;[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final int maxChunkSize;[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final long startingPosition;[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final FiniteDuration pollingInterval;[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final Outlet<ByteString> out = Outlet.create("FileTailSource.out");[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final SourceShape<ByteString> shape = SourceShape.of(out);[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  // this is stateless, so can be shared among instances[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private static final CompletionHandler<Integer, AsyncCallback<Try<Integer>>> completionHandler =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      new CompletionHandler<Integer, AsyncCallback<Try<Integer>>>() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        @Override[0m
+[0m[[0m[0mdebug[0m] [0m[0m        public void completed(Integer result, AsyncCallback<Try<Integer>> attachment) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          attachment.invoke(new Success<>(result));[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        @Override[0m
+[0m[[0m[0mdebug[0m] [0m[0m        public void failed(Throwable exc, AsyncCallback<Try<Integer>> attachment) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          attachment.invoke(new Failure<>(exc));[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      };[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public FileTailSource([0m
+[0m[[0m[0mdebug[0m] [0m[0m      Path path, int maxChunkSize, long startingPosition, FiniteDuration pollingInterval) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    this.path = path;[0m
+[0m[[0m[0mdebug[0m] [0m[0m    this.maxChunkSize = maxChunkSize;[0m
+[0m[[0m[0mdebug[0m] [0m[0m    this.startingPosition = startingPosition;[0m
+[0m[[0m[0mdebug[0m] [0m[0m    this.pollingInterval = pollingInterval;[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @Override[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public SourceShape<ByteString> shape() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return shape;[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @Override[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public GraphStageLogic createLogic(Attributes inheritedAttributes) throws IOException {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (!Files.exists(path))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      throw new IllegalArgumentException("Path '" + path + "' does not exist");[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (Files.isDirectory(path))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      throw new IllegalArgumentException("Path '" + path + "' cannot be tailed, it is a directory");[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (!Files.isReadable(path))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      throw new IllegalArgumentException("No read permission for '" + path + "'");[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return new TimerGraphStageLogic(shape) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private final ByteBuffer buffer = ByteBuffer.allocate(maxChunkSize);[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private final AsynchronousFileChannel channel =[0m
+[0m[[0m[0mdebug[0m] [0m[0m          AsynchronousFileChannel.open(path, StandardOpenOption.READ);[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private long position = startingPosition;[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private AsyncCallback<Try<Integer>> chunkCallback;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        setHandler([0m
+[0m[[0m[0mdebug[0m] [0m[0m            out,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            new AbstractOutHandler() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              @Override[0m
+[0m[[0m[0mdebug[0m] [0m[0m              public void onPull() throws Exception {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                doPull();[0m
+[0m[[0m[0mdebug[0m] [0m[0m              }[0m
+[0m[[0m[0mdebug[0m] [0m[0m            });[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      @Override[0m
+[0m[[0m[0mdebug[0m] [0m[0m      public void preStart() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        chunkCallback =[0m
+[0m[[0m[0mdebug[0m] [0m[0m            createAsyncCallback([0m
+[0m[[0m[0mdebug[0m] [0m[0m                (tryInteger) -> {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  if (tryInteger.isSuccess()) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    int readBytes = tryInteger.get();[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    if (readBytes > 0) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      buffer.flip();[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      push(out, ByteString.fromByteBuffer(buffer));[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      position += readBytes;[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      buffer.clear();[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      // hit end, try again in a while[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      scheduleOnce("poll", pollingInterval);[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    failStage(tryInteger.failed().get());[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m                });[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      @Override[0m
+[0m[[0m[0mdebug[0m] [0m[0m      public void onTimer(Object timerKey) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        doPull();[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private void doPull() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        channel.read(buffer, position, chunkCallback, completionHandler);[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      @Override[0m
+[0m[[0m[0mdebug[0m] [0m[0m      public void postStop() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          if (channel.isOpen()) channel.close();[0m
+[0m[[0m[0mdebug[0m] [0m[0m        } catch (Exception ex) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          // Remove when #21168 is fixed[0m
+[0m[[0m[0mdebug[0m] [0m[0m          throw new RuntimeException(ex);[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    };[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/file/src/main/java/akka/stream/alpakka/file/impl/DirectoryChangesSource.java[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.file.impl;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.japi.Pair;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.Attributes;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.Outlet;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.SourceShape;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.file.DirectoryChange;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Source;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage.AbstractOutHandler;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage.GraphStage;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage.GraphStageLogic;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage.TimerGraphStageLogic;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.sun.nio.file.SensitivityWatchEventModifier;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.duration.FiniteDuration;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.io.IOException;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.file.*;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.ArrayDeque;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.Queue;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.function.BiFunction;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport static java.nio.file.StandardWatchEventKinds.*;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * INTERNAL API[0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * <p>Watches a file system directory and streams change events from it.[0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * <p>Note that the JDK watcher is notoriously slow on some platform (up to 1s after event actually[0m
+[0m[[0m[0mdebug[0m] [0m[0m * happened on OSX for example)[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mpublic final class DirectoryChangesSource<T> extends GraphStage<SourceShape<T>> {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private static final Attributes DEFAULT_ATTRIBUTES = Attributes.name("DirectoryChangesSource");[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final Path directoryPath;[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final FiniteDuration pollInterval;[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final int maxBufferSize;[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final BiFunction<Path, DirectoryChange, T> combiner;[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public final Outlet<T> out = Outlet.create("DirectoryChangesSource.out");[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final SourceShape<T> shape = SourceShape.of(out);[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param directoryPath Directory to watch[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param pollInterval Interval between polls to the JDK watch service when a push comes in and[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *     there was no changes, if the JDK implementation is slow, it will not help lowering this[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param maxBufferSize Maximum number of buffered directory changes before the stage fails[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param combiner A function that combines a Path and a DirectoryChange into an element that will[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *     be emitted downstream[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public DirectoryChangesSource([0m
+[0m[[0m[0mdebug[0m] [0m[0m      Path directoryPath,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      FiniteDuration pollInterval,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      int maxBufferSize,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      BiFunction<Path, DirectoryChange, T> combiner) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    this.directoryPath = directoryPath;[0m
+[0m[[0m[0mdebug[0m] [0m[0m    this.pollInterval = pollInterval;[0m
+[0m[[0m[0mdebug[0m] [0m[0m    this.maxBufferSize = maxBufferSize;[0m
+[0m[[0m[0mdebug[0m] [0m[0m    this.combiner = combiner;[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @Override[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public SourceShape<T> shape() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return shape;[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @Override[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public Attributes initialAttributes() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return DEFAULT_ATTRIBUTES;[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @Override[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public GraphStageLogic createLogic(Attributes inheritedAttributes) throws IOException {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (!Files.exists(directoryPath))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      throw new IllegalArgumentException("The path: '" + directoryPath + "' does not exist");[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (!Files.isDirectory(directoryPath))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      throw new IllegalArgumentException("The path '" + directoryPath + "' is not a directory");[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return new TimerGraphStageLogic(shape) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private final Queue<T> buffer = new ArrayDeque<>();[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private final WatchService service = directoryPath.getFileSystem().newWatchService();[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private final WatchKey watchKey =[0m
+[0m[[0m[0mdebug[0m] [0m[0m          directoryPath.register([0m
+[0m[[0m[0mdebug[0m] [0m[0m              service,[0m
+[0m[[0m[0mdebug[0m] [0m[0m              new WatchEvent.Kind<?>[] {ENTRY_CREATE, ENTRY_MODIFY, ENTRY_DELETE, OVERFLOW},[0m
+[0m[[0m[0mdebug[0m] [0m[0m              // this is com.sun internal, but the service is useless on OSX without it[0m
+[0m[[0m[0mdebug[0m] [0m[0m              SensitivityWatchEventModifier.HIGH);[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        setHandler([0m
+[0m[[0m[0mdebug[0m] [0m[0m            out,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            new AbstractOutHandler() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m              @Override[0m
+[0m[[0m[0mdebug[0m] [0m[0m              public void onPull() throws Exception {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                if (!buffer.isEmpty()) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  pushHead();[0m
+[0m[[0m[0mdebug[0m] [0m[0m                } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  doPoll();[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  if (!buffer.isEmpty()) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    pushHead();[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    schedulePoll();[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m                }[0m
+[0m[[0m[0mdebug[0m] [0m[0m              }[0m
+[0m[[0m[0mdebug[0m] [0m[0m            });[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      @Override[0m
+[0m[[0m[0mdebug[0m] [0m[0m      public void onTimer(Object timerKey) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (!isClosed(out)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          doPoll();[0m
+[0m[[0m[0mdebug[0m] [0m[0m          if (!buffer.isEmpty()) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            pushHead();[0m
+[0m[[0m[0mdebug[0m] [0m[0m          } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            schedulePoll();[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      @Override[0m
+[0m[[0m[0mdebug[0m] [0m[0m      public void postStop() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          if (watchKey.isValid()) watchKey.cancel();[0m
+[0m[[0m[0mdebug[0m] [0m[0m          service.close();[0m
+[0m[[0m[0mdebug[0m] [0m[0m        } catch (Exception ex) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          // Remove when #21168 is in a release[0m
+[0m[[0m[0mdebug[0m] [0m[0m          throw new RuntimeException(ex);[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private void pushHead() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        final T head = buffer.poll();[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (head != null) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          push(out, head);[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private void schedulePoll() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        scheduleOnce("poll", pollInterval);[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private void doPoll() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          for (WatchEvent<?> event : watchKey.pollEvents()) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            final WatchEvent.Kind<?> kind = event.kind();[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m            if (OVERFLOW.equals(kind)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              // overflow means that some file system change events may have been missed,[0m
+[0m[[0m[0mdebug[0m] [0m[0m              // that may be ok for some scenarios but to make sure it does not pass unnoticed we[0m
+[0m[[0m[0mdebug[0m] [0m[0m              // fail the stage[0m
+[0m[[0m[0mdebug[0m] [0m[0m              failStage([0m
+[0m[[0m[0mdebug[0m] [0m[0m                  new RuntimeException("Overflow from watch service: '" + directoryPath + "'"));[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m            } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              // if it's not an overflow it must be a Path event[0m
+[0m[[0m[0mdebug[0m] [0m[0m              @SuppressWarnings("unchecked")[0m
+[0m[[0m[0mdebug[0m] [0m[0m              final Path path = (Path) event.context();[0m
+[0m[[0m[0mdebug[0m] [0m[0m              final Path absolutePath = directoryPath.resolve(path);[0m
+[0m[[0m[0mdebug[0m] [0m[0m              final DirectoryChange change = kindToChange(kind);[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m              buffer.add(combiner.apply(absolutePath, change));[0m
+[0m[[0m[0mdebug[0m] [0m[0m              if (buffer.size() > maxBufferSize) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                failStage([0m
+[0m[[0m[0mdebug[0m] [0m[0m                    new RuntimeException([0m
+[0m[[0m[0mdebug[0m] [0m[0m                        "Max event buffer size " + maxBufferSize + " reached for $path"));[0m
+[0m[[0m[0mdebug[0m] [0m[0m              }[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        } finally {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          if (!watchKey.reset()) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            // directory no longer accessible[0m
+[0m[[0m[0mdebug[0m] [0m[0m            completeStage();[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      // convert from the parametrized API to our much nicer API enum[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private DirectoryChange kindToChange(WatchEvent.Kind<?> kind) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        final DirectoryChange change;[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (kind.equals(ENTRY_CREATE)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          change = DirectoryChange.Creation;[0m
+[0m[[0m[0mdebug[0m] [0m[0m        } else if (kind.equals(ENTRY_DELETE)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          change = DirectoryChange.Deletion;[0m
+[0m[[0m[0mdebug[0m] [0m[0m        } else if (kind.equals(ENTRY_MODIFY)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          change = DirectoryChange.Modification;[0m
+[0m[[0m[0mdebug[0m] [0m[0m        } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          throw new RuntimeException([0m
+[0m[[0m[0mdebug[0m] [0m[0m              "Unexpected kind of event gotten from watch service for path '"[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  + directoryPath[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  + "': "[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  + kind);[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        return change;[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    };[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @Override[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public String toString() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return "DirectoryChangesSource(" + directoryPath + ')';[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  // factory methods[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param directoryPath Directory to watch[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param pollInterval Interval between polls to the JDK watch service when a push comes in and[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *     there was no changes, if the JDK implementation is slow, it will not help lowering this[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param maxBufferSize Maximum number of buffered directory changes before the stage fails[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @SuppressWarnings("unchecked")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static Source<Pair<Path, DirectoryChange>, NotUsed> create([0m
+[0m[[0m[0mdebug[0m] [0m[0m      Path directoryPath, FiniteDuration pollInterval, int maxBufferSize) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return Source.fromGraph([0m
+[0m[[0m[0mdebug[0m] [0m[0m        new DirectoryChangesSource(directoryPath, pollInterval, maxBufferSize, Pair::apply));[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m

@@ -1,0 +1,4 @@
+[0m[[0m[0mdebug[0m] [0m[0mCopy resource mappings: [0m
+[0m[[0m[0mdebug[0m] [0m[0m	(/root/alpakka/spring-web/src/main/resources/META-INF,/root/alpakka/spring-web/target/scala-2.12/classes/META-INF)[0m
+[0m[[0m[0mdebug[0m] [0m[0m	(/root/alpakka/spring-web/src/main/resources/META-INF/spring.factories,/root/alpakka/spring-web/target/scala-2.12/classes/META-INF/spring.factories)[0m
+[0m[[0m[0mdebug[0m] [0m[0m	(/root/alpakka/spring-web/src/main/resources/META-INF/spring-configuration-metadata.json,/root/alpakka/spring-web/target/scala-2.12/classes/META-INF/spring-configuration-metadata.json)[0m

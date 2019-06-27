@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="com.lightbend.akka"
+		module="akka-stream-alpakka-csv-bench_2.12"
+		revision="1.0.2+9-47a1c193+20190614-1349"
+		extra-info.apiURL="https://doc.akka.io/api/alpakka/1.0.2+9-47a1c193+20190614-1349/akka/stream/alpakka/index.html"
+		conf="optional"
+		confs="compile, runtime, test, provided, optional, jmh, protobuf, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool"
+		date="20190614151114"/>
+	<dependencies>
+	</dependencies>
+</ivy-report>

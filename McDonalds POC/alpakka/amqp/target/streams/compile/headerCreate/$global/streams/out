@@ -1,0 +1,2019 @@
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/amqp/src/main/scala/akka/stream/alpakka/amqp/javadsl/AmqpSink.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.amqp.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.concurrent.CompletionStage[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.compat.java8.FutureConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.Done[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.amqp._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject AmqpSink {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: Creates an [[AmqpSink]] that accepts [[akka.stream.alpakka.amqp.WriteMessage WriteMessage]] elements.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * This stage materializes to a CompletionStage<Done>, which can be used to know when the Sink completes, either normally[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * or because of an amqp failure[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(settings: AmqpWriteSettings): akka.stream.javadsl.Sink[WriteMessage, CompletionStage[Done]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    akka.stream.alpakka.amqp.scaladsl.AmqpSink(settings).mapMaterializedValue(f => f.toJava).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API:[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Connects to an AMQP server upon materialization and sends incoming messages to the server.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Each materialized sink will create one connection to the broker. This stage sends messages to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * the queue named in the replyTo options of the message instead of from settings declared at construction.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * This stage materializes to a `CompletionStage<Done>`, which can be used to know when the Sink completes, either normally[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * or because of an amqp failure.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def createReplyTo([0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: AmqpReplyToSinkSettings[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): akka.stream.javadsl.Sink[WriteMessage, CompletionStage[Done]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    akka.stream.alpakka.amqp.scaladsl.AmqpSink.replyTo(settings).mapMaterializedValue(f => f.toJava).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: Creates an [[AmqpSink]] that accepts `ByteString` elements.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * This stage materializes to a `CompletionStage<Done>`, which can be used to know when the Sink completes, either normally[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * or because of an amqp failure.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def createSimple(settings: AmqpWriteSettings): akka.stream.javadsl.Sink[ByteString, CompletionStage[Done]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    akka.stream.alpakka.amqp.scaladsl.AmqpSink.simple(settings).mapMaterializedValue(f => f.toJava).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/amqp/src/main/scala/akka/stream/alpakka/amqp/javadsl/AmqpSource.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.amqp.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.amqp.{AmqpSourceSettings, ReadResult}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Source[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject AmqpSource {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: Convenience for "at-most once delivery" semantics. Each message is acked to RabbitMQ[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * before it is emitted downstream.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def atMostOnceSource(settings: AmqpSourceSettings, bufferSize: Int): Source[ReadResult, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    akka.stream.alpakka.amqp.scaladsl.AmqpSource[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .atMostOnceSource(settings, bufferSize)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API:[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * The `committableSource` makes it possible to commit (ack/nack) messages to RabbitMQ.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * This is useful when "at-least once delivery" is desired, as each message will likely be[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * delivered one time but in failure cases could be duplicated.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * If you commit the offset before processing the message you get "at-most once delivery" semantics,[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * and for that there is a [[#atMostOnceSource]].[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Compared to auto-commit, this gives exact control over when a message is considered consumed.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def committableSource(settings: AmqpSourceSettings, bufferSize: Int): Source[CommittableReadResult, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    akka.stream.alpakka.amqp.scaladsl.AmqpSource[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .committableSource(settings, bufferSize)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .map(cm => new CommittableReadResult(cm))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/amqp/src/main/scala/akka/stream/alpakka/amqp/javadsl/CommittableReadResult.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.amqp.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.concurrent.CompletionStage[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.Done[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.amqp.ReadResult[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.amqp.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.compat.java8.FutureConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class CommittableReadResult(cm: scaladsl.CommittableReadResult) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val message: ReadResult = cm.message[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def ack(): CompletionStage[Done] = ack(false)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def ack(multiple: Boolean): CompletionStage[Done] = cm.ack(multiple).toJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def nack(): CompletionStage[Done] = nack(false, true)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def nack(multiple: Boolean, requeue: Boolean): CompletionStage[Done] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    cm.nack(multiple, requeue).toJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/amqp/src/main/scala/akka/stream/alpakka/amqp/javadsl/AmqpRpcFlow.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.amqp.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.concurrent.CompletionStage[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.amqp._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Flow[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.compat.java8.FutureConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject AmqpRpcFlow {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API:[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Create an [[https://www.rabbitmq.com/tutorials/tutorial-six-java.html RPC style flow]] for processing and communicating[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * over a rabbitmq message bus. This will create a private queue, and add the reply-to header to messages sent out.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * This stage materializes to a `CompletionStage<String>`, which is the name of the private exclusive queue used for RPC communication.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param repliesPerMessage The number of responses that should be expected for each message placed on the queue.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def createSimple(settings: AmqpWriteSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   repliesPerMessage: Int): Flow[ByteString, ByteString, CompletionStage[String]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    akka.stream.alpakka.amqp.scaladsl.AmqpRpcFlow[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .simple(settings, repliesPerMessage)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .mapMaterializedValue(f => f.toJava)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API:[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Convenience for "at-most once delivery" semantics. Each message is acked to RabbitMQ[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * before its read result is emitted downstream.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def atMostOnceFlow(settings: AmqpWriteSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                     bufferSize: Int): Flow[WriteMessage, ReadResult, CompletionStage[String]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    akka.stream.alpakka.amqp.scaladsl.AmqpRpcFlow[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .atMostOnceFlow(settings, bufferSize)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .mapMaterializedValue(f => f.toJava)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API:[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Convenience for "at-most once delivery" semantics. Each message is acked to RabbitMQ[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * before its read result is emitted downstream.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def atMostOnceFlow(settings: AmqpWriteSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                     bufferSize: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                     repliesPerMessage: Int): Flow[WriteMessage, ReadResult, CompletionStage[String]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    akka.stream.alpakka.amqp.scaladsl.AmqpRpcFlow[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .atMostOnceFlow(settings, bufferSize, repliesPerMessage)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .mapMaterializedValue(f => f.toJava)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API:[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * The `committableFlow` makes it possible to commit (ack/nack) messages to RabbitMQ.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * This is useful when "at-least once delivery" is desired, as each message will likely be[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * delivered one time but in failure cases could be duplicated.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * If you commit the offset before processing the message you get "at-most once delivery" semantics,[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * and for that there is a [[#atMostOnceFlow]].[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Compared to auto-commit, this gives exact control over when a message is considered consumed.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def committableFlow([0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: AmqpWriteSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      bufferSize: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      repliesPerMessage: Int = 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[WriteMessage, CommittableReadResult, CompletionStage[String]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    akka.stream.alpakka.amqp.scaladsl.AmqpRpcFlow[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .committableFlow(settings, bufferSize, repliesPerMessage)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .mapMaterializedValue(f => f.toJava)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .map(cm => new CommittableReadResult(cm))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/amqp/src/main/scala/akka/stream/alpakka/amqp/AmqpConnectorSettings.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.amqp[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.JavaConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.immutable[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0msealed trait AmqpConnectorSettings {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def connectionProvider: AmqpConnectionProvider[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def declarations: immutable.Seq[Declaration][0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0msealed trait AmqpSourceSettings extends AmqpConnectorSettings[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class NamedQueueSourceSettings private ([0m
+[0m[[0m[0mdebug[0m] [0m[0m    val connectionProvider: AmqpConnectionProvider,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val queue: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val declarations: immutable.Seq[Declaration] = immutable.Seq.empty,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val noLocal: Boolean = false,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val exclusive: Boolean = false,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val ackRequired: Boolean = true,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val consumerTag: String = "default",[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val arguments: Map[String, AnyRef] = Map.empty[0m
+[0m[[0m[0mdebug[0m] [0m[0m) extends AmqpSourceSettings {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withDeclaration(declaration: Declaration): NamedQueueSourceSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(declarations = immutable.Seq(declaration))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withDeclarations(declarations: immutable.Seq[Declaration]): NamedQueueSourceSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(declarations = declarations)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withDeclarations(declarations: java.util.List[Declaration]): NamedQueueSourceSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(declarations = declarations.asScala.toIndexedSeq)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withNoLocal(noLocal: Boolean): NamedQueueSourceSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(noLocal = noLocal)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withExclusive(exclusive: Boolean): NamedQueueSourceSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(exclusive = exclusive)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Ack/Nack is required as default. Setting this to false will configure AMQP's `autoAck` so that the[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * server considers messages acknowledged once delivered.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withAckRequired(ackRequired: Boolean): NamedQueueSourceSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(ackRequired = ackRequired)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withConsumerTag(consumerTag: String): NamedQueueSourceSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(consumerTag = consumerTag)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withArguments(arguments: Map[String, AnyRef]): NamedQueueSourceSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(arguments = arguments)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withArguments(arguments: java.util.Map[String, Object]): NamedQueueSourceSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(arguments = arguments.asScala.toMap)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def copy(declarations: immutable.Seq[Declaration] = declarations,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   noLocal: Boolean = noLocal,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   exclusive: Boolean = exclusive,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   ackRequired: Boolean = ackRequired,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   consumerTag: String = consumerTag,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   arguments: Map[String, AnyRef] = arguments) =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new NamedQueueSourceSettings([0m
+[0m[[0m[0mdebug[0m] [0m[0m      connectionProvider,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      queue,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      declarations = declarations,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      noLocal = noLocal,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      exclusive = exclusive,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      ackRequired = ackRequired,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      consumerTag = consumerTag,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      arguments = arguments[0m
+[0m[[0m[0mdebug[0m] [0m[0m    )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString: String =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "NamedQueueSourceSettings(" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"connectionProvider=$connectionProvider, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"queue=$queue, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"declarations=$declarations, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"noLocal=$noLocal, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"exclusive=$exclusive, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"ackRequired=$ackRequired, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"consumerTag=$consumerTag, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"arguments=$arguments" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ")"[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject NamedQueueSourceSettings {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(connectionProvider: AmqpConnectionProvider, queue: String): NamedQueueSourceSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new NamedQueueSourceSettings(connectionProvider, queue)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(connectionProvider: AmqpConnectionProvider, queue: String): NamedQueueSourceSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    NamedQueueSourceSettings(connectionProvider, queue)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class TemporaryQueueSourceSettings private ([0m
+[0m[[0m[0mdebug[0m] [0m[0m    val connectionProvider: AmqpConnectionProvider,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val exchange: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val declarations: immutable.Seq[Declaration] = Nil,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val routingKey: Option[String] = None[0m
+[0m[[0m[0mdebug[0m] [0m[0m) extends AmqpSourceSettings {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withDeclaration(declaration: Declaration): TemporaryQueueSourceSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(declarations = immutable.Seq(declaration))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withDeclarations(declarations: immutable.Seq[Declaration]): TemporaryQueueSourceSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(declarations = declarations)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withDeclarations(declarations: java.util.List[Declaration]): TemporaryQueueSourceSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(declarations = declarations.asScala.toIndexedSeq)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withRoutingKey(routingKey: String): TemporaryQueueSourceSettings = copy(routingKey = Some(routingKey))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def copy(declarations: immutable.Seq[Declaration] = declarations, routingKey: Option[String] = routingKey) =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new TemporaryQueueSourceSettings(connectionProvider, exchange, declarations = declarations, routingKey = routingKey)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString: String =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "TemporaryQueueSourceSettings(" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"connectionProvider=$connectionProvider, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"exchange=$exchange, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"declarations=$declarations, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"routingKey=$routingKey" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ")"[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject TemporaryQueueSourceSettings {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(connectionProvider: AmqpConnectionProvider, exchange: String) =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new TemporaryQueueSourceSettings(connectionProvider, exchange)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(connectionProvider: AmqpConnectionProvider, exchange: String): TemporaryQueueSourceSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    TemporaryQueueSourceSettings(connectionProvider, exchange)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class AmqpReplyToSinkSettings private ([0m
+[0m[[0m[0mdebug[0m] [0m[0m    val connectionProvider: AmqpConnectionProvider,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val failIfReplyToMissing: Boolean = true[0m
+[0m[[0m[0mdebug[0m] [0m[0m) extends AmqpConnectorSettings {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override final val declarations = Nil[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withFailIfReplyToMissing(failIfReplyToMissing: Boolean): AmqpReplyToSinkSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(failIfReplyToMissing = failIfReplyToMissing)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def copy(connectionProvider: AmqpConnectionProvider = connectionProvider, failIfReplyToMissing: Boolean) =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new AmqpReplyToSinkSettings(connectionProvider, failIfReplyToMissing)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString: String =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "AmqpReplyToSinkSettings(" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"connectionProvider=$connectionProvider, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"failIfReplyToMissing=$failIfReplyToMissing" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ")"[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject AmqpReplyToSinkSettings {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(connectionProvider: AmqpConnectionProvider): AmqpReplyToSinkSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new AmqpReplyToSinkSettings(connectionProvider)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(connectionProvider: AmqpConnectionProvider): AmqpReplyToSinkSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    AmqpReplyToSinkSettings(connectionProvider)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class AmqpWriteSettings private ([0m
+[0m[[0m[0mdebug[0m] [0m[0m    val connectionProvider: AmqpConnectionProvider,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val exchange: Option[String] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val routingKey: Option[String] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val declarations: immutable.Seq[Declaration] = Nil[0m
+[0m[[0m[0mdebug[0m] [0m[0m) extends AmqpConnectorSettings {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withExchange(exchange: String): AmqpWriteSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(exchange = Some(exchange))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withRoutingKey(routingKey: String): AmqpWriteSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(routingKey = Some(routingKey))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withDeclaration(declaration: Declaration): AmqpWriteSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(declarations = immutable.Seq(declaration))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withDeclarations(declarations: immutable.Seq[Declaration]): AmqpWriteSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(declarations = declarations)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withDeclarations(declarations: java.util.List[Declaration]): AmqpWriteSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(declarations = declarations.asScala.toIndexedSeq)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def copy(connectionProvider: AmqpConnectionProvider = connectionProvider,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   exchange: Option[String] = exchange,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   routingKey: Option[String] = routingKey,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   declarations: immutable.Seq[Declaration] = declarations) =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new AmqpWriteSettings(connectionProvider, exchange, routingKey, declarations)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString: String =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "AmqpSinkSettings(" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"connectionProvider=$connectionProvider, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"exchange=$exchange, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"routingKey=$routingKey, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"declarations=$declarations" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ")"[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject AmqpWriteSettings {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(connectionProvider: AmqpConnectionProvider): AmqpWriteSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new AmqpWriteSettings(connectionProvider)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(connectionProvider: AmqpConnectionProvider): AmqpWriteSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    AmqpWriteSettings(connectionProvider)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0msealed trait Declaration[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class QueueDeclaration private ([0m
+[0m[[0m[0mdebug[0m] [0m[0m    val name: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val durable: Boolean = false,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val exclusive: Boolean = false,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val autoDelete: Boolean = false,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val arguments: Map[String, AnyRef] = Map.empty[0m
+[0m[[0m[0mdebug[0m] [0m[0m) extends Declaration {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withDurable(durable: Boolean): QueueDeclaration =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(durable = durable)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withExclusive(exclusive: Boolean): QueueDeclaration =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(exclusive = exclusive)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withAutoDelete(autoDelete: Boolean): QueueDeclaration =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(autoDelete = autoDelete)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withArguments(arguments: Map[String, AnyRef]): QueueDeclaration =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(arguments = arguments)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withArguments(arguments: java.util.Map[String, Object]): QueueDeclaration =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(arguments = arguments.asScala.toMap)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def copy(name: String = name,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   durable: Boolean = durable,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   exclusive: Boolean = exclusive,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   autoDelete: Boolean = autoDelete,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   arguments: Map[String, AnyRef] = arguments) =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new QueueDeclaration(name, durable, exclusive, autoDelete, arguments)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString: String =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"QueueDeclaration(" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"name=$name, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"durable=$durable, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"exclusive=$exclusive, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"autoDelete=$autoDelete, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"arguments=$arguments" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ")"[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject QueueDeclaration {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(name: String): QueueDeclaration = new QueueDeclaration(name)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(name: String): QueueDeclaration = QueueDeclaration(name)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class BindingDeclaration private ([0m
+[0m[[0m[0mdebug[0m] [0m[0m    val queue: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val exchange: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val routingKey: Option[String] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val arguments: Map[String, AnyRef] = Map.empty[0m
+[0m[[0m[0mdebug[0m] [0m[0m) extends Declaration {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withRoutingKey(routingKey: String): BindingDeclaration = copy(routingKey = Some(routingKey))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withArguments(arguments: Map[String, AnyRef]): BindingDeclaration =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(arguments = arguments)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withArguments(arguments: java.util.Map[String, Object]): BindingDeclaration =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(arguments = arguments.asScala.toMap)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def copy(routingKey: Option[String] = routingKey, arguments: Map[String, AnyRef] = arguments) =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new BindingDeclaration(queue, exchange, routingKey, arguments)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString: String =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "BindingDeclaration(" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"queue=$queue, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"exchange=$exchange, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"routingKey=$routingKey, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"arguments=$arguments" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ")"[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject BindingDeclaration {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(queue: String, exchange: String): BindingDeclaration =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new BindingDeclaration(queue, exchange)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(queue: String, exchange: String): BindingDeclaration =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    BindingDeclaration(queue, exchange)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class ExchangeDeclaration private ([0m
+[0m[[0m[0mdebug[0m] [0m[0m    val name: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val exchangeType: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val durable: Boolean = false,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val autoDelete: Boolean = false,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val internal: Boolean = false,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val arguments: Map[String, AnyRef] = Map.empty[0m
+[0m[[0m[0mdebug[0m] [0m[0m) extends Declaration {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withDurable(durable: Boolean): ExchangeDeclaration = copy(durable = durable)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withAutoDelete(autoDelete: Boolean): ExchangeDeclaration = copy(autoDelete = autoDelete)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withInternal(internal: Boolean): ExchangeDeclaration = copy(internal = internal)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withArguments(arguments: Map[String, AnyRef]): ExchangeDeclaration =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(arguments = arguments)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withArguments(arguments: java.util.Map[String, Object]): ExchangeDeclaration =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(arguments = arguments.asScala.toMap)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def copy(durable: Boolean = durable,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   autoDelete: Boolean = autoDelete,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   internal: Boolean = internal,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   arguments: Map[String, AnyRef] = arguments) =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new ExchangeDeclaration(name, exchangeType, durable, autoDelete, internal, arguments)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString: String =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "ExchangeDeclaration(" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"name=$name, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"exchangeType=$exchangeType, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"durable=$durable, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"autoDelete=$autoDelete, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"internal=$internal, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"arguments=$arguments" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ")"[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject ExchangeDeclaration {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(name: String, exchangeType: String): ExchangeDeclaration =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new ExchangeDeclaration(name, exchangeType)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(name: String, exchangeType: String): ExchangeDeclaration = ExchangeDeclaration(name, exchangeType)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/amqp/src/main/scala/akka/stream/alpakka/amqp/scaladsl/AmqpSink.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.amqp.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.Done[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.amqp._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.Sink[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.Future[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject AmqpSink {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: Creates an [[AmqpSink]] that accepts ByteString elements.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * This stage materializes to a `Future[Done]`, which can be used to know when the Sink completes, either normally[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * or because of an amqp failure[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def simple(settings: AmqpWriteSettings): Sink[ByteString, Future[Done]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    apply(settings).contramap[ByteString](bytes => WriteMessage(bytes))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API:[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Connects to an AMQP server upon materialization and sends incoming messages to the server.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Each materialized sink will create one connection to the broker. This stage sends messages to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * the queue named in the replyTo options of the message instead of from settings declared at construction.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * This stage materializes to a `Future[Done]`, which can be used to know when the Sink completes, either normally[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * or because of an amqp failure[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def replyTo(settings: AmqpReplyToSinkSettings): Sink[WriteMessage, Future[Done]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Sink.fromGraph(new impl.AmqpReplyToSinkStage(settings))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API:[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Connects to an AMQP server upon materialization and sends incoming messages to the server.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Each materialized sink will create one connection to the broker. This stage sends messages to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * the queue named in the replyTo options of the message instead of from settings declared at construction.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * This stage materializes to a Future[Done], which can be used to know when the Sink completes, either normally[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * or because of an amqp failure[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(settings: AmqpWriteSettings): Sink[WriteMessage, Future[Done]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Sink.fromGraph(new impl.AmqpSinkStage(settings))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/amqp/src/main/scala/akka/stream/alpakka/amqp/scaladsl/AmqpSource.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.amqp.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.dispatch.ExecutionContexts[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.amqp.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.amqp.{AmqpSourceSettings, ReadResult}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.Source[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject AmqpSource {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private implicit val executionContext = ExecutionContexts.sameThreadExecutionContext[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: Convenience for "at-most once delivery" semantics. Each message is acked to RabbitMQ[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * before it is emitted downstream.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def atMostOnceSource(settings: AmqpSourceSettings, bufferSize: Int): Source[ReadResult, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    committableSource(settings, bufferSize)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .mapAsync(1)(cm => cm.ack().map(_ => cm.message))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API:[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * The `committableSource` makes it possible to commit (ack/nack) messages to RabbitMQ.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * This is useful when "at-least once delivery" is desired, as each message will likely be[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * delivered one time but in failure cases could be duplicated.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * If you commit the offset before processing the message you get "at-most once delivery" semantics,[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * and for that there is a [[#atMostOnceSource]].[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Compared to auto-commit, this gives exact control over when a message is considered consumed.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def committableSource(settings: AmqpSourceSettings, bufferSize: Int): Source[CommittableReadResult, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Source.fromGraph(new impl.AmqpSourceStage(settings, bufferSize))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/amqp/src/main/scala/akka/stream/alpakka/amqp/scaladsl/CommittableReadResult.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.amqp.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.Done[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.amqp.ReadResult[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.Future[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mtrait CommittableReadResult {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val message: ReadResult[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def ack(multiple: Boolean = false): Future[Done][0m
+[0m[[0m[0mdebug[0m] [0m[0m  def nack(multiple: Boolean = false, requeue: Boolean = true): Future[Done][0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/amqp/src/main/scala/akka/stream/alpakka/amqp/scaladsl/AmqpRpcFlow.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.amqp.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.dispatch.ExecutionContexts[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.amqp._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.{Flow, Keep}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.Future[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject AmqpRpcFlow {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API:[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Create an [[https://www.rabbitmq.com/tutorials/tutorial-six-java.html RPC style flow]] for processing and communicating[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * over a rabbitmq message bus. This will create a private queue, and add the reply-to header to messages sent out.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * This stage materializes to a Future[String], which is the name of the private exclusive queue used for RPC communication.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param repliesPerMessage The number of responses that should be expected for each message placed on the queue. This[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                            can be overridden per message by including `expectedReplies` in the the header of the [[WriteMessage]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def simple(settings: AmqpWriteSettings, repliesPerMessage: Int = 1): Flow[ByteString, ByteString, Future[String]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow[ByteString][0m
+[0m[[0m[0mdebug[0m] [0m[0m      .map(bytes => WriteMessage(bytes))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .viaMat(atMostOnceFlow(settings, 1, repliesPerMessage))(Keep.right)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .map(_.bytes)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API:[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Convenience for "at-most once delivery" semantics. Each message is acked to RabbitMQ[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * before it is emitted downstream.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def atMostOnceFlow(settings: AmqpWriteSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                     bufferSize: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                     repliesPerMessage: Int = 1): Flow[WriteMessage, ReadResult, Future[String]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    committableFlow(settings, bufferSize, repliesPerMessage)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .mapAsync(1) { cm =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m        cm.ack().map(_ => cm.message)(ExecutionContexts.sameThreadExecutionContext)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API:[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * The `committableFlow` makes it possible to commit (ack/nack) messages to RabbitMQ.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * This is useful when "at-least once delivery" is desired, as each message will likely be[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * delivered one time but in failure cases could be duplicated.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * If you commit the offset before processing the message you get "at-most once delivery" semantics,[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * and for that there is a [[#atMostOnceFlow]].[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Compared to auto-commit, this gives exact control over when a message is considered consumed.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def committableFlow(settings: AmqpWriteSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      bufferSize: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      repliesPerMessage: Int = 1): Flow[WriteMessage, CommittableReadResult, Future[String]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow.fromGraph(new impl.AmqpRpcFlowStage(settings, bufferSize, repliesPerMessage))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/amqp/src/main/scala/akka/stream/alpakka/amqp/AmqpConnectionProvider.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.amqp[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.ConcurrentModificationException[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.concurrent.atomic.AtomicReference[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.DoNotInherit[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.rabbitmq.client.{Address, Connection, ConnectionFactory, ExceptionHandler}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport javax.net.ssl.{SSLContext, TrustManager}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.annotation.tailrec[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.immutable[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.JavaConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Only for internal implementations[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@DoNotInherit[0m
+[0m[[0m[0mdebug[0m] [0m[0msealed trait AmqpConnectionProvider {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def get: Connection[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def release(connection: Connection): Unit = if (connection.isOpen) connection.close()[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Connects to a local AMQP broker at the default port with no password.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mcase object AmqpLocalConnectionProvider extends AmqpConnectionProvider {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def get: Connection = new ConnectionFactory().newConnection[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def getInstance(): AmqpLocalConnectionProvider.type = this[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class AmqpUriConnectionProvider private (val uri: String) extends AmqpConnectionProvider {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def get: Connection = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val factory = new ConnectionFactory[0m
+[0m[[0m[0mdebug[0m] [0m[0m    factory.setUri(uri)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    factory.newConnection[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString: String =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "AmqpUriConnectionProvider(" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"uri=$uri" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ")"[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject AmqpUriConnectionProvider {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(uri: String): AmqpUriConnectionProvider = new AmqpUriConnectionProvider(uri)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(uri: String): AmqpUriConnectionProvider = AmqpUriConnectionProvider(uri)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class AmqpDetailsConnectionProvider private ([0m
+[0m[[0m[0mdebug[0m] [0m[0m    val hostAndPortList: immutable.Seq[(String, Int)],[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val credentials: Option[AmqpCredentials] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val virtualHost: Option[String] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val sslConfiguration: Option[AmqpSSLConfiguration] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val requestedHeartbeat: Option[Int] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val connectionTimeout: Option[Int] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val handshakeTimeout: Option[Int] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val shutdownTimeout: Option[Int] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val networkRecoveryInterval: Option[Int] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val automaticRecoveryEnabled: Boolean = false,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val topologyRecoveryEnabled: Boolean = false,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val exceptionHandler: Option[ExceptionHandler] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val connectionName: Option[String] = None[0m
+[0m[[0m[0mdebug[0m] [0m[0m) extends AmqpConnectionProvider {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withHostAndPort(host: String, port: Int): AmqpDetailsConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(hostAndPortList = immutable.Seq(host -> port))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withHostsAndPorts(hostAndPorts: immutable.Seq[(String, Int)]): AmqpDetailsConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(hostAndPortList = hostAndPorts)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withHostsAndPorts(hostAndPorts: java.util.List[akka.japi.Pair[String, Int]]): AmqpDetailsConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(hostAndPortList = hostAndPorts.asScala.map(_.toScala).toIndexedSeq)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withCredentials(amqpCredentials: AmqpCredentials): AmqpDetailsConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(credentials = Option(amqpCredentials))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withVirtualHost(virtualHost: String): AmqpDetailsConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(virtualHost = Option(virtualHost))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withSSLConfiguration(sslConfiguration: AmqpSSLConfiguration): AmqpDetailsConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(sslConfiguration = Option(sslConfiguration))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withRequestedHeartbeat(requestedHeartbeat: Int): AmqpDetailsConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(requestedHeartbeat = Option(requestedHeartbeat))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withConnectionTimeout(connectionTimeout: Int): AmqpDetailsConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(connectionTimeout = Option(connectionTimeout))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withHandshakeTimeout(handshakeTimeout: Int): AmqpDetailsConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(handshakeTimeout = Option(handshakeTimeout))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withShutdownTimeout(shutdownTimeout: Int): AmqpDetailsConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(shutdownTimeout = Option(shutdownTimeout))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withNetworkRecoveryInterval(networkRecoveryInterval: Int): AmqpDetailsConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(networkRecoveryInterval = Option(networkRecoveryInterval))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withAutomaticRecoveryEnabled(automaticRecoveryEnabled: Boolean): AmqpDetailsConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(automaticRecoveryEnabled = automaticRecoveryEnabled)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withTopologyRecoveryEnabled(topologyRecoveryEnabled: Boolean): AmqpDetailsConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(topologyRecoveryEnabled = topologyRecoveryEnabled)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withExceptionHandler(exceptionHandler: ExceptionHandler): AmqpDetailsConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(exceptionHandler = Option(exceptionHandler))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withConnectionName(name: String): AmqpDetailsConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(connectionName = Option(name))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def get: Connection = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    import scala.collection.JavaConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val factory = new ConnectionFactory[0m
+[0m[[0m[0mdebug[0m] [0m[0m    credentials.foreach { credentials =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      factory.setUsername(credentials.username)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      factory.setPassword(credentials.password)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    virtualHost.foreach(factory.setVirtualHost)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    sslConfiguration.foreach(sslConfiguration => {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (sslConfiguration.protocol.isDefined) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (sslConfiguration.trustManager.isDefined)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          factory.useSslProtocol(sslConfiguration.protocol.get, sslConfiguration.trustManager.get)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        else factory.useSslProtocol(sslConfiguration.protocol.get)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      } else if (sslConfiguration.context.isDefined) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        factory.useSslProtocol(sslConfiguration.context.get)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        factory.useSslProtocol()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    })[0m
+[0m[[0m[0mdebug[0m] [0m[0m    requestedHeartbeat.foreach(factory.setRequestedHeartbeat)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    connectionTimeout.foreach(factory.setConnectionTimeout)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    handshakeTimeout.foreach(factory.setHandshakeTimeout)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    shutdownTimeout.foreach(factory.setShutdownTimeout)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    networkRecoveryInterval.foreach(factory.setNetworkRecoveryInterval)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    factory.setAutomaticRecoveryEnabled(automaticRecoveryEnabled)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    factory.setTopologyRecoveryEnabled(topologyRecoveryEnabled)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    exceptionHandler.foreach(factory.setExceptionHandler)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    factory.newConnection(hostAndPortList.map(hp => new Address(hp._1, hp._2)).asJava, connectionName.orNull)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def copy(hostAndPortList: immutable.Seq[(String, Int)] = hostAndPortList,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   credentials: Option[AmqpCredentials] = credentials,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   virtualHost: Option[String] = virtualHost,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   sslConfiguration: Option[AmqpSSLConfiguration] = sslConfiguration,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   requestedHeartbeat: Option[Int] = requestedHeartbeat,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   connectionTimeout: Option[Int] = connectionTimeout,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   handshakeTimeout: Option[Int] = handshakeTimeout,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   shutdownTimeout: Option[Int] = shutdownTimeout,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   networkRecoveryInterval: Option[Int] = networkRecoveryInterval,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   automaticRecoveryEnabled: Boolean = automaticRecoveryEnabled,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   topologyRecoveryEnabled: Boolean = topologyRecoveryEnabled,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   exceptionHandler: Option[ExceptionHandler] = exceptionHandler,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   connectionName: Option[String] = connectionName): AmqpDetailsConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new AmqpDetailsConnectionProvider([0m
+[0m[[0m[0mdebug[0m] [0m[0m      hostAndPortList,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      credentials,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      virtualHost,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      sslConfiguration,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      requestedHeartbeat,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      connectionTimeout,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      handshakeTimeout,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      shutdownTimeout,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      networkRecoveryInterval,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      automaticRecoveryEnabled,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      topologyRecoveryEnabled,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      exceptionHandler,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      connectionName[0m
+[0m[[0m[0mdebug[0m] [0m[0m    )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString: String =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "AmqpDetailsConnectionProvider(" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"hostAndPortList=$hostAndPortList, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"credentials=$credentials, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"virtualHost=$virtualHost, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"sslConfiguration=$sslConfiguration, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"requestedHeartbeat=$requestedHeartbeat, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"connectionTimeout=$connectionTimeout, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"handshakeTimeout=$handshakeTimeout, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"shutdownTimeout=$shutdownTimeout, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"networkRecoveryInterval=$networkRecoveryInterval, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"automaticRecoveryEnabled=$automaticRecoveryEnabled, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"topologyRecoveryEnabled=$topologyRecoveryEnabled, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"exceptionHandler=$exceptionHandler, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"connectionName=$connectionName" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ")"[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject AmqpDetailsConnectionProvider {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(host: String, port: Int): AmqpDetailsConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new AmqpDetailsConnectionProvider(immutable.Seq(host -> port))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(host: String, port: Int): AmqpDetailsConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    AmqpDetailsConnectionProvider(host, port)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class AmqpCredentials private (val username: String, val password: String) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString = s"Credentials($username, ********)"[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject AmqpCredentials {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(username: String, password: String): AmqpCredentials =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new AmqpCredentials(username, password)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(username: String, password: String): AmqpCredentials =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    AmqpCredentials(username, password)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class AmqpSSLConfiguration private (val protocol: Option[String] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                          val trustManager: Option[TrustManager] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                          val context: Option[SSLContext] = None) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  if (protocol.isDefined && context.isDefined) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    throw new IllegalArgumentException("Protocol and context can't be defined in the same AmqpSSLConfiguration.")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withProtocol(protocol: String): AmqpSSLConfiguration =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(protocol = Some(protocol))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withProtocolAndTrustManager(protocol: String, trustManager: javax.net.ssl.TrustManager): AmqpSSLConfiguration =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(protocol = Some(protocol), trustManager = Some(trustManager))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withSSLContext(context: Option[javax.net.ssl.SSLContext]): AmqpSSLConfiguration =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(context = context)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def copy(protocol: Option[String] = protocol,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   trustManager: Option[TrustManager] = trustManager,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   context: Option[SSLContext] = context): AmqpSSLConfiguration =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new AmqpSSLConfiguration(protocol, trustManager, context)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString: String =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (protocol.isDefined) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (trustManager.isDefined) s"AmqpSSLConfiguration(protocol=${protocol.get}, trustManager=${trustManager.get})"[0m
+[0m[[0m[0mdebug[0m] [0m[0m      else s"AmqpSSLConfiguration(protocol=${protocol.get})"[0m
+[0m[[0m[0mdebug[0m] [0m[0m    } else if (context.isDefined) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      s"AmqpSSLConfiguration(context=${context.get})"[0m
+[0m[[0m[0mdebug[0m] [0m[0m    } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      "AmqpSSLConfiguration()"[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject AmqpSSLConfiguration {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(protocol: String): AmqpSSLConfiguration = new AmqpSSLConfiguration(Some(protocol))[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(protocol: String, trustManager: TrustManager): AmqpSSLConfiguration =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new AmqpSSLConfiguration(Some(protocol), Some(trustManager))[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(context: SSLContext): AmqpSSLConfiguration = new AmqpSSLConfiguration(context = Some(context))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(protocol: String): AmqpSSLConfiguration = new AmqpSSLConfiguration(Some(protocol))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(protocol: String, trustManager: TrustManager): AmqpSSLConfiguration =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new AmqpSSLConfiguration(Some(protocol), Some(trustManager))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(context: SSLContext): AmqpSSLConfiguration = new AmqpSSLConfiguration(context = Some(context))[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Uses a native [[com.rabbitmq.client.ConnectionFactory]] to configure an AMQP connection factory.[0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * @param factory      The instance of the ConnectionFactory to build the connection from.[0m
+[0m[[0m[0mdebug[0m] [0m[0m * @param hostAndPorts An optional list of host and ports.[0m
+[0m[[0m[0mdebug[0m] [0m[0m *                     If empty, it defaults to the host and port in the underlying factory.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class AmqpConnectionFactoryConnectionProvider private (val factory: ConnectionFactory,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                             private val hostAndPorts: immutable.Seq[(String, Int)] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                               Nil)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends AmqpConnectionProvider {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @return A list of hosts and ports for this AMQP connection factory.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *         Uses host and port from the underlying factory if hostAndPorts was left out on construction.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def hostAndPortList: immutable.Seq[(String, Int)] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (hostAndPorts.isEmpty)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      immutable.Seq((factory.getHost, factory.getPort))[0m
+[0m[[0m[0mdebug[0m] [0m[0m    else[0m
+[0m[[0m[0mdebug[0m] [0m[0m      hostAndPorts.toList[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withHostAndPort(host: String, port: Int): AmqpConnectionFactoryConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(hostAndPorts = immutable.Seq(host -> port))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withHostsAndPorts(hostAndPorts: immutable.Seq[(String, Int)]): AmqpConnectionFactoryConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(hostAndPorts = hostAndPorts)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withHostsAndPorts([0m
+[0m[[0m[0mdebug[0m] [0m[0m      hostAndPorts: java.util.List[akka.japi.Pair[String, Int]][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): AmqpConnectionFactoryConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(hostAndPorts = hostAndPorts.asScala.map(_.toScala).toIndexedSeq)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def get: Connection = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    import scala.collection.JavaConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0m    factory.newConnection(hostAndPortList.map(hp => new Address(hp._1, hp._2)).asJava)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def copy(hostAndPorts: immutable.Seq[(String, Int)]) =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new AmqpConnectionFactoryConnectionProvider(factory, hostAndPorts)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString: String =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "AmqpConnectionFactoryConnectionProvider(" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"factory=$factory, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"hostAndPorts=$hostAndPorts" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ")"[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject AmqpConnectionFactoryConnectionProvider {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(factory: ConnectionFactory): AmqpConnectionFactoryConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new AmqpConnectionFactoryConnectionProvider(factory)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(factory: ConnectionFactory): AmqpConnectionFactoryConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    AmqpConnectionFactoryConnectionProvider(factory: ConnectionFactory)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class AmqpCachedConnectionProvider private (val provider: AmqpConnectionProvider,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                  val automaticRelease: Boolean = true)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends AmqpConnectionProvider {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  import akka.stream.alpakka.amqp.AmqpCachedConnectionProvider._[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val state = new AtomicReference[State](Empty)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withAutomaticRelease(automaticRelease: Boolean): AmqpCachedConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(automaticRelease = automaticRelease)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @tailrec[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def get: Connection = state.get match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case Empty =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (state.compareAndSet(Empty, Connecting)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          val connection = provider.get[0m
+[0m[[0m[0mdebug[0m] [0m[0m          if (!state.compareAndSet(Connecting, Connected(connection, 1)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m            throw new ConcurrentModificationException([0m
+[0m[[0m[0mdebug[0m] [0m[0m              "Unexpected concurrent modification while creating the connection."[0m
+[0m[[0m[0mdebug[0m] [0m[0m            )[0m
+[0m[[0m[0mdebug[0m] [0m[0m          connection[0m
+[0m[[0m[0mdebug[0m] [0m[0m        } catch {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          case e: ConcurrentModificationException => throw e[0m
+[0m[[0m[0mdebug[0m] [0m[0m          case e: Throwable =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m            state.compareAndSet(Connecting, Empty)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            throw e[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      } else get[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case Connecting => get[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case c @ Connected(connection, clients) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (state.compareAndSet(c, Connected(connection, clients + 1))) connection[0m
+[0m[[0m[0mdebug[0m] [0m[0m      else get[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case Closing => get[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  @tailrec[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def release(connection: Connection): Unit = state.get match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case Empty => throw new IllegalStateException("There is no connection to release.")[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case Connecting => release(connection)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case c @ Connected(cachedConnection, clients) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (cachedConnection != connection)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        throw new IllegalArgumentException("Can't release a connection that's not owned by this provider")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (clients == 1 || !automaticRelease) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (state.compareAndSet(c, Closing)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          provider.release(connection)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          if (!state.compareAndSet(Closing, Empty))[0m
+[0m[[0m[0mdebug[0m] [0m[0m            throw new ConcurrentModificationException([0m
+[0m[[0m[0mdebug[0m] [0m[0m              "Unexpected concurrent modification while closing the connection."[0m
+[0m[[0m[0mdebug[0m] [0m[0m            )[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (!state.compareAndSet(c, Connected(cachedConnection, clients - 1))) release(connection)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case Closing => release(connection)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def copy(automaticRelease: Boolean): AmqpCachedConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new AmqpCachedConnectionProvider(provider, automaticRelease)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString: String =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "AmqpCachedConnectionProvider(" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"provider=$provider, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"automaticRelease=$automaticRelease" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ")"[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject AmqpCachedConnectionProvider {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(provider: AmqpConnectionProvider): AmqpCachedConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new AmqpCachedConnectionProvider(provider)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(provider: AmqpConnectionProvider): AmqpCachedConnectionProvider =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    AmqpCachedConnectionProvider(provider: AmqpConnectionProvider)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private sealed trait State[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private case object Empty extends State[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private case object Connecting extends State[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final case class Connected(connection: Connection, clients: Int) extends State[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private case object Closing extends State[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/amqp/src/main/scala/akka/stream/alpakka/amqp/impl/AmqpSinkStage.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.amqp.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.Done[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.amqp.{AmqpWriteSettings, WriteMessage}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage.{GraphStageLogic, GraphStageWithMaterializedValue, InHandler}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.{ActorAttributes, Attributes, Inlet, SinkShape}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.{Future, Promise}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Connects to an AMQP server upon materialization and sends write messages to the server.[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Each materialized sink will create one connection to the broker.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[amqp] final class AmqpSinkStage(settings: AmqpWriteSettings)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends GraphStageWithMaterializedValue[SinkShape[WriteMessage], Future[Done]] { stage =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val in = Inlet[WriteMessage]("AmqpSink.in")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def shape: SinkShape[WriteMessage] = SinkShape.of(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override protected def initialAttributes: Attributes =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    super.initialAttributes and Attributes.name("AmqpSink") and ActorAttributes.IODispatcher[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def createLogicAndMaterializedValue(inheritedAttributes: Attributes): (GraphStageLogic, Future[Done]) = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val promise = Promise[Done]()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    (new GraphStageLogic(shape) with AmqpConnectorLogic {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override val settings = stage.settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private val exchange = settings.exchange.getOrElse("")[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private val routingKey = settings.routingKey.getOrElse("")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def whenConnected(): Unit = pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      setHandler([0m
+[0m[[0m[0mdebug[0m] [0m[0m        in,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        new InHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onUpstreamFailure(ex: Throwable): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            promise.failure(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            super.onUpstreamFailure(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onUpstreamFinish(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            promise.success(Done)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            super.onUpstreamFinish()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onPush(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            val elem = grab(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            channel.basicPublish([0m
+[0m[[0m[0mdebug[0m] [0m[0m              exchange,[0m
+[0m[[0m[0mdebug[0m] [0m[0m              elem.routingKey.getOrElse(routingKey),[0m
+[0m[[0m[0mdebug[0m] [0m[0m              elem.mandatory,[0m
+[0m[[0m[0mdebug[0m] [0m[0m              elem.immediate,[0m
+[0m[[0m[0mdebug[0m] [0m[0m              elem.properties.orNull,[0m
+[0m[[0m[0mdebug[0m] [0m[0m              elem.bytes.toArray[0m
+[0m[[0m[0mdebug[0m] [0m[0m            )[0m
+[0m[[0m[0mdebug[0m] [0m[0m            pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def postStop(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        promise.tryFailure(new RuntimeException("stage stopped unexpectedly"))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        super.postStop()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def onFailure(ex: Throwable): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        promise.tryFailure(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        super.onFailure(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }, promise.future)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString: String = "AmqpSink"[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/amqp/src/main/scala/akka/stream/alpakka/amqp/impl/AmqpSourceStage.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.amqp.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.Done[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.amqp._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.amqp.impl.AmqpSourceStage.AutoAckedReadResult[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.amqp.scaladsl.CommittableReadResult[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage.{GraphStage, GraphStageLogic, OutHandler, StageLogging}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.{Attributes, Outlet, SourceShape}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.rabbitmq.client.AMQP.BasicProperties[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.rabbitmq.client.{DefaultConsumer, Envelope, ShutdownSignalException}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.mutable[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.{Future, Promise}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.util.Success[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate final case class AckArguments(deliveryTag: Long, multiple: Boolean, promise: Promise[Done])[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate final case class NackArguments(deliveryTag: Long, multiple: Boolean, requeue: Boolean, promise: Promise[Done])[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API.[0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Connects to an AMQP server upon materialization and consumes messages from it emitting them[0m
+[0m[[0m[0mdebug[0m] [0m[0m * into the stream. Each materialized source will create one connection to the broker.[0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * @param bufferSize The max number of elements to prefetch and buffer at any given time.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[amqp] final class AmqpSourceStage(settings: AmqpSourceSettings, bufferSize: Int)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends GraphStage[SourceShape[CommittableReadResult]] { stage =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val out = Outlet[CommittableReadResult]("AmqpSource.out")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override val shape: SourceShape[CommittableReadResult] = SourceShape.of(out)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override protected def initialAttributes: Attributes = Attributes.name("AmqpSource")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def createLogic(inheritedAttributes: Attributes): GraphStageLogic =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new GraphStageLogic(shape) with AmqpConnectorLogic with StageLogging {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override val settings: AmqpSourceSettings = stage.settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private val queue = mutable.Queue[CommittableReadResult]()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private var ackRequired = true[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private var unackedMessages = 0[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def whenConnected(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        import scala.collection.JavaConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0m        channel.basicQos(bufferSize)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val consumerCallback = getAsyncCallback(handleDelivery)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val ackCallback = getAsyncCallback[AckArguments] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          case AckArguments(deliveryTag, multiple, promise) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m            try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              channel.basicAck(deliveryTag, multiple)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              unackedMessages -= 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m              if (unackedMessages == 0 && isClosed(out)) completeStage()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              promise.complete(Success(Done))[0m
+[0m[[0m[0mdebug[0m] [0m[0m            } catch {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              case e: Throwable => promise.failure(e)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val nackCallback = getAsyncCallback[NackArguments] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          case NackArguments(deliveryTag, multiple, requeue, promise) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m            try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              channel.basicNack(deliveryTag, multiple, requeue)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              unackedMessages -= 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m              if (unackedMessages == 0 && isClosed(out)) completeStage()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              promise.complete(Success(Done))[0m
+[0m[[0m[0mdebug[0m] [0m[0m            } catch {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              case e: Throwable => promise.failure(e)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val amqpSourceConsumer = new DefaultConsumer(channel) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def handleDelivery(consumerTag: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                      envelope: Envelope,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                      properties: BasicProperties,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                      body: Array[Byte]): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            val message = if (ackRequired) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m              new CommittableReadResult {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                override val message = ReadResult(ByteString(body), envelope, properties)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m                override def ack(multiple: Boolean): Future[Done] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  val promise = Promise[Done]()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  ackCallback.invoke(AckArguments(message.envelope.getDeliveryTag, multiple, promise))[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  promise.future[0m
+[0m[[0m[0mdebug[0m] [0m[0m                }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m                override def nack(multiple: Boolean, requeue: Boolean): Future[Done] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  val promise = Promise[Done]()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  nackCallback.invoke(NackArguments(message.envelope.getDeliveryTag, multiple, requeue, promise))[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  promise.future[0m
+[0m[[0m[0mdebug[0m] [0m[0m                }[0m
+[0m[[0m[0mdebug[0m] [0m[0m              }[0m
+[0m[[0m[0mdebug[0m] [0m[0m            } else new AutoAckedReadResult(ReadResult(ByteString(body), envelope, properties))[0m
+[0m[[0m[0mdebug[0m] [0m[0m            consumerCallback.invoke(message)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def handleCancel(consumerTag: String): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m            // non consumer initiated cancel, for example happens when the queue has been deleted.[0m
+[0m[[0m[0mdebug[0m] [0m[0m            shutdownCallback.invoke([0m
+[0m[[0m[0mdebug[0m] [0m[0m              new RuntimeException(s"Consumer with consumerTag $consumerTag shut down unexpectedly")[0m
+[0m[[0m[0mdebug[0m] [0m[0m            )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def handleShutdownSignal(consumerTag: String, sig: ShutdownSignalException): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m            // "Called when either the channel or the underlying connection has been shut down."[0m
+[0m[[0m[0mdebug[0m] [0m[0m            shutdownCallback.invoke([0m
+[0m[[0m[0mdebug[0m] [0m[0m              new RuntimeException(s"Consumer with consumerTag $consumerTag shut down unexpectedly", sig)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            )[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        def setupNamedQueue(settings: NamedQueueSourceSettings): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m          channel.basicConsume([0m
+[0m[[0m[0mdebug[0m] [0m[0m            settings.queue,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            !settings.ackRequired,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            settings.consumerTag, // consumer tag[0m
+[0m[[0m[0mdebug[0m] [0m[0m            settings.noLocal,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            settings.exclusive,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            settings.arguments.asJava,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            amqpSourceConsumer[0m
+[0m[[0m[0mdebug[0m] [0m[0m          )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        def setupTemporaryQueue(settings: TemporaryQueueSourceSettings): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          // this is a weird case that required dynamic declaration, the queue name is not known[0m
+[0m[[0m[0mdebug[0m] [0m[0m          // up front, it is only useful for sources, so that's why it's not placed in the AmqpConnectorLogic[0m
+[0m[[0m[0mdebug[0m] [0m[0m          val queueName = channel.queueDeclare().getQueue[0m
+[0m[[0m[0mdebug[0m] [0m[0m          channel.queueBind(queueName, settings.exchange, settings.routingKey.getOrElse(""))[0m
+[0m[[0m[0mdebug[0m] [0m[0m          channel.basicConsume([0m
+[0m[[0m[0mdebug[0m] [0m[0m            queueName,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            amqpSourceConsumer[0m
+[0m[[0m[0mdebug[0m] [0m[0m          )[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        settings match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          case settings: NamedQueueSourceSettings =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m            ackRequired = settings.ackRequired[0m
+[0m[[0m[0mdebug[0m] [0m[0m            setupNamedQueue(settings)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          case settings: TemporaryQueueSourceSettings =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m            setupTemporaryQueue(settings)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      def handleDelivery(message: CommittableReadResult): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (isAvailable(out)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          pushMessage(message)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        } else if (queue.size + 1 > bufferSize) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          onFailure(new RuntimeException(s"Reached maximum buffer size $bufferSize"))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          queue.enqueue(message)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      setHandler([0m
+[0m[[0m[0mdebug[0m] [0m[0m        out,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        new OutHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onPull(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m            if (queue.nonEmpty) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              pushMessage(queue.dequeue())[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onDownstreamFinish(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m            if (unackedMessages == 0) super.onDownstreamFinish()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              setKeepGoing(true)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              log.debug("Awaiting {} acks before finishing.", unackedMessages)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      def pushMessage(message: CommittableReadResult): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        push(out, message)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (ackRequired) unackedMessages += 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[amqp] object AmqpSourceStage {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val SuccessfullyDone = Future.successful(Done)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final class AutoAckedReadResult(override val message: ReadResult) extends CommittableReadResult {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    override def ack(multiple: Boolean): Future[Done] = SuccessfullyDone[0m
+[0m[[0m[0mdebug[0m] [0m[0m    override def nack(multiple: Boolean, requeue: Boolean): Future[Done] = SuccessfullyDone[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/amqp/src/main/scala/akka/stream/alpakka/amqp/impl/AmqpConnectorLogic.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.amqp.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.amqp.{AmqpConnectorSettings, BindingDeclaration, ExchangeDeclaration, QueueDeclaration}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage.{AsyncCallback, GraphStageLogic}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.rabbitmq.client._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.util.control.NonFatal[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate trait AmqpConnectorLogic { this: GraphStageLogic =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private var connection: Connection = _[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected var channel: Channel = _[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected lazy val shutdownCallback: AsyncCallback[Throwable] = getAsyncCallback(onFailure)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private lazy val shutdownListener = new ShutdownListener {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    override def shutdownCompleted(cause: ShutdownSignalException): Unit = shutdownCallback.invoke(cause)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def settings: AmqpConnectorSettings[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def whenConnected(): Unit[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def onFailure(ex: Throwable): Unit = failStage(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final override def preStart(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      connection = settings.connectionProvider.get[0m
+[0m[[0m[0mdebug[0m] [0m[0m      channel = connection.createChannel[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      connection.addShutdownListener(shutdownListener)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      channel.addShutdownListener(shutdownListener)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      import scala.collection.JavaConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings.declarations.foreach {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case d: QueueDeclaration =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          channel.queueDeclare([0m
+[0m[[0m[0mdebug[0m] [0m[0m            d.name,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            d.durable,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            d.exclusive,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            d.autoDelete,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            d.arguments.asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m          )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case d: BindingDeclaration =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          channel.queueBind([0m
+[0m[[0m[0mdebug[0m] [0m[0m            d.queue,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            d.exchange,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            d.routingKey.getOrElse(""),[0m
+[0m[[0m[0mdebug[0m] [0m[0m            d.arguments.asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m          )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case d: ExchangeDeclaration =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          channel.exchangeDeclare([0m
+[0m[[0m[0mdebug[0m] [0m[0m            d.name,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            d.exchangeType,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            d.durable,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            d.autoDelete,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            d.internal,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            d.arguments.asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m          )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      whenConnected()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    } catch {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      case NonFatal(e) => onFailure(e)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** remember to call if overriding! */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def postStop(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if ((channel ne null) && channel.isOpen) channel.close()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    channel = null[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (connection ne null) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      connection.removeShutdownListener(shutdownListener)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings.connectionProvider.release(connection)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      connection = null[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/amqp/src/main/scala/akka/stream/alpakka/amqp/impl/AmqpRpcFlowStage.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.amqp.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.Collections[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.Done[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.amqp._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.amqp.scaladsl.CommittableReadResult[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.rabbitmq.client.AMQP.BasicProperties[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.rabbitmq.client._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.mutable[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.{Future, Promise}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.util.Success[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * This stage materializes to a `Future[String]`, which is the name of the private exclusive queue used for RPC communication[0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * @param responsesPerMessage The number of responses that should be expected for each message placed on the queue. This[0m
+[0m[[0m[0mdebug[0m] [0m[0m *                            can be overridden per message by including `expectedReplies` in the the header of the [[akka.stream.alpakka.amqp.WriteMessage]][0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[amqp] final class AmqpRpcFlowStage(settings: AmqpWriteSettings, bufferSize: Int, responsesPerMessage: Int = 1)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends GraphStageWithMaterializedValue[FlowShape[WriteMessage, CommittableReadResult], Future[String]] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  stage =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val in = Inlet[WriteMessage]("AmqpRpcFlow.in")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val out = Outlet[CommittableReadResult]("AmqpRpcFlow.out")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def shape: FlowShape[WriteMessage, CommittableReadResult] = FlowShape.of(in, out)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override protected def initialAttributes: Attributes =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    super.initialAttributes and Attributes.name("AmqpRpcFlow") and ActorAttributes.IODispatcher[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def createLogicAndMaterializedValue(inheritedAttributes: Attributes): (GraphStageLogic, Future[String]) = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val promise = Promise[String]()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    (new GraphStageLogic(shape) with AmqpConnectorLogic {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override val settings = stage.settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private val exchange = settings.exchange.getOrElse("")[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private val routingKey = settings.routingKey.getOrElse("")[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private val queue = mutable.Queue[CommittableReadResult]()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private var queueName: String = _[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private var unackedMessages = 0[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private var outstandingMessages = 0[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def whenConnected(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        channel.basicQos(bufferSize)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val consumerCallback = getAsyncCallback(handleDelivery)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val commitCallback = getAsyncCallback[AckArguments] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          case AckArguments(deliveryTag, multiple, promise) => {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              channel.basicAck(deliveryTag, multiple)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              unackedMessages -= 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m              if (unackedMessages == 0 && (isClosed(out) || (isClosed(in) && queue.isEmpty && outstandingMessages == 0)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m                completeStage()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              promise.complete(Success(Done))[0m
+[0m[[0m[0mdebug[0m] [0m[0m            } catch {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              case e: Throwable => promise.failure(e)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val nackCallback = getAsyncCallback[NackArguments] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          case NackArguments(deliveryTag, multiple, requeue, promise) => {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              channel.basicNack(deliveryTag, multiple, requeue)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              unackedMessages -= 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m              if (unackedMessages == 0 && (isClosed(out) || (isClosed(in) && queue.isEmpty && outstandingMessages == 0)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m                completeStage()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              promise.complete(Success(Done))[0m
+[0m[[0m[0mdebug[0m] [0m[0m            } catch {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              case e: Throwable => promise.failure(e)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val amqpSourceConsumer = new DefaultConsumer(channel) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def handleDelivery(consumerTag: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                      envelope: Envelope,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                      properties: BasicProperties,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                      body: Array[Byte]): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m            consumerCallback.invoke([0m
+[0m[[0m[0mdebug[0m] [0m[0m              new CommittableReadResult {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                override val message = ReadResult(ByteString(body), envelope, properties)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m                override def ack(multiple: Boolean): Future[Done] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  val promise = Promise[Done]()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  commitCallback.invoke(AckArguments(message.envelope.getDeliveryTag, multiple, promise))[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  promise.future[0m
+[0m[[0m[0mdebug[0m] [0m[0m                }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m                override def nack(multiple: Boolean, requeue: Boolean): Future[Done] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  val promise = Promise[Done]()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  nackCallback.invoke(NackArguments(message.envelope.getDeliveryTag, multiple, requeue, promise))[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  promise.future[0m
+[0m[[0m[0mdebug[0m] [0m[0m                }[0m
+[0m[[0m[0mdebug[0m] [0m[0m              }[0m
+[0m[[0m[0mdebug[0m] [0m[0m            )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def handleCancel(consumerTag: String): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m            // non consumer initiated cancel, for example happens when the queue has been deleted.[0m
+[0m[[0m[0mdebug[0m] [0m[0m            shutdownCallback.invoke([0m
+[0m[[0m[0mdebug[0m] [0m[0m              new RuntimeException(s"Consumer $queueName with consumerTag $consumerTag shut down unexpectedly")[0m
+[0m[[0m[0mdebug[0m] [0m[0m            )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def handleShutdownSignal(consumerTag: String, sig: ShutdownSignalException): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m            // "Called when either the channel or the underlying connection has been shut down."[0m
+[0m[[0m[0mdebug[0m] [0m[0m            shutdownCallback.invoke([0m
+[0m[[0m[0mdebug[0m] [0m[0m              new RuntimeException(s"Consumer $queueName with consumerTag $consumerTag shut down unexpectedly", sig)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            )[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        // Create an exclusive queue with a randomly generated name for use as the replyTo portion of RPC[0m
+[0m[[0m[0mdebug[0m] [0m[0m        queueName = channel[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .queueDeclare([0m
+[0m[[0m[0mdebug[0m] [0m[0m            "",[0m
+[0m[[0m[0mdebug[0m] [0m[0m            false,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            true,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            true,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            Collections.emptyMap()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          )[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .getQueue[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        channel.basicConsume([0m
+[0m[[0m[0mdebug[0m] [0m[0m          queueName,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          amqpSourceConsumer[0m
+[0m[[0m[0mdebug[0m] [0m[0m        )[0m
+[0m[[0m[0mdebug[0m] [0m[0m        promise.success(queueName)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      def handleDelivery(message: CommittableReadResult): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (isAvailable(out)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          pushMessage(message)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        } else if (queue.size + 1 > bufferSize) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          onFailure(new RuntimeException(s"Reached maximum buffer size $bufferSize"))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          queue.enqueue(message)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      setHandler([0m
+[0m[[0m[0mdebug[0m] [0m[0m        out,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        new OutHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onPull(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m            if (queue.nonEmpty) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              pushMessage(queue.dequeue())[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onDownstreamFinish(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            setKeepGoing(true)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            if (unackedMessages == 0) super.onDownstreamFinish()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      def pushMessage(message: CommittableReadResult): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        push(out, message)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        unackedMessages += 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m        outstandingMessages -= 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      setHandler([0m
+[0m[[0m[0mdebug[0m] [0m[0m        in,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        new InHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          // We don't want to finish since we're still waiting[0m
+[0m[[0m[0mdebug[0m] [0m[0m          // on incoming messages from rabbit. However, if we[0m
+[0m[[0m[0mdebug[0m] [0m[0m          // haven't processed a message yet, we do want to complete[0m
+[0m[[0m[0mdebug[0m] [0m[0m          // so that we don't hang.[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onUpstreamFinish(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            setKeepGoing(true)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            if (queue.isEmpty && outstandingMessages == 0 && unackedMessages == 0) super.onUpstreamFinish()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onUpstreamFailure(ex: Throwable): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            setKeepGoing(true)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            if (queue.isEmpty && outstandingMessages == 0 && unackedMessages == 0)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              super.onUpstreamFailure(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onPush(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            val elem = grab(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            val props = elem.properties.getOrElse(new BasicProperties()).builder.replyTo(queueName).build()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            channel.basicPublish([0m
+[0m[[0m[0mdebug[0m] [0m[0m              exchange,[0m
+[0m[[0m[0mdebug[0m] [0m[0m              elem.routingKey.getOrElse(routingKey),[0m
+[0m[[0m[0mdebug[0m] [0m[0m              elem.mandatory,[0m
+[0m[[0m[0mdebug[0m] [0m[0m              elem.immediate,[0m
+[0m[[0m[0mdebug[0m] [0m[0m              props,[0m
+[0m[[0m[0mdebug[0m] [0m[0m              elem.bytes.toArray[0m
+[0m[[0m[0mdebug[0m] [0m[0m            )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m            val expectedResponses: Int = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              val headers = props.getHeaders[0m
+[0m[[0m[0mdebug[0m] [0m[0m              if (headers == null) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                responsesPerMessage[0m
+[0m[[0m[0mdebug[0m] [0m[0m              } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                val r = headers.get("expectedReplies")[0m
+[0m[[0m[0mdebug[0m] [0m[0m                if (r != null) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  r.asInstanceOf[Int][0m
+[0m[[0m[0mdebug[0m] [0m[0m                } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  responsesPerMessage[0m
+[0m[[0m[0mdebug[0m] [0m[0m                }[0m
+[0m[[0m[0mdebug[0m] [0m[0m              }[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m            outstandingMessages += expectedResponses[0m
+[0m[[0m[0mdebug[0m] [0m[0m            pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def postStop(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        promise.tryFailure(new RuntimeException("stage stopped unexpectedly"))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        super.postStop()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def onFailure(ex: Throwable): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        promise.tryFailure(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        super.onFailure(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }, promise.future)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString: String = "AmqpRpcFlow"[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/amqp/src/main/scala/akka/stream/alpakka/amqp/impl/AmqpReplyToSinkStage.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.amqp.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.Done[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.amqp.{AmqpReplyToSinkSettings, WriteMessage}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage.{GraphStageLogic, GraphStageWithMaterializedValue, InHandler}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.{ActorAttributes, Attributes, Inlet, SinkShape}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.{Future, Promise}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Connects to an AMQP server upon materialization and sends write messages to the server.[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Each materialized sink will create one connection to the broker. This stage sends messages to[0m
+[0m[[0m[0mdebug[0m] [0m[0m * the queue named in the replyTo options of the message instead of from settings declared at construction.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[amqp] final class AmqpReplyToSinkStage(settings: AmqpReplyToSinkSettings)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends GraphStageWithMaterializedValue[SinkShape[WriteMessage], Future[Done]] { stage =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val in = Inlet[WriteMessage]("AmqpReplyToSink.in")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def shape: SinkShape[WriteMessage] = SinkShape.of(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override protected def initialAttributes: Attributes =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    super.initialAttributes and Attributes.name("AmqpReplyToSink") and ActorAttributes.IODispatcher[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def createLogicAndMaterializedValue(inheritedAttributes: Attributes): (GraphStageLogic, Future[Done]) = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val promise = Promise[Done]()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    (new GraphStageLogic(shape) with AmqpConnectorLogic {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override val settings = stage.settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def whenConnected(): Unit = pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def postStop(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        promise.tryFailure(new RuntimeException("stage stopped unexpectedly"))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        super.postStop()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def onFailure(ex: Throwable): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        promise.tryFailure(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        super.onFailure(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      setHandler([0m
+[0m[[0m[0mdebug[0m] [0m[0m        in,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        new InHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onUpstreamFailure(ex: Throwable): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            promise.failure(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            super.onUpstreamFailure(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onUpstreamFinish(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            promise.success(Done)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            super.onUpstreamFinish()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onPush(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            val elem = grab(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m            val replyTo = elem.properties.map(_.getReplyTo)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m            if (replyTo.isDefined) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              channel.basicPublish([0m
+[0m[[0m[0mdebug[0m] [0m[0m                elem.routingKey.getOrElse(""),[0m
+[0m[[0m[0mdebug[0m] [0m[0m                replyTo.get,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                elem.mandatory,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                elem.immediate,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                elem.properties.orNull,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                elem.bytes.toArray[0m
+[0m[[0m[0mdebug[0m] [0m[0m              )[0m
+[0m[[0m[0mdebug[0m] [0m[0m            } else if (settings.failIfReplyToMissing) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              onFailure(new RuntimeException("Reply-to header was not set"))[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m            tryPull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }, promise.future)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString: String = "AmqpReplyToSink"[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/amqp/src/main/scala/akka/stream/alpakka/amqp/model.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.amqp[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.rabbitmq.client.AMQP.BasicProperties[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.rabbitmq.client.Envelope[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class ReadResult private ([0m
+[0m[[0m[0mdebug[0m] [0m[0m    val bytes: ByteString,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val envelope: Envelope,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val properties: BasicProperties[0m
+[0m[[0m[0mdebug[0m] [0m[0m) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString: String =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"ReadResult(bytes=$bytes, envelope=$envelope, properties=$properties)"[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject ReadResult {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(bytes: ByteString, envelope: Envelope, properties: BasicProperties): ReadResult =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new ReadResult(bytes, envelope, properties)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(bytes: ByteString, envelope: Envelope, properties: BasicProperties): ReadResult =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ReadResult(bytes, envelope, properties)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class WriteMessage private (val bytes: ByteString,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                  val immediate: Boolean,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                  val mandatory: Boolean,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                  val properties: Option[BasicProperties] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                  val routingKey: Option[String] = None) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withImmediate(value: Boolean): WriteMessage =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (value == immediate) this[0m
+[0m[[0m[0mdebug[0m] [0m[0m    else copy(immediate = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withMandatory(value: Boolean): WriteMessage =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (value == mandatory) this[0m
+[0m[[0m[0mdebug[0m] [0m[0m    else copy(mandatory = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withProperties(properties: BasicProperties): WriteMessage =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(properties = Some(properties))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withRoutingKey(routingKey: String): WriteMessage =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(routingKey = Some(routingKey))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def copy(immediate: Boolean = immediate,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   mandatory: Boolean = mandatory,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   properties: Option[BasicProperties] = properties,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   routingKey: Option[String] = routingKey) =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new WriteMessage(bytes, immediate, mandatory, properties, routingKey)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString: String =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "WriteMessage(" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"bytes=$bytes, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"immediate=$immediate, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"mandatory=$mandatory, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"properties=$properties, " +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"routingKey=$routingKey" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ")"[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject WriteMessage {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(bytes: ByteString): WriteMessage =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new WriteMessage(bytes, immediate = false, mandatory = false)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(bytes: ByteString, immediate: Boolean, mandatory: Boolean): WriteMessage =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new WriteMessage(bytes, immediate, mandatory)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(bytes: ByteString): WriteMessage = WriteMessage(bytes)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(bytes: ByteString, immediate: Boolean, mandatory: Boolean): WriteMessage =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    WriteMessage(bytes, immediate, mandatory)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m

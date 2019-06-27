@@ -1,0 +1,313 @@
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/udp/src/main/scala/akka/stream/alpakka/udp/javadsl/Udp.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.udp.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.net.InetSocketAddress[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.concurrent.CompletionStage[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.actor.ActorSystem[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.udp.Datagram[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.{Flow, Sink}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.udp.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.compat.java8.FutureConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject Udp {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Creates a flow that will send all incoming [UdpMessage] messages to the remote address[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * contained in the message. All incoming messages are also emitted from the flow for[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * subsequent processing.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sendFlow(system: ActorSystem): Flow[Datagram, Datagram, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    scaladsl.Udp.sendFlow()(system).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Creates a sink that will send all incoming [UdpMessage] messages to the remote address[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * contained in the message.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sendSink(system: ActorSystem): Sink[Datagram, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    scaladsl.Udp.sendSink()(system).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Creates a flow that upon materialization binds to the given `localAddress`. All incoming[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * messages to the `localAddress` are emitted from the flow. All incoming messages to the flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * are sent to the remote address contained in the message.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def bindFlow(localAddress: InetSocketAddress,[0m
+[0m[[0m[0mdebug[0m] [0m[0m               system: ActorSystem): Flow[Datagram, Datagram, CompletionStage[InetSocketAddress]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    scaladsl.Udp.bindFlow(localAddress)(system).mapMaterializedValue(_.toJava).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/udp/src/main/scala/akka/stream/alpakka/udp/scaladsl/Udp.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.udp.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.net.InetSocketAddress[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.actor.ActorSystem[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.udp.Datagram[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.udp.impl.{UdpBindFlow, UdpSendFlow}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.Sink[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.Flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.Future[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject Udp {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Creates a flow that will send all incoming [UdpMessage] messages to the remote address[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * contained in the message. All incoming messages are also emitted from the flow for[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * subsequent processing.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sendFlow()(implicit system: ActorSystem): Flow[Datagram, Datagram, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow.fromGraph(new UdpSendFlow())[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Creates a sink that will send all incoming [UdpMessage] messages to the remote address[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * contained in the message.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sendSink()(implicit system: ActorSystem): Sink[Datagram, NotUsed] = sendFlow().to(Sink.ignore)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Creates a flow that upon materialization binds to the given `localAddress`. All incoming[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * messages to the `localAddress` are emitted from the flow. All incoming messages to the flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * are sent to the remote address contained in the message.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def bindFlow([0m
+[0m[[0m[0mdebug[0m] [0m[0m      localAddress: InetSocketAddress[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )(implicit system: ActorSystem): Flow[Datagram, Datagram, Future[InetSocketAddress]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow.fromGraph(new UdpBindFlow(localAddress))[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/udp/src/main/scala/akka/stream/alpakka/udp/impl/UdpBind.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.udp.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.net.InetSocketAddress[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.actor.{ActorRef, ActorSystem}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.io.{IO, Udp}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.{Attributes, FlowShape, Inlet, Outlet}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.udp.Datagram[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.{Future, Promise}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Binds to the given local address using UDP manager actor.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi private[udp] final class UdpBindLogic(localAddress: InetSocketAddress,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                   boundPromise: Promise[InetSocketAddress])([0m
+[0m[[0m[0mdebug[0m] [0m[0m    val shape: FlowShape[Datagram, Datagram][0m
+[0m[[0m[0mdebug[0m] [0m[0m)(implicit val system: ActorSystem)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends GraphStageLogic(shape) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def in = shape.in[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def out = shape.out[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private var listener: ActorRef = _[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def preStart(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    implicit val sender = getStageActor(processIncoming).ref[0m
+[0m[[0m[0mdebug[0m] [0m[0m    IO(Udp) ! Udp.Bind(sender, localAddress)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def postStop(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    unbindListener()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def processIncoming(event: (ActorRef, Any)): Unit = event match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case (sender, Udp.Bound(boundAddress)) ⇒[0m
+[0m[[0m[0mdebug[0m] [0m[0m      boundPromise.success(boundAddress)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      listener = sender[0m
+[0m[[0m[0mdebug[0m] [0m[0m      pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case (_, Udp.CommandFailed(cmd: Udp.Bind)) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val ex = new IllegalArgumentException(s"Unable to bind to [${cmd.localAddress}]")[0m
+[0m[[0m[0mdebug[0m] [0m[0m      boundPromise.failure(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      failStage(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case (_, Udp.Received(data, sender)) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (isAvailable(out)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        push(out, Datagram(data, sender))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case _ =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def unbindListener() =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (listener != null) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      listener ! Udp.Unbind[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  setHandler([0m
+[0m[[0m[0mdebug[0m] [0m[0m    in,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new InHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def onPush() = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val msg = grab(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        listener ! Udp.Send(msg.data, msg.remote)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  setHandler([0m
+[0m[[0m[0mdebug[0m] [0m[0m    out,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new OutHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def onPull(): Unit = ()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi private[udp] final class UdpBindFlow(localAddress: InetSocketAddress)(implicit val system: ActorSystem)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends GraphStageWithMaterializedValue[FlowShape[Datagram, Datagram], Future[InetSocketAddress]] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val in: Inlet[Datagram] = Inlet("UdpBindFlow.in")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val out: Outlet[Datagram] = Outlet("UdpBindFlow.in")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val shape: FlowShape[Datagram, Datagram] = FlowShape.of(in, out)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def createLogicAndMaterializedValue(inheritedAttributes: Attributes) = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val boundPromise = Promise[InetSocketAddress][0m
+[0m[[0m[0mdebug[0m] [0m[0m    (new UdpBindLogic(localAddress, boundPromise)(shape), boundPromise.future)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/udp/src/main/scala/akka/stream/alpakka/udp/impl/UdpSend.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.udp.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.actor.{ActorRef, ActorSystem, PoisonPill}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.io.{IO, Udp}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.udp.Datagram[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage.{GraphStage, GraphStageLogic, InHandler, OutHandler}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Sends incoming messages to the corresponding destination addresses.[0m
+[0m[[0m[0mdebug[0m] [0m[0m * After send command is issued to the UDP manager actor the message[0m
+[0m[[0m[0mdebug[0m] [0m[0m * is passed-through to the output for possible further processing.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi private[udp] final class UdpSendLogic(val shape: FlowShape[Datagram, Datagram])([0m
+[0m[[0m[0mdebug[0m] [0m[0m    implicit val system: ActorSystem[0m
+[0m[[0m[0mdebug[0m] [0m[0m) extends GraphStageLogic(shape) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  implicit def self: ActorRef = stageActor.ref[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def in = shape.in[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def out = shape.out[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private var simpleSender: ActorRef = _[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def preStart(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    getStageActor(processIncoming)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    IO(Udp) ! Udp.SimpleSender[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def postStop(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    stopSimpleSender()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def processIncoming(event: (ActorRef, Any)): Unit = event match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case (sender, Udp.SimpleSenderReady) ⇒[0m
+[0m[[0m[0mdebug[0m] [0m[0m      simpleSender = sender[0m
+[0m[[0m[0mdebug[0m] [0m[0m      pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case _ =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def stopSimpleSender() =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (simpleSender != null) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      simpleSender ! PoisonPill[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  setHandler([0m
+[0m[[0m[0mdebug[0m] [0m[0m    in,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new InHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def onPush() = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val msg = grab(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        simpleSender ! Udp.Send(msg.data, msg.remote)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        push(out, msg)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  setHandler([0m
+[0m[[0m[0mdebug[0m] [0m[0m    out,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new OutHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def onPull(): Unit = if (simpleSender != null) pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi private[udp] final class UdpSendFlow(implicit val system: ActorSystem)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends GraphStage[FlowShape[Datagram, Datagram]] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val in: Inlet[Datagram] = Inlet("UdpSendFlow.in")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val out: Outlet[Datagram] = Outlet("UdpSendFlow.in")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val shape: FlowShape[Datagram, Datagram] = FlowShape.of(in, out)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def createLogic(inheritedAttributes: Attributes) = new UdpSendLogic(shape)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/udp/src/main/scala/akka/stream/alpakka/udp/model.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.udp[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.net.InetSocketAddress[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class Datagram private (val data: ByteString, val remote: InetSocketAddress) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withData(data: ByteString) = copy(data = data)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withRemote(remote: InetSocketAddress) = copy(remote = remote)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def copy(data: ByteString = data, remote: InetSocketAddress = remote) =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new Datagram(data, remote)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString: String =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"""Datagram([0m
+[0m[[0m[0mdebug[0m] [0m[0m       |  data   = $data[0m
+[0m[[0m[0mdebug[0m] [0m[0m       |  remote = $remote[0m
+[0m[[0m[0mdebug[0m] [0m[0m       |)""".stripMargin[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject Datagram {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(data: ByteString, remote: InetSocketAddress) = new Datagram(data, remote)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(data: ByteString, remote: InetSocketAddress) = Datagram(data, remote)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m

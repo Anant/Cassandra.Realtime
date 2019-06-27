@@ -1,0 +1,53 @@
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/awslambda/src/main/scala/akka/stream/alpakka/awslambda/javadsl/AwsLambdaFlow.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.awslambda.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Flow[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport software.amazon.awssdk.services.lambda.model.{InvokeRequest, InvokeResponse}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport software.amazon.awssdk.services.lambda.LambdaAsyncClient[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject AwsLambdaFlow {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a [[AwsLambdaFlowStage]] for a AWS Lambda function invocation using an [[LambdaAsyncClient]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(awsLambdaClient: LambdaAsyncClient, parallelism: Int): Flow[InvokeRequest, InvokeResponse, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    akka.stream.alpakka.awslambda.scaladsl.AwsLambdaFlow.apply(parallelism)(awsLambdaClient).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/awslambda/src/main/scala/akka/stream/alpakka/awslambda/scaladsl/AwsLambdaFlow.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.awslambda.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.Flow[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport software.amazon.awssdk.services.lambda.model.{InvokeRequest, InvokeResponse}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport software.amazon.awssdk.services.lambda.LambdaAsyncClient[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.compat.java8.FutureConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject AwsLambdaFlow {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: creates a [[AwsLambdaFlowStage]] for a AWS Lambda function invocation using [[LambdaAsyncClient]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply([0m
+[0m[[0m[0mdebug[0m] [0m[0m      parallelism: Int[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )(implicit awsLambdaClient: LambdaAsyncClient): Flow[InvokeRequest, InvokeResponse, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow[InvokeRequest].mapAsyncUnordered(parallelism)(awsLambdaClient.invoke(_).toScala)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m

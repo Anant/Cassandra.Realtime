@@ -1,0 +1,23 @@
+[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/orientdb/src/main/scala/akka/stream/alpakka/orientdb/OrientDbWriteSettings.scala:18:7: private default argument in class OrientDbWriteSettings is never used[0m
+[0m[[0m[33mwarn[0m] [0m[0m      oDatabasePool: com.orientechnologies.orient.core.db.OPartitionedDatabasePool = oDatabasePool[0m
+[0m[[0m[33mwarn[0m] [0m[0m      ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/orientdb/src/main/scala/akka/stream/alpakka/orientdb/impl/OrientDbFlowStage.scala:105:22: dead code following this construct[0m
+[0m[[0m[33mwarn[0m] [0m[0m          client.save(document)[0m
+[0m[[0m[33mwarn[0m] [0m[0m                     ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/orientdb/src/main/scala/akka/stream/alpakka/orientdb/impl/OrientDbFlowStage.scala:108:22: dead code following this construct[0m
+[0m[[0m[33mwarn[0m] [0m[0m          client.save(oRecord)[0m
+[0m[[0m[33mwarn[0m] [0m[0m                     ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/orientdb/src/main/scala/akka/stream/alpakka/orientdb/impl/OrientDbFlowStage.scala:125:29: dead code following this construct[0m
+[0m[[0m[33mwarn[0m] [0m[0m          oObjectClient.save(typeRecord)[0m
+[0m[[0m[33mwarn[0m] [0m[0m                            ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/orientdb/src/main/scala/akka/stream/alpakka/orientdb/impl/OrientDbFlowStage.scala:94:24: match may not be exhaustive.[0m
+[0m[[0m[33mwarn[0m] [0m[0mIt would fail on the following input: OrientDbWriteMessage((x: T forSome x not in (AnyRef, com.orientechnologies.orient.core.record.ORecord, com.orientechnologies.orient.core.record.impl.ODocument)), _)[0m
+[0m[[0m[33mwarn[0m] [0m[0m      messages.foreach {[0m
+[0m[[0m[33mwarn[0m] [0m[0m                       ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/orientdb/src/main/scala/akka/stream/alpakka/orientdb/impl/OrientDbFlowStage.scala:45:27: class ODatabaseDocumentTx in package document is deprecated: see corresponding Javadoc for more information.[0m
+[0m[[0m[33mwarn[0m] [0m[0m    protected var client: ODatabaseDocumentTx = _[0m
+[0m[[0m[33mwarn[0m] [0m[0m                          ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/orientdb/src/main/scala/akka/stream/alpakka/orientdb/impl/OrientDbSourceStage.scala:90:27: class ODatabaseDocumentTx in package document is deprecated: see corresponding Javadoc for more information.[0m
+[0m[[0m[33mwarn[0m] [0m[0m    protected var client: ODatabaseDocumentTx = _[0m
+[0m[[0m[33mwarn[0m] [0m[0m                          ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m7 warnings found[0m

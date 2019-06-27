@@ -1,0 +1,489 @@
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/slick/src/main/scala/akka/stream/alpakka/slick/javadsl/package.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.slick.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport slick.basic.DatabaseConfig[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport slick.jdbc.JdbcBackend[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport slick.jdbc.JdbcProfile[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport slick.jdbc.PositionedResult[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.typesafe.config.Config[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport com.typesafe.config.ConfigFactory[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Java API: Represents an "open" Slick database and its database (type) profile.[0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * <b>NOTE</b>: these databases need to be closed after creation to[0m
+[0m[[0m[0mdebug[0m] [0m[0m * avoid leaking database resources like active connection pools, etc.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0msealed abstract class SlickSession {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val db: JdbcBackend#Database[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val profile: JdbcProfile[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * You are responsible for closing the database after use!![0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def close(): Unit = db.close()[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Java API: Methods for "opening" Slick databases for use.[0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * <b>NOTE</b>: databases created through these methods will need to be[0m
+[0m[[0m[0mdebug[0m] [0m[0m * closed after creation to avoid leaking database resources like active[0m
+[0m[[0m[0mdebug[0m] [0m[0m * connection pools, etc.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject SlickSession {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final class SlickSessionImpl(val slick: DatabaseConfig[JdbcProfile]) extends SlickSession {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val db: JdbcBackend#Database = slick.db[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val profile: JdbcProfile = slick.profile[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def forConfig(path: String): SlickSession = forConfig(path, ConfigFactory.load())[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def forConfig(config: Config): SlickSession = forConfig("", config)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def forConfig(path: String, config: Config): SlickSession = forConfig([0m
+[0m[[0m[0mdebug[0m] [0m[0m    DatabaseConfig.forConfig[JdbcProfile](path, config)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def forConfig(databaseConfig: DatabaseConfig[JdbcProfile]): SlickSession = new SlickSessionImpl(databaseConfig)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Java API: A class representing a slick resultset row, which is used[0m
+[0m[[0m[0mdebug[0m] [0m[0m *          in SlickSource to map result set rows back to Java objects.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class SlickRow private[javadsl] (delegate: PositionedResult) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final def nextBoolean(): java.lang.Boolean = delegate.nextBoolean()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final def nextBigDecimal(): java.math.BigDecimal = delegate.nextBigDecimal().bigDecimal[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final def nextBlob(): java.sql.Blob = delegate.nextBlob()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final def nextByte(): java.lang.Byte = delegate.nextByte()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final def nextBytes(): Array[java.lang.Byte] = delegate.nextBytes().map(Byte.box(_))[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final def nextClob(): java.sql.Clob = delegate.nextClob()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final def nextDate(): java.sql.Date = delegate.nextDate()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final def nextDouble(): java.lang.Double = delegate.nextDouble()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final def nextFloat(): java.lang.Float = delegate.nextFloat()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final def nextInt(): java.lang.Integer = delegate.nextInt()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final def nextLong(): java.lang.Long = delegate.nextLong()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final def nextObject(): java.lang.Object = delegate.nextObject()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final def nextShort(): java.lang.Short = delegate.nextShort()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final def nextString(): java.lang.String = delegate.nextString()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final def nextTime(): java.sql.Time = delegate.nextTime()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final def nextTimestamp(): java.sql.Timestamp = delegate.nextTimestamp()[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/slick/src/main/scala/akka/stream/alpakka/slick/javadsl/Slick.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.slick.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.concurrent.CompletionStage[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.function.{BiFunction => JBiFunction, Function => JFunction}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.compat.java8.FunctionConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.compat.java8.FutureConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.Done[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport slick.dbio.DBIO[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport slick.jdbc.GetResult[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport slick.jdbc.SQLActionBuilder[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport slick.jdbc.SetParameter[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.slick.scaladsl.{Slick => ScalaSlick}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.ExecutionContext[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject Slick {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a Source that performs the specified query against[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           the specified Slick database and streams the results through[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           the specified mapper function to turn database each row[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           element into an instance of T.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param session The database session to use.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param query The query string to execute. There is currently no Java[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *              DSL support for parameter substitution so you will have[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *              to build the full query statement before passing it in.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param mapper A function that takes an individual result row and[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *               transforms it to an instance of T.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def source[T]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      session: SlickSession,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      query: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      mapper: JFunction[SlickRow, T][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Source[T, NotUsed] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val streamingAction = SQLActionBuilder(query, SetParameter.SetUnit).as[T](toSlick(mapper))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ScalaSlick[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .source[T](streamingAction)(session)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a Flow that takes a stream of elements of[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           type T, transforms each element to a SQL statement[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           using the specified function, and then executes[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           those statements against the specified Slick database.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param session The database session to use.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param toStatement A function that creeates the SQL statement to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    execute from the current element. Any DML or[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    DDL statement is acceptable.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def flow[T]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      session: SlickSession,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      toStatement: JFunction[T, String] // TODO: or use the akka japi Function2 interface?[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[T, java.lang.Integer, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    flow(session, 1, toStatement)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a Flow that takes a stream of elements of[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           type T, transforms each element to a SQL statement[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           using the specified function, and then executes[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           those statements against the specified Slick database.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param session The database session to use.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param parallelism How many parallel asynchronous streams should be[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    used to send statements to the database. Use a[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    value of 1 for sequential execution.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param toStatement A function that creeates the SQL statement to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    execute from the current element. Any DML or[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    DDL statement is acceptable.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def flow[T]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      session: SlickSession,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      parallelism: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      toStatement: JFunction[T, String][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[T, java.lang.Integer, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ScalaSlick[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .flow[T](parallelism, toDBIO(toStatement))(session)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .map(Int.box(_))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a Flow that takes a stream of elements of[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           type T, transforms each element to a SQL statement[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           using the specified function, then executes[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           those statements against the specified Slick database[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           and allows to combine the statement result and element into a result type R.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param session The database session to use.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param executionContext ExecutionContext used to run mapper function in.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                         E.g. the dispatcher of the ActorSystem.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param toStatement A function that creeates the SQL statement to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    execute from the current element. Any DML or[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    DDL statement is acceptable.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param mapper A function to create a result from the incoming element T[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *               and the database statement result.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def flowWithPassThrough[T, R]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      session: SlickSession,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      executionContext: ExecutionContext,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      toStatement: JFunction[T, String],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      mapper: JBiFunction[T, java.lang.Integer, R][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[T, R, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    flowWithPassThrough(session, executionContext, 1, toStatement, mapper)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a Flow that takes a stream of elements of[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           type T, transforms each element to a SQL statement[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           using the specified function, then executes[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           those statements against the specified Slick database[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           and allows to combine the statement result and element into a result type R.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param session The database session to use.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param executionContext ExecutionContext used to run mapper function in.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                         E.g. the dispatcher of the ActorSystem.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param parallelism How many parallel asynchronous streams should be[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    used to send statements to the database. Use a[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    value of 1 for sequential execution.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param toStatement A function that creates the SQL statement to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    execute from the current element. Any DML or[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    DDL statement is acceptable.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param mapper A function to create a result from the incoming element T[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *               and the database statement result.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def flowWithPassThrough[T, R]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      session: SlickSession,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      executionContext: ExecutionContext,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      parallelism: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      toStatement: JFunction[T, String],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      mapper: JBiFunction[T, java.lang.Integer, R][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[T, R, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ScalaSlick[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .flowWithPassThrough[T, R](parallelism, (t: T) => {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        toDBIO(toStatement)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .apply(t)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .map(count => mapper.apply(t, count))(executionContext)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      })(session)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a Sink that takes a stream of elements of[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           type T, transforms each element to a SQL statement[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           using the specified function, and then executes[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           those statements against the specified Slick database.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param session The database session to use.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param toStatement A function that creeates the SQL statement to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    execute from the current element. Any DML or[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    DDL statement is acceptable.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sink[T]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      session: SlickSession,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      toStatement: JFunction[T, String] // TODO: or use the akka japi Function2 interface?[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Sink[T, CompletionStage[Done]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    sink(session, 1, toStatement)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a Sink that takes a stream of elements of[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           type T, transforms each element to a SQL statement[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           using the specified function, and then executes[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           those statements against the specified Slick database.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param session The database session to use.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param parallelism How many parallel asynchronous streams should be[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    used to send statements to the database. Use a[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    value of 1 for sequential execution.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param toStatement A function that creeates the SQL statement to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    execute from the current element. Any DML or[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    DDL statement is acceptable.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sink[T]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      session: SlickSession,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      parallelism: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      toStatement: JFunction[T, String][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Sink[T, CompletionStage[Done]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ScalaSlick[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .sink[T](parallelism, toDBIO(toStatement))(session)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .mapMaterializedValue(_.toJava)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a Sink that takes a stream of complete SQL[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           statements (e.g. a stream of Strings) to execute[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           against the specified Slick database.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param session The database session to use.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sink([0m
+[0m[[0m[0mdebug[0m] [0m[0m      session: SlickSession[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Sink[String, CompletionStage[Done]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    sink[String](session, 1, JFunction.identity[String]())[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a Sink that takes a stream of complete SQL[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           statements (e.g. a stream of Strings) to execute[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *           against the specified Slick database.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param session The database session to use.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param parallelism How many parallel asynchronous streams should be[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    used to send statements to the database. Use a[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    value of 1 for sequential execution.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sink([0m
+[0m[[0m[0mdebug[0m] [0m[0m      session: SlickSession,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      parallelism: Int[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Sink[String, CompletionStage[Done]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    sink[String](session, parallelism, JFunction.identity[String]())[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def toSlick[T](mapper: JFunction[SlickRow, T]): GetResult[T] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    GetResult(pr => mapper(new SlickRow(pr)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def toDBIO[T](javaDml: JFunction[T, String]): T => DBIO[Int] = { t =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m    SQLActionBuilder(javaDml.asScala(t), SetParameter.SetUnit).asUpdate[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/slick/src/main/scala/akka/stream/alpakka/slick/scaladsl/package.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.slick[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage object scaladsl {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: Represents an "open" Slick database and its database (type) profile.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * <b>NOTE</b>: these databases need to be closed after creation to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * avoid leaking database resources like active connection pools, etc.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  type SlickSession = javadsl.SlickSession[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: Methods for "opening" Slick databases for use.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * <b>NOTE</b>: databases created through these methods will need to be[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * closed after creation to avoid leaking database resources like active[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * connection pools, etc.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val SlickSession = javadsl.SlickSession[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/slick/src/main/scala/akka/stream/alpakka/slick/scaladsl/Slick.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.slick.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.Future[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.Done[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.Flow[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.Keep[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.Sink[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.Source[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport slick.dbio.DBIO[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport slick.dbio.StreamingDBIO[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Methods for interacting with relational databases using Slick and akka-stream.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject Slick {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: creates a Source[T, NotUsed] that performs the[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            specified query against the (implicitly) specified[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            Slick database and streams the results.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            This works for both "typed" Slick queries[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            and "plain SQL" queries.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param streamingQuery The Slick query to execute, which can[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                       be either a "typed" query or a "plain SQL"[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                       query produced by one of the Slick "sql..."[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                       String interpolators[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param session The database session to use.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def source[T]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      streamingQuery: StreamingDBIO[Seq[T], T][0m
+[0m[[0m[0mdebug[0m] [0m[0m  )(implicit session: SlickSession): Source[T, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Source.fromPublisher(session.db.stream(streamingQuery))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: creates a Flow that takes a stream of elements of[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            type T, transforms each element to a SQL statement[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            using the specified function, and then executes[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            those statements against the specified Slick database.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param toStatement A function to produce the SQL statement to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    execute based on the current element.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param session The database session to use.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def flow[T]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      toStatement: T => DBIO[Int][0m
+[0m[[0m[0mdebug[0m] [0m[0m  )(implicit session: SlickSession): Flow[T, Int, NotUsed] = flow(1, toStatement)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: creates a Flow that takes a stream of elements of[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            type T, transforms each element to a SQL statement[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            using the specified function, and then executes[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            those statements against the specified Slick database.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param toStatement A function to produce the SQL statement to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    execute based on the current element.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param parallelism How many parallel asynchronous streams should be[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    used to send statements to the database. Use a[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    value of 1 for sequential execution.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param session The database session to use.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def flow[T]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      parallelism: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      toStatement: T => DBIO[Int][0m
+[0m[[0m[0mdebug[0m] [0m[0m  )(implicit session: SlickSession): Flow[T, Int, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    flowWithPassThrough(parallelism, toStatement)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: creates a Flow that takes a stream of elements of[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            type T, transforms each element to a SQL statement[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            using the specified function, then executes[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            those statements against the specified Slick database[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            and returns the statement result type R.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param toStatement A function to produce the SQL statement to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    execute based on the current element.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param session The database session to use.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def flowWithPassThrough[T, R]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      toStatement: T => DBIO[R][0m
+[0m[[0m[0mdebug[0m] [0m[0m  )(implicit session: SlickSession): Flow[T, R, NotUsed] = flowWithPassThrough(1, toStatement)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: creates a Flow that takes a stream of elements of[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            type T, transforms each element to a SQL statement[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            using the specified function, then executes[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            those statements against the specified Slick database[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            and returns the statement result type R.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param toStatement A function to produce the SQL statement to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    execute based on the current element.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param parallelism How many parallel asynchronous streams should be[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    used to send statements to the database. Use a[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    value of 1 for sequential execution.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param session The database session to use.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def flowWithPassThrough[T, R]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      parallelism: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      toStatement: T => DBIO[R][0m
+[0m[[0m[0mdebug[0m] [0m[0m  )(implicit session: SlickSession): Flow[T, R, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow[T][0m
+[0m[[0m[0mdebug[0m] [0m[0m      .mapAsync(parallelism) { t =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m        session.db.run(toStatement(t))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: creates a Sink that takes a stream of elements of[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            type T, transforms each element to a SQL statement[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            using the specified function, and then executes[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            those statements against the specified Slick database.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param toStatement A function to produce the SQL statement to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    execute based on the current element.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param session The database session to use.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sink[T]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      toStatement: T => DBIO[Int][0m
+[0m[[0m[0mdebug[0m] [0m[0m  )(implicit session: SlickSession): Sink[T, Future[Done]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    flow[T](1, toStatement).toMat(Sink.ignore)(Keep.right)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: creates a Sink that takes a stream of elements of[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            type T, transforms each element to a SQL statement[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            using the specified function, and then executes[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *            those statements against the specified Slick database.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param toStatement A function to produce the SQL statement to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    execute based on the current element.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param parallelism How many parallel asynchronous streams should be[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    used to send statements to the database. Use a[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                    value of 1 for sequential execution.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param session The database session to use.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sink[T]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      parallelism: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      toStatement: T => DBIO[Int][0m
+[0m[[0m[0mdebug[0m] [0m[0m  )(implicit session: SlickSession): Sink[T, Future[Done]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    flow[T](parallelism, toStatement).toMat(Sink.ignore)(Keep.right)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m

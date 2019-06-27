@@ -1,0 +1,876 @@
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/unix-domain-socket/src/main/scala/akka/stream/alpakka/unixdomainsocket/javadsl/UnixDomainSocket.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.unixdomainsocket.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.io.File[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.Optional[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.concurrent.CompletionStage[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.compat.java8.OptionConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.compat.java8.FutureConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.actor.{ActorSystem, ExtendedActorSystem, Extension, ExtensionId, ExtensionIdProvider}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.unixdomainsocket.scaladsl.{UnixDomainSocket => ScalaUnixDomainSocket}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.{Flow, Source}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.Materializer[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport jnr.unixsocket.UnixSocketAddress[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.duration.Duration[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject UnixDomainSocket extends ExtensionId[UnixDomainSocket] with ExtensionIdProvider {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Represents a prospective UnixDomainSocket server binding.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final class ServerBinding private[akka] (delegate: ScalaUnixDomainSocket.ServerBinding) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m     * The local address of the endpoint bound by the materialization of the `connections` [[akka.stream.javadsl.Source Source]].[0m
+[0m[[0m[0mdebug[0m] [0m[0m     */[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def localAddress: UnixSocketAddress = delegate.localAddress[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m     * Asynchronously triggers the unbinding of the port that was bound by the materialization of the `connections`[0m
+[0m[[0m[0mdebug[0m] [0m[0m     * [[akka.stream.javadsl.Source Source]].[0m
+[0m[[0m[0mdebug[0m] [0m[0m     *[0m
+[0m[[0m[0mdebug[0m] [0m[0m     * The produced [[java.util.concurrent.CompletionStage]] is fulfilled when the unbinding has been completed.[0m
+[0m[[0m[0mdebug[0m] [0m[0m     */[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def unbind(): CompletionStage[Unit] = delegate.unbind().toJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Represents an accepted incoming UnixDomainSocket connection.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final class IncomingConnection private[akka] (delegate: ScalaUnixDomainSocket.IncomingConnection) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m     * The local address this connection is bound to.[0m
+[0m[[0m[0mdebug[0m] [0m[0m     */[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def localAddress: UnixSocketAddress = delegate.localAddress[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m     * The remote address this connection is bound to.[0m
+[0m[[0m[0mdebug[0m] [0m[0m     */[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def remoteAddress: UnixSocketAddress = delegate.remoteAddress[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m     * Handles the connection using the given flow, which is materialized exactly once and the respective[0m
+[0m[[0m[0mdebug[0m] [0m[0m     * materialized value is returned.[0m
+[0m[[0m[0mdebug[0m] [0m[0m     *[0m
+[0m[[0m[0mdebug[0m] [0m[0m     * Convenience shortcut for: `flow.join(handler).run()`.[0m
+[0m[[0m[0mdebug[0m] [0m[0m     */[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def handleWith[Mat](handler: Flow[ByteString, ByteString, Mat], materializer: Materializer): Mat =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      delegate.handleWith(handler.asScala)(materializer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m     * A flow representing the client on the other side of the connection.[0m
+[0m[[0m[0mdebug[0m] [0m[0m     * This flow can be materialized only once.[0m
+[0m[[0m[0mdebug[0m] [0m[0m     */[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def flow: Flow[ByteString, ByteString, NotUsed] = new Flow(delegate.flow)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Represents a prospective outgoing UnixDomainSocket connection.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final class OutgoingConnection private[akka] (delegate: ScalaUnixDomainSocket.OutgoingConnection) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m     * The remote address this connection is or will be bound to.[0m
+[0m[[0m[0mdebug[0m] [0m[0m     */[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def remoteAddress: UnixSocketAddress = delegate.remoteAddress[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m     * The local address of the endpoint bound by the materialization of the connection materialization.[0m
+[0m[[0m[0mdebug[0m] [0m[0m     */[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def localAddress: UnixSocketAddress = delegate.localAddress[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def get(system: ActorSystem): UnixDomainSocket =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    super.get(system)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def lookup(): ExtensionId[_ <: Extension] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    UnixDomainSocket[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def createExtension(system: ExtendedActorSystem): UnixDomainSocket =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new UnixDomainSocket(system)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class UnixDomainSocket(system: ExtendedActorSystem) extends akka.actor.Extension {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  import UnixDomainSocket._[0m
+[0m[[0m[0mdebug[0m] [0m[0m  import akka.dispatch.ExecutionContexts.{sameThreadExecutionContext ⇒ ec}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private lazy val delegate: ScalaUnixDomainSocket = ScalaUnixDomainSocket(system)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Creates a [[UnixDomainSocket.ServerBinding]] instance which represents a prospective UnixDomainSocket server binding on the given `endpoint`.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Please note that the startup of the server is asynchronous, i.e. after materializing the enclosing[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * [[akka.stream.scaladsl.RunnableGraph]] the server is not immediately available. Only after the materialized future[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * completes is the server ready to accept client connections.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * TODO: Support idleTimeout as per Tcp.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param file      The file to listen on[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param backlog   Controls the size of the connection backlog[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param halfClose[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  Controls whether the connection is kept open even after writing has been completed to the accepted[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  UnixDomainSocket connections.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  If set to true, the connection will implement the UnixDomainSocket half-close mechanism, allowing the client to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  write to the connection even after the server has finished writing. The UnixDomainSocket socket is only closed[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  after both the client and server finished writing.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  If set to false, the connection will immediately closed once the server closes its write side,[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  independently whether the client is still attempting to write. This setting is recommended[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  for servers, and therefore it is the default setting.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def bind(file: File, backlog: Int, halfClose: Boolean): Source[IncomingConnection, CompletionStage[ServerBinding]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Source.fromGraph([0m
+[0m[[0m[0mdebug[0m] [0m[0m      delegate[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .bind(file, backlog, halfClose)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .map(new IncomingConnection(_))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .mapMaterializedValue(_.map(new ServerBinding(_))(ec).toJava)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Creates a [[UnixDomainSocket.ServerBinding]] without specifying options.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * It represents a prospective UnixDomainSocket server binding on the given `endpoint`.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Please note that the startup of the server is asynchronous, i.e. after materializing the enclosing[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * [[akka.stream.scaladsl.RunnableGraph]] the server is not immediately available. Only after the materialized future[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * completes is the server ready to accept client connections.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def bind(file: File): Source[IncomingConnection, CompletionStage[ServerBinding]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Source.fromGraph([0m
+[0m[[0m[0mdebug[0m] [0m[0m      delegate[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .bind(file)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .map(new IncomingConnection(_))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .mapMaterializedValue(_.map(new ServerBinding(_))(ec).toJava)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Creates an [[UnixDomainSocket.OutgoingConnection]] instance representing a prospective UnixDomainSocket client connection to the given endpoint.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Note that the ByteString chunk boundaries are not retained across the network,[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * to achieve application level chunks you have to introduce explicit framing in your streams,[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * for example using the [[akka.stream.javadsl.Framing]] stages.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * TODO: Support idleTimeout as per Tcp.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param remoteAddress The remote address to connect to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param localAddress  Optional local address for the connection[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param halfClose[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  Controls whether the connection is kept open even after writing has been completed to the accepted[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  UnixDomainSocket connections.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  If set to true, the connection will implement the UnixDomainSocket half-close mechanism, allowing the server to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  write to the connection even after the client has finished writing. The UnixDomainSocket socket is only closed[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  after both the client and server finished writing. This setting is recommended for clients and[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  therefore it is the default setting.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  If set to false, the connection will immediately closed once the client closes its write side,[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  independently whether the server is still attempting to write.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def outgoingConnection(remoteAddress: UnixSocketAddress,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                         localAddress: Optional[UnixSocketAddress],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                         halfClose: Boolean,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                         connectTimeout: Duration): Flow[ByteString, ByteString, CompletionStage[OutgoingConnection]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow.fromGraph([0m
+[0m[[0m[0mdebug[0m] [0m[0m      delegate[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .outgoingConnection(remoteAddress, localAddress.asScala, halfClose, connectTimeout)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .mapMaterializedValue(_.map(new OutgoingConnection(_))(ec).toJava)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Creates an [[UnixDomainSocket.OutgoingConnection]] without specifying options.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * It represents a prospective UnixDomainSocket client connection to the given endpoint.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * TODO: Support idleTimeout as per Tcp.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Note that the ByteString chunk boundaries are not retained across the network,[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * to achieve application level chunks you have to introduce explicit framing in your streams,[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * for example using the [[akka.stream.javadsl.Framing]] stages.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def outgoingConnection(file: File): Flow[ByteString, ByteString, CompletionStage[OutgoingConnection]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow.fromGraph([0m
+[0m[[0m[0mdebug[0m] [0m[0m      delegate[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .outgoingConnection(new UnixSocketAddress(file))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .mapMaterializedValue(_.map(new OutgoingConnection(_))(ec).toJava)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/unix-domain-socket/src/main/scala/akka/stream/alpakka/unixdomainsocket/scaladsl/UnixDomainSocket.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.unixdomainsocket.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.io.File[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.actor.{ActorSystem, ExtendedActorSystem, Extension, ExtensionId, ExtensionIdProvider}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.unixdomainsocket.impl.UnixDomainSocketImpl[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.{Flow, Keep, Sink, Source}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport jnr.unixsocket.UnixSocketAddress[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.Future[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.duration.Duration[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject UnixDomainSocket extends ExtensionId[UnixDomainSocket] with ExtensionIdProvider {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply()(implicit system: ActorSystem): UnixDomainSocket = super.apply(system)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def createExtension(system: ExtendedActorSystem) =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new UnixDomainSocket(system)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def lookup(): ExtensionId[_ <: Extension] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    UnixDomainSocket[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * * Represents a successful server binding.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final case class ServerBinding(localAddress: UnixSocketAddress)(private val unbindAction: () => Future[Unit]) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def unbind(): Future[Unit] = unbindAction()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Represents an accepted incoming connection.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final case class IncomingConnection(localAddress: UnixSocketAddress,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                      remoteAddress: UnixSocketAddress,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                      flow: Flow[ByteString, ByteString, NotUsed]) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m     * Handles the connection using the given flow, which is materialized exactly once and the respective[0m
+[0m[[0m[0mdebug[0m] [0m[0m     * materialized instance is returned.[0m
+[0m[[0m[0mdebug[0m] [0m[0m     *[0m
+[0m[[0m[0mdebug[0m] [0m[0m     * Convenience shortcut for: `flow.join(handler).run()`.[0m
+[0m[[0m[0mdebug[0m] [0m[0m     */[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def handleWith[Mat](handler: Flow[ByteString, ByteString, Mat])(implicit materializer: Materializer): Mat =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      flow.joinMat(handler)(Keep.right).run()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Represents a prospective outgoing Unix Domain Socket connection.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final case class OutgoingConnection(remoteAddress: UnixSocketAddress, localAddress: UnixSocketAddress)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Provides Unix Domain Socket functionality to Akka Streams with an interface similar to Akka's Tcp class.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class UnixDomainSocket(system: ExtendedActorSystem) extends UnixDomainSocketImpl(system) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  import UnixDomainSocket._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private implicit val materializer: ActorMaterializer = ActorMaterializer()(system)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Creates a [[UnixDomainSocket.ServerBinding]] instance which represents a prospective Unix Domain Socket[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * server binding on the given `endpoint`.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Please note that the startup of the server is asynchronous, i.e. after materializing the enclosing[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * [[akka.stream.scaladsl.RunnableGraph]] the server is not immediately available. Only after the materialized future[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * completes is the server ready to accept client connections.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * TODO: Support idleTimeout as per Tcp.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param file      The file to listen on[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param backlog   Controls the size of the connection backlog[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param halfClose[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  Controls whether the connection is kept open even after writing has been completed to the accepted[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  socket connections.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  If set to true, the connection will implement the socket half-close mechanism, allowing the client to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  write to the connection even after the server has finished writing. The socket is only closed[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  after both the client and server finished writing.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  If set to false, the connection will immediately closed once the server closes its write side,[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  independently whether the client is still attempting to write. This setting is recommended[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  for servers, and therefore it is the default setting.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def bind(file: File,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    backlog: Int = 128,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    halfClose: Boolean = false): Source[IncomingConnection, Future[ServerBinding]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    super.bind(file, backlog, halfClose)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Creates a [[UnixDomainSocket.ServerBinding]] instance which represents a prospective Unix Socket server binding on the given `endpoint`[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * handling the incoming connections using the provided Flow.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Please note that the startup of the server is asynchronous, i.e. after materializing the enclosing[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * [[akka.stream.scaladsl.RunnableGraph]] the server is not immediately available. Only after the returned future[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * completes is the server ready to accept client connections.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * TODO: Support idleTimeout as per Tcp.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param handler   A Flow that represents the server logic[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param file      The file to listen on[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param backlog   Controls the size of the connection backlog[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param halfClose[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  Controls whether the connection is kept open even after writing has been completed to the accepted[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  socket connections.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  If set to true, the connection will implement the socket half-close mechanism, allowing the client to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  write to the connection even after the server has finished writing. The socket is only closed[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  after both the client and server finished writing.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  If set to false, the connection will immediately closed once the server closes its write side,[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  independently whether the client is still attempting to write. This setting is recommended[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  for servers, and therefore it is the default setting.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def bindAndHandle(handler: Flow[ByteString, ByteString, _],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    file: File,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    backlog: Int = 128,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    halfClose: Boolean = false): Future[ServerBinding] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    bind(file, backlog, halfClose)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .to(Sink.foreach { conn: IncomingConnection ⇒[0m
+[0m[[0m[0mdebug[0m] [0m[0m        conn.flow.join(handler).run()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      })[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .run()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Creates an [[UnixDomainSocket.OutgoingConnection]] instance representing a prospective Unix Domain client connection to the given endpoint.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Note that the ByteString chunk boundaries are not retained across the network,[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * to achieve application level chunks you have to introduce explicit framing in your streams,[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * for example using the [[akka.stream.scaladsl.Framing]] stages.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * TODO: Support idleTimeout as per Tcp.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param remoteAddress The remote address to connect to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param localAddress  Optional local address for the connection[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param halfClose[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  Controls whether the connection is kept open even after writing has been completed to the accepted[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  socket connections.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  If set to true, the connection will implement the socket half-close mechanism, allowing the server to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  write to the connection even after the client has finished writing. The socket is only closed[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  after both the client and server finished writing. This setting is recommended for clients and[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  therefore it is the default setting.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  If set to false, the connection will immediately closed once the client closes its write side,[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *                  independently whether the server is still attempting to write.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def outgoingConnection([0m
+[0m[[0m[0mdebug[0m] [0m[0m      remoteAddress: UnixSocketAddress,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      localAddress: Option[UnixSocketAddress] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      halfClose: Boolean = true,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      connectTimeout: Duration = Duration.Inf[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[ByteString, ByteString, Future[OutgoingConnection]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    super.outgoingConnection(remoteAddress, localAddress, halfClose, connectTimeout)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Creates an [[UnixDomainSocket.OutgoingConnection]] without specifying options.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * It represents a prospective Unix Domain client connection to the given endpoint.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Note that the ByteString chunk boundaries are not retained across the network,[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * to achieve application level chunks you have to introduce explicit framing in your streams,[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * for example using the [[akka.stream.scaladsl.Framing]] stages.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def outgoingConnection(file: File): Flow[ByteString, ByteString, Future[OutgoingConnection]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    super.outgoingConnection(new UnixSocketAddress(file))[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/unix-domain-socket/src/main/scala/akka/stream/alpakka/unixdomainsocket/impl/UnixDomainSocketImpl.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.unixdomainsocket.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.io.{File, IOException}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.ByteBuffer[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.channels.{SelectionKey, Selector}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.actor.{Cancellable, CoordinatedShutdown, ExtendedActorSystem, Extension}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.event.LoggingAdapter[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.unixdomainsocket.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.{Flow, Keep, Sink, Source, SourceQueueWithComplete}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.{Done, NotUsed}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport jnr.enxio.channels.NativeSelectorProvider[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport jnr.unixsocket.{UnixServerSocketChannel, UnixSocketAddress, UnixSocketChannel}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.duration.{Duration, FiniteDuration}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.{ExecutionContext, Future, Promise}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.util.control.NonFatal[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.util.{Failure, Success, Try}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * INTERNAL API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[unixdomainsocket] object UnixDomainSocketImpl {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  import scaladsl.UnixDomainSocket._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private sealed abstract class ReceiveContext([0m
+[0m[[0m[0mdebug[0m] [0m[0m      val queue: SourceQueueWithComplete[ByteString],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val buffer: ByteBuffer[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private case class ReceiveAvailable([0m
+[0m[[0m[0mdebug[0m] [0m[0m      override val queue: SourceQueueWithComplete[ByteString],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override val buffer: ByteBuffer[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ) extends ReceiveContext(queue, buffer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private case class PendingReceiveAck([0m
+[0m[[0m[0mdebug[0m] [0m[0m      override val queue: SourceQueueWithComplete[ByteString],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override val buffer: ByteBuffer,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      pendingResult: Future[QueueOfferResult][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ) extends ReceiveContext(queue, buffer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private sealed abstract class SendContext([0m
+[0m[[0m[0mdebug[0m] [0m[0m      val buffer: ByteBuffer[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private case class SendAvailable([0m
+[0m[[0m[0mdebug[0m] [0m[0m      override val buffer: ByteBuffer[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ) extends SendContext(buffer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private case class SendRequested([0m
+[0m[[0m[0mdebug[0m] [0m[0m      override val buffer: ByteBuffer,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      sent: Promise[Done][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ) extends SendContext(buffer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private case object CloseRequested extends SendContext(ByteString.empty.asByteBuffer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private case object ShutdownRequested extends SendContext(ByteString.empty.asByteBuffer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private class SendReceiveContext([0m
+[0m[[0m[0mdebug[0m] [0m[0m      @volatile var send: SendContext,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      @volatile var receive: ReceiveContext,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      @volatile var halfClose: Boolean,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      @volatile var isOutputShutdown: Boolean,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      @volatile var isInputShutdown: Boolean[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /*[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * All NIO for UnixDomainSocket across an entire actor system is performed on just one thread. Data[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * is input/output as fast as possible with back-pressure being fully implemented e.g. if there's[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * no other thread ready to consume a receive buffer, then there is no registration for a read[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * operation.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def nioEventLoop(sel: Selector, log: LoggingAdapter)(implicit ec: ExecutionContext): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    while (sel.isOpen) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val nrOfKeysSelected = sel.select()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (sel.isOpen) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val keySelectable = nrOfKeysSelected > 0[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val keys = if (keySelectable) sel.selectedKeys().iterator() else sel.keys().iterator()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        while (keys.hasNext) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          val key = keys.next()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m          if (key != null) { // Observed as sometimes being null via sel.keys().iterator()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            if (log.isDebugEnabled) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              val interestInfo = if (keySelectable) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                val interestSet = key.asInstanceOf[SelectionKey].interestOps()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m                val isInterestedInAccept = (interestSet & SelectionKey.OP_ACCEPT) != 0[0m
+[0m[[0m[0mdebug[0m] [0m[0m                val isInterestedInConnect = (interestSet & SelectionKey.OP_CONNECT) != 0[0m
+[0m[[0m[0mdebug[0m] [0m[0m                val isInterestedInRead = (interestSet & SelectionKey.OP_READ) != 0[0m
+[0m[[0m[0mdebug[0m] [0m[0m                val isInterestedInWrite = (interestSet & SelectionKey.OP_WRITE) != 0[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m                f"(accept=$isInterestedInAccept%5s connect=$isInterestedInConnect%5s read=$isInterestedInRead%5s write=$isInterestedInWrite%5s)"[0m
+[0m[[0m[0mdebug[0m] [0m[0m              } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                ""[0m
+[0m[[0m[0mdebug[0m] [0m[0m              }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m              log.debug([0m
+[0m[[0m[0mdebug[0m] [0m[0m                f"""ch=${key.channel().hashCode()}%10d[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   | at=${Option(key.attachment()).fold(0)(_.hashCode())}%10d[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   | selectable=$keySelectable%5s[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   | acceptable=${key.isAcceptable}%5s[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   | connectable=${key.isConnectable}%5s[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   | readable=${key.isReadable}%5s[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   | writable=${key.isWritable}%5s[0m
+[0m[[0m[0mdebug[0m] [0m[0m                   | $interestInfo""".stripMargin.replaceAll("\n", "")[0m
+[0m[[0m[0mdebug[0m] [0m[0m              )[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m            if (keySelectable && (key.isAcceptable || key.isConnectable)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              val newConnectionOp = key.attachment().asInstanceOf[(Selector, SelectionKey) => Unit][0m
+[0m[[0m[0mdebug[0m] [0m[0m              newConnectionOp(sel, key)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m            key.attachment match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              case null =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              case sendReceiveContext: SendReceiveContext =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                sendReceiveContext.send match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  case SendRequested(buffer, sent) if keySelectable && key.isWritable =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    val channel = key.channel().asInstanceOf[UnixSocketChannel][0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    val written =[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        channel.write(buffer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      } catch {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        case e: IOException =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                          key.cancel()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                          try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                            key.channel.close()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                          } catch { case _: IOException => }[0m
+[0m[[0m[0mdebug[0m] [0m[0m                          sent.failure(e)[0m
+[0m[[0m[0mdebug[0m] [0m[0m                          -1[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    val remaining = buffer.remaining[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    log.debug("written: {} remaining: {}", written, remaining)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    if (written >= 0 && remaining == 0) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      sendReceiveContext.send = SendAvailable(buffer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      key.interestOps(key.interestOps() & ~SelectionKey.OP_WRITE)[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      sent.success(Done)[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  case _: SendRequested =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    key.interestOps(key.interestOps() | SelectionKey.OP_WRITE)[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  case _: SendAvailable =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  case ShutdownRequested if key.isValid && !sendReceiveContext.isOutputShutdown =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      if (sendReceiveContext.isInputShutdown) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        log.debug("Write-side is shutting down")[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        key.cancel()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        key.channel.close()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        log.debug("Write-side is shutting down further output")[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        sendReceiveContext.isOutputShutdown = true[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        key.interestOps(key.interestOps() & ~SelectionKey.OP_WRITE)[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        key.channel.asInstanceOf[UnixSocketChannel].shutdownOutput()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    } catch {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      // socket could have been closed in the meantime, so shutdownOutput will throw this[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      case _: IOException =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  case ShutdownRequested =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  case CloseRequested =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    log.debug("Write-side is shutting down unconditionally")[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    key.cancel()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      key.channel.close()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    } catch { case _: IOException => }[0m
+[0m[[0m[0mdebug[0m] [0m[0m                }[0m
+[0m[[0m[0mdebug[0m] [0m[0m                sendReceiveContext.receive match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  case ReceiveAvailable(queue, buffer) if keySelectable && key.isReadable =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    buffer.clear()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    val channel = key.channel.asInstanceOf[UnixSocketChannel][0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    val read =[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        channel.read(buffer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      } catch {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        // socket could have been closed in the meantime, so read will throw this[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        case _: IOException => -1[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    log.debug("read: {}", read)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    if (read >= 0) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      buffer.flip()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      val pendingResult = queue.offer(ByteString(buffer))[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      pendingResult.onComplete(_ => sel.wakeup())[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      sendReceiveContext.receive = PendingReceiveAck(queue, buffer, pendingResult)[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      key.interestOps(key.interestOps() & ~SelectionKey.OP_READ)[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      queue.complete()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        if (!sendReceiveContext.halfClose || sendReceiveContext.isOutputShutdown) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                          queue.watchCompletion().onComplete { _ =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                            log.debug("Read-side is shutting down")[0m
+[0m[[0m[0mdebug[0m] [0m[0m                            key.cancel()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                            try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                              key.channel().close()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                            } catch { case _: IOException => }[0m
+[0m[[0m[0mdebug[0m] [0m[0m                          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                          log.debug("Read-side is shutting down further input")[0m
+[0m[[0m[0mdebug[0m] [0m[0m                          sendReceiveContext.isInputShutdown = true[0m
+[0m[[0m[0mdebug[0m] [0m[0m                          channel.shutdownInput()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      } catch {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        // socket could have been closed in the meantime, so shutdownInput will throw this[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        case _: IOException =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  case _: ReceiveAvailable =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  case PendingReceiveAck(receiveQueue, receiveBuffer, pendingResult) if pendingResult.isCompleted =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    pendingResult.value.get match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      case Success(QueueOfferResult.Enqueued) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        key.interestOps(key.interestOps() | SelectionKey.OP_READ)[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        sendReceiveContext.receive = ReceiveAvailable(receiveQueue, receiveBuffer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      case e =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        log.debug("Read-side is shutting down due to {}", e)[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        receiveQueue.complete()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        key.cancel()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                          key.channel.close()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        } catch { case _: IOException => }[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  case _: PendingReceiveAck =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                }[0m
+[0m[[0m[0mdebug[0m] [0m[0m              case _: ((Selector, SelectionKey) => Unit) @unchecked =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m          if (keySelectable) keys.remove()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def acceptKey([0m
+[0m[[0m[0mdebug[0m] [0m[0m      localAddress: UnixSocketAddress,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      incomingConnectionQueue: SourceQueueWithComplete[IncomingConnection],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      halfClose: Boolean,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      receiveBufferSize: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      sendBufferSize: Int[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )(sel: Selector, key: SelectionKey)(implicit mat: ActorMaterializer, ec: ExecutionContext): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val acceptingChannel = key.channel().asInstanceOf[UnixServerSocketChannel][0m
+[0m[[0m[0mdebug[0m] [0m[0m    val acceptedChannel = try { acceptingChannel.accept() } catch { case _: IOException => null }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (acceptedChannel != null) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      acceptedChannel.configureBlocking(false)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val (context, connectionFlow) = sendReceiveStructures(sel, receiveBufferSize, sendBufferSize, halfClose)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      try { acceptedChannel.register(sel, SelectionKey.OP_READ, context) } catch { case _: IOException => }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      incomingConnectionQueue.offer([0m
+[0m[[0m[0mdebug[0m] [0m[0m        IncomingConnection(localAddress, acceptingChannel.getRemoteSocketAddress, connectionFlow)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def connectKey(remoteAddress: UnixSocketAddress,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                         connectionFinished: Promise[Done],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                         cancellable: Option[Cancellable],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                         sendReceiveContext: SendReceiveContext)(sel: Selector, key: SelectionKey): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val connectingChannel = key.channel().asInstanceOf[UnixSocketChannel][0m
+[0m[[0m[0mdebug[0m] [0m[0m    cancellable.foreach(_.cancel())[0m
+[0m[[0m[0mdebug[0m] [0m[0m    try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      connectingChannel.register(sel, SelectionKey.OP_READ, sendReceiveContext)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val finishExpected = connectingChannel.finishConnect()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      require(finishExpected, "Internal error - our call to connection finish wasn't expected.")[0m
+[0m[[0m[0mdebug[0m] [0m[0m      connectionFinished.trySuccess(Done)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    } catch {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      case NonFatal(e) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m        connectionFinished.tryFailure(e)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        key.cancel()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def sendReceiveStructures(sel: Selector, receiveBufferSize: Int, sendBufferSize: Int, halfClose: Boolean)([0m
+[0m[[0m[0mdebug[0m] [0m[0m      implicit mat: ActorMaterializer,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      ec: ExecutionContext[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): (SendReceiveContext, Flow[ByteString, ByteString, NotUsed]) = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val (receiveQueue, receiveSource) =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Source[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .queue[ByteString](2, OverflowStrategy.backpressure)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .prefixAndTail(0)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .map(_._2)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .toMat(Sink.head)(Keep.both)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .run()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val sendReceiveContext =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      new SendReceiveContext([0m
+[0m[[0m[0mdebug[0m] [0m[0m        SendAvailable(ByteBuffer.allocate(sendBufferSize)),[0m
+[0m[[0m[0mdebug[0m] [0m[0m        ReceiveAvailable(receiveQueue, ByteBuffer.allocate(receiveBufferSize)),[0m
+[0m[[0m[0mdebug[0m] [0m[0m        halfClose = halfClose,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        isOutputShutdown = false,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        isInputShutdown = false[0m
+[0m[[0m[0mdebug[0m] [0m[0m      ) // FIXME: No need for the costly allocation of direct buffers yet given https://github.com/jnr/jnr-unixsocket/pull/49[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val sendSink = Sink.fromGraph([0m
+[0m[[0m[0mdebug[0m] [0m[0m      Flow[ByteString][0m
+[0m[[0m[0mdebug[0m] [0m[0m        .mapConcat { bytes =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          if (bytes.size <= sendBufferSize) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            Vector(bytes)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            @annotation.tailrec[0m
+[0m[[0m[0mdebug[0m] [0m[0m            def splitToBufferSize(bytes: ByteString, acc: Vector[ByteString]): Vector[ByteString] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m              if (bytes.nonEmpty) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                val (left, right) = bytes.splitAt(sendBufferSize)[0m
+[0m[[0m[0mdebug[0m] [0m[0m                splitToBufferSize(right, acc :+ left)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                acc[0m
+[0m[[0m[0mdebug[0m] [0m[0m              }[0m
+[0m[[0m[0mdebug[0m] [0m[0m            splitToBufferSize(bytes, Vector.empty)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .mapAsync(1) { bytes =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          // Note - it is an error to get here and not have an AvailableSendContext[0m
+[0m[[0m[0mdebug[0m] [0m[0m          val sent = Promise[Done][0m
+[0m[[0m[0mdebug[0m] [0m[0m          val sendBuffer = sendReceiveContext.send.buffer[0m
+[0m[[0m[0mdebug[0m] [0m[0m          sendBuffer.clear()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          val copied = bytes.copyToBuffer(sendBuffer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          sendBuffer.flip()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          require(copied == bytes.size) // It is an error to exceed our buffer size given the above mapConcat[0m
+[0m[[0m[0mdebug[0m] [0m[0m          sendReceiveContext.send = SendRequested(sendBuffer, sent)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          sel.wakeup()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          sent.future.map(_ => bytes)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .watchTermination() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          case (_, done) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m            done.onComplete { _ =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              sendReceiveContext.send = if (halfClose) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                ShutdownRequested[0m
+[0m[[0m[0mdebug[0m] [0m[0m              } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                receiveQueue.complete()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                CloseRequested[0m
+[0m[[0m[0mdebug[0m] [0m[0m              }[0m
+[0m[[0m[0mdebug[0m] [0m[0m              sel.wakeup()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m            Keep.left[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .to(Sink.ignore)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    (sendReceiveContext, Flow.fromSinkAndSource(sendSink, Source.fromFutureSource(receiveSource)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * INTERNAL API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[unixdomainsocket] abstract class UnixDomainSocketImpl(system: ExtendedActorSystem) extends Extension {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  import scaladsl.UnixDomainSocket._[0m
+[0m[[0m[0mdebug[0m] [0m[0m  import UnixDomainSocketImpl._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private implicit val materializer: ActorMaterializer = ActorMaterializer()(system)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  import system.dispatcher[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val sel = NativeSelectorProvider.getInstance.openSelector[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val ioThread = new Thread(new Runnable {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    override def run(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      nioEventLoop(sel, system.log)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }, "unix-domain-socket-io")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ioThread.start()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  CoordinatedShutdown(system).addTask(CoordinatedShutdown.PhaseServiceStop, "stopUnixDomainSocket") { () =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m    sel.close() // Not much else that we can do[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Future.successful(Done)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val receiveBufferSize: Int =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    system.settings.config.getBytes("akka.stream.alpakka.unix-domain-socket.receive-buffer-size").toInt[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val sendBufferSize: Int =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    system.settings.config.getBytes("akka.stream.alpakka.unix-domain-socket.send-buffer-size").toInt[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def bind(file: File,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                     backlog: Int = 128,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                     halfClose: Boolean = false): Source[IncomingConnection, Future[ServerBinding]] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val bind = { () =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val (incomingConnectionQueue, incomingConnectionSource) =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        Source[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .queue[IncomingConnection](2, OverflowStrategy.backpressure)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .prefixAndTail(0)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .map {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case (_, source) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              source[0m
+[0m[[0m[0mdebug[0m] [0m[0m                .watchTermination() { (mat, done) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  done[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    .andThen {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                      case _ =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                          file.delete()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        } catch {[0m
+[0m[[0m[0mdebug[0m] [0m[0m                          case NonFatal(_) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  mat[0m
+[0m[[0m[0mdebug[0m] [0m[0m                }[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .toMat(Sink.head)(Keep.both)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .run()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val serverBinding = Promise[ServerBinding][0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val channel = UnixServerSocketChannel.open()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      channel.configureBlocking(false)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val address = new UnixSocketAddress(file)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val registeredKey =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        channel.register(sel,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                         SelectionKey.OP_ACCEPT,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                         acceptKey(address, incomingConnectionQueue, halfClose, receiveBufferSize, sendBufferSize) _)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      try {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        channel.socket().bind(address, backlog)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        sel.wakeup()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        serverBinding.success([0m
+[0m[[0m[0mdebug[0m] [0m[0m          ServerBinding(address) { () =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m            registeredKey.cancel()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            channel.close()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            incomingConnectionQueue.complete()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            incomingConnectionQueue.watchCompletion().map(_ => ())[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      } catch {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case NonFatal(e) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          registeredKey.cancel()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          channel.close()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          incomingConnectionQueue.fail(e)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          serverBinding.failure(e)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Source[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .fromFutureSource(incomingConnectionSource)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .mapMaterializedValue(_ => serverBinding.future)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Source.lazily(bind).mapMaterializedValue(_.flatMap(identity))[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def outgoingConnection([0m
+[0m[[0m[0mdebug[0m] [0m[0m      remoteAddress: UnixSocketAddress,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      localAddress: Option[UnixSocketAddress] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      halfClose: Boolean = true,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      connectTimeout: Duration = Duration.Inf[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[ByteString, ByteString, Future[OutgoingConnection]] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val connect = { () =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val channel = UnixSocketChannel.open()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      channel.configureBlocking(false)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val connectionFinished = Promise[Done][0m
+[0m[[0m[0mdebug[0m] [0m[0m      val cancellable =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        connectTimeout match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          case d: FiniteDuration =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m            Some(system.scheduler.scheduleOnce(d, new Runnable {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              override def run(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m                channel.close()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }))[0m
+[0m[[0m[0mdebug[0m] [0m[0m          case _ =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m            None[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val (context, connectionFlow) = sendReceiveStructures(sel, receiveBufferSize, sendBufferSize, halfClose)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val registeredKey =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        channel[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .register(sel, SelectionKey.OP_CONNECT, connectKey(remoteAddress, connectionFinished, cancellable, context) _)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val connection = Try(channel.connect(remoteAddress))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      connection.failed.foreach(e => connectionFinished.tryFailure(e))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Future.successful([0m
+[0m[[0m[0mdebug[0m] [0m[0m        connectionFlow[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .merge(Source.fromFuture(connectionFinished.future.map(_ => ByteString.empty)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .filter(_.nonEmpty) // We merge above so that we can get connection failures - we're not interested in the empty bytes though[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .mapMaterializedValue { _ =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m            connection match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              case Success(_) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                connectionFinished.future[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  .map(_ => OutgoingConnection(remoteAddress, localAddress.getOrElse(new UnixSocketAddress(""))))[0m
+[0m[[0m[0mdebug[0m] [0m[0m              case Failure(e) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                registeredKey.cancel()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                channel.close()[0m
+[0m[[0m[0mdebug[0m] [0m[0m                Future.failed(e)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow.lazyInitAsync(connect).mapMaterializedValue(_.flatMap(_.get))[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m

@@ -1,0 +1,10 @@
+[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/hdfs/src/main/scala/akka/stream/alpakka/hdfs/javadsl/HdfsSource.scala:12:28: Unused import[0m
+[0m[[0m[33mwarn[0m] [0m[0mimport akka.stream.javadsl.Source[0m
+[0m[[0m[33mwarn[0m] [0m[0m                           ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/hdfs/src/main/scala/akka/stream/alpakka/hdfs/scaladsl/HdfsSource.scala:67:26: method newInstance in class Class is deprecated: see corresponding Javadoc for more information.[0m
+[0m[[0m[33mwarn[0m] [0m[0m        val key = classK.newInstance()[0m
+[0m[[0m[33mwarn[0m] [0m[0m                         ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/hdfs/src/main/scala/akka/stream/alpakka/hdfs/scaladsl/HdfsSource.scala:68:28: method newInstance in class Class is deprecated: see corresponding Javadoc for more information.[0m
+[0m[[0m[33mwarn[0m] [0m[0m        val value = classV.newInstance()[0m
+[0m[[0m[33mwarn[0m] [0m[0m                           ^[0m
+[0m[[0m[33mwarn[0m] [0m[0mthree warnings found[0m

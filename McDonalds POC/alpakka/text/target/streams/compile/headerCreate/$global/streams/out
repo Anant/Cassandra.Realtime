@@ -1,0 +1,360 @@
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/text/src/main/scala/akka/stream/alpakka/text/javadsl/TextFlow.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.text.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.charset.Charset[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.japi.function[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.text.impl.{CharsetDecodingFlow, CharsetTranscodingFlow}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Flow[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Java DSL[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject TextFlow {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Decodes a stream of bytes into a stream of characters, using the supplied charset.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def decoding(incoming: Charset): Flow[ByteString, String, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    akka.stream.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .Flow[ByteString][0m
+[0m[[0m[0mdebug[0m] [0m[0m      .via(new CharsetDecodingFlow(incoming))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Decodes a stream of bytes into a stream of characters, using the supplied charset.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def encoding(outgoing: Charset): Flow[String, ByteString, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow.fromFunction(new function.Function[String, ByteString] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def apply(s: String): ByteString = ByteString.fromString(s, outgoing)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    })[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Translates a stream of bytes from one character encoding into another.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def transcoding(incoming: Charset, outgoing: Charset): Flow[ByteString, ByteString, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    akka.stream.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .Flow[ByteString][0m
+[0m[[0m[0mdebug[0m] [0m[0m      .via(new CharsetTranscodingFlow(incoming, outgoing))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/text/src/main/scala/akka/stream/alpakka/text/scaladsl/TextFlow.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.text.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.charset.Charset[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.text.impl.{CharsetDecodingFlow, CharsetTranscodingFlow}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.Flow[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Scala DSL[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject TextFlow {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Decodes a stream of bytes into a stream of characters, using the supplied charset.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def decoding(incoming: Charset): Flow[ByteString, String, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow[ByteString][0m
+[0m[[0m[0mdebug[0m] [0m[0m      .via(new CharsetDecodingFlow(incoming))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Decodes a stream of bytes into a stream of characters, using the supplied charset.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def encoding(outgoing: Charset): Flow[String, ByteString, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow[String][0m
+[0m[[0m[0mdebug[0m] [0m[0m      .map(ByteString(_, outgoing))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Translates a stream of bytes from one character encoding into another.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def transcoding(incoming: Charset, outgoing: Charset): Flow[ByteString, ByteString, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow[ByteString][0m
+[0m[[0m[0mdebug[0m] [0m[0m      .via(new CharsetTranscodingFlow(incoming, outgoing))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/text/src/main/scala/akka/stream/alpakka/text/impl/CharsetTranscodingFlow.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.text.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.charset.Charset[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.{Attributes, FlowShape, Inlet, Outlet}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage.{GraphStage, GraphStageLogic}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Decodes a stream of bytes into a stream of characters, using a supplied [[java.nio.charset.Charset]].[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[text] class CharsetTranscodingFlow(incoming: Charset, outgoing: Charset)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends GraphStage[FlowShape[ByteString, ByteString]] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final private val in = Inlet[ByteString]("in")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final private val out = Outlet[ByteString]("out")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override val shape: FlowShape[ByteString, ByteString] = FlowShape(in, out)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def createLogic(attributes: Attributes): GraphStageLogic =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new TranscodingLogic(in, out, shape, incoming, outgoing)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/text/src/main/scala/akka/stream/alpakka/text/impl/CharsetLogic.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.text.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.{ByteBuffer, CharBuffer}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.charset.{Charset, CharsetDecoder, CharsetEncoder}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.{FlowShape, Inlet, Outlet}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage.{GraphStageLogic, InHandler, OutHandler}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * ByteBuffer to CharBuffer decoding logic.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[impl] trait Decoding {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def decoder: CharsetDecoder[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def failStage(exception: Throwable): Unit[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Decodes ByteBuffer and calls #decoded with results.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def decode(bytes: ByteBuffer): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val chars = CharBuffer.allocate(bytes.limit())[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val result = decoder.decode(bytes, chars, false)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (result.isOverflow) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      failStage(new IllegalArgumentException(s"Incoming bytes decoded into more characters: $result"))[0m
+[0m[[0m[0mdebug[0m] [0m[0m    } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (result.isError) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        result.throwException()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val count = chars.position()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      chars.rewind()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      decoded(chars, count, bytes)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param chars the characters successfully decoded[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param count number of characters decoded (counted from chars.position)[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param bytes remaining non-decoded bytes[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def decoded(chars: CharBuffer, count: Int, bytes: ByteBuffer): Unit[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[impl] trait Encoding {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def encoder: CharsetEncoder[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def failStage(exception: Throwable): Unit[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Creates new CharBuffer containing both Strings.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def toCharBuffer(current: String, input: String): CharBuffer = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val chars = CharBuffer.allocate(input.length + current.length)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    chars.append(current)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    chars.append(input)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    chars.rewind[0m
+[0m[[0m[0mdebug[0m] [0m[0m    chars[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Decodes CharBuffer and calls #encoded with results.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def encode(chars: CharBuffer): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val bytes = ByteBuffer.allocate((chars.limit() * encoder.maxBytesPerChar().toDouble).toInt)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val result = encoder.encode(chars, bytes, false)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (result.isOverflow) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      failStage(new IllegalArgumentException(s"Incoming chars decoded into more than expected characters: $result"))[0m
+[0m[[0m[0mdebug[0m] [0m[0m    } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (result.isError) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        result.throwException()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val count = bytes.position()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      bytes.rewind()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      bytes.limit(count)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (chars.position() != chars.limit())[0m
+[0m[[0m[0mdebug[0m] [0m[0m        failStage(new IllegalStateException(s"Couldn't encode all characters: left-over '$chars'"))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      encoded(bytes, count)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param buffer the bytes successfully encoded[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param count number of bytes encoded (counted from bytes.position)[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def encoded(buffer: ByteBuffer, count: Int): Unit[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[impl] class DecodingLogic(in: Inlet[ByteString],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                  out: Outlet[String],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                  shape: FlowShape[ByteString, String],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                  incoming: Charset)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends GraphStageLogic(shape)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    with Decoding[0m
+[0m[[0m[0mdebug[0m] [0m[0m    with InHandler[0m
+[0m[[0m[0mdebug[0m] [0m[0m    with OutHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected final val decoder = incoming.newDecoder()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private var buffer = ByteString.empty[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  setHandlers(in, out, this)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def onPull(): Unit = pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def onPush(): Unit = decode(buffer.concat(grab(in)).asByteBuffer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def onUpstreamFinish(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    decode(buffer.asByteBuffer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (buffer.nonEmpty)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      throw new IllegalArgumentException(s"Stray bytes at end of input that could not be decoded: $buffer")[0m
+[0m[[0m[0mdebug[0m] [0m[0m    completeStage()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override protected def decoded(chars: CharBuffer, count: Int, remainingBytes: ByteBuffer): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (count > 0) push(out, new String(chars.array, chars.position(), count))[0m
+[0m[[0m[0mdebug[0m] [0m[0m    else if (!isClosed(in)) pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    buffer = ByteString.fromByteBuffer(remainingBytes)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[impl] class EncodingLogic(in: Inlet[String],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                  out: Outlet[ByteString],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                  shape: FlowShape[String, ByteString],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                  outgoing: Charset)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends GraphStageLogic(shape)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    with Encoding[0m
+[0m[[0m[0mdebug[0m] [0m[0m    with InHandler[0m
+[0m[[0m[0mdebug[0m] [0m[0m    with OutHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected final val encoder = outgoing.newEncoder()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  setHandlers(in, out, this)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def onPull(): Unit = pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def onPush(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val input = grab(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val chars = toCharBuffer("", input)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    encode(chars)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def onUpstreamFinish(): Unit = completeStage()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def encoded(bytes: ByteBuffer, count: Int): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (count > 0) push(out, ByteString.fromByteBuffer(bytes))[0m
+[0m[[0m[0mdebug[0m] [0m[0m    else if (!isClosed(in)) pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[impl] class TranscodingLogic(in: Inlet[ByteString],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                     out: Outlet[ByteString],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                     shape: FlowShape[ByteString, ByteString],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                     incoming: Charset,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                     outgoing: Charset)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends GraphStageLogic(shape)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    with Encoding[0m
+[0m[[0m[0mdebug[0m] [0m[0m    with Decoding[0m
+[0m[[0m[0mdebug[0m] [0m[0m    with InHandler[0m
+[0m[[0m[0mdebug[0m] [0m[0m    with OutHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected final val decoder = incoming.newDecoder()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected final val encoder = outgoing.newEncoder()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private var buffer = ByteString.empty[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  setHandlers(in, out, this)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def onPull(): Unit = pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def onPush(): Unit = decode(buffer.concat(grab(in)).asByteBuffer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def onUpstreamFinish(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    decode(buffer.asByteBuffer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (buffer.nonEmpty)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      throw new IllegalArgumentException(s"Stray bytes at end of input that could not be decoded: $buffer")[0m
+[0m[[0m[0mdebug[0m] [0m[0m    completeStage()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override protected def decoded(chars: CharBuffer, count: Int, remainingBytes: ByteBuffer): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    chars.limit(count)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    encode(chars)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    buffer = ByteString.fromByteBuffer(remainingBytes)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def encoded(bytes: ByteBuffer, count: Int): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (count > 0) push(out, ByteString.fromByteBuffer(bytes))[0m
+[0m[[0m[0mdebug[0m] [0m[0m    else if (!isClosed(in)) pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/text/src/main/scala/akka/stream/alpakka/text/impl/CharsetDecodingFlow.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.text.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.charset.Charset[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage.{GraphStage, GraphStageLogic}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.{Attributes, FlowShape, Inlet, Outlet}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Decodes a stream of bytes into a stream of characters, using a supplied [[java.nio.charset.Charset]].[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[text] class CharsetDecodingFlow(incoming: Charset) extends GraphStage[FlowShape[ByteString, String]] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final private val in = Inlet[ByteString]("in")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final private val out = Outlet[String]("out")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override val shape: FlowShape[ByteString, String] = FlowShape(in, out)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def createLogic(attributes: Attributes): GraphStageLogic =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new DecodingLogic(in, out, shape, incoming)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m

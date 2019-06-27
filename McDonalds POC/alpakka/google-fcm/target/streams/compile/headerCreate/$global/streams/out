@@ -1,0 +1,699 @@
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/google-fcm/src/main/scala/akka/stream/alpakka/google/firebase/fcm/javadsl/GoogleFcm.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.google.firebase.fcm.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.concurrent.CompletionStage[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.japi.Pair[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.google.firebase.fcm.impl.{FcmFlows, FcmSender}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.google.firebase.fcm.{FcmNotification, FcmResponse, FcmSettings}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.{javadsl, scaladsl}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.{Done, NotUsed}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject GoogleFcm {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sendWithPassThrough[T](conf: FcmSettings): javadsl.Flow[Pair[FcmNotification, T], Pair[FcmResponse, T], NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .Flow[Pair[FcmNotification, T]][0m
+[0m[[0m[0mdebug[0m] [0m[0m      .map(_.toScala)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .via(FcmFlows.fcmWithData[T](conf, new FcmSender))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .map(t => Pair(t._1, t._2))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def send(conf: FcmSettings): javadsl.Flow[FcmNotification, FcmResponse, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    FcmFlows.fcm(conf, new FcmSender).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def fireAndForget(conf: FcmSettings): javadsl.Sink[FcmNotification, CompletionStage[Done]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    send(conf)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .toMat(javadsl.Sink.ignore(), javadsl.Keep.right[NotUsed, CompletionStage[Done]])[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/google-fcm/src/main/scala/akka/stream/alpakka/google/firebase/fcm/FcmNotificationModels.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.google.firebase.fcm[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.google.firebase.fcm.FcmNotificationModels._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject FcmNotificationModels {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case class BasicNotification(title: String, body: String)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case class AndroidNotification([0m
+[0m[[0m[0mdebug[0m] [0m[0m      title: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      body: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      icon: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      color: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      sound: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      tag: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      click_action: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      body_loc_key: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      body_loc_args: Seq[String],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      title_loc_key: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      title_loc_args: Seq[String][0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case class AndroidConfig([0m
+[0m[[0m[0mdebug[0m] [0m[0m      collapse_key: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      priority: AndroidMessagePriority,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      ttl: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      restricted_package_name: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      data: Map[String, String],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      notification: AndroidNotification[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  sealed trait AndroidMessagePriority[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case object Normal extends AndroidMessagePriority[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case object High extends AndroidMessagePriority[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case class WebPushNotification(title: String, body: String, icon: String)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case class WebPushConfig(headers: Map[String, String], data: Map[String, String], notification: WebPushNotification)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case class ApnsConfig(headers: Map[String, String], rawPayload: String)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  sealed trait NotificationTarget[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case class Token(token: String) extends NotificationTarget[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case class Topic(topic: String) extends NotificationTarget[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case class Condition(conditionText: String) extends NotificationTarget[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  object Condition {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    sealed trait ConditionBuilder {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      def &&(condition: ConditionBuilder) = And(this, condition)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      def ||(condition: ConditionBuilder) = Or(this, condition)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      def unary_! = Not(this)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      def toConditionText: String[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case class Topic(topic: String) extends ConditionBuilder {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      def toConditionText: String = s"'$topic' in topics"[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case class And(condition1: ConditionBuilder, condition2: ConditionBuilder) extends ConditionBuilder {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      def toConditionText: String = s"(${condition1.toConditionText} && ${condition2.toConditionText})"[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case class Or(condition1: ConditionBuilder, condition2: ConditionBuilder) extends ConditionBuilder {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      def toConditionText: String = s"(${condition1.toConditionText} || ${condition2.toConditionText})"[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case class Not(condition: ConditionBuilder) extends ConditionBuilder {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      def toConditionText: String = s"!(${condition.toConditionText})"[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def apply(builder: ConditionBuilder): Condition =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Condition(builder.toConditionText)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mcase class FcmNotification([0m
+[0m[[0m[0mdebug[0m] [0m[0m    data: Option[Map[String, String]] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    notification: Option[BasicNotification] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    android: Option[AndroidConfig] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    webPush: Option[WebPushConfig] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    apns: Option[ApnsConfig] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    token: Option[String] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    topic: Option[String] = None,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    condition: Option[String] = None[0m
+[0m[[0m[0mdebug[0m] [0m[0m) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withData(data: Map[String, String]): FcmNotification = this.copy(data = Option(data))[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withBasicNotification(notification: BasicNotification): FcmNotification =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    this.copy(notification = Option(notification))[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withBasicNotification(title: String, body: String): FcmNotification =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    this.copy(notification = Option(BasicNotification(title, body)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withAndroidConfig(android: AndroidConfig): FcmNotification = this.copy(android = Option(android))[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withWebPushConfig(webPush: WebPushConfig): FcmNotification = this.copy(webPush = Option(webPush))[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withApnsConfig(apns: ApnsConfig): FcmNotification = this.copy(apns = Option(apns))[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withTarget(target: NotificationTarget): FcmNotification = target match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case Token(t) => this.copy(token = Option(t), topic = None, condition = None)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case Topic(t) => this.copy(token = None, topic = Option(t), condition = None)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case Condition(t) => this.copy(token = None, topic = None, condition = Option(t))[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def isSendable: Boolean =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    (token.isDefined ^ topic.isDefined ^ condition.isDefined) && !(token.isDefined && topic.isDefined)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject FcmNotification {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val empty: FcmNotification = FcmNotification()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def fromJava(): FcmNotification = empty[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(notification: BasicNotification, target: NotificationTarget): FcmNotification =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    empty.withBasicNotification(notification).withTarget(target)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(title: String, body: String, target: NotificationTarget): FcmNotification =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    empty.withBasicNotification(title, body).withTarget(target)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def basic(title: String, body: String, target: NotificationTarget) = FcmNotification(title, body, target)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0msealed trait FcmResponse {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def isFailure: Boolean[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def isSuccess: Boolean[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal case class FcmSuccessResponse(name: String) extends FcmResponse {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val isFailure = false[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val isSuccess = true[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def getName: String = name[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal case class FcmErrorResponse(rawError: String) extends FcmResponse {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val isFailure = true[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val isSuccess = false[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def getRawError: String = rawError[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/google-fcm/src/main/scala/akka/stream/alpakka/google/firebase/fcm/scaladsl/GoogleFcm.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.google.firebase.fcm.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.google.firebase.fcm.impl.{FcmFlows, FcmSender}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.google.firebase.fcm.{FcmNotification, FcmResponse, FcmSettings}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.{Flow, Keep, Sink}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.{Done, NotUsed}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.Future[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject GoogleFcm {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sendWithPassThrough[T](conf: FcmSettings): Flow[(FcmNotification, T), (FcmResponse, T), NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    FcmFlows.fcmWithData[T](conf, new FcmSender)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def send(conf: FcmSettings): Flow[FcmNotification, FcmResponse, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    FcmFlows.fcm(conf, new FcmSender)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def fireAndForget(conf: FcmSettings): Sink[FcmNotification, Future[Done]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    FcmFlows.fcm(conf, new FcmSender).toMat(Sink.ignore)(Keep.right)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/google-fcm/src/main/scala/akka/stream/alpakka/google/firebase/fcm/FcmSettings.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.google.firebase.fcm[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class FcmSettings private ([0m
+[0m[[0m[0mdebug[0m] [0m[0m    val clientEmail: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val privateKey: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val projectId: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val isTest: Boolean,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val maxConcurrentConnections: Int[0m
+[0m[[0m[0mdebug[0m] [0m[0m) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withClientEmail(value: String): FcmSettings = copy(clientEmail = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withPrivateKey(value: String): FcmSettings = copy(privateKey = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withProjectId(value: String): FcmSettings = copy(projectId = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withIsTest(value: Boolean): FcmSettings = if (isTest == value) this else copy(isTest = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withMaxConcurrentConnections(value: Int): FcmSettings = copy(maxConcurrentConnections = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def copy([0m
+[0m[[0m[0mdebug[0m] [0m[0m      clientEmail: String = clientEmail,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      privateKey: String = privateKey,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      projectId: String = projectId,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      isTest: Boolean = isTest,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      maxConcurrentConnections: Int = maxConcurrentConnections[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): FcmSettings =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new FcmSettings(clientEmail = clientEmail,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    privateKey = privateKey,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    projectId = projectId,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    isTest = isTest,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                    maxConcurrentConnections = maxConcurrentConnections)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"""FcmFlowConfig(clientEmail=$clientEmail,projectId=$projectId,isTest=$isTest,maxConcurrentConnections=$maxConcurrentConnections)"""[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject FcmSettings {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Scala API */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply([0m
+[0m[[0m[0mdebug[0m] [0m[0m      clientEmail: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      privateKey: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      projectId: String[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): FcmSettings = new FcmSettings([0m
+[0m[[0m[0mdebug[0m] [0m[0m    clientEmail,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    privateKey,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    projectId,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    isTest = false,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maxConcurrentConnections = 100[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Java API */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create([0m
+[0m[[0m[0mdebug[0m] [0m[0m      clientEmail: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      privateKey: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      projectId: String[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): FcmSettings = new FcmSettings([0m
+[0m[[0m[0mdebug[0m] [0m[0m    clientEmail,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    privateKey,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    projectId,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    isTest = false,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maxConcurrentConnections = 100[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/google-fcm/src/main/scala/akka/stream/alpakka/google/firebase/fcm/impl/FcmSender.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.google.firebase.fcm.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.http.scaladsl.HttpExt[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.http.scaladsl.model._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.http.scaladsl.model.headers.{Authorization, OAuth2BearerToken}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.http.scaladsl.unmarshalling.Unmarshal[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.Materializer[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.google.firebase.fcm.{FcmErrorResponse, FcmResponse, FcmSuccessResponse}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport spray.json._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.immutable[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.{ExecutionContext, Future}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * INTERNAL API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[fcm] class FcmSender {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  import FcmJsonSupport._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def send(projectId: String, token: String, http: HttpExt, fcmSend: FcmSend)([0m
+[0m[[0m[0mdebug[0m] [0m[0m      implicit materializer: Materializer[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Future[FcmResponse] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val url = s"https://fcm.googleapis.com/v1/projects/$projectId/messages:send"[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val response = http.singleRequest([0m
+[0m[[0m[0mdebug[0m] [0m[0m      HttpRequest([0m
+[0m[[0m[0mdebug[0m] [0m[0m        HttpMethods.POST,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        url,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        immutable.Seq(Authorization(OAuth2BearerToken(token))),[0m
+[0m[[0m[0mdebug[0m] [0m[0m        HttpEntity(ContentTypes.`application/json`, fcmSend.toJson.compactPrint)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m    )[0m
+[0m[[0m[0mdebug[0m] [0m[0m    parse(response)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def parse(response: Future[HttpResponse])(implicit materializer: Materializer): Future[FcmResponse] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    implicit val executionContext: ExecutionContext = materializer.executionContext[0m
+[0m[[0m[0mdebug[0m] [0m[0m    response.flatMap { rsp =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (rsp.status.isSuccess) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        Unmarshal(rsp.entity).to[FcmSuccessResponse][0m
+[0m[[0m[0mdebug[0m] [0m[0m      } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        Unmarshal(rsp.entity).to[FcmErrorResponse][0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/google-fcm/src/main/scala/akka/stream/alpakka/google/firebase/fcm/impl/SetupStage.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.google.firebase.fcm.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.{Flow, Keep, Sink, Source}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.{Future, Promise}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate final class SetupFlowStage[T, U, M](factory: ActorMaterializer => Attributes => Flow[T, U, M])[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends GraphStageWithMaterializedValue[FlowShape[T, U], Future[M]] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val in = Inlet[T]("SetupFlowStage.in")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val out = Outlet[U]("SetupFlowStage.out")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override val shape = FlowShape(in, out)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def createLogicAndMaterializedValue(inheritedAttributes: Attributes): (GraphStageLogic, Future[M]) = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val matPromise = Promise[M][0m
+[0m[[0m[0mdebug[0m] [0m[0m    (createStageLogic(matPromise), matPromise.future)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def createStageLogic(matPromise: Promise[M]) = new GraphStageLogic(shape) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    import SetupStage._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val subInlet = new SubSinkInlet[U]("SetupFlowStage")[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val subOutlet = new SubSourceOutlet[T]("SetupFlowStage")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    subInlet.setHandler(delegateToOutlet(push(out, _: U), () => complete(out), fail(out, _), subInlet))[0m
+[0m[[0m[0mdebug[0m] [0m[0m    subOutlet.setHandler(delegateToInlet(() => pull(in), () => cancel(in)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    setHandler(in, delegateToSubOutlet(() => grab(in), subOutlet))[0m
+[0m[[0m[0mdebug[0m] [0m[0m    setHandler(out, delegateToSubInlet(subInlet))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    override def preStart(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val flow = factory(actorMaterializer(materializer))(attributes)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val mat = Source[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .fromGraph(subOutlet.source)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .viaMat(flow.withAttributes(attributes))(Keep.right)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .to(Sink.fromGraph(subInlet.sink))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .run()(subFusingMaterializer)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      matPromise.success(mat)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate object SetupStage {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def delegateToSubOutlet[T](grab: () => T, subOutlet: GraphStageLogic#SubSourceOutlet[T]) = new InHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    override def onPush(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      subOutlet.push(grab())[0m
+[0m[[0m[0mdebug[0m] [0m[0m    override def onUpstreamFinish(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      subOutlet.complete()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    override def onUpstreamFailure(ex: Throwable): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      subOutlet.fail(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def delegateToOutlet[T](push: T => Unit,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                          complete: () => Unit,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                          fail: Throwable => Unit,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                          subInlet: GraphStageLogic#SubSinkInlet[T]) = new InHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    override def onPush(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      push(subInlet.grab())[0m
+[0m[[0m[0mdebug[0m] [0m[0m    override def onUpstreamFinish(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      complete()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    override def onUpstreamFailure(ex: Throwable): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      fail(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def delegateToSubInlet[T](subInlet: GraphStageLogic#SubSinkInlet[T]) = new OutHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    override def onPull(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      subInlet.pull()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    override def onDownstreamFinish(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      subInlet.cancel()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def delegateToInlet(pull: () => Unit, cancel: () => Unit) = new OutHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    override def onPull(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      pull()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    override def onDownstreamFinish(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      cancel()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def actorMaterializer(mat: Materializer): ActorMaterializer = mat match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case am: ActorMaterializer => am[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case _ => throw new Error("ActorMaterializer required")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate object Setup {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def flow[T, U, M](factory: ActorMaterializer => Attributes => Flow[T, U, M]): Flow[T, U, Future[M]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow.fromGraph(new SetupFlowStage(factory))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/google-fcm/src/main/scala/akka/stream/alpakka/google/firebase/fcm/impl/GoogleSession.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.google.firebase.fcm.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.Materializer[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.google.firebase.fcm.impl.GoogleTokenApi.AccessTokenExpiry[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.Future[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * INTERNAL API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate class GoogleSession(clientEmail: String, privateKey: String, tokenApi: GoogleTokenApi) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected var maybeAccessToken: Option[Future[AccessTokenExpiry]] = None[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def getNewToken()(implicit materializer: Materializer): Future[AccessTokenExpiry] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val accessToken = tokenApi.getAccessToken(clientEmail = clientEmail, privateKey = privateKey)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maybeAccessToken = Some(accessToken)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    accessToken[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def expiresSoon(g: AccessTokenExpiry): Boolean =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    g.expiresAt < (tokenApi.now + 60)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def getToken()(implicit materializer: Materializer): Future[String] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    import materializer.executionContext[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maybeAccessToken[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .getOrElse(getNewToken())[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .flatMap { result =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (expiresSoon(result)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          getNewToken()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          Future.successful(result)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .map(_.accessToken)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/google-fcm/src/main/scala/akka/stream/alpakka/google/firebase/fcm/impl/FcmJsonSupport.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.google.firebase.fcm.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.google.firebase.fcm.{FcmErrorResponse, FcmResponse, FcmSuccessResponse}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.google.firebase.fcm.FcmNotification[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.google.firebase.fcm.FcmNotificationModels._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.google.firebase.fcm.impl.GoogleTokenApi.OAuthResponse[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport spray.json._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * INTERNAL API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[fcm] case class FcmSend(validate_only: Boolean, message: FcmNotification)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * INTERNAL API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[fcm] object FcmJsonSupport extends DefaultJsonProtocol with SprayJsonSupport {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  //custom formatters[0m
+[0m[[0m[0mdebug[0m] [0m[0m  implicit object FcmSuccessResponseJsonFormat extends RootJsonFormat[FcmSuccessResponse] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def write(c: FcmSuccessResponse): JsValue = JsString(c.name)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def read(value: JsValue) = value match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      case JsObject(fields) if fields.contains("name") => FcmSuccessResponse(fields("name").convertTo[String])[0m
+[0m[[0m[0mdebug[0m] [0m[0m      case other => throw DeserializationException(s"object containing `name` expected, but we get $other")[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  implicit object FcmErrorResponseJsonFormat extends RootJsonFormat[FcmErrorResponse] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def write(c: FcmErrorResponse): JsValue = c.rawError.parseJson[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def read(value: JsValue) = FcmErrorResponse(value.toString)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  implicit object FcmResponseFormat extends RootJsonReader[FcmResponse] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def read(value: JsValue): FcmResponse = value match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      case JsObject(fields) if fields.keys.exists(_ == "name") => value.convertTo[FcmSuccessResponse][0m
+[0m[[0m[0mdebug[0m] [0m[0m      case JsObject(fields) if fields.keys.exists(_ == "error_code") => value.convertTo[FcmErrorResponse][0m
+[0m[[0m[0mdebug[0m] [0m[0m      case other => throw DeserializationException(s"FcmResponse expected, but we get $other")[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  implicit object AndroidMessagePriorityFormat extends RootJsonFormat[AndroidMessagePriority] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def write(c: AndroidMessagePriority): JsString =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      c match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case Normal => JsString("NORMAL")[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case High => JsString("HIGH")[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def read(value: JsValue): AndroidMessagePriority = value match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      case JsString("NORMAL") => Normal[0m
+[0m[[0m[0mdebug[0m] [0m[0m      case JsString("HIGH") => High[0m
+[0m[[0m[0mdebug[0m] [0m[0m      case other => throw DeserializationException(s"AndroidMessagePriority expected, but we get $other")[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  implicit object ApnsConfigResponseJsonFormat extends RootJsonFormat[ApnsConfig] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def write(c: ApnsConfig): JsObject =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      JsObject([0m
+[0m[[0m[0mdebug[0m] [0m[0m        "headers" -> c.headers.toJson,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        "payload" -> c.rawPayload.parseJson[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def read(value: JsValue): ApnsConfig = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val map = value.asJsObject[0m
+[0m[[0m[0mdebug[0m] [0m[0m      ApnsConfig(map.fields("headers").convertTo[Map[String, String]], map.fields("payload").toString)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  // google -> app[0m
+[0m[[0m[0mdebug[0m] [0m[0m  implicit val oAuthResponseJsonFormat: RootJsonFormat[OAuthResponse] = jsonFormat3(OAuthResponse)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  //app -> google[0m
+[0m[[0m[0mdebug[0m] [0m[0m  implicit val webPushNotificationJsonFormat: RootJsonFormat[WebPushNotification] = jsonFormat3(WebPushNotification)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  implicit val webPushConfigJsonFormat: RootJsonFormat[WebPushConfig] = jsonFormat3(WebPushConfig.apply)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  implicit val androidNotificationJsonFormat: RootJsonFormat[AndroidNotification] = jsonFormat11(AndroidNotification)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  implicit val androidConfigJsonFormat: RootJsonFormat[AndroidConfig] = jsonFormat6(AndroidConfig.apply)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  implicit val basicNotificationJsonFormat: RootJsonFormat[BasicNotification] = jsonFormat2(BasicNotification)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  implicit val sendableFcmNotificationJsonFormat: RootJsonFormat[FcmNotification] = jsonFormat8(FcmNotification.apply)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  implicit val fcmSendJsonFormat: RootJsonFormat[FcmSend] = jsonFormat2(FcmSend)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/google-fcm/src/main/scala/akka/stream/alpakka/google/firebase/fcm/impl/GoogleTokenApi.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.google.firebase.fcm.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.http.scaladsl.HttpExt[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.http.scaladsl.model.{FormData, HttpMethods, HttpRequest}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.http.scaladsl.unmarshalling.Unmarshal[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.Materializer[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.google.firebase.fcm.impl.GoogleTokenApi.{AccessTokenExpiry, OAuthResponse}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport pdi.jwt.{Jwt, JwtAlgorithm, JwtClaim, JwtTime}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.Future[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * INTERNAL API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[fcm] class GoogleTokenApi(http: => HttpExt) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  import FcmJsonSupport._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected val encodingAlgorithm: JwtAlgorithm.RS256.type = JwtAlgorithm.RS256[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val googleTokenUrl = "https://www.googleapis.com/oauth2/v4/token"[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val scope = "https://www.googleapis.com/auth/firebase.messaging"[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def now: Long = JwtTime.nowSeconds[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def generateJwt(clientEmail: String, privateKey: String): String = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val claim = JwtClaim(content = s"""{"scope":"$scope","aud":"$googleTokenUrl"}""", issuer = Option(clientEmail))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .expiresIn(3600)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .issuedNow[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Jwt.encode(claim, privateKey, encodingAlgorithm)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def getAccessToken(clientEmail: String, privateKey: String)([0m
+[0m[[0m[0mdebug[0m] [0m[0m      implicit materializer: Materializer[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Future[AccessTokenExpiry] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    import materializer.executionContext[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val expiresAt = now + 3600[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val jwt = generateJwt(clientEmail, privateKey)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val requestEntity = FormData([0m
+[0m[[0m[0mdebug[0m] [0m[0m      "grant_type" -> "urn:ietf:params:oauth:grant-type:jwt-bearer",[0m
+[0m[[0m[0mdebug[0m] [0m[0m      "assertion" -> jwt[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ).toEntity[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    for {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      response <- http.singleRequest(HttpRequest(HttpMethods.POST, googleTokenUrl, entity = requestEntity))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      result <- Unmarshal(response.entity).to[OAuthResponse][0m
+[0m[[0m[0mdebug[0m] [0m[0m    } yield {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      AccessTokenExpiry([0m
+[0m[[0m[0mdebug[0m] [0m[0m        accessToken = result.access_token,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        expiresAt = expiresAt[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * INTERNAL API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[fcm] object GoogleTokenApi {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case class AccessTokenExpiry(accessToken: String, expiresAt: Long)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case class OAuthResponse(access_token: String, token_type: String, expires_in: Int)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/google-fcm/src/main/scala/akka/stream/alpakka/google/firebase/fcm/impl/FcmFlows.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.google.firebase.fcm.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.http.scaladsl.Http[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.google.firebase.fcm._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.Flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.Future[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * INTERNAL API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[fcm] object FcmFlows {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[fcm] def fcmWithData[T](conf: FcmSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                  sender: FcmSender): Flow[(FcmNotification, T), (FcmResponse, T), NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Setup[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .flow { implicit materializer => _ =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m        import materializer.executionContext[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val http = Http()(materializer.system)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val session: GoogleSession = new GoogleSession(conf.clientEmail, conf.privateKey, new GoogleTokenApi(http))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        Flow[(FcmNotification, T)][0m
+[0m[[0m[0mdebug[0m] [0m[0m          .mapAsync(conf.maxConcurrentConnections)([0m
+[0m[[0m[0mdebug[0m] [0m[0m            in =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              session.getToken().flatMap { token =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                sender.send(conf.projectId, token, http, FcmSend(conf.isTest, in._1)).zip(Future.successful(in._2))[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m          )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .mapMaterializedValue(_ => NotUsed)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[fcm] def fcm(conf: FcmSettings, sender: FcmSender): Flow[FcmNotification, FcmResponse, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Setup[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .flow { implicit materializer => _ =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m        import materializer.executionContext[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val http = Http()(materializer.system)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val session: GoogleSession = new GoogleSession(conf.clientEmail, conf.privateKey, new GoogleTokenApi(http))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val sender: FcmSender = new FcmSender()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        Flow[FcmNotification][0m
+[0m[[0m[0mdebug[0m] [0m[0m          .mapAsync(conf.maxConcurrentConnections)([0m
+[0m[[0m[0mdebug[0m] [0m[0m            in =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              session.getToken().flatMap { token =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m                sender.send(conf.projectId, token, http, FcmSend(conf.isTest, in))[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m          )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .mapMaterializedValue(_ => NotUsed)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m

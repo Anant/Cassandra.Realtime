@@ -1,0 +1,1353 @@
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/csv/src/main/scala/akka/stream/alpakka/csv/scaladsl/CsvQuotingStyle.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.csv.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.csv.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0msealed trait CsvQuotingStyle[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Select which fields to quote in CSV formatting.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject CsvQuotingStyle {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Quote only fields requiring quotes */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case object Required extends CsvQuotingStyle[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Quote all fields */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case object Always extends CsvQuotingStyle[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Java to Scala conversion helper */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def asScala(qs: javadsl.CsvQuotingStyle): CsvQuotingStyle = qs match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case javadsl.CsvQuotingStyle.ALWAYS => CsvQuotingStyle.Always[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case javadsl.CsvQuotingStyle.REQUIRED => CsvQuotingStyle.Required[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/csv/src/main/scala/akka/stream/alpakka/csv/scaladsl/ByteOrderMark.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.csv.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Byte Order Marks may be used to indicate the used character encoding[0m
+[0m[[0m[0mdebug[0m] [0m[0m * in text files.[0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * @see http://www.unicode.org/faq/utf_bom.html#bom1[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject ByteOrderMark {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] final val ZeroZero = ByteString.apply(0x00.toByte, 0x00.toByte)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Byte Order Mark for UTF-16 big-endian */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final val UTF_16_BE = ByteString.apply(0xFE.toByte, 0xFF.toByte)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Byte Order Mark for UTF-16 little-endian */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final val UTF_16_LE = ByteString.apply(0xFF.toByte, 0xFE.toByte)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Byte Order Mark for UTF-32 big-endian */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final val UTF_32_BE = ZeroZero ++ UTF_16_BE[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Byte Order Mark for UTF-32 little-endian */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final val UTF_32_LE = UTF_16_LE ++ ZeroZero[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Byte Order Mark for UTF-8 */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final val UTF_8 = ByteString.apply(0xEF.toByte, 0xBB.toByte, 0xBF.toByte)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/csv/src/main/scala/akka/stream/alpakka/csv/scaladsl/CsvFormatting.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.csv.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.charset.{Charset, StandardCharsets}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.csv.impl.CsvFormatter[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.{Flow, Source}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.immutable[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/** Provides CSV formatting flows that convert a sequence of String into their CSV representation[0m
+[0m[[0m[0mdebug[0m] [0m[0m * in [[akka.util.ByteString]].[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject CsvFormatting {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val Backslash: Char = '\\'[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val Comma: Char = ','[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val SemiColon: Char = ';'[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val Colon: Char = ':'[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val Tab: Char = '\t'[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val DoubleQuote: Char = '"'[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Create a Flow for converting iterables to ByteString.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param endOfLine Line ending (default CR, LF)[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param quotingStyle Quote all fields, or only fields requiring quotes (default)[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param charset Character set, defaults to UTF-8[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param byteOrderMark Certain CSV readers (namely Microsoft Excel) require a Byte Order mark, defaults to None[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def format[T <: immutable.Iterable[String]]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      delimiter: Char = Comma,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      quoteChar: Char = DoubleQuote,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      escapeChar: Char = Backslash,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      endOfLine: String = "\r\n",[0m
+[0m[[0m[0mdebug[0m] [0m[0m      quotingStyle: CsvQuotingStyle = CsvQuotingStyle.Required,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      charset: Charset = StandardCharsets.UTF_8,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      byteOrderMark: Option[ByteString] = None[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[T, ByteString, NotUsed] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val formatter =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      new CsvFormatter(delimiter, quoteChar, escapeChar, endOfLine, quotingStyle, charset)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    byteOrderMark.fold {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Flow[T].map(formatter.toCsv).named("CsvFormatting")[0m
+[0m[[0m[0mdebug[0m] [0m[0m    } { bom =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Flow[T].map(formatter.toCsv).named("CsvFormatting").prepend(Source.single(bom))[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/csv/src/main/scala/akka/stream/alpakka/csv/scaladsl/CsvParsing.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.csv.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.csv.impl.CsvParsingStage[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.Flow[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject CsvParsing {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val Backslash: Byte = '\\'[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val Comma: Byte = ','[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val SemiColon: Byte = ';'[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val Colon: Byte = ':'[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val Tab: Byte = '\t'[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val DoubleQuote: Byte = '"'[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val maximumLineLengthDefault: Int = 10 * 1024[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Creates CSV parsing flow that reads CSV lines from incoming[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * [[akka.util.ByteString]] objects.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def lineScanner(delimiter: Byte = Comma,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  quoteChar: Byte = DoubleQuote,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  escapeChar: Byte = Backslash,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                  maximumLineLength: Int = maximumLineLengthDefault): Flow[ByteString, List[ByteString], NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow.fromGraph(new CsvParsingStage(delimiter, quoteChar, escapeChar, maximumLineLength))[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/csv/src/main/scala/akka/stream/alpakka/csv/scaladsl/CsvToMap.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.csv.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.charset.{Charset, StandardCharsets}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.csv.impl.{CsvToMapAsStringsStage, CsvToMapStage}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.Flow[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject CsvToMap {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * A flow translating incoming [[scala.List]] of [[akka.util.ByteString]] to a map of String and ByteString using the stream's first[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * element's values as keys.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param charset the charset to decode [[akka.util.ByteString]] to [[scala.Predef.String]], defaults to UTF-8[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def toMap(charset: Charset = StandardCharsets.UTF_8): Flow[List[ByteString], Map[String, ByteString], NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow.fromGraph(new CsvToMapStage(columnNames = None, charset))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * A flow translating incoming [[scala.List]] of [[akka.util.ByteString]] to a map of String keys and values using the stream's first[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * element's values as keys.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param charset the charset to decode [[akka.util.ByteString]] to [[scala.Predef.String]], defaults to UTF-8[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def toMapAsStrings(charset: Charset = StandardCharsets.UTF_8): Flow[List[ByteString], Map[String, String], NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow.fromGraph(new CsvToMapAsStringsStage(columnNames = None, charset))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * A flow translating incoming [[scala.List]] of [[akka.util.ByteString]] to a map of String and ByteString using the given headers[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * as keys.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param headers column names to be used as map keys[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withHeaders(headers: String*): Flow[List[ByteString], Map[String, ByteString], NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow.fromGraph(new CsvToMapStage(Some(headers.toList), StandardCharsets.UTF_8))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * A flow translating incoming [[scala.List]] of [[akka.util.ByteString]] to a map of String keys and values using the given headers[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * as keys.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param charset the charset to decode [[akka.util.ByteString]] to [[scala.Predef.String]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param headers column names to be used as map keys[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withHeadersAsStrings([0m
+[0m[[0m[0mdebug[0m] [0m[0m      charset: Charset,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      headers: String*[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[List[ByteString], Map[String, String], NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow.fromGraph(new CsvToMapAsStringsStage(Some(headers.toList), charset))[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/csv/src/main/scala/akka/stream/alpakka/csv/impl/CsvToMapJavaStage.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.csv.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.charset.Charset[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.stream.Collectors[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.{util => ju}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage.{GraphStage, GraphStageLogic, InHandler, OutHandler}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal Java API: Converts incoming {@link Collection}<{@link ByteString}> to {@link java.util.Map}<String, ByteString>.[0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * @param columnNames If given, these names are used as map keys; if not first stream element is used[0m
+[0m[[0m[0mdebug[0m] [0m[0m * @param charset     Character set used to convert header line ByteString to String[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi private[csv] abstract class CsvToMapJavaStageBase[V](columnNames: ju.Optional[ju.Collection[String]],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                                  charset: Charset)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends GraphStage[FlowShape[ju.Collection[ByteString], ju.Map[String, V]]] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override protected def initialAttributes: Attributes = Attributes.name("CsvToMap")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val in = Inlet[ju.Collection[ByteString]]("CsvToMap.in")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val out = Outlet[ju.Map[String, V]]("CsvToMap.out")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override val shape = FlowShape.of(in, out)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def transformElements(elements: ju.Collection[ByteString]): ju.Collection[V][0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final val decodeByteString = new java.util.function.Function[ByteString, String]() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    override def apply(t: ByteString): String = t.decodeString(charset)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def decode(elem: ju.Collection[ByteString]): ju.List[String] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    elem.stream().map[String](decodeByteString).collect(Collectors.toList())[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def createLogic(inheritedAttributes: Attributes): GraphStageLogic =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new GraphStageLogic(shape) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private[this] var headers = columnNames[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      setHandler([0m
+[0m[[0m[0mdebug[0m] [0m[0m        in,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        new InHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          override def onPush(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            val elem = grab(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            if (headers.isPresent) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              val map = zipWithHeaders(transformElements(elem))[0m
+[0m[[0m[0mdebug[0m] [0m[0m              push(out, map)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              headers = ju.Optional.of(decode(elem))[0m
+[0m[[0m[0mdebug[0m] [0m[0m              pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            }[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      setHandler(out, new OutHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        override def onPull(): Unit = pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      })[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private def zipWithHeaders(elem: ju.Collection[V]): ju.Map[String, V] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val map = new ju.HashMap[String, V]()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val hIter = headers.get.iterator()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val colIter = elem.iterator()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        while (hIter.hasNext && colIter.hasNext) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          map.put(hIter.next(), colIter.next())[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        map[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi private[csv] class CsvToMapJavaStage(columnNames: ju.Optional[ju.Collection[String]], charset: Charset)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends CsvToMapJavaStageBase[ByteString](columnNames, charset) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override protected def transformElements(elements: ju.Collection[ByteString]): ju.Collection[ByteString] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    elements[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi private[csv] class CsvToMapAsStringsJavaStage(columnNames: ju.Optional[ju.Collection[String]],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                           charset: Charset)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends CsvToMapJavaStageBase[String](columnNames, charset) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override protected def transformElements(elements: ju.Collection[ByteString]): ju.Collection[String] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    decode(elements)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/csv/src/main/scala/akka/stream/alpakka/csv/impl/CsvParsingStage.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.csv.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.event.Logging[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage.{GraphStage, GraphStageLogic, InHandler, OutHandler}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.{Attributes, FlowShape, Inlet, Outlet}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.annotation.tailrec[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.util.control.NonFatal[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API: Use [[akka.stream.alpakka.csv.scaladsl.CsvParsing]] instead.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi private[csv] class CsvParsingStage(delimiter: Byte,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                quoteChar: Byte,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                escapeChar: Byte,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                maximumLineLength: Int)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends GraphStage[FlowShape[ByteString, List[ByteString]]] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val in = Inlet[ByteString](Logging.simpleName(this) + ".in")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val out = Outlet[List[ByteString]](Logging.simpleName(this) + ".out")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override val shape = FlowShape(in, out)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override protected def initialAttributes: Attributes = Attributes.name("CsvParsing")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def createLogic(inheritedAttributes: Attributes) =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new GraphStageLogic(shape) with InHandler with OutHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private[this] val buffer = new CsvParser(delimiter, quoteChar, escapeChar, maximumLineLength)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      setHandlers(in, out, this)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def onPush(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        buffer.offer(grab(in))[0m
+[0m[[0m[0mdebug[0m] [0m[0m        tryPollBuffer()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def onPull(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        tryPollBuffer()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def onUpstreamFinish(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        emitRemaining()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        completeStage()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private def tryPollBuffer() =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        try buffer.poll(requireLineEnd = true) match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          case Some(csvLine) ⇒ push(out, csvLine)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          case _ ⇒[0m
+[0m[[0m[0mdebug[0m] [0m[0m            if (isClosed(in)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m              emitRemaining()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              completeStage()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            } else pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        } catch {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          case NonFatal(ex) ⇒ failStage(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      @tailrec private def emitRemaining(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        buffer.poll(requireLineEnd = false) match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          case Some(csvLine) ⇒[0m
+[0m[[0m[0mdebug[0m] [0m[0m            emit(out, csvLine)[0m
+[0m[[0m[0mdebug[0m] [0m[0m            emitRemaining()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          case _ ⇒[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/csv/src/main/scala/akka/stream/alpakka/csv/impl/CsvToMapStage.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.csv.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.charset.Charset[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage.{GraphStage, GraphStageLogic, InHandler, OutHandler}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.{Attributes, FlowShape, Inlet, Outlet}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.immutable[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API: Converts incoming [[List[ByteString]]] to [[Map[String, ByteString]]].[0m
+[0m[[0m[0mdebug[0m] [0m[0m * @see akka.stream.alpakka.csv.impl.CsvToMapJavaStage[0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * @param columnNames If given, these names are used as map keys; if not first stream element is used[0m
+[0m[[0m[0mdebug[0m] [0m[0m * @param charset Character set used to convert header line ByteString to String[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi private[csv] abstract class CsvToMapStageBase[V](columnNames: Option[immutable.Seq[String]],[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                              charset: Charset)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends GraphStage[FlowShape[immutable.Seq[ByteString], Map[String, V]]] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override protected def initialAttributes: Attributes = Attributes.name("CsvToMap")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val in = Inlet[immutable.Seq[ByteString]]("CsvToMap.in")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val out = Outlet[Map[String, V]]("CsvToMap.out")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override val shape = FlowShape.of(in, out)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def transformElements(elements: immutable.Seq[ByteString]): immutable.Seq[V][0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def createLogic(inheritedAttributes: Attributes): GraphStageLogic =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new GraphStageLogic(shape) with InHandler with OutHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      private var headers = columnNames[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      setHandlers(in, out, this)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def onPush(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val elem = grab(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (headers.isDefined) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          val map = headers.get.zip(transformElements(elem)).toMap[0m
+[0m[[0m[0mdebug[0m] [0m[0m          push(out, map)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          headers = Some(elem.map(_.decodeString(charset)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m          pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      override def onPull(): Unit = pull(in)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi private[csv] class CsvToMapStage(columnNames: Option[immutable.Seq[String]], charset: Charset)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends CsvToMapStageBase[ByteString](columnNames, charset) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override protected def transformElements(elements: immutable.Seq[ByteString]): immutable.Seq[ByteString] = elements[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi private[csv] class CsvToMapAsStringsStage(columnNames: Option[immutable.Seq[String]], charset: Charset)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    extends CsvToMapStageBase[String](columnNames, charset) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override protected def transformElements(elements: immutable.Seq[ByteString]): immutable.Seq[String] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    elements.map(_.decodeString(charset))[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/csv/src/main/scala/akka/stream/alpakka/csv/impl/CsvFormatter.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.csv.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.charset.{Charset, StandardCharsets}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.csv.scaladsl.CsvQuotingStyle[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.immutable[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi private[csv] class CsvFormatter(delimiter: Char,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                             quoteChar: Char,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                             escapeChar: Char,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                             endOfLine: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                             quotingStyle: CsvQuotingStyle,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                             charset: Charset = StandardCharsets.UTF_8) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] val charsetName = charset.name()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] val delimiterBs = ByteString(String.valueOf(delimiter), charsetName)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] val quoteBs = ByteString(String.valueOf(quoteChar), charsetName)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] val duplicatedQuote = ByteString(String.valueOf(Array(quoteChar, quoteChar)), charsetName)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] val duplicatedEscape = ByteString(String.valueOf(Array(escapeChar, escapeChar)), charsetName)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] val endOfLineBs = ByteString(endOfLine, charsetName)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def toCsv(fields: immutable.Iterable[Any]): ByteString =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (fields.nonEmpty) nonEmptyToCsv(fields)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    else endOfLineBs[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def nonEmptyToCsv(fields: immutable.Iterable[Any]) = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val builder = ByteString.createBuilder[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def splitAndDuplicateQuotesAndEscapes(field: String, splitAt: Int) = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      @inline def indexOfQuoteOrEscape(lastIndex: Int) = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        var index = lastIndex[0m
+[0m[[0m[0mdebug[0m] [0m[0m        var found = -1[0m
+[0m[[0m[0mdebug[0m] [0m[0m        while (index < field.length && found == -1) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          val char = field(index)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          if (char == quoteChar || char == escapeChar) found = index[0m
+[0m[[0m[0mdebug[0m] [0m[0m          index += 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        found[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      var lastIndex = 0[0m
+[0m[[0m[0mdebug[0m] [0m[0m      var index = splitAt[0m
+[0m[[0m[0mdebug[0m] [0m[0m      while (index > -1) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        builder ++= ByteString.apply(field.substring(lastIndex, index), charsetName)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val char = field.charAt(index)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (char == quoteChar) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          builder ++= duplicatedQuote[0m
+[0m[[0m[0mdebug[0m] [0m[0m        } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          builder ++= duplicatedEscape[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        lastIndex = index + 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m        index = indexOfQuoteOrEscape(lastIndex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (lastIndex < field.length) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        builder ++= ByteString(field.substring(lastIndex), charsetName)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def append(field: String) = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val (quoteIt, splitAt) = requiresQuotesOrSplit(field)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (quoteIt || quotingStyle == CsvQuotingStyle.Always) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        builder ++= quoteBs[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (splitAt != -1) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          splitAndDuplicateQuotesAndEscapes(field, splitAt)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          builder ++= ByteString(field, charsetName)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        builder ++= quoteBs[0m
+[0m[[0m[0mdebug[0m] [0m[0m      } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        builder ++= ByteString(field, charsetName)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val iterator = fields.iterator[0m
+[0m[[0m[0mdebug[0m] [0m[0m    var hasNext = iterator.hasNext[0m
+[0m[[0m[0mdebug[0m] [0m[0m    while (hasNext) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val next = iterator.next()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (next != null) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        append(next.toString)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      hasNext = iterator.hasNext[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (hasNext) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        builder ++= delimiterBs[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    builder ++= endOfLineBs[0m
+[0m[[0m[0mdebug[0m] [0m[0m    builder.result()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def requiresQuotesOrSplit(field: String): (Boolean, Int) = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    var quotes = CsvQuotingStyle.Always == quotingStyle[0m
+[0m[[0m[0mdebug[0m] [0m[0m    var split = -1[0m
+[0m[[0m[0mdebug[0m] [0m[0m    var index = 0[0m
+[0m[[0m[0mdebug[0m] [0m[0m    while (index < field.length && !(quotes && split != -1)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val char = field(index)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (char == `quoteChar` || char == `escapeChar`) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        quotes = true[0m
+[0m[[0m[0mdebug[0m] [0m[0m        split = index[0m
+[0m[[0m[0mdebug[0m] [0m[0m      } else if (char == '\r' || char == '\n' || char == `delimiter`) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        quotes = true[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      index += 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    (quotes, split)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/csv/src/main/scala/akka/stream/alpakka/csv/impl/CsvParser.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.csv.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.charset.UnsupportedCharsetException[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.csv.MalformedCsvException[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.csv.scaladsl.ByteOrderMark[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.{ByteIterator, ByteString, ByteStringBuilder}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.mutable[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * INTERNAL API: Use [[akka.stream.alpakka.csv.scaladsl.CsvParsing]] instead.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi private[csv] object CsvParser {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private type State = Int[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final val LineStart = 0[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final val WithinField = 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final val WithinFieldEscaped = 2[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final val AfterDelimiter = 3[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final val LineEnd = 4[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final val QuoteStarted = 5[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final val QuoteEnd = 6[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final val WithinQuotedField = 7[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final val WithinQuotedFieldEscaped = 8[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final val WithinQuotedFieldQuote = 9[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final val AfterCr = 10[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final val LF: Byte = '\n'[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final val CR: Byte = '\r'[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * INTERNAL API: Use [[akka.stream.alpakka.csv.scaladsl.CsvParsing]] instead.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi private[csv] final class CsvParser(delimiter: Byte,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                quoteChar: Byte,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                escapeChar: Byte,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                                maximumLineLength: Int) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  import CsvParser._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Concatenated input chunks,[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * appended to by [[offer()]] and dropped from by [[dropReadBuffer()]].[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * May include previous chunks that start a field but do not complete it.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] var buffer: ByteString = ByteString.empty[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Flag to run BOM checks against first two bytes of the stream.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] var firstData = true[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Current position within [[buffer]].[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Points to the same byte as [[current.head]].[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Used for slicing fields out of [[buffer]] and for debug info.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] var pos: Int = 0[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Number of bytes dropped on the current row.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Perf:[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * We need to track this in order to call [[dropReadBuffer()]] after each field instead of each line.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * We want to call [[dropReadBuffer()]] ASAP to convert [[buffer]] from a[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * [[akka.util.ByteString.ByteStrings]] to a [[akka.util.ByteString.ByteString1]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   * to exploit the much faster [[ByteString.slice()]] implementation.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] var lineBytesDropped = 0[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Position within the current row.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Used for enforcing line length limits and as debug info for exceptions.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] def lineLength: Int = lineBytesDropped + pos[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Position within [[buffer]] of the start of the current field.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] var fieldStart = 0[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] var currentLineNo = 1L[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Reset after each row.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] var columns = mutable.ListBuffer[ByteString]()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] var state: State = LineStart[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] var fieldBuilder = new FieldBuilder[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Current iterator being parsed.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Previous implementation indexed into [[buffer.apply()]] for each byte,[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * which is slow against [[akka.util.ByteString.ByteStrings]].[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * We fully parse each chunk before getting the next, so we only need to track one [[ByteIterator]] at a time.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] var current: ByteIterator = ByteString.empty.iterator[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def offer(next: ByteString): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (next.nonEmpty) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      require(current.isEmpty, "offer(ByteString) may not be called before all buffered input is parsed.")[0m
+[0m[[0m[0mdebug[0m] [0m[0m      buffer ++= next[0m
+[0m[[0m[0mdebug[0m] [0m[0m      current = next.iterator[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def poll(requireLineEnd: Boolean): Option[List[ByteString]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (buffer.nonEmpty) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val line = parseLine(requireLineEnd)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (line.nonEmpty) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        currentLineNo += 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (state == LineEnd) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          state = LineStart[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        resetLine()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        columns.clear()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      line[0m
+[0m[[0m[0mdebug[0m] [0m[0m    } else None[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] def advance(n: Int = 1): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    pos += n[0m
+[0m[[0m[0mdebug[0m] [0m[0m    current.drop(n)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] def resetLine(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    dropReadBuffer()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    lineBytesDropped = 0[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] def dropReadBuffer() = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    buffer = buffer.drop(pos)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    lineBytesDropped += pos[0m
+[0m[[0m[0mdebug[0m] [0m[0m    pos = 0[0m
+[0m[[0m[0mdebug[0m] [0m[0m    fieldStart = 0[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** FieldBuilder will just cut the required part out of the incoming ByteBuffer[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * as long as non escaping is used.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private final class FieldBuilder {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m     * false if [[builder]] is null.[0m
+[0m[[0m[0mdebug[0m] [0m[0m     */[0m
+[0m[[0m[0mdebug[0m] [0m[0m    private[this] var useBuilder = false[0m
+[0m[[0m[0mdebug[0m] [0m[0m    private[this] var builder: ByteStringBuilder = _[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    /** Set up the ByteString builder instead of relying on `ByteString.slice`.[0m
+[0m[[0m[0mdebug[0m] [0m[0m     */[0m
+[0m[[0m[0mdebug[0m] [0m[0m    @inline def init(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (!useBuilder) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        builder = ByteString.newBuilder ++= buffer.slice(fieldStart, pos)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        useBuilder = true[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    @inline def add(x: Byte): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (useBuilder) builder += x[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    @inline def result(pos: Int): ByteString =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (useBuilder) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        useBuilder = false[0m
+[0m[[0m[0mdebug[0m] [0m[0m        builder.result()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      } else buffer.slice(fieldStart, pos)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] def noCharEscaped() =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    throw new MalformedCsvException(currentLineNo,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                    lineLength,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                    s"wrong escaping at $currentLineNo:$lineLength, no character after escape")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] def checkForByteOrderMark(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (buffer.length >= 2) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (buffer.startsWith(ByteOrderMark.UTF_8)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        advance(4)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        fieldStart = 3[0m
+[0m[[0m[0mdebug[0m] [0m[0m      } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (buffer.startsWith(ByteOrderMark.UTF_16_LE)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          throw new UnsupportedCharsetException("UTF-16 LE and UTF-32 LE")[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (buffer.startsWith(ByteOrderMark.UTF_16_BE)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          throw new UnsupportedCharsetException("UTF-16 BE")[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m        if (buffer.startsWith(ByteOrderMark.UTF_32_BE)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m          throw new UnsupportedCharsetException("UTF-32 BE")[0m
+[0m[[0m[0mdebug[0m] [0m[0m        }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def parseLine(requireLineEnd: Boolean): Option[List[ByteString]] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (firstData) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      checkForByteOrderMark()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      firstData = false[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m    churn()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maybeExtractLine(requireLineEnd)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] def churn(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    while (state != LineEnd && pos < buffer.length) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (lineLength >= maximumLineLength)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        throw new MalformedCsvException([0m
+[0m[[0m[0mdebug[0m] [0m[0m          currentLineNo,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          lineLength,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          s"no line end encountered within $maximumLineLength bytes on line $currentLineNo"[0m
+[0m[[0m[0mdebug[0m] [0m[0m        )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val byte = current.head[0m
+[0m[[0m[0mdebug[0m] [0m[0m      state match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case LineStart =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          byte match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case `quoteChar` =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = QuoteStarted[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldStart = pos[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case `escapeChar` =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldBuilder.init()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = WithinFieldEscaped[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldStart = pos[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case `delimiter` =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              columns += ByteString.empty[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = AfterDelimiter[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldStart = pos[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case LF =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              columns += ByteString.empty[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = LineEnd[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldStart = pos[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case CR =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              columns += ByteString.empty[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = AfterCr[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldStart = pos[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case b =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldBuilder.add(b)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = WithinField[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case AfterDelimiter =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          byte match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case `quoteChar` =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = QuoteStarted[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldStart = pos[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case `escapeChar` =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldBuilder.init()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = WithinFieldEscaped[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldStart = pos[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case `delimiter` =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              columns += ByteString.empty[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = AfterDelimiter[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldStart = pos[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case LF =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              columns += ByteString.empty[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = LineEnd[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldStart = pos[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case CR =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              columns += ByteString.empty[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = AfterCr[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldStart = pos[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case b =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldBuilder.add(b)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = WithinField[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case WithinField =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          byte match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case `escapeChar` =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldBuilder.init()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = WithinFieldEscaped[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case `delimiter` =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              columns += fieldBuilder.result(pos)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = AfterDelimiter[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              dropReadBuffer()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case LF =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              columns += fieldBuilder.result(pos)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = LineEnd[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              dropReadBuffer()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case CR =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              columns += fieldBuilder.result(pos)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = AfterCr[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              dropReadBuffer()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case b =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldBuilder.add(b)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = WithinField[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case WithinFieldEscaped =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          byte match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case `escapeChar` | `delimiter` =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldBuilder.add(byte)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = WithinField[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case b =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              throw new MalformedCsvException([0m
+[0m[[0m[0mdebug[0m] [0m[0m                currentLineNo,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                lineLength,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                s"wrong escaping at $currentLineNo:$lineLength, only escape or delimiter may be escaped"[0m
+[0m[[0m[0mdebug[0m] [0m[0m              )[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case QuoteStarted =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          byte match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case `escapeChar` if escapeChar != quoteChar =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldBuilder.init()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = WithinQuotedFieldEscaped[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case `quoteChar` =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldBuilder.init()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = WithinQuotedFieldQuote[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case b =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldBuilder.add(b)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = WithinQuotedField[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case QuoteEnd =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          byte match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case `delimiter` =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              columns += fieldBuilder.result(pos - 1)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = AfterDelimiter[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              dropReadBuffer()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case LF =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              columns += fieldBuilder.result(pos - 1)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = LineEnd[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              dropReadBuffer()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case CR =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              columns += fieldBuilder.result(pos - 1)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = AfterCr[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              dropReadBuffer()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case c =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              throw new MalformedCsvException(currentLineNo,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                              lineLength,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                              s"expected delimiter or end of line at $currentLineNo:$pos")[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case WithinQuotedField =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          byte match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case `escapeChar` if escapeChar != quoteChar =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldBuilder.init()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = WithinQuotedFieldEscaped[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case `quoteChar` =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldBuilder.init()[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = WithinQuotedFieldQuote[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case b =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldBuilder.add(b)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = WithinQuotedField[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case WithinQuotedFieldEscaped =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          byte match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case `escapeChar` | `quoteChar` =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldBuilder.add(byte)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = WithinQuotedField[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case b =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              throw new MalformedCsvException([0m
+[0m[[0m[0mdebug[0m] [0m[0m                currentLineNo,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                lineLength,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                s"wrong escaping at $currentLineNo:$lineLength, only escape or quote may be escaped within quotes"[0m
+[0m[[0m[0mdebug[0m] [0m[0m              )[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case WithinQuotedFieldQuote =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          byte match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case `quoteChar` =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              fieldBuilder.add(byte)[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = WithinQuotedField[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case b =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = QuoteEnd[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case AfterCr =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          byte match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case CR =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = AfterCr[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case LF =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = LineEnd[0m
+[0m[[0m[0mdebug[0m] [0m[0m              advance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case _ =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              state = LineEnd[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[this] def maybeExtractLine(requireLineEnd: Boolean): Option[List[ByteString]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (requireLineEnd) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      state match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case LineEnd =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          Some(columns.toList)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case _ =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          None[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      state match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case AfterDelimiter =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          columns += ByteString.empty[0m
+[0m[[0m[0mdebug[0m] [0m[0m          Some(columns.toList)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case WithinQuotedField =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          throw new MalformedCsvException([0m
+[0m[[0m[0mdebug[0m] [0m[0m            currentLineNo,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            lineLength,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            s"unclosed quote at end of input $currentLineNo:$lineLength, no matching quote found"[0m
+[0m[[0m[0mdebug[0m] [0m[0m          )[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case WithinField =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          columns += fieldBuilder.result(pos)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          Some(columns.toList)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case QuoteEnd | WithinQuotedFieldQuote =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          columns += fieldBuilder.result(pos - 1)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          Some(columns.toList)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case WithinFieldEscaped | WithinQuotedFieldEscaped =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          noCharEscaped()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        case _ =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m          Some(columns.toList)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/csv/src/main/scala/akka/stream/alpakka/csv/model.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.csv[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mclass MalformedCsvException private[csv] (val lineNo: Long, val bytePos: Int, msg: String) extends Exception(msg) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API:[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Returns the line number where the parser failed.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def getLineNo = lineNo[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API:[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Returns the byte within the parsed line where the parser failed.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def getBytePos = bytePos[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/csv/src/main/java/akka/stream/alpakka/csv/javadsl/CsvToMap.java[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.csv.javadsl;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.csv.impl.CsvToMapAsStringsJavaStage;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.csv.impl.CsvToMapJavaStage;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Flow;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.charset.Charset;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.charset.StandardCharsets;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.Arrays;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.Collection;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.Map;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.Optional;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpublic class CsvToMap {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * A flow translating incoming {@link Collection<ByteString>} to a {@link Map<String, ByteString>}[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * using the stream's first element's values as keys. The charset to decode [[ByteString]] to[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * [[String]] defaults to UTF-8.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static Flow<Collection<ByteString>, Map<String, ByteString>, ?> toMap() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return toMap(StandardCharsets.UTF_8);[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * A flow translating incoming {@link Collection<ByteString>} to a {@link Map<String, ByteString>}[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * using the stream's first element's values as keys.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param charset the charset to decode {@link ByteString} to {@link String}[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static Flow<Collection<ByteString>, Map<String, ByteString>, ?> toMap(Charset charset) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return Flow.fromGraph(new CsvToMapJavaStage(Optional.empty(), charset));[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * A flow translating incoming {@link Collection<ByteString>} to a {@link Map<String, ByteString>}[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * using the stream's first element's values as keys.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param charset the charset to decode {@link ByteString} to {@link String}[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static Flow<Collection<ByteString>, Map<String, String>, ?> toMapAsStrings([0m
+[0m[[0m[0mdebug[0m] [0m[0m      Charset charset) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return Flow.fromGraph(new CsvToMapAsStringsJavaStage(Optional.empty(), charset));[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * A flow translating incoming {@link Collection<ByteString>} to a {@link Map<String, ByteString>}[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * using the given headers as keys.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param headers column names to be used as map keys[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static Flow<Collection<ByteString>, Map<String, ByteString>, ?> withHeaders([0m
+[0m[[0m[0mdebug[0m] [0m[0m      String... headers) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return Flow.fromGraph([0m
+[0m[[0m[0mdebug[0m] [0m[0m        new CsvToMapJavaStage(Optional.of(Arrays.asList(headers)), StandardCharsets.UTF_8));[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * A flow translating incoming {@link Collection<ByteString>} to a {@link Map<String, ByteString>}[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * using the given headers as keys.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param headers column names to be used as map keys[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static Flow<Collection<ByteString>, Map<String, String>, ?> withHeadersAsStrings([0m
+[0m[[0m[0mdebug[0m] [0m[0m      Charset charset, String... headers) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return Flow.fromGraph([0m
+[0m[[0m[0mdebug[0m] [0m[0m        new CsvToMapAsStringsJavaStage(Optional.of(Arrays.asList(headers)), charset));[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/csv/src/main/java/akka/stream/alpakka/csv/javadsl/CsvFormatting.java[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.csv.javadsl;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.csv.scaladsl.CsvQuotingStyle$;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Flow;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.Option;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.Some;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.JavaConverters;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.immutable.List;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.charset.Charset;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.nio.charset.StandardCharsets;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.Collection;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.Optional;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Provides CSV formatting flows that convert a sequence of String into their CSV representation in[0m
+[0m[[0m[0mdebug[0m] [0m[0m * {@see akka.util.ByteString}.[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mpublic class CsvFormatting {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static final char BACKSLASH = '\\';[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static final char COMMA = ',';[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static final char SEMI_COLON = ';';[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static final char COLON = ':';[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static final char TAB = '\t';[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static final char DOUBLE_QUOTE = '"';[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static final String CR_LF = "\r\n";[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Generates standard CSV format (with commas).[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param <T> Any collection implementation[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @return The formatting flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static <T extends Collection<String>> Flow<T, ByteString, NotUsed> format() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return format([0m
+[0m[[0m[0mdebug[0m] [0m[0m        COMMA,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        DOUBLE_QUOTE,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        BACKSLASH,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        CR_LF,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        CsvQuotingStyle.REQUIRED,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        StandardCharsets.UTF_8,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        Optional.empty());[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Generates CSV with the specified special characters and character set.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param delimiter Delimiter between columns[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param quoteChar Quoting character[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param escapeChar Escape character[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param endOfLine End of line character sequence[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param quotingStyle Quote all values or as required[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param charset Character set to be used[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param <T> Any collection implementation[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @return The formatting flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static <T extends Collection<String>> Flow<T, ByteString, NotUsed> format([0m
+[0m[[0m[0mdebug[0m] [0m[0m      char delimiter,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      char quoteChar,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      char escapeChar,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      String endOfLine,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      CsvQuotingStyle quotingStyle,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Charset charset,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Optional<ByteString> byteOrderMark) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    akka.stream.alpakka.csv.scaladsl.CsvQuotingStyle qs =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        CsvQuotingStyle$.MODULE$.asScala(quotingStyle);[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Option<ByteString> byteOrderMarkScala =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        byteOrderMark.<Option<ByteString>>map(Some::apply).orElse(Option.empty());[0m
+[0m[[0m[0mdebug[0m] [0m[0m    akka.stream.scaladsl.Flow<List<String>, ByteString, NotUsed> formattingFlow =[0m
+[0m[[0m[0mdebug[0m] [0m[0m        akka.stream.alpakka.csv.scaladsl.CsvFormatting.format([0m
+[0m[[0m[0mdebug[0m] [0m[0m            delimiter, quoteChar, escapeChar, endOfLine, qs, charset, byteOrderMarkScala);[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return Flow.<T>create()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .map(c -> JavaConverters.collectionAsScalaIterableConverter(c).asScala().toList())[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .via(formattingFlow);[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/csv/src/main/java/akka/stream/alpakka/csv/javadsl/CsvQuotingStyle.java[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.csv.javadsl;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/** Select which fields to quote in CSV formatting. */[0m
+[0m[[0m[0mdebug[0m] [0m[0mpublic enum CsvQuotingStyle {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Quote all fields */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ALWAYS,[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Quote only fields requiring quotes */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  REQUIRED;[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/csv/src/main/java/akka/stream/alpakka/csv/javadsl/ByteOrderMark.java[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.csv.javadsl;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Byte Order Marks may be used to indicate the used character encoding in text files.[0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * @see <a href="http://www.unicode.org/faq/utf_bom.html#bom1">Unicode FAQ Byte Order Mark</a>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mpublic class ByteOrderMark {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Byte Order Mark for UTF-16 big-endian */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static final ByteString UTF_16_BE =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      akka.stream.alpakka.csv.scaladsl.ByteOrderMark.UTF_16_BE();[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Byte Order Mark for UTF-16 little-endian */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static final ByteString UTF_16_LE =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      akka.stream.alpakka.csv.scaladsl.ByteOrderMark.UTF_16_LE();[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Byte Order Mark for UTF-32 big-endian */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static final ByteString UTF_32_BE =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      akka.stream.alpakka.csv.scaladsl.ByteOrderMark.UTF_32_BE();[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Byte Order Mark for UTF-32 little-endian */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static final ByteString UTF_32_LE =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      akka.stream.alpakka.csv.scaladsl.ByteOrderMark.UTF_32_LE();[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Byte Order Mark for UTF-8 */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static final ByteString UTF_8 = akka.stream.alpakka.csv.scaladsl.ByteOrderMark.UTF_8();[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/csv/src/main/java/akka/stream/alpakka/csv/javadsl/CsvParsing.java[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.csv.javadsl;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Flow;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString;[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.collection.JavaConverters;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.Collection;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpublic class CsvParsing {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static final byte BACKSLASH = '\\';[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static final byte COMMA = ',';[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static final byte SEMI_COLON = ';';[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static final byte COLON = ':';[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static final byte TAB = '\t';[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static final byte DOUBLE_QUOTE = '"';[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static final int MAXIMUM_LINE_LENGTH_DEFAULT = 10 * 1024;[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static Flow<ByteString, Collection<ByteString>, NotUsed> lineScanner() {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return lineScanner(COMMA, DOUBLE_QUOTE, BACKSLASH, MAXIMUM_LINE_LENGTH_DEFAULT);[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static Flow<ByteString, Collection<ByteString>, NotUsed> lineScanner([0m
+[0m[[0m[0mdebug[0m] [0m[0m      byte delimiter, byte quoteChar, byte escapeChar) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return lineScanner(delimiter, quoteChar, escapeChar, MAXIMUM_LINE_LENGTH_DEFAULT);[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  public static Flow<ByteString, Collection<ByteString>, NotUsed> lineScanner([0m
+[0m[[0m[0mdebug[0m] [0m[0m      byte delimiter, byte quoteChar, byte escapeChar, int maximumLineLength) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    return akka.stream.alpakka.csv.scaladsl.CsvParsing.lineScanner([0m
+[0m[[0m[0mdebug[0m] [0m[0m            delimiter, quoteChar, escapeChar, maximumLineLength)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .asJava()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .map(c -> JavaConverters.asJavaCollectionConverter(c).asJavaCollection())[0m
+[0m[[0m[0mdebug[0m] [0m[0m        .mapMaterializedValue(m -> NotUsed.getInstance());[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m

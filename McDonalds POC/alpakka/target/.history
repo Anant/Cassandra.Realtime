@@ -1,0 +1,18 @@
+doc-examples/run
+exit
+doc-examples/run
+csv/run
+csv-bench/run
+doc-examples/run
+docker-compose up cassandra
+cassandra/testOnly *.CassandraSourceSpec
+exit
+cassandra/testOnly *.CassandraSourceSpec
+exit
+cassandra/testOnly *.CassandraSourceSpec
+exit
+cassandra/testOnly *.CassandraSourceSpec
+exit
+cassandra/testOnly *.CassandraSourceSpec
+cassandra/testOnly *.CassandraSourceSpecexit
+exit

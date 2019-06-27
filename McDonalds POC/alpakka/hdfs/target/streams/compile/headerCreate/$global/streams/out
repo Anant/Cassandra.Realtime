@@ -1,0 +1,1537 @@
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/hdfs/src/main/scala/akka/stream/alpakka/hdfs/javadsl/HdfsFlow.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.hdfs.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.japi.Pair[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs.scaladsl.{HdfsFlow => ScalaHdfsFlow}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.Flow[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.fs.FileSystem[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.io.SequenceFile.CompressionType[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.io.Writable[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.io.compress.CompressionCodec[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject HdfsFlow {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a Flow for [[org.apache.hadoop.fs.FSDataOutputStream]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param syncStrategy sync strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param rotationStrategy rotation strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param settings hdfs writing settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def data([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      syncStrategy: SyncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rotationStrategy: RotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: HdfsWritingSettings[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): javadsl.Flow[HdfsWriteMessage[ByteString, NotUsed], RotationMessage, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ScalaHdfsFlow.data(fs, syncStrategy, rotationStrategy, settings).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a flow for [[org.apache.hadoop.fs.FSDataOutputStream]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   * with `passThrough` of type `C`[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param syncStrategy sync strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param rotationStrategy rotation strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param settings hdfs writing settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def dataWithPassThrough[P]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      syncStrategy: SyncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rotationStrategy: RotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: HdfsWritingSettings[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): javadsl.Flow[HdfsWriteMessage[ByteString, P], OutgoingMessage[P], NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ScalaHdfsFlow[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .dataWithPassThrough[P]([0m
+[0m[[0m[0mdebug[0m] [0m[0m        fs,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        syncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        rotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a flow for [[org.apache.hadoop.io.compress.CompressionOutputStream]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param syncStrategy sync strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param rotationStrategy rotation strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param compressionCodec a streaming compression/decompression pair[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param settings hdfs writing settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def compressed([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      syncStrategy: SyncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rotationStrategy: RotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      compressionCodec: CompressionCodec,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: HdfsWritingSettings[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): javadsl.Flow[HdfsWriteMessage[ByteString, NotUsed], RotationMessage, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ScalaHdfsFlow.compressed(fs, syncStrategy, rotationStrategy, compressionCodec, settings).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a flow for [[org.apache.hadoop.io.compress.CompressionOutputStream]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   * with `passThrough` of type `C`[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param syncStrategy sync strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param rotationStrategy rotation strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param compressionCodec a streaming compression/decompression pair[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param settings hdfs writing settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def compressedWithPassThrough[P]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      syncStrategy: SyncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rotationStrategy: RotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      compressionCodec: CompressionCodec,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: HdfsWritingSettings[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): javadsl.Flow[HdfsWriteMessage[ByteString, P], OutgoingMessage[P], NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ScalaHdfsFlow[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .compressedWithPassThrough[P]([0m
+[0m[[0m[0mdebug[0m] [0m[0m        fs,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        syncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        rotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        compressionCodec,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a flow for [[org.apache.hadoop.io.SequenceFile.Writer]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   * without a compression[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param syncStrategy sync strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param rotationStrategy rotation strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param settings hdfs writing settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param classK a key class[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param classV a value class[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sequence[K <: Writable, V <: Writable]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      syncStrategy: SyncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rotationStrategy: RotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: HdfsWritingSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classK: Class[K],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classV: Class[V][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): javadsl.Flow[HdfsWriteMessage[Pair[K, V], NotUsed], RotationMessage, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    sequenceWithPassThrough[K, V, NotUsed](fs, syncStrategy, rotationStrategy, settings, classK, classV)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .collect(ScalaHdfsFlow.OnlyRotationMessage)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a flow for [[org.apache.hadoop.io.SequenceFile.Writer]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   * with a compression[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param syncStrategy sync strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param rotationStrategy rotation strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param compressionType a compression type used to compress key/value pairs in the SequenceFile[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param compressionCodec a streaming compression/decompression pair[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param settings hdfs writing settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param classK a key class[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param classV a value class[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sequence[K <: Writable, V <: Writable]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      syncStrategy: SyncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rotationStrategy: RotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      compressionType: CompressionType,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      compressionCodec: CompressionCodec,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: HdfsWritingSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classK: Class[K],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classV: Class[V][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): javadsl.Flow[HdfsWriteMessage[Pair[K, V], NotUsed], RotationMessage, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    sequenceWithPassThrough[K, V, NotUsed]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      syncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      compressionType,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      compressionCodec,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classK,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classV[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ).collect(ScalaHdfsFlow.OnlyRotationMessage)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a flow for [[org.apache.hadoop.io.SequenceFile.Writer]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   * with `passThrough` of type `C` and without a compression[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param syncStrategy sync strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param rotationStrategy rotation strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param settings hdfs writing settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param classK a key class[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param classV a value class[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sequenceWithPassThrough[K <: Writable, V <: Writable, P]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      syncStrategy: SyncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rotationStrategy: RotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: HdfsWritingSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classK: Class[K],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classV: Class[V][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): javadsl.Flow[HdfsWriteMessage[Pair[K, V], P], OutgoingMessage[P], NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow[HdfsWriteMessage[Pair[K, V], P]][0m
+[0m[[0m[0mdebug[0m] [0m[0m      .map(message => message.copy(source = message.source.toScala))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .via([0m
+[0m[[0m[0mdebug[0m] [0m[0m        ScalaHdfsFlow[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .sequenceWithPassThrough[K, V, P]([0m
+[0m[[0m[0mdebug[0m] [0m[0m            fs,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            syncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            rotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            settings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            classK,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            classV[0m
+[0m[[0m[0mdebug[0m] [0m[0m          )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a flow for [[org.apache.hadoop.io.SequenceFile.Writer]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   * with `passThrough` of type `C` and a compression[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param syncStrategy sync strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param rotationStrategy rotation strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param compressionType a compression type used to compress key/value pairs in the SequenceFile[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param compressionCodec a streaming compression/decompression pair[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param settings hdfs writing settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param classK a key class[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param classV a value class[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sequenceWithPassThrough[K <: Writable, V <: Writable, P]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      syncStrategy: SyncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rotationStrategy: RotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      compressionType: CompressionType,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      compressionCodec: CompressionCodec,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: HdfsWritingSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classK: Class[K],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classV: Class[V][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): javadsl.Flow[HdfsWriteMessage[Pair[K, V], P], OutgoingMessage[P], NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow[HdfsWriteMessage[Pair[K, V], P]][0m
+[0m[[0m[0mdebug[0m] [0m[0m      .map(message => message.copy(source = message.source.toScala))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .via([0m
+[0m[[0m[0mdebug[0m] [0m[0m        ScalaHdfsFlow[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .sequenceWithPassThrough[K, V, P]([0m
+[0m[[0m[0mdebug[0m] [0m[0m            fs,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            syncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            rotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            compressionType,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            compressionCodec,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            settings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            classK,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            classV[0m
+[0m[[0m[0mdebug[0m] [0m[0m          )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/hdfs/src/main/scala/akka/stream/alpakka/hdfs/javadsl/HdfsSource.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.hdfs.javadsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.concurrent.CompletionStage[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.japi.Pair[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs.scaladsl.{HdfsSource => ScalaHdfsSource}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.javadsl.Source[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.{javadsl, IOResult}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.fs.{FileSystem, Path}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.io.Writable[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.io.compress.CompressionCodec[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.compat.java8.FutureConverters._[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject HdfsSource {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a [[Source]] that consumes as [[ByteString]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param path the file to open[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def data([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      path: Path[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): javadsl.Source[ByteString, CompletionStage[IOResult]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ScalaHdfsSource.data(fs, path).mapMaterializedValue(_.toJava).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a [[Source]] that consumes as [[ByteString]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param path the file to open[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param chunkSize the size of each read operation, defaults to 8192[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def data([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      path: Path,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      chunkSize: Int[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): javadsl.Source[ByteString, CompletionStage[IOResult]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ScalaHdfsSource.data(fs, path, chunkSize).mapMaterializedValue(_.toJava).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a [[Source]] that consumes as [[ByteString]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param path the file to open[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param codec a streaming compression/decompression pair[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def compressed([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      path: Path,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      codec: CompressionCodec[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): javadsl.Source[ByteString, CompletionStage[IOResult]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ScalaHdfsSource.compressed(fs, path, codec).mapMaterializedValue(_.toJava).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a [[Source]] that consumes as [[ByteString]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param path the file to open[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param codec a streaming compression/decompression pair[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param chunkSize the size of each read operation, defaults to 8192[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def compressed([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      path: Path,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      codec: CompressionCodec,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      chunkSize: Int = 8192[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): javadsl.Source[ByteString, CompletionStage[IOResult]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ScalaHdfsSource.compressed(fs, path, codec, chunkSize).mapMaterializedValue(_.toJava).asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates a [[Source]] that consumes as [[(K, V]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param path the file to open[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param classK a key class[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param classV a value class[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sequence[K <: Writable, V <: Writable]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      path: Path,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classK: Class[K],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classV: Class[V][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): javadsl.Source[Pair[K, V], NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ScalaHdfsSource.sequence(fs, path, classK, classV).map { case (k, v) => new Pair(k, v) }.asJava[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/hdfs/src/main/scala/akka/stream/alpakka/hdfs/scaladsl/HdfsFlow.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.hdfs.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs.impl.HdfsFlowStage[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs.impl.writer.{CompressedDataWriter, DataWriter, SequenceWriter}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.Flow[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.fs.{FSDataOutputStream, FileSystem}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.io.SequenceFile.CompressionType[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.io.compress.CompressionCodec[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.io.{SequenceFile, Writable}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject HdfsFlow {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[hdfs] val OnlyRotationMessage: PartialFunction[OutgoingMessage[_], RotationMessage] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case m: RotationMessage => m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: creates a Flow for [[org.apache.hadoop.fs.FSDataOutputStream]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param syncStrategy sync strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param rotationStrategy rotation strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param settings hdfs writing settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def data([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      syncStrategy: SyncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rotationStrategy: RotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: HdfsWritingSettings[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[HdfsWriteMessage[ByteString, NotUsed], RotationMessage, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    dataWithPassThrough[NotUsed](fs, syncStrategy, rotationStrategy, settings)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .collect(OnlyRotationMessage)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: creates a Flow for [[org.apache.hadoop.fs.FSDataOutputStream]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   * with `passThrough` of type `C`[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param syncStrategy sync strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param rotationStrategy rotation strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param settings hdfs writing settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def dataWithPassThrough[P]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      syncStrategy: SyncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rotationStrategy: RotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: HdfsWritingSettings[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[HdfsWriteMessage[ByteString, P], OutgoingMessage[P], NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .fromGraph([0m
+[0m[[0m[0mdebug[0m] [0m[0m        new HdfsFlowStage[FSDataOutputStream, ByteString, P]([0m
+[0m[[0m[0mdebug[0m] [0m[0m          syncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          rotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          settings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          DataWriter(fs, settings.pathGenerator, settings.overwrite)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: creates a Flow for [[org.apache.hadoop.io.compress.CompressionOutputStream]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param syncStrategy sync strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param rotationStrategy rotation strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param compressionCodec a streaming compression/decompression pair[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param settings hdfs writing settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def compressed([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      syncStrategy: SyncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rotationStrategy: RotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      compressionCodec: CompressionCodec,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: HdfsWritingSettings[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[HdfsWriteMessage[ByteString, NotUsed], RotationMessage, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    compressedWithPassThrough[NotUsed](fs, syncStrategy, rotationStrategy, compressionCodec, settings)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .collect(OnlyRotationMessage)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: creates a Flow for [[org.apache.hadoop.io.compress.CompressionOutputStream]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   * with `passThrough` of type `C`[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param syncStrategy sync strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param rotationStrategy rotation strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param compressionCodec a streaming compression/decompression pair[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param settings hdfs writing settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def compressedWithPassThrough[P]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      syncStrategy: SyncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rotationStrategy: RotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      compressionCodec: CompressionCodec,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: HdfsWritingSettings[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[HdfsWriteMessage[ByteString, P], OutgoingMessage[P], NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .fromGraph([0m
+[0m[[0m[0mdebug[0m] [0m[0m        new HdfsFlowStage[FSDataOutputStream, ByteString, P]([0m
+[0m[[0m[0mdebug[0m] [0m[0m          syncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          rotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          settings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          CompressedDataWriter([0m
+[0m[[0m[0mdebug[0m] [0m[0m            fs,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            compressionCodec,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            settings.pathGenerator,[0m
+[0m[[0m[0mdebug[0m] [0m[0m            settings.overwrite[0m
+[0m[[0m[0mdebug[0m] [0m[0m          )[0m
+[0m[[0m[0mdebug[0m] [0m[0m        )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: creates a Flow for [[org.apache.hadoop.io.SequenceFile.Writer]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   * without a compression[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param syncStrategy sync strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param rotationStrategy rotation strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param settings hdfs writing settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param classK a key class[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param classV a value class[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sequence[K <: Writable, V <: Writable]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      syncStrategy: SyncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rotationStrategy: RotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: HdfsWritingSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classK: Class[K],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classV: Class[V][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[HdfsWriteMessage[(K, V), NotUsed], RotationMessage, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    sequenceWithPassThrough[K, V, NotUsed](fs, syncStrategy, rotationStrategy, settings, classK, classV)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .collect(OnlyRotationMessage)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: creates a Flow for [[org.apache.hadoop.io.SequenceFile.Writer]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   * with a compression[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param syncStrategy sync strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param rotationStrategy rotation strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param compressionType a compression type used to compress key/value pairs in the SequenceFile[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param compressionCodec a streaming compression/decompression pair[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param settings hdfs writing settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param classK a key class[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param classV a value class[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sequence[K <: Writable, V <: Writable]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      syncStrategy: SyncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rotationStrategy: RotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      compressionType: CompressionType,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      compressionCodec: CompressionCodec,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: HdfsWritingSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classK: Class[K],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classV: Class[V][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[HdfsWriteMessage[(K, V), NotUsed], RotationMessage, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    sequenceWithPassThrough[K, V, NotUsed]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      syncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      compressionType,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      compressionCodec,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classK,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classV[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ).collect(OnlyRotationMessage)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: creates a Flow for [[org.apache.hadoop.io.SequenceFile.Writer]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   * with `passThrough` of type `C` and without a compression[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs sync strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param syncStrategy sync strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param rotationStrategy rotation strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param settings Hdfs writing settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param classK a key class[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param classV a value class[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sequenceWithPassThrough[K <: Writable, V <: Writable, P]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      syncStrategy: SyncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rotationStrategy: RotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: HdfsWritingSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classK: Class[K],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classV: Class[V][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[HdfsWriteMessage[(K, V), P], OutgoingMessage[P], NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .fromGraph([0m
+[0m[[0m[0mdebug[0m] [0m[0m        new HdfsFlowStage[SequenceFile.Writer, (K, V), P]([0m
+[0m[[0m[0mdebug[0m] [0m[0m          syncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          rotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          settings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          SequenceWriter(fs, classK, classV, settings.pathGenerator)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: creates a Flow for [[org.apache.hadoop.io.SequenceFile.Writer]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   * with `passThrough` of type `C` and a compression[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param syncStrategy sync strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param rotationStrategy rotation strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param compressionType a compression type used to compress key/value pairs in the SequenceFile[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param compressionCodec a streaming compression/decompression pair[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param settings hdfs writing settings[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param classK a key class[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param classV a value class[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sequenceWithPassThrough[K <: Writable, V <: Writable, P]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      syncStrategy: SyncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rotationStrategy: RotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      compressionType: CompressionType,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      compressionCodec: CompressionCodec,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      settings: HdfsWritingSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classK: Class[K],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classV: Class[V][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Flow[HdfsWriteMessage[(K, V), P], OutgoingMessage[P], NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Flow[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .fromGraph([0m
+[0m[[0m[0mdebug[0m] [0m[0m        new HdfsFlowStage[SequenceFile.Writer, (K, V), P]([0m
+[0m[[0m[0mdebug[0m] [0m[0m          syncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          rotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          settings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m          SequenceWriter(fs, compressionType, compressionCodec, classK, classV, settings.pathGenerator)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        )[0m
+[0m[[0m[0mdebug[0m] [0m[0m      )[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/hdfs/src/main/scala/akka/stream/alpakka/hdfs/scaladsl/HdfsSource.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.hdfs.scaladsl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.ActorAttributes.IODispatcher[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.scaladsl.{Source, StreamConverters}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.{Attributes, IOResult}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.fs.{FileSystem, Path}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.io.compress.CompressionCodec[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.io.{SequenceFile, Writable}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.Future[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject HdfsSource {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: creates a [[Source]] that consumes as [[ByteString]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param path the file to open[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param chunkSize the size of each read operation, defaults to 8192[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def data([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      path: Path,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      chunkSize: Int = 8192[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Source[ByteString, Future[IOResult]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    StreamConverters.fromInputStream(() => fs.open(path), chunkSize)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: creates a [[Source]] that consumes as [[ByteString]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param path the file to open[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param codec a streaming compression/decompression pair[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param chunkSize the size of each read operation, defaults to 8192[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def compressed([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      path: Path,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      codec: CompressionCodec,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      chunkSize: Int = 8192[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Source[ByteString, Future[IOResult]] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    StreamConverters.fromInputStream(() => codec.createInputStream(fs.open(path)), chunkSize)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: creates a [[Source]] that consumes as [[(K, V]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param fs Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param path the file to open[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param classK a key class[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param classV a value class[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sequence[K <: Writable, V <: Writable]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      path: Path,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classK: Class[K],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classV: Class[V][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Source[(K, V), NotUsed] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val reader: SequenceFile.Reader = new SequenceFile.Reader(fs.getConf, SequenceFile.Reader.file(path))[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val it = Iterator[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .continually {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val key = classK.newInstance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val value = classV.newInstance()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val hasCurrent = reader.next(key, value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        (hasCurrent, (key, value))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .takeWhile(_._1)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .map(_._2)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Source[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .fromIterator(() => it)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .addAttributes(Attributes(IODispatcher))[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/hdfs/src/main/scala/akka/stream/alpakka/hdfs/impl/strategy/DefaultRotationStrategy.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.hdfs.impl.strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs.RotationStrategy[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs.impl.HdfsFlowLogic[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.duration.FiniteDuration[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[hdfs] object DefaultRotationStrategy {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final case class SizeRotationStrategy([0m
+[0m[[0m[0mdebug[0m] [0m[0m      bytesWritten: Long,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      maxBytes: Double[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ) extends RotationStrategy {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def should(): Boolean = bytesWritten >= maxBytes[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def reset(): RotationStrategy = copy(bytesWritten = 0)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def update(offset: Long): RotationStrategy = copy(bytesWritten = offset)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    protected[hdfs] def preStart[W, I, C](logic: HdfsFlowLogic[W, I, C]): Unit = ()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final case class CountRotationStrategy([0m
+[0m[[0m[0mdebug[0m] [0m[0m      messageWritten: Long,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      c: Long[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ) extends RotationStrategy {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def should(): Boolean = messageWritten >= c[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def reset(): RotationStrategy = copy(messageWritten = 0)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def update(offset: Long): RotationStrategy = copy(messageWritten = messageWritten + 1)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    protected[hdfs] def preStart[W, I, C](logic: HdfsFlowLogic[W, I, C]): Unit = ()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final case class TimeRotationStrategy(interval: FiniteDuration) extends RotationStrategy {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def should(): Boolean = false[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def reset(): RotationStrategy = this[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def update(offset: Long): RotationStrategy = this[0m
+[0m[[0m[0mdebug[0m] [0m[0m    protected[hdfs] def preStart[W, I, C](logic: HdfsFlowLogic[W, I, C]): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m      logic.sharedScheduleFn(interval, interval)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case object NoRotationStrategy extends RotationStrategy {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def should(): Boolean = false[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def reset(): RotationStrategy = this[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def update(offset: Long): RotationStrategy = this[0m
+[0m[[0m[0mdebug[0m] [0m[0m    protected[hdfs] def preStart[W, I, C](logic: HdfsFlowLogic[W, I, C]): Unit = ()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/hdfs/src/main/scala/akka/stream/alpakka/hdfs/impl/strategy/DefaultSyncStrategy.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.hdfs.impl.strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs.SyncStrategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[hdfs] object DefaultSyncStrategy {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final case class CountSyncStrategy([0m
+[0m[[0m[0mdebug[0m] [0m[0m      executeCount: Long = 0,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      count: Long[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ) extends SyncStrategy {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def should(): Boolean = executeCount >= count[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def reset(): SyncStrategy = copy(executeCount = 0)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def update(offset: Long): SyncStrategy = copy(executeCount = executeCount + 1)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  case object NoSyncStrategy extends SyncStrategy {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def should(): Boolean = false[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def reset(): SyncStrategy = this[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def update(offset: Long): SyncStrategy = this[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/hdfs/src/main/scala/akka/stream/alpakka/hdfs/impl/strategy/Strategy.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.hdfs.impl.strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[hdfs] trait Strategy {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  type S <: Strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def should(): Boolean[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def reset(): S[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def update(offset: Long): S[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/hdfs/src/main/scala/akka/stream/alpakka/hdfs/impl/HdfsFlowStage.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.hdfs.impl[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.event.Logging[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs.impl.HdfsFlowLogic.{FlowState, FlowStep, LogicState}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs.impl.writer.HdfsWriter[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.stage._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport cats.data.State[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.duration.FiniteDuration[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[hdfs] final class HdfsFlowStage[W, I, C]([0m
+[0m[[0m[0mdebug[0m] [0m[0m    ss: SyncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    rs: RotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    settings: HdfsWritingSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    hdfsWriter: HdfsWriter[W, I][0m
+[0m[[0m[0mdebug[0m] [0m[0m) extends GraphStage[FlowShape[HdfsWriteMessage[I, C], OutgoingMessage[C]]] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val in = Inlet[HdfsWriteMessage[I, C]](Logging.simpleName(this) + ".in")[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val out = Outlet[OutgoingMessage[C]](Logging.simpleName(this) + ".out")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override val shape: FlowShape[HdfsWriteMessage[I, C], OutgoingMessage[C]] = FlowShape(in, out)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override protected def initialAttributes: Attributes =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    super.initialAttributes and ActorAttributes.IODispatcher[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def createLogic(inheritedAttributes: Attributes): GraphStageLogic =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new HdfsFlowLogic(ss, rs, settings, hdfsWriter, in, out, shape)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[hdfs] final class HdfsFlowLogic[W, I, C]([0m
+[0m[[0m[0mdebug[0m] [0m[0m    initialSyncStrategy: SyncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    initialRotationStrategy: RotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    settings: HdfsWritingSettings,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    initialHdfsWriter: HdfsWriter[W, I],[0m
+[0m[[0m[0mdebug[0m] [0m[0m    inlet: Inlet[HdfsWriteMessage[I, C]],[0m
+[0m[[0m[0mdebug[0m] [0m[0m    outlet: Outlet[OutgoingMessage[C]],[0m
+[0m[[0m[0mdebug[0m] [0m[0m    shape: FlowShape[HdfsWriteMessage[I, C], OutgoingMessage[C]][0m
+[0m[[0m[0mdebug[0m] [0m[0m) extends TimerGraphStageLogic(shape)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    with InHandler[0m
+[0m[[0m[0mdebug[0m] [0m[0m    with OutHandler {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private var state = FlowState(initialHdfsWriter, initialRotationStrategy, initialSyncStrategy)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val separator = Option(settings.newLineByteArray).filter(_ => settings.newLine)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val flushProgram = rotateOutput.flatMap(message => tryPush(Seq(message)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[impl] val sharedScheduleFn =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    schedulePeriodicallyWithInitialDelay(NotUsed, _: FiniteDuration, _: FiniteDuration)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  setHandlers(inlet, outlet, this)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def onPush(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    state = onPushProgram(grab(inlet))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .runS(state)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      .value[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def onPull(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    tryPull()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def preStart(): Unit = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    initialRotationStrategy.preStart(this)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    tryPull()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def onTimer(timerKey: Any): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    state = flushProgram.runS(state).value[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def onUpstreamFailure(ex: Throwable): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    failStage(ex)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def onUpstreamFinish(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    state.logicState match {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      case LogicState.Writing =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m        flushProgram[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .run(state)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .map(_ => completeStage())[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .value[0m
+[0m[[0m[0mdebug[0m] [0m[0m      case _ => completeStage()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def tryPull(): Unit =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (!isClosed(inlet) && !hasBeenPulled(inlet)) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      pull(inlet)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def onPushProgram(input: HdfsWriteMessage[I, C]) =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    for {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      _ <- setLogicState(LogicState.Writing)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      offset <- write(input.source)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      _ <- updateSync(offset)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      _ <- updateRotation(offset)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      _ <- trySyncOutput[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rotationResult <- tryRotateOutput[0m
+[0m[[0m[0mdebug[0m] [0m[0m      (rotationCount, maybeRotationMessage) = rotationResult[0m
+[0m[[0m[0mdebug[0m] [0m[0m      messages = Seq(Some(WrittenMessage(input.passThrough, rotationCount)), maybeRotationMessage)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      _ <- tryPush(messages.flatten)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    } yield tryPull()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def setLogicState(logicState: LogicState): FlowStep[W, I, LogicState] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    FlowStep[W, I, LogicState] { state =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      (state.copy(logicState = logicState), logicState)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def write(input: I): FlowStep[W, I, Long] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    FlowStep[W, I, Long] { state =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val newOffset = state.writer.write(input, separator)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      (state, newOffset)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def updateRotation(offset: Long): FlowStep[W, I, RotationStrategy] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    FlowStep[W, I, RotationStrategy] { state =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val newRotation = state.rotationStrategy.update(offset)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      (state.copy(rotationStrategy = newRotation), newRotation)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def updateSync(offset: Long): FlowStep[W, I, SyncStrategy] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    FlowStep[W, I, SyncStrategy] { state =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val newSync = state.syncStrategy.update(offset)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      (state.copy(syncStrategy = newSync), newSync)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def rotateOutput: FlowStep[W, I, RotationMessage] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    FlowStep[W, I, RotationMessage] { state =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val newRotationCount = state.rotationCount + 1[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val newRotation = state.rotationStrategy.reset()[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val newWriter = state.writer.rotate(newRotationCount)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      state.writer.moveToTarget()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val message = RotationMessage(state.writer.targetPath, state.rotationCount)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val newState = state.copy(rotationCount = newRotationCount,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                writer = newWriter,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                rotationStrategy = newRotation,[0m
+[0m[[0m[0mdebug[0m] [0m[0m                                logicState = LogicState.Idle)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m      (newState, message)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /*[0m
+[0m[[0m[0mdebug[0m] [0m[0m    It tries to rotate output file.[0m
+[0m[[0m[0mdebug[0m] [0m[0m    If it rotates, it returns previous rotation count and a message,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    else, it returns current rotation without a message.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def tryRotateOutput: FlowStep[W, I, (Int, Option[RotationMessage])] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    FlowStep[W, I, (Int, Option[RotationMessage])] { state =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (state.rotationStrategy.should()) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        rotateOutput[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .run(state)[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .map {[0m
+[0m[[0m[0mdebug[0m] [0m[0m            case (newState, message) =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m              (newState, (state.rotationCount, Some(message)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m          }[0m
+[0m[[0m[0mdebug[0m] [0m[0m          .value[0m
+[0m[[0m[0mdebug[0m] [0m[0m      } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        (state, (state.rotationCount, None))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def trySyncOutput: FlowStep[W, I, Boolean] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    FlowStep[W, I, Boolean] { state =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (state.syncStrategy.should()) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        state.writer.sync()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        val newSync = state.syncStrategy.reset()[0m
+[0m[[0m[0mdebug[0m] [0m[0m        (state.copy(syncStrategy = newSync), true)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      } else {[0m
+[0m[[0m[0mdebug[0m] [0m[0m        (state, false)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      }[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def tryPush(messages: Seq[OutgoingMessage[C]]): FlowStep[W, I, Unit] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    FlowStep[W, I, Unit] { state =>[0m
+[0m[[0m[0mdebug[0m] [0m[0m      if (messages.nonEmpty)[0m
+[0m[[0m[0mdebug[0m] [0m[0m        emitMultiple(outlet, messages.toIterator)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      (state, ())[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate object HdfsFlowLogic {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  type FlowStep[W, I, A] = State[FlowState[W, I], A][0m
+[0m[[0m[0mdebug[0m] [0m[0m  object FlowStep {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def apply[W, I, A](f: FlowState[W, I] => (FlowState[W, I], A)): FlowStep[W, I, A] = State.apply(f)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  sealed trait LogicState[0m
+[0m[[0m[0mdebug[0m] [0m[0m  object LogicState {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case object Idle extends LogicState[0m
+[0m[[0m[0mdebug[0m] [0m[0m    case object Writing extends LogicState[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  final case class FlowState[W, I]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      rotationCount: Int,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      writer: HdfsWriter[W, I],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      rotationStrategy: RotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      syncStrategy: SyncStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      logicState: LogicState[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  object FlowState {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    def apply[W, I]([0m
+[0m[[0m[0mdebug[0m] [0m[0m        writer: HdfsWriter[W, I],[0m
+[0m[[0m[0mdebug[0m] [0m[0m        rs: RotationStrategy,[0m
+[0m[[0m[0mdebug[0m] [0m[0m        ss: SyncStrategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ): FlowState[W, I] = new FlowState[W, I](0, writer, rs, ss, LogicState.Idle)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/hdfs/src/main/scala/akka/stream/alpakka/hdfs/impl/writer/CompressedDataWriter.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.hdfs.impl.writer[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs.FilePathGenerator[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs.impl.writer.HdfsWriter._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.commons.io.FilenameUtils[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.fs.{FSDataOutputStream, FileSystem, Path}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.io.compress.{CodecPool, CompressionCodec, CompressionOutputStream, Compressor}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[writer] final case class CompressedDataWriter([0m
+[0m[[0m[0mdebug[0m] [0m[0m    fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    compressionCodec: CompressionCodec,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    pathGenerator: FilePathGenerator,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maybeTargetPath: Option[Path],[0m
+[0m[[0m[0mdebug[0m] [0m[0m    overwrite: Boolean[0m
+[0m[[0m[0mdebug[0m] [0m[0m) extends HdfsWriter[FSDataOutputStream, ByteString] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected lazy val target: Path = getOrCreatePath(maybeTargetPath, outputFileWithExtension(0))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val compressor: Compressor = CodecPool.getCompressor(compressionCodec, fs.getConf)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val cmpOutput: CompressionOutputStream = compressionCodec.createOutputStream(output, compressor)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  require(compressor ne null, "Compressor cannot be null")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sync(): Unit = output.hsync()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def write(input: ByteString, separator: Option[Array[Byte]]): Long = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val bytes = input.toArray[0m
+[0m[[0m[0mdebug[0m] [0m[0m    cmpOutput.write(bytes)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    separator.foreach(output.write)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    compressor.getBytesWritten[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def rotate(rotationCount: Long): CompressedDataWriter = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    cmpOutput.finish()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    output.close()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(maybeTargetPath = Some(outputFileWithExtension(rotationCount)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def create(fs: FileSystem, file: Path): FSDataOutputStream = fs.create(file, overwrite)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def outputFileWithExtension(rotationCount: Long): Path = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val candidatePath = createTargetPath(pathGenerator, rotationCount)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val candidateExtension = s".${FilenameUtils.getExtension(candidatePath.getName)}"[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val codecExtension = compressionCodec.getDefaultExtension[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (codecExtension != candidateExtension)[0m
+[0m[[0m[0mdebug[0m] [0m[0m      candidatePath.suffix(codecExtension)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    else candidatePath[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[hdfs] object CompressedDataWriter {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      compressionCodec: CompressionCodec,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      pathGenerator: FilePathGenerator,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      overwrite: Boolean[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): CompressedDataWriter =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new CompressedDataWriter(fs, compressionCodec, pathGenerator, None, overwrite)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/hdfs/src/main/scala/akka/stream/alpakka/hdfs/impl/writer/HdfsWriter.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.hdfs.impl.writer[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs.FilePathGenerator[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs.impl.writer.HdfsWriter._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.fs.{FileSystem, Path}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[hdfs] trait HdfsWriter[W, I] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected lazy val output: W = create(fs, temp)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected lazy val temp: Path = tempFromTarget(pathGenerator, target)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def moveToTarget(): Boolean = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    if (!fs.exists(target.getParent))[0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs.mkdirs(target.getParent)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    fs.rename(temp, target)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sync(): Unit[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def targetPath: String = target.toString[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def write(input: I, separator: Option[Array[Byte]]): Long[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def rotate(rotationCount: Long): HdfsWriter[W, I][0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def target: Path[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def fs: FileSystem[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def pathGenerator: FilePathGenerator[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def create(fs: FileSystem, file: Path): W[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[writer] object HdfsWriter {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def createTargetPath(generator: FilePathGenerator, c: Long): Path =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    generator(c, System.currentTimeMillis / 1000)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def tempFromTarget(generator: FilePathGenerator, target: Path): Path =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new Path(generator.tempDirectory, target.getName)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def getOrCreatePath(maybePath: Option[Path], default: => Path): Path =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maybePath.getOrElse(default)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/hdfs/src/main/scala/akka/stream/alpakka/hdfs/impl/writer/SequenceWriter.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.hdfs.impl.writer[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs.FilePathGenerator[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs.impl.writer.HdfsWriter._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.fs.{FileSystem, Path}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.io.SequenceFile.{CompressionType, Writer}[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.io.compress.CompressionCodec[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.io.{SequenceFile, Writable}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[writer] final case class SequenceWriter[K <: Writable, V <: Writable]([0m
+[0m[[0m[0mdebug[0m] [0m[0m    fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    writerOptions: Seq[Writer.Option],[0m
+[0m[[0m[0mdebug[0m] [0m[0m    pathGenerator: FilePathGenerator,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maybeTargetPath: Option[Path][0m
+[0m[[0m[0mdebug[0m] [0m[0m) extends HdfsWriter[SequenceFile.Writer, (K, V)] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected lazy val target: Path =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    getOrCreatePath(maybeTargetPath, createTargetPath(pathGenerator, 0))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sync(): Unit = output.hsync()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def write(input: (K, V), separator: Option[Array[Byte]]): Long = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    output.append(input._1, input._2)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    output.getLength[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def rotate(rotationCount: Long): SequenceWriter[K, V] = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    output.close()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(maybeTargetPath = Some(createTargetPath(pathGenerator, rotationCount)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected def create(fs: FileSystem, file: Path): SequenceFile.Writer = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val ops = SequenceFile.Writer.file(file) +: writerOptions[0m
+[0m[[0m[0mdebug[0m] [0m[0m    SequenceFile.createWriter(fs.getConf, ops: _*)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[hdfs] object SequenceWriter {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply[K <: Writable, V <: Writable]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classK: Class[K],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classV: Class[V],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      pathGenerator: FilePathGenerator[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): SequenceWriter[K, V] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new SequenceWriter[K, V](fs, options(classK, classV), pathGenerator, None)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply[K <: Writable, V <: Writable]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      compressionType: CompressionType,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      compressionCodec: CompressionCodec,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classK: Class[K],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classV: Class[V],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      pathGenerator: FilePathGenerator[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): SequenceWriter[K, V] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new SequenceWriter[K, V](fs, options(compressionType, compressionCodec, classK, classV), pathGenerator, None)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def options[K <: Writable, V <: Writable]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      classK: Class[K],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classV: Class[V][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Seq[Writer.Option] = Seq([0m
+[0m[[0m[0mdebug[0m] [0m[0m    SequenceFile.Writer.keyClass(classK),[0m
+[0m[[0m[0mdebug[0m] [0m[0m    SequenceFile.Writer.valueClass(classV)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def options[K <: Writable, V <: Writable]([0m
+[0m[[0m[0mdebug[0m] [0m[0m      compressionType: CompressionType,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      compressionCodec: CompressionCodec,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classK: Class[K],[0m
+[0m[[0m[0mdebug[0m] [0m[0m      classV: Class[V][0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): Seq[Writer.Option] = SequenceFile.Writer.compression(compressionType, compressionCodec) +: options(classK, classV)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/hdfs/src/main/scala/akka/stream/alpakka/hdfs/impl/writer/DataWriter.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.hdfs.impl.writer[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.annotation.InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs.FilePathGenerator[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs.impl.writer.HdfsWriter._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.fs.{FSDataOutputStream, FileSystem, Path}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Internal API[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m@InternalApi[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[writer] final case class DataWriter([0m
+[0m[[0m[0mdebug[0m] [0m[0m    fs: FileSystem,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    pathGenerator: FilePathGenerator,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    maybeTargetPath: Option[Path],[0m
+[0m[[0m[0mdebug[0m] [0m[0m    overwrite: Boolean[0m
+[0m[[0m[0mdebug[0m] [0m[0m) extends HdfsWriter[FSDataOutputStream, ByteString] {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected lazy val target: Path =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    getOrCreatePath(maybeTargetPath, createTargetPath(pathGenerator, 0))[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def sync(): Unit = output.hsync()[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def write(input: ByteString, separator: Option[Array[Byte]]): Long = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val bytes = input.toArray[0m
+[0m[[0m[0mdebug[0m] [0m[0m    output.write(bytes)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    separator.foreach(output.write)[0m
+[0m[[0m[0mdebug[0m] [0m[0m    output.size()[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def rotate(rotationCount: Long): DataWriter = {[0m
+[0m[[0m[0mdebug[0m] [0m[0m    output.close()[0m
+[0m[[0m[0mdebug[0m] [0m[0m    copy(maybeTargetPath = Some(createTargetPath(pathGenerator, rotationCount)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m  }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(fs: FileSystem, file: Path): FSDataOutputStream = fs.create(file, overwrite)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mprivate[hdfs] object DataWriter {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(fs: FileSystem, pathGenerator: FilePathGenerator, overwrite: Boolean): DataWriter =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new DataWriter(fs, pathGenerator, None, overwrite)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to create/update header for /root/alpakka/hdfs/src/main/scala/akka/stream/alpakka/hdfs/model.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0mFirst line of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mText of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0m/*[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Copyright (C) 2016-2019 Lightbend Inc. <http://www.lightbend.com>[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mpackage akka.stream.alpakka.hdfs[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport java.util.function.BiFunction[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.NotUsed[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs.impl.HdfsFlowLogic[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs.impl.strategy.DefaultRotationStrategy._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs.impl.strategy.DefaultSyncStrategy._[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.stream.alpakka.hdfs.impl.strategy.Strategy[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport akka.util.ByteString[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport org.apache.hadoop.fs.Path[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mimport scala.concurrent.duration.FiniteDuration[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal class HdfsWritingSettings private ([0m
+[0m[[0m[0mdebug[0m] [0m[0m    val overwrite: Boolean,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val newLine: Boolean,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val lineSeparator: String,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    val pathGenerator: FilePathGenerator[0m
+[0m[[0m[0mdebug[0m] [0m[0m) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private[hdfs] val newLineByteArray = ByteString(lineSeparator).toArray[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withOverwrite(value: Boolean): HdfsWritingSettings = if (overwrite == value) this else copy(overwrite = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withNewLine(value: Boolean): HdfsWritingSettings = if (newLine == value) this else copy(newLine = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withLineSeparator(value: String): HdfsWritingSettings = copy(lineSeparator = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def withPathGenerator(value: FilePathGenerator): HdfsWritingSettings = copy(pathGenerator = value)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def copy([0m
+[0m[[0m[0mdebug[0m] [0m[0m      overwrite: Boolean = overwrite,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      newLine: Boolean = newLine,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      lineSeparator: String = lineSeparator,[0m
+[0m[[0m[0mdebug[0m] [0m[0m      pathGenerator: FilePathGenerator = pathGenerator[0m
+[0m[[0m[0mdebug[0m] [0m[0m  ): HdfsWritingSettings = new HdfsWritingSettings([0m
+[0m[[0m[0mdebug[0m] [0m[0m    overwrite = overwrite,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    newLine = newLine,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    lineSeparator = lineSeparator,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    pathGenerator = pathGenerator[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  override def toString =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    "HdfsWritingSettings(" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"overwrite=$overwrite," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"newLine=$newLine," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"lineSeparator=$lineSeparator," +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    s"pathGenerator=$pathGenerator" +[0m
+[0m[[0m[0mdebug[0m] [0m[0m    ")"[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject HdfsWritingSettings {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val DefaultFilePathGenerator: FilePathGenerator =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    FilePathGenerator((rc: Long, _: Long) => s"/tmp/alpakka/$rc")[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val default = new HdfsWritingSettings([0m
+[0m[[0m[0mdebug[0m] [0m[0m    overwrite = true,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    newLine = false,[0m
+[0m[[0m[0mdebug[0m] [0m[0m    lineSeparator = System.getProperty("line.separator"),[0m
+[0m[[0m[0mdebug[0m] [0m[0m    pathGenerator = DefaultFilePathGenerator[0m
+[0m[[0m[0mdebug[0m] [0m[0m  )[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Scala API */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(): HdfsWritingSettings = default[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /** Java API */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(): HdfsWritingSettings = default[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal case class HdfsWriteMessage[T, P](source: T, passThrough: P)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject HdfsWriteMessage {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API - creates [[HdfsWriteMessage]] to use when not using passThrough[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param source a message[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply[T](source: T): HdfsWriteMessage[T, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    HdfsWriteMessage(source, NotUsed)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API - creates [[HdfsWriteMessage]] to use when not using passThrough[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param source a message[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create[T](source: T): HdfsWriteMessage[T, NotUsed] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    HdfsWriteMessage(source)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API - creates [[HdfsWriteMessage]] to use with passThrough[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param source a message[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param passThrough pass-through data[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create[T, P](source: T, passThrough: P): HdfsWriteMessage[T, P] =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    HdfsWriteMessage(source, passThrough)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0msealed abstract class OutgoingMessage[+P][0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Class `RotationMessage` represents an outgoing message of the rotation event[0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * @param path     an absolute path of an output file in Hdfs[0m
+[0m[[0m[0mdebug[0m] [0m[0m * @param rotation a number of rotation of an output[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal case class RotationMessage(path: String, rotation: Int) extends OutgoingMessage[Nothing][0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m/**[0m
+[0m[[0m[0mdebug[0m] [0m[0m * Class `WrittenMessage` represents an outgoing message of the writing event[0m
+[0m[[0m[0mdebug[0m] [0m[0m *[0m
+[0m[[0m[0mdebug[0m] [0m[0m * @param passThrough a value of pass-through[0m
+[0m[[0m[0mdebug[0m] [0m[0m * @param inRotation  a number of the rotation that writing event occurred[0m
+[0m[[0m[0mdebug[0m] [0m[0m * @tparam P type of the value of pass-through[0m
+[0m[[0m[0mdebug[0m] [0m[0m */[0m
+[0m[[0m[0mdebug[0m] [0m[0mfinal case class WrittenMessage[P](passThrough: P, inRotation: Int) extends OutgoingMessage[P][0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0msealed case class FileUnit(byteCount: Long)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject FileUnit {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val KB = FileUnit(Math.pow(2, 10).toLong)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val MB = FileUnit(Math.pow(2, 20).toLong)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val GB = FileUnit(Math.pow(2, 30).toLong)[0m
+[0m[[0m[0mdebug[0m] [0m[0m  val TB = FileUnit(Math.pow(2, 40).toLong)[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0msealed abstract class FilePathGenerator extends ((Long, Long) => Path) {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def tempDirectory: String[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject FilePathGenerator {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private val DefaultTempDirectory = "/tmp/alpakka-hdfs"[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Scala API: creates [[FilePathGenerator]] to rotate output[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param f    a function that takes rotation count and timestamp to return path of output[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param temp the temporary directory that [[akka.stream.alpakka.hdfs.impl.HdfsFlowStage]] use[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def apply(f: (Long, Long) => String, temp: String = DefaultTempDirectory): FilePathGenerator =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    new FilePathGenerator {[0m
+[0m[[0m[0mdebug[0m] [0m[0m      val tempDirectory: String = temp[0m
+[0m[[0m[0mdebug[0m] [0m[0m      def apply(rotationCount: Long, timestamp: Long): Path = new Path(f(rotationCount, timestamp))[0m
+[0m[[0m[0mdebug[0m] [0m[0m    }[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates [[FilePathGenerator]] to rotate output[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param f a function that takes rotation count and timestamp to return path of output[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(f: BiFunction[java.lang.Long, java.lang.Long, String]): FilePathGenerator =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    FilePathGenerator(javaFuncToScalaFunc(f), DefaultTempDirectory)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Java API: creates [[FilePathGenerator]] to rotate output[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param f a function that takes rotation count and timestamp to return path of output[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def create(f: BiFunction[java.lang.Long, java.lang.Long, String], temp: String): FilePathGenerator =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    FilePathGenerator(javaFuncToScalaFunc(f), temp)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  private def javaFuncToScalaFunc(f: BiFunction[java.lang.Long, java.lang.Long, String]): (Long, Long) => String =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    (rc, t) => f.apply(rc, t)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mabstract class RotationStrategy extends Strategy {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  type S = RotationStrategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m  protected[hdfs] def preStart[W, I, C](logic: HdfsFlowLogic[W, I, C]): Unit[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject RotationStrategy {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Creates a rotation strategy that will trigger a file rotation[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * after a certain size of messages have been processed.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param count a count of [[FileUnit]][0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param unit a file unit[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def size(count: Double, unit: FileUnit): RotationStrategy =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    SizeRotationStrategy(0, count * unit.byteCount)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Creates a rotation strategy that will trigger a file rotation[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * after a certain number of messages have been processed.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param count message count to rotate files[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def count(count: Long): RotationStrategy =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    CountRotationStrategy(0, count)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Creates a rotation strategy that will trigger a file rotation[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * after a finite duration.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param interval duration to rotate files[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def time(interval: FiniteDuration): RotationStrategy =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    TimeRotationStrategy(interval)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Creates a non-functioning rotation strategy that will not trigger[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * a file rotation, mostly suitable for finite streams and testing.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def none: RotationStrategy =[0m
+[0m[[0m[0mdebug[0m] [0m[0m    NoRotationStrategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mabstract class SyncStrategy extends Strategy {[0m
+[0m[[0m[0mdebug[0m] [0m[0m  type S = SyncStrategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mobject SyncStrategy {[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Creates a synchronization strategy that will trigger the Hadoop file system[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * sync after a certain number of messages have been processed.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   *[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * @param count message count to synchronize the output[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def count(count: Long): SyncStrategy = CountSyncStrategy(0, count)[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m  /**[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * Creates a non-functioning synchronization strategy that will not trigger[0m
+[0m[[0m[0mdebug[0m] [0m[0m   * the Hadoop file system sync.[0m
+[0m[[0m[0mdebug[0m] [0m[0m   */[0m
+[0m[[0m[0mdebug[0m] [0m[0m  def none: SyncStrategy = NoSyncStrategy[0m
+[0m[[0m[0mdebug[0m] [0m[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0m}[0m
+[0m[[0m[0mdebug[0m] [0m[0mModified text of file is:[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone[0m

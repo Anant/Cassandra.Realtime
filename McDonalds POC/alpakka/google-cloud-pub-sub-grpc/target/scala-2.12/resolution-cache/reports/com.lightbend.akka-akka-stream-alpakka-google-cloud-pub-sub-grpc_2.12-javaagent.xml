@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="com.lightbend.akka"
+		module="akka-stream-alpakka-google-cloud-pub-sub-grpc_2.12"
+		revision="1.0.1"
+		extra-info.apiURL="https://doc.akka.io/api/alpakka/1.0.1/akka/stream/alpakka/index.html"
+		conf="javaagent"
+		confs="compile, runtime, test, provided, optional, protobuf, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool, javaagent"
+		date="20190614195202"/>
+	<dependencies>
+		<module organisation="org.mortbay.jetty.alpn" name="jetty-alpn-agent">
+			<revision name="2.0.7" status="release" pubdate="20180117131048" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/jetty-project/jetty-alpn-agent" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="0">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="3635" time="0" location="/root/.ivy2/cache/org.mortbay.jetty.alpn/jetty-alpn-agent/ivy-2.0.7.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/mortbay/jetty/alpn/jetty-alpn-agent/2.0.7/jetty-alpn-agent-2.0.7.pom"/>
+				<caller organisation="com.lightbend.akka" name="akka-stream-alpakka-google-cloud-pub-sub-grpc_2.12" conf="javaagent" rev="2.0.7" rev-constraint-default="2.0.7" rev-constraint-dynamic="2.0.7" callerrev="1.0.1"/>
+				<artifacts>
+					<artifact name="jetty-alpn-agent" type="jar" ext="jar" status="no" details="" size="1709862" time="0" location="/root/.ivy2/cache/org.mortbay.jetty.alpn/jetty-alpn-agent/jars/jetty-alpn-agent-2.0.7.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/mortbay/jetty/alpn/jetty-alpn-agent/2.0.7/jetty-alpn-agent-2.0.7.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

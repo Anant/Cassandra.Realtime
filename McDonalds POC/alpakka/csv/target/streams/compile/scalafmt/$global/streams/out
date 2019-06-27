@@ -1,0 +1,6 @@
+[0m[[0m[0minfo[0m] [0m[0mFormatting 16 Scala sources...[0m
+[0m[[0m[0mdebug[0m] [0m[0mfile excluded: /root/alpakka/csv/src/main/java/akka/stream/alpakka/csv/javadsl/CsvFormatting.java[0m
+[0m[[0m[0mdebug[0m] [0m[0mfile excluded: /root/alpakka/csv/src/main/java/akka/stream/alpakka/csv/javadsl/ByteOrderMark.java[0m
+[0m[[0m[0mdebug[0m] [0m[0mfile excluded: /root/alpakka/csv/src/main/java/akka/stream/alpakka/csv/javadsl/CsvQuotingStyle.java[0m
+[0m[[0m[0mdebug[0m] [0m[0mfile excluded: /root/alpakka/csv/src/main/java/akka/stream/alpakka/csv/javadsl/CsvToMap.java[0m
+[0m[[0m[0mdebug[0m] [0m[0mfile excluded: /root/alpakka/csv/src/main/java/akka/stream/alpakka/csv/javadsl/CsvParsing.java[0m

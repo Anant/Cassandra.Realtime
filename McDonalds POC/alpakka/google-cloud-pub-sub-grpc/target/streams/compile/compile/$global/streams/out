@@ -1,0 +1,2 @@
+[0m[[0m[0minfo[0m] [0m[0m/root/alpakka/google-cloud-pub-sub-grpc/target/scala-2.12/src_managed/main/com/google/protobuf/compiler/PluginProtos.java: /root/alpakka/google-cloud-pub-sub-grpc/target/scala-2.12/src_managed/main/com/google/protobuf/compiler/PluginProtos.java uses or overrides a deprecated API.[0m
+[0m[[0m[0minfo[0m] [0m[0m/root/alpakka/google-cloud-pub-sub-grpc/target/scala-2.12/src_managed/main/com/google/protobuf/compiler/PluginProtos.java: Recompile with -Xlint:deprecation for details.[0m
