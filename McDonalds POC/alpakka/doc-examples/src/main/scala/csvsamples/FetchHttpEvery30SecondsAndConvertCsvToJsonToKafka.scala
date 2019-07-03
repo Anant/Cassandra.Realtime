@@ -31,7 +31,7 @@ object FetchHttpEvery30SecondsAndConvertCsvToJsonToKafka
   // format: off
   // #helper
   // val httpRequest = HttpRequest(uri = "https://www.nasdaq.com/screening/companies-by-name.aspx?exchange=NYSE&render=download")
-   val httpRequest = HttpRequest(uri = "https://sample-videos.com/csv/Sample-Spreadsheet-10-rows.csv?render=download")
+   val httpRequest = HttpRequest(uri = "http://samplecsvs.s3.amazonaws.com/SalesJan2009.csv?render=download")
     .withHeaders(Accept(MediaRanges.`text/*`))
 
 
@@ -72,7 +72,7 @@ object FetchHttpEvery30SecondsAndConvertCsvToJsonToKafka
       .map(toJson)                                                 //: JsValue                 (7)
       .map(_.compactPrint)                                         //: String (JSON formatted)
       .map { elem =>
-        new ProducerRecord[String, String]("topic1", elem)         //: Kafka ProducerRecord    (8)
+        new ProducerRecord[String, String]("topics", elem)         //: Kafka ProducerRecord    (8)
       }
       .toMat(Producer.plainSink(kafkaProducerSettings))(Keep.both)
       .run()
@@ -81,19 +81,17 @@ object FetchHttpEvery30SecondsAndConvertCsvToJsonToKafka
 
   val kafkaConsumerSettings = ConsumerSettings(actorSystem, new StringDeserializer, new StringDeserializer)
     .withBootstrapServers(s"localhost:$kafkaPort")
-    .withGroupId("topic1")
+    .withGroupId("topics")
     .withProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
 
   val control = Consumer
-    .atMostOnceSource(kafkaConsumerSettings, Subscriptions.topics("topic1"))
+    .atMostOnceSource(kafkaConsumerSettings, Subscriptions.topics("topics"))
     .map(_.value)
     .toMat(Sink.foreach(println))(Keep.both)
     .mapMaterializedValue(Consumer.DrainingControl.apply)
     .run()
-  println("Hi 2")
   wait(1.minutes)
   ticks.cancel()
-  println("Hi 3")
   for {
     _ <- future
     _ <- control.drainAndShutdown()
