@@ -1,0 +1,61 @@
+// ------------------------------------------------------------------
+// Transitive dependencies of this project determined from the
+// maven pom organized by organization.
+// ------------------------------------------------------------------
+
+Spark Project Tools
+
+
+From: 'an unknown organization'
+  - JLine (http://nexus.sonatype.org/oss-repository-hosting.html/jline) jline:jline:jar:2.12.1
+    License: The BSD License  (http://www.opensource.org/licenses/bsd-license.php)
+  - empty (http://nexus.sonatype.org/oss-repository-hosting.html/unused) org.spark-project.spark:unused:jar:1.0.0
+    License: The Apache License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+From: 'LAMP/EPFL' (http://lamp.epfl.ch/)
+  - Scala Compiler (http://www.scala-lang.org/) org.scala-lang:scala-compiler:jar:2.11.8
+    License: BSD 3-Clause  (http://www.scala-lang.org/license.html)
+  - Scala Library (http://www.scala-lang.org/) org.scala-lang:scala-library:jar:2.11.8
+    License: BSD 3-Clause  (http://www.scala-lang.org/license.html)
+  - Scala Compiler (http://www.scala-lang.org/) org.scala-lang:scala-reflect:jar:2.11.8
+    License: BSD 3-Clause  (http://www.scala-lang.org/license.html)
+
+From: 'ObjectWeb' (http://www.objectweb.org/)
+  - ASM Core (http://asm.objectweb.org/asm/) org.ow2.asm:asm:jar:5.0.2
+    License: BSD  (http://asm.objectweb.org/license.html)
+  - ASM Commons (http://asm.objectweb.org/asm-commons/) org.ow2.asm:asm-commons:jar:5.0.2
+    License: BSD  (http://asm.objectweb.org/license.html)
+  - ASM Tree (http://asm.objectweb.org/asm-tree/) org.ow2.asm:asm-tree:jar:5.0.2
+    License: BSD  (http://asm.objectweb.org/license.html)
+  - ASM Util (http://asm.objectweb.org/asm-util/) org.ow2.asm:asm-util:jar:5.0.2
+    License: BSD  (http://asm.objectweb.org/license.html)
+
+From: 'org.clapper' (http://software.clapper.org/classutil/)
+  - classutil (http://software.clapper.org/classutil/) org.clapper:classutil_2.11:jar:1.0.6
+    License: BSD New  (http://software.clapper.org/classutil/license.html)
+
+From: 'org.clapper' (http://software.clapper.org/grizzled-scala/)
+  - grizzled-scala (http://software.clapper.org/grizzled-scala/) org.clapper:grizzled-scala_2.11:jar:1.4.0
+    License: BSD  (http://software.clapper.org/grizzled-scala/license.html)
+
+From: 'org.clapper' (https://github.com/bmc/grizzled-slf4j/#readme)
+  - grizzled-slf4j (https://github.com/bmc/grizzled-slf4j/#readme) org.clapper:grizzled-slf4j_2.11:jar:1.0.2
+    License: BSD  (http://software.clapper.org/grizzled-slf4j/license.html)
+
+From: 'org.scala-lang.modules' (http://github.com/scala/async)
+  - scala-async (http://github.com/scala/async) org.scala-lang.modules:scala-async_2.11:bundle:0.9.1
+    License: Scala license  (https://github.com/scala/async/blob/master/LICENSE)
+
+From: 'org.scala-lang.modules' (http://www.scala-lang.org/)
+  - scala-parser-combinators (http://www.scala-lang.org/) org.scala-lang.modules:scala-parser-combinators_2.11:bundle:1.0.4
+    License: BSD 3-clause  (http://opensource.org/licenses/BSD-3-Clause)
+  - scala-xml (http://www.scala-lang.org/) org.scala-lang.modules:scala-xml_2.11:bundle:1.0.4
+    License: BSD 3-clause  (http://opensource.org/licenses/BSD-3-Clause)
+
+From: 'QOS.ch' (http://www.qos.ch)
+  - SLF4J API Module (http://www.slf4j.org) org.slf4j:slf4j-api:jar:1.7.16
+    License: MIT License  (http://www.opensource.org/licenses/mit-license.php)
+
+
+
+

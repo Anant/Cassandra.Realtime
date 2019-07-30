@@ -1,0 +1,35 @@
+// ------------------------------------------------------------------
+// Transitive dependencies of this project determined from the
+// maven pom organized by organization.
+// ------------------------------------------------------------------
+
+Spark Project Local DB
+
+
+From: 'an unknown organization'
+  - empty (http://nexus.sonatype.org/oss-repository-hosting.html/unused) org.spark-project.spark:unused:jar:1.0.0
+    License: The Apache License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+From: 'FasterXML' (http://fasterxml.com/)
+  - Jackson-annotations (http://github.com/FasterXML/jackson) com.fasterxml.jackson.core:jackson-annotations:bundle:2.6.7
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Jackson-core (https://github.com/FasterXML/jackson-core) com.fasterxml.jackson.core:jackson-core:bundle:2.6.7
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - jackson-databind (http://github.com/FasterXML/jackson) com.fasterxml.jackson.core:jackson-databind:bundle:2.6.7.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+From: 'FuseSource, Corp.' (http://fusesource.com/)
+  - leveldbjni-all (http://leveldbjni.fusesource.org/leveldbjni-all) org.fusesource.leveldbjni:leveldbjni-all:bundle:1.8
+    License: The BSD 3-Clause License  (http://www.opensource.org/licenses/BSD-3-Clause)
+
+From: 'LAMP/EPFL' (http://lamp.epfl.ch/)
+  - Scala Library (http://www.scala-lang.org/) org.scala-lang:scala-library:jar:2.11.12
+    License: BSD 3-Clause  (http://www.scala-lang.org/license.html)
+
+From: 'The Apache Software Foundation' (https://www.apache.org/)
+  - Spark Project Tags (http://spark.apache.org/) org.apache.spark:spark-tags_2.11:jar:2.4.0
+    License: Apache 2.0 License  (http://www.apache.org/licenses/LICENSE-2.0.html)
+
+
+
+

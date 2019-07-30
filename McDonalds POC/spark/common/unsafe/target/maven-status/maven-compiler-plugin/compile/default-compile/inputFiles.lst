@@ -1,0 +1,16 @@
+/root/spark/spark/common/unsafe/src/main/java/org/apache/spark/unsafe/array/LongArray.java
+/root/spark/spark/common/unsafe/src/main/java/org/apache/spark/unsafe/memory/MemoryAllocator.java
+/root/spark/spark/common/unsafe/src/main/java/org/apache/spark/sql/catalyst/expressions/HiveHasher.java
+/root/spark/spark/common/unsafe/src/main/java/org/apache/spark/unsafe/memory/MemoryBlock.java
+/root/spark/spark/common/unsafe/src/main/java/org/apache/spark/unsafe/array/ByteArrayMethods.java
+/root/spark/spark/common/unsafe/src/main/java/org/apache/spark/unsafe/hash/Murmur3_x86_32.java
+/root/spark/spark/common/unsafe/src/main/java/org/apache/spark/unsafe/types/ByteArray.java
+/root/spark/spark/common/unsafe/src/main/java/org/apache/spark/unsafe/types/UTF8String.java
+/root/spark/spark/common/unsafe/src/main/java/org/apache/spark/unsafe/bitset/BitSetMethods.java
+/root/spark/spark/common/unsafe/src/main/java/org/apache/spark/unsafe/Platform.java
+/root/spark/spark/common/unsafe/src/main/java/org/apache/spark/unsafe/KVIterator.java
+/root/spark/spark/common/unsafe/src/main/java/org/apache/spark/unsafe/memory/UnsafeMemoryAllocator.java
+/root/spark/spark/common/unsafe/src/main/java/org/apache/spark/unsafe/memory/HeapMemoryAllocator.java
+/root/spark/spark/common/unsafe/src/main/java/org/apache/spark/unsafe/types/CalendarInterval.java
+/root/spark/spark/common/unsafe/src/main/java/org/apache/spark/unsafe/memory/MemoryLocation.java
+/root/spark/spark/common/unsafe/src/main/java/org/apache/spark/unsafe/UnsafeAlignedOffset.java

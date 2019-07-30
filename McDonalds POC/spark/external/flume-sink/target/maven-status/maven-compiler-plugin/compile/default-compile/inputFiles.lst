@@ -1,0 +1,3 @@
+/root/spark/spark/external/flume-sink/target/scala-2.11/src_managed/main/compiled_avro/org/apache/spark/streaming/flume/sink/SparkFlumeProtocol.java
+/root/spark/spark/external/flume-sink/target/scala-2.11/src_managed/main/compiled_avro/org/apache/spark/streaming/flume/sink/EventBatch.java
+/root/spark/spark/external/flume-sink/target/scala-2.11/src_managed/main/compiled_avro/org/apache/spark/streaming/flume/sink/SparkSinkEvent.java

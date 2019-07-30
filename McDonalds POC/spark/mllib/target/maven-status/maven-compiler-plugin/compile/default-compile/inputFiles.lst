@@ -1,0 +1,5 @@
+/root/spark/spark/mllib/src/main/scala/org/apache/spark/mllib/JavaPackage.java
+/root/spark/spark/mllib/src/main/scala/org/apache/spark/ml/feature/package-info.java
+/root/spark/spark/mllib/src/main/scala/org/apache/spark/ml/package-info.java
+/root/spark/spark/mllib/src/main/scala/org/apache/spark/ml/attribute/package-info.java
+/root/spark/spark/mllib/src/main/scala/org/apache/spark/mllib/package-info.java

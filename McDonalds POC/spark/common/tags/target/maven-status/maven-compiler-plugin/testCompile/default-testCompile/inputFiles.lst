@@ -1,0 +1,3 @@
+/root/spark/spark/common/tags/src/test/java/org/apache/spark/tags/ExtendedHiveTest.java
+/root/spark/spark/common/tags/src/test/java/org/apache/spark/tags/ExtendedYarnTest.java
+/root/spark/spark/common/tags/src/test/java/org/apache/spark/tags/DockerTest.java
