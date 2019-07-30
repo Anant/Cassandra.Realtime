@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<project name="maven-antrun-" default="main"  >
-<target name="main">
-  <mkdir dir="/root/spark/spark/external/kafka-0-10-token-provider/target/tmp"/>
-</target>
-</project>

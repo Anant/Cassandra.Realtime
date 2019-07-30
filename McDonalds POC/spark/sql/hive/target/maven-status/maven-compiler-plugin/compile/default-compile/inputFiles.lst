@@ -1,2 +1,0 @@
-/root/spark/spark/sql/hive/src/main/java/org/apache/hadoop/hive/ql/io/orc/SparkOrcNewRecordReader.java
-/root/spark/spark/sql/hive/src/main/scala/org/apache/spark/sql/hive/package-info.java
