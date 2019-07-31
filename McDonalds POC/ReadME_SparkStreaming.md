@@ -6,6 +6,7 @@
 3. Start kafka and zookeeper 
 
 There are two section. One for creating topic/sending message to kafka. Other one is for consumes topics. 
+
 Start two terminals
 
 4. Producer : Start producer program in one terminal
@@ -20,4 +21,12 @@ Start two terminals
 	- Syntax : DirectKafkaWordCount <brokers> <topics>
 	- Command : bin/run-example streaming.DirectKafkaWordCount 142.93.126.190:9092 topic1
 
+Setup:
+	- Install DSE 6.0 or above. Use below link for datastax instalation
+		https://docs.datastax.com/en/install/6.0/install/installDEBdse.html
+	- Start kafka and zookeeper using docker-compose
 
+Note:
+	Faced issue while launching DSE using docker-compose. 
+  
+	
