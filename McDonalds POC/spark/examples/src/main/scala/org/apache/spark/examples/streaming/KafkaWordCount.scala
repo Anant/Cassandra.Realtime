@@ -26,6 +26,8 @@ import org.apache.spark.SparkConf
 import org.apache.spark.streaming._
 import org.apache.spark.streaming.kafka._
 
+import com.datastax.spark.connector.streaming._
+
 /**
  * Consumes messages from one or more topics in Kafka and does wordcount.
  * Usage: KafkaWordCount <zkQuorum> <group> <topics> <numThreads>
@@ -58,6 +60,7 @@ object KafkaWordCount {
     val words = lines.flatMap(_.split(","))
     val wordCounts = words.map(x => (x, 1L))
       .reduceByKeyAndWindow(_ + _, _ - _, Minutes(10), Seconds(2), 2)
+    wordCounts.saveToCassandra( "streaming_test",  "words_table")
     wordCounts.print()
 
     ssc.start()
