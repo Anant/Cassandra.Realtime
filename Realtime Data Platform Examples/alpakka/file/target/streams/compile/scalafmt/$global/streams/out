@@ -1,7 +1,0 @@
-[0m[[0m[0minfo[0m] [0m[0mFormatting 11 Scala sources...[0m
-[0m[[0m[0mdebug[0m] [0m[0mfile excluded: /root/alpakka/file/src/main/java/akka/stream/alpakka/file/DirectoryChange.java[0m
-[0m[[0m[0mdebug[0m] [0m[0mfile excluded: /root/alpakka/file/src/main/java/akka/stream/alpakka/file/impl/FileTailSource.java[0m
-[0m[[0m[0mdebug[0m] [0m[0mfile excluded: /root/alpakka/file/src/main/java/akka/stream/alpakka/file/impl/DirectoryChangesSource.java[0m
-[0m[[0m[0mdebug[0m] [0m[0mfile excluded: /root/alpakka/file/src/main/java/akka/stream/alpakka/file/javadsl/DirectoryChangesSource.java[0m
-[0m[[0m[0mdebug[0m] [0m[0mfile excluded: /root/alpakka/file/src/main/java/akka/stream/alpakka/file/javadsl/Directory.java[0m
-[0m[[0m[0mdebug[0m] [0m[0mfile excluded: /root/alpakka/file/src/main/java/akka/stream/alpakka/file/javadsl/FileTailSource.java[0m

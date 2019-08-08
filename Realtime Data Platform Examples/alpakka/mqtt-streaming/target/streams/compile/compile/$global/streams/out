@@ -1,4 +1,0 @@
-[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/mqtt-streaming/src/main/scala/akka/stream/alpakka/mqtt/streaming/impl/ServerState.scala:14:64: Unused import[0m
-[0m[[0m[33mwarn[0m] [0m[0mimport akka.stream.alpakka.mqtt.streaming.impl.ServerConnector.PingFailed[0m
-[0m[[0m[33mwarn[0m] [0m[0m                                                               ^[0m
-[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m

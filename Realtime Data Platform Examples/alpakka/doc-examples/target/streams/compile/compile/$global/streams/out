@@ -1,4 +1,0 @@
-[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/doc-examples/src/main/scala/csvsamples/FetchHttpEvery30SecondsAndConvertCsvToJsonToKafka.scala:20:42: Unused import[0m
-[0m[[0m[33mwarn[0m] [0m[0mimport playground.{ActorSystemAvailable, KafkaEmbedded}[0m
-[0m[[0m[33mwarn[0m] [0m[0m                                         ^[0m
-[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m

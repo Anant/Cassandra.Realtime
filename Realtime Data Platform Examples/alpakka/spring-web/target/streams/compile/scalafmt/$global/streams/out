@@ -1,4 +1,0 @@
-[0m[[0m[0minfo[0m] [0m[0mFormatting 3 Scala sources...[0m
-[0m[[0m[0mdebug[0m] [0m[0mfile excluded: /root/alpakka/spring-web/src/main/java/akka/stream/alpakka/spring/web/AkkaStreamsRegistrar.java[0m
-[0m[[0m[0mdebug[0m] [0m[0mfile excluded: /root/alpakka/spring-web/src/main/java/akka/stream/alpakka/spring/web/SpringWebAkkaStreamsConfiguration.java[0m
-[0m[[0m[0mdebug[0m] [0m[0mfile excluded: /root/alpakka/spring-web/src/main/java/akka/stream/alpakka/spring/web/SpringWebAkkaStreamsProperties.java[0m

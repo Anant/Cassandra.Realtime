@@ -1,7 +1,0 @@
-[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/mqtt/src/main/scala/akka/stream/alpakka/mqtt/model.scala:7:44: Unused import[0m
-[0m[[0m[33mwarn[0m] [0m[0mimport scala.compat.java8.OptionConverters._[0m
-[0m[[0m[33mwarn[0m] [0m[0m                                           ^[0m
-[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/mqtt/src/main/scala/akka/stream/alpakka/mqtt/settings.scala:197:49: private default argument in object MqttConnectionSettings is never used[0m
-[0m[[0m[33mwarn[0m] [0m[0m                                            val offlinePersistenceSettings: Option[MqttOfflinePersistenceSettings] =[0m
-[0m[[0m[33mwarn[0m] [0m[0m                                                ^[0m
-[0m[[0m[33mwarn[0m] [0m[0mtwo warnings found[0m

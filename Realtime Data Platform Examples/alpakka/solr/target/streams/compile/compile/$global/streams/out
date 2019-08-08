@@ -1,4 +1,0 @@
-[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/solr/src/main/scala/akka/stream/alpakka/solr/SolrUpdateSettings.scala:17:7: private default argument in class SolrUpdateSettings is never used[0m
-[0m[[0m[33mwarn[0m] [0m[0m      commitWithin: Int = commitWithin[0m
-[0m[[0m[33mwarn[0m] [0m[0m      ^[0m
-[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m

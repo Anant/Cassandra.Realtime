@@ -1,7 +1,0 @@
-[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/ironmq/src/main/scala/akka/stream/alpakka/ironmq/impl/Codec.scala:12:27: Unused import[0m
-[0m[[0m[33mwarn[0m] [0m[0mimport cats.syntax.either._[0m
-[0m[[0m[33mwarn[0m] [0m[0m                          ^[0m
-[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/ironmq/src/main/scala/akka/stream/alpakka/ironmq/impl/Codec.scala:86:16: private object Codec in package impl is never used[0m
-[0m[[0m[33mwarn[0m] [0m[0mprivate object Codec extends Codec[0m
-[0m[[0m[33mwarn[0m] [0m[0m               ^[0m
-[0m[[0m[33mwarn[0m] [0m[0mtwo warnings found[0m

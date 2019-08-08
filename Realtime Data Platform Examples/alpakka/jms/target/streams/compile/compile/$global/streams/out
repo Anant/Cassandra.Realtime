@@ -1,4 +1,0 @@
-[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/jms/src/main/scala/akka/stream/alpakka/jms/impl/JmsMessageProducer.scala:122:16: private object JmsMessageProducer in package impl is never used[0m
-[0m[[0m[33mwarn[0m] [0m[0mprivate object JmsMessageProducer {[0m
-[0m[[0m[33mwarn[0m] [0m[0m               ^[0m
-[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m

@@ -1,4 +1,0 @@
-[0m[[0m[33mwarn[0m] [0m[0m/root/alpakka/google-fcm/src/main/scala/akka/stream/alpakka/google/firebase/fcm/impl/SetupStage.scala:92:16: private object Setup in package impl is never used[0m
-[0m[[0m[33mwarn[0m] [0m[0mprivate object Setup {[0m
-[0m[[0m[33mwarn[0m] [0m[0m               ^[0m
-[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m
