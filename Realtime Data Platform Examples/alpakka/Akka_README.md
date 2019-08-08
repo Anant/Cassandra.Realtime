@@ -3,7 +3,7 @@
 
 	sbt doc-examples/run
 
-## Checking data is ingested in to kafka ##
+## Check data is ingested in to kafka ##
 
 	docker run --net=host --rm confluentinc/cp-kafka:latest kafka-console-consumer --bootstrap-server localhost:9092 --topic topics --from-beginning --max-messages 10
 
@@ -30,4 +30,4 @@
 ## output
 	{"name":"akka-cassandra-sink","connector":{"state":"RUNNING","worker_id":"kafka-connect-avro:8083"},"tasks":[{"id":0,"state":"RUNNING","worker_id":"kafka-connect-avro:8083"}],"type":"sink"}
 ## Check data is ingested into Cassandra
-	docker exec -i cassandra cqlsh -e 'select * from akka.salesjan2009'
+	docker exec -i cassandra cqlsh -e 'select * from akka.salesjan2009 limit 10'
