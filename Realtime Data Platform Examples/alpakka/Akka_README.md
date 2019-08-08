@@ -1,5 +1,5 @@
 # Start kafka stream for Akka #
-	Refer steps 5 in devops_README 
+	Refer steps 6 in devops_README 
 
 # Producer #
 
