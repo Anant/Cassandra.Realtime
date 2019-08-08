@@ -1,9 +1,14 @@
-# Producer #
-	cd "/root/dartpoc/Realtime Data Platform Examples/alpakka"
+# Start kafka stream for Akka #
+	Refer steps 5 in devops_README 
 
-	sbt doc-examples/run
+## Producer ##
 
-## Check data is ingested in to kafka ##
+###	Start producer	###
+	./akka_producer.sh
+
+	select option 1
+
+### Check data is ingested in to kafka ###
 
 	docker run --net=host --rm confluentinc/cp-kafka:latest kafka-console-consumer --bootstrap-server localhost:9092 --topic topics --from-beginning --max-messages 10
 
@@ -26,7 +31,7 @@
       "value.converter":"org.apache.kafka.connect.storage.StringConverter","connect.cassandra.kcql":"INSERT INTO salesjan2009 SELECT * FROM topics",
       "name":"akka-cassandra-sink"},"tasks":[{"connector":"akka-cassandra-sink","task":0}],"type":"sink"}
 ## Check connector is created an its status ##
-	curl -s -X GET http://$CONNECT_HOST:8083/connectors/akka-cassandra-sink/status
+	curl -s -X GET http://localhost:8083/connectors/akka-cassandra-sink/status
 ## output
 	{"name":"akka-cassandra-sink","connector":{"state":"RUNNING","worker_id":"kafka-connect-avro:8083"},"tasks":[{"id":0,"state":"RUNNING","worker_id":"kafka-connect-avro:8083"}],"type":"sink"}
 ## Check data is ingested into Cassandra

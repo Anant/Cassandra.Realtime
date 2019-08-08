@@ -27,7 +27,7 @@
 
 5. # Start kafka stream for Akka #
 	## Kafka setup ##
-	cd "/root/dartpoc/Realtime Data Platform Examples/"
+	cd "/root/dartpoc/Realtime Data Platform Examples/alpakka"
 	
 	## Download akka git example repository ##
 
@@ -49,30 +49,9 @@
 
 	docker restart kafka-connect-avro
 	## Cassandra setup
-	docker exec -it cassandra bash
-
-	cqlsh
-
-	CREATE KEYSPACE akka
-    WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 1};
-
-	use akka;
-
-	create table salesjan2009(
-        Account_Created text,
-        Payment_Type text,
-        Name text,
-        Last_Login text,
-        Transaction_date text,
-        Latitude text,
-        Country text,
-        Longitude text,
-        Price text,
-        City text,
-        Product text,
-        State text,
-    primary key (Transaction_date)
-   );
+	docker cp createScript.cql cassandra:/
+	
+	docker exec -i cassandra cqlsh -f createScript.cql
 
 6. # Start DSE #
 	## Install DSE 6.0 or above ##
