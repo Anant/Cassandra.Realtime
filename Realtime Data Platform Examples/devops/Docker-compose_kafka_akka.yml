@@ -66,15 +66,16 @@ services:
       CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
       CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
       CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
-      CONNECT_KEY_CONVERTER: io.confluent.connect.avro.AvroConverter
-      # CONNECT_KEY_CONVERTER: org.apache.kafka.connect.storage.StringConverter
-      CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
+      # CONNECT_KEY_CONVERTER: io.confluent.connect.avro.AvroConverter
+      CONNECT_KEY_CONVERTER: org.apache.kafka.connect.storage.StringConverter
+      CONNECT_VALUE_CONVERTER: org.apache.kafka.connect.storage.StringConverter
+      # CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
       CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: 'http://schema_registry:8081'
       CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: 'http://schema_registry:8081'
       CONNECT_INTERNAL_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
       CONNECT_INTERNAL_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
-      # CONNECT_KEY_SERIALIZER: io.confluent.kafka.serializers.KafkaStringSerializer
-      # CONNECT_VALUE_SERIALIZER: io.confluent.kafka.serializers.KafkaStringSerializer
+      CONNECT_KEY_SERIALIZER: io.confluent.kafka.serializers.KafkaStringSerializer
+      CONNECT_VALUE_SERIALIZER: io.confluent.kafka.serializers.KafkaStringSerializer
       CONNECT_REST_ADVERTISED_HOST_NAME: kafka-connect-avro
       CONNECT_LOG4J_ROOT_LOGLEVEL: DEBUG
       CONNECT_ZOOKEEPER_CONNECT: 'zookeeper:2181'

@@ -37,6 +37,13 @@
 
 	git checkout v1.0.0
 
+	## Edit FetchHttpEvery30SecondsAndConvertCsvToJsonToKafka.scala file under doc-examples/src/main/scala/csvsamples ##
+		replace "https://www.nasdaq.com/screening/companies-by-name.aspx?exchange=NASDAQ&render=download" url with
+           "http://samplecsvs.s3.amazonaws.com/SalesJan2009.csv?render=download"
+
+		comment kafka port line no 54
+		comment embedded kafka line no 55
+		comment stoping of embedded kafka line no 100
 	docker-compose -f Docker-compose_RabitMQ.yml down
 
 	docker-compose -f Docker-compose_kafka.yml down
