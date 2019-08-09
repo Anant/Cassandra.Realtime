@@ -1,6 +1,0 @@
-/root/spark/spark/common/tags/src/main/java/org/apache/spark/annotation/InterfaceStability.java
-/root/spark/spark/common/tags/src/main/java/org/apache/spark/annotation/DeveloperApi.java
-/root/spark/spark/common/tags/src/main/java/org/apache/spark/annotation/Private.java
-/root/spark/spark/common/tags/src/main/scala/org/apache/spark/annotation/package-info.java
-/root/spark/spark/common/tags/src/main/java/org/apache/spark/annotation/AlphaComponent.java
-/root/spark/spark/common/tags/src/main/java/org/apache/spark/annotation/Experimental.java

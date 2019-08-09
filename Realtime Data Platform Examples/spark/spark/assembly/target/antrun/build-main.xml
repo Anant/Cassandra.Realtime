@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <delete dir="/root/dartpoc/Realtime Data Platform Examples/spark/assembly/../python/lib/pyspark.zip"/>
+  <zip destfile="/root/dartpoc/Realtime Data Platform Examples/spark/assembly/../python/lib/pyspark.zip">
+    <fileset includes="pyspark/**/*" dir="/root/dartpoc/Realtime Data Platform Examples/spark/assembly/../python/"/>
+  </zip>
+</target>
+</project>

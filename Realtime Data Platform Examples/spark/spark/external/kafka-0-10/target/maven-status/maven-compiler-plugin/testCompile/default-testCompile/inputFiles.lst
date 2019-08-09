@@ -1,0 +1,4 @@
+/root/dartpoc/Realtime Data Platform Examples/spark/external/kafka-0-10/src/test/java/org/apache/spark/streaming/kafka010/JavaConsumerStrategySuite.java
+/root/dartpoc/Realtime Data Platform Examples/spark/external/kafka-0-10/src/test/java/org/apache/spark/streaming/kafka010/JavaDirectKafkaStreamSuite.java
+/root/dartpoc/Realtime Data Platform Examples/spark/external/kafka-0-10/src/test/java/org/apache/spark/streaming/kafka010/JavaLocationStrategySuite.java
+/root/dartpoc/Realtime Data Platform Examples/spark/external/kafka-0-10/src/test/java/org/apache/spark/streaming/kafka010/JavaKafkaRDDSuite.java
