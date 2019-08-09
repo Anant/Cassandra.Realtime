@@ -1,26 +1,41 @@
-1. # Move to working directory #
+# 1. Move to working directory #
 		cd "/root/dartpoc/Realtime Data Platform Examples/"
 
-2. # Install open JDK8 #
+# 2. Install open JDK8 #
 		apt-get update
 		apt-get install -y openjdk-8-jdk
 
-3. # Install Maven #
+# 3. Install Maven #
 		apt-get install -y maven
 
-4. # Install Git #
+# 4. Install Git #
 		apt-get install -y git
 
-3. # Install SBT
+# 5. Install SBT
 	Refer http://www.codebind.com/linux-tutorials/install-scala-sbt-java-ubuntu-18-04-lts-linux/ link for instalation
 
-4. # Start RabbitMQ #
+# 6. Start RabbitMQ #
+## Start rabbirmq server ##
 		cd "/root/dartpoc/Realtime Data Platform Examples/devops"
 		docker-compose -f Docker-compose_kafka.yml down
 		docker-compose -f Docker-compose_kafka_akka.yml down
 		docker-compose -f Docker-compose_RabitMQ.yml up -d
 
-5. # Start kafka to ingest csv data from file #
+## Create guest user in rabbitmq using admin url
+		http://142.93.126.190:15672/#/users
+		
+		details : 
+		user name : guest
+		password: guest
+		tag		: guest	
+
+## Load example code ##
+		/root/dartpoc/Realtime Data Platform Examples/rabbitmq
+		git clone https://github.com/rabbitmq/rabbitmq-tutorials.git
+		cd rabbitmq-tutorials
+		./mvnw compile
+
+# 7. Start kafka to csv data load from file #
 		cd "/root/dartpoc/Realtime Data Platform Examples/kafka.connect"
 		git clone https://github.com/jcustenborder/kafka-connect-spooldir.git
 		cd kafka-connect-spooldir
@@ -49,7 +64,7 @@
 		docker cp csvCreateScript.cql cassandra:/
 		docker exec -i cassandra cqlsh -f csvCreateScript.cql
 
-6. # Start kafka stream for Akka #
+# 8. Start kafka stream for Akka #
 	## Kafka setup ##
 		cd "/root/dartpoc/Realtime Data Platform Examples/alpakka"
 		git clone https://github.com/akka/alpakka.git
@@ -75,7 +90,7 @@
 	
 	docker exec -i cassandra cqlsh -f createScript.cql
 
-7. # Start spark streaming #
+# 9. Start spark streaming #
 	## Start DSE ##
 		### DSE 6.0 or above installation ###
 			Refer below link for installation
