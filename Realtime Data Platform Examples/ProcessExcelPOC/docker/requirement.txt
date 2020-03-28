@@ -1,0 +1,4 @@
+confluent-kafka
+pandas
+jproperties
+xlrd
