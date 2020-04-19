@@ -24,7 +24,46 @@ object SparkUtil {
 
   }
 
+  def getColumnMapping(): Map[String,(String,Boolean)] = {
+    val columnMapping = Map (
+      "MessageDateTime"-> ("message_date_time",true),
+      "MessageType"-> ("message_type",true),
+      "MessageID"-> ("message_id",true),
+      "MessageValue"-> ("message_value",true))
 
+    columnMapping
+  }
+
+
+  def rename_cols(inputDataFrame: DataFrame, renameColumns: Map[String, (String, Boolean)], spark: SparkSession): DataFrame = {
+    var selectStatement = "SELECT "
+    val tablename =  "TemporaryTable"
+    val dfColumns = inputDataFrame.columns
+
+    inputDataFrame.createOrReplaceTempView(tablename)
+
+    for ((mapColumn, value) <- renameColumns) {
+      val colRenameTo = value._1
+      val isRequied =value._2
+      if(dfColumns.contains(mapColumn)) {
+        selectStatement =  selectStatement+ " " + mapColumn + " as " + colRenameTo + " ,"
+
+        println(" in loop selectStatement" + selectStatement)
+      }
+      else {
+        selectStatement = selectStatement +" \"\" as  " + colRenameTo  + " ,"
+        println(" else loop selectStatement" + selectStatement)
+      }
+
+    }
+    selectStatement =  selectStatement.dropRight(1)
+    selectStatement = selectStatement + " from " + tablename
+    println(" complete selectStatement" + selectStatement)
+
+    val  dfOut = spark.sqlContext.sql(selectStatement)
+    dfOut
+
+  }
 
 
 }

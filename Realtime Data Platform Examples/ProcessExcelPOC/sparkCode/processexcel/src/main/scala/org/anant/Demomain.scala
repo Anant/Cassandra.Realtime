@@ -59,9 +59,10 @@ object Demomain {
         log.info("Processing Dstream RDD")
 
         //---------------- Read
+        import spark.implicits._
         val messageDf = SparkUtil.processKafkaMessage(streamRdd.map(record => record.value()), spark)
         messageDf.createOrReplaceTempView("messageDfTable")
-        val messageDS = messageDf.as[kafkaMEssage]
+        val messageDS = messageDf.as[kafkaMessage]
 
         val sqlsteatement = "select * from messageDfTable where "
         val validDf =spark.sqlContext.sql(sqlsteatement)
@@ -80,7 +81,7 @@ object Demomain {
     ssc.awaitTermination()
   }
 }
-case class  kafkaMEssage (message_date_time: String,
-                          message_type: String,
-                          message_value: String,
-                          message_id: String)
+case class  kafkaMessage(message_date_time: String,
+                         message_type: String,
+                         message_value: String,
+                         message_id: String)
