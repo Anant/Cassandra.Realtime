@@ -6,6 +6,8 @@ Example project on how to use [Apache Kafka](https://kafka.apache.org) and strea
 - Streaming Consumer using [Apache Spark](https://spark.apache.org) to count words occurrences
 - Streaming Consumer using [Apache Flink](https://flink.apache.org) to count words occurrences 
 
+<img src="https://github.com/xingh/DART.POC/blob/master/realtime-data-platform-examples-reviewed/kafka-spark-flink-example.png" />
+
 Requirements
 ---
 - Docker
