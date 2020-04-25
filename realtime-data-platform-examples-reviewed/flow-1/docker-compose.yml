@@ -1,0 +1,61 @@
+---
+version: '2'
+
+networks:
+  kafka_dse_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.10.0/24
+          gateway: 172.20.10.1
+
+services:
+  python:
+    build: ./python
+    image: python-flask-app-for-kafka:latest
+    ports:
+      - "5000:5000"
+    networks:
+      kafka_dse_network:
+        ipv4_address: 172.20.10.10
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    ports:
+      - "22181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      kafka_dse_network:
+        ipv4_address: 172.20.10.11
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: cp_kafka_007
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 172.20.10.11:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://172.20.10.12:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      kafka_dse_network:
+        ipv4_address: 172.20.10.12
+
+  kafka-manager:
+    image: sheepkiller/kafka-manager:latest
+    depends_on:
+      - zookeeper
+    environment:
+      ZK_HOSTS: 172.20.10.11:2181
+    ports:
+      - "29000:9000"
+    networks:
+      kafka_dse_network:
+        ipv4_address: 172.20.10.13

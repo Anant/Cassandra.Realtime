@@ -1,0 +1,7 @@
+confluent-kafka
+pandas
+jproperties
+xlrd
+httpie
+Flask==1.1.1
+Flask-RESTful==0.3.7
