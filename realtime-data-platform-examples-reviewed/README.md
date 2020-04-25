@@ -4,9 +4,9 @@
 <img src="https://github.com/xingh/DART.POC/blob/master/realtime-data-platform-examples-reviewed/diagrams/flow1.png"
  alt="flow1" width="800" style="float: left; margin-right: 10px;" />
 
-1. a curl command will trigger a HTTP call to python flask app
-2. flask app will read an Excel file and send the content to kafka
-3. a spark job is submitted to dse to consume kafka messages and write them to cassandra 
+1. a curl HTTP call will trigger python flask app
+2. flask app reads the Excel file and sends the content to kafka
+3. using a terminal a spark job is submitted to dse to consume kafka messages and write them to cassandra 
 
 #### Build docker image and run all docker containers
 ```
