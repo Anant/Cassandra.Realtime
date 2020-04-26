@@ -31,7 +31,7 @@ docker exec -it cp_kafka_007 kafka-topics --list --zookeeper 172.20.10.11:2181
 
 #### 2.3 ask python flask app to send a message to kafka by reading the excel file
 ```
-    curl -i http://127.0.0.1:5000/xls
+curl -i http://127.0.0.1:5000/xls
 ```
 
 #### 2.4 check the message arrived in kafka
