@@ -10,17 +10,52 @@ networks:
           gateway: 172.20.10.1
 
 services:
+  ###
+  ### DSE
+  ###
+  dse:
+###    image: datastax/dse-server:6.8.0 # SPARK 2.4
+    image: datastax/dse-server:6.7.7  # SPARK-2.2
+    container_name: dse_007
+    command: [-k]
+    environment:
+      DS_LICENSE: accept
+      JVM_EXTRA_OPTS: -Xms2g -Xmx2g
+    cap_add:
+      - IPC_LOCK
+    ulimits:
+      memlock: -1
+    ports:
+      - "4040:4040"
+      - "7080:7080" # SPARK MASTER
+      - "7081:7081" # SPARK WORKER
+      - "8983:8983"
+      - "9042:9042"
+      - "9077:9077"
+      - "10000:10000"
+    networks:
+      kafka_dse_network:
+        ipv4_address: 172.20.10.09
+
+  ###
+  ### PYTHON FLASK, EXCEL FILE
+  ###
   python:
     build: ./python
     image: python-flask-app-for-kafka:latest
+    container_name: python_app
     ports:
       - "5000:5000"
     networks:
       kafka_dse_network:
         ipv4_address: 172.20.10.10
 
+  ###
+  ### KAFKA ZOOKEEPER
+  ###
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
+    container_name: kafka_zk
     ports:
       - "22181:2181"
     environment:
@@ -30,6 +65,9 @@ services:
       kafka_dse_network:
         ipv4_address: 172.20.10.11
 
+  ###
+  ### KAFKA WORKER
+  ###
   kafka:
     image: confluentinc/cp-kafka:latest
     container_name: cp_kafka_007
@@ -48,8 +86,12 @@ services:
       kafka_dse_network:
         ipv4_address: 172.20.10.12
 
+  ###
+  ### KAFKA MANAGER
+  ###
   kafka-manager:
     image: sheepkiller/kafka-manager:latest
+    container_name: kafka_manager
     depends_on:
       - zookeeper
     environment:
