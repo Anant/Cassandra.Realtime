@@ -11,7 +11,7 @@
 #### Build docker image and run all docker containers
 ```
 cd flow-1
-docker compose up
+docker-compose up
 ```
 - cp-kafka
 - cp-zookeeper
