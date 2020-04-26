@@ -17,7 +17,7 @@ docker compose up
 - cp-zookeeper
 - kafka-manager
 - python-flask-app-for-kafka
-- dse-6.8.0
+- dse-6.7.7
 
 #### create kafka topic
 ```
