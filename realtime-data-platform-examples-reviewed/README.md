@@ -42,8 +42,8 @@ keep executing the curl command above to watch more messages arrive
 
 #### create cassandra keyspace and table where spark will write the data
 ```
-docker exec -it dse_007 cqlsh -e "CREATE KEYSPACE customerkeyspace WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};"
-docker exec -it dse_007 cqlsh -e "CREATE TABLE customerkeyspace.messages ( \
+docker exec -it dse_007 cqlsh -e "CREATE KEYSPACE IF NOT EXISTS customerkeyspace WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1}; \
+CREATE TABLE IF NOT EXISTS customerkeyspace.messages ( \
     message_insert_time text, \
     message_date_time text, \
     message_id text, \
