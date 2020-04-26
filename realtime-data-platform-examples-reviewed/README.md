@@ -70,7 +70,7 @@ Open spark-ui in a browser to check jobs status at `http://127.0.0.1:4040/jobs/`
 #### trigger more messages
 While spark streaming job is running trigger more kafka messages to be created with the same curl command 
 ```
-    curl -i http://127.0.0.1:5000/xls
+curl -i http://127.0.0.1:5000/xls
 ```
 
 #### check cassandra new records
