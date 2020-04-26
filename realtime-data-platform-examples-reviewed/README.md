@@ -67,6 +67,12 @@ docker exec -it dse_007 dse spark-submit --class org.anant.DemoKafkaConsumer --m
 
 Open spark-ui in a browser to check jobs status at `http://127.0.0.1:4040/jobs/` or `http://127.0.0.1:7080` - spark master
 
+#### trigger more messages
+While spark streaming job is running trigger more kafka messages to be created with the same curl command 
+```
+    curl -i http://127.0.0.1:5000/xls
+```
+
 #### check cassandra new records
 ```
 docker exec -it dse_007 cqlsh -e "SELECT * FROM customerkeyspace.messages;"
