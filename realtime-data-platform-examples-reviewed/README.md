@@ -77,6 +77,18 @@ curl -i http://127.0.0.1:5000/xls
 ```
 docker exec -it dse_007 cqlsh -e "SELECT * FROM customerkeyspace.messages;"
 ```
+Result should looks similar to the next block
+```
+ message_insert_time      | message_date_time | message_id   | message_type | message_value
+--------------------------+-------------------+--------------+--------------+---------------
+ 2020-04-25 20:31:06-0400 |        1578416560 | PAC-34f572ae |         Test |           100
+ 2020-04-25 20:18:57-0400 |        1578416560 | PAC-34f572ae |         Test |           100
+ 2020-04-25 20:07:59-0400 |        1578416560 | PAC-34f572ae |         Test |           100
+ 2020-04-25 20:19:15-0400 |        1578416560 | PAC-34f572ae |         Test |           100
+ 2020-04-25 20:18:05-0400 |        1578416560 | PAC-34f572ae |         Test |           100
+
+(5 rows)
+```
 
 ## Flow 2
 <img src="https://github.com/xingh/DART.POC/blob/master/realtime-data-platform-examples-reviewed/diagrams/flow2.png"
