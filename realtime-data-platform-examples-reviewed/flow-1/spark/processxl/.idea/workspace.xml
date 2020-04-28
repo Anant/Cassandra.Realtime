@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ebf0e35d-c775-49be-ac78-45e519012579" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Scala Object" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
+  </component>
+  <component name="ProjectId" id="1bBnlF0UsJJ8B3s4bLtbm9FyIVq" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.anant" />
+    </key>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ebf0e35d-c775-49be-ac78-45e519012579" name="Default Changelist" comment="" />
+      <created>1588114503761</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1588114503761</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="578" y="298" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1588114716752">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="578" y="298" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/-1600.-113.1600.900/0.0.1680.1050@0.0.1680.1050" timestamp="1588114716752" />
+    <state x="604" y="391" width="471" height="276" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1588114660463">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="604" y="391" width="471" height="276" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/-1600.-113.1600.900/0.0.1680.1050@0.0.1680.1050" timestamp="1588114660463" />
+    <state width="1638" height="295" key="GridCell.Tab.0.bottom" timestamp="1588114835008">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="295" key="GridCell.Tab.0.bottom/-1600.-113.1600.900/0.0.1680.1050@0.0.1680.1050" timestamp="1588114835008" />
+    <state width="1638" height="295" key="GridCell.Tab.0.center" timestamp="1588114835006">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="295" key="GridCell.Tab.0.center/-1600.-113.1600.900/0.0.1680.1050@0.0.1680.1050" timestamp="1588114835006" />
+    <state width="1638" height="295" key="GridCell.Tab.0.left" timestamp="1588114835006">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="295" key="GridCell.Tab.0.left/-1600.-113.1600.900/0.0.1680.1050@0.0.1680.1050" timestamp="1588114835006" />
+    <state width="1638" height="295" key="GridCell.Tab.0.right" timestamp="1588114835007">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="295" key="GridCell.Tab.0.right/-1600.-113.1600.900/0.0.1680.1050@0.0.1680.1050" timestamp="1588114835007" />
+  </component>
+</project>
