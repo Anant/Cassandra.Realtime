@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS customerkeyspace.messages ( \
 ``` 
 #### 3.2 execute the spark job to pick up messages from kafka, analyze and write them to cassandra
 ```
-mvn -f ./spark/processexl/pom.xml clean package
+mvn -f ./spark/processxl/pom.xml clean package
 docker cp ./spark/processxl/src/main/resources/spark.properties dse_007:/opt/dse/
 docker cp ./spark/processxl/target/processxl-1.0-SNAPSHOT-jar-with-dependencies.jar dse_007:/tmp/processexcel-1.0-SNAPSHOT.jar
 
