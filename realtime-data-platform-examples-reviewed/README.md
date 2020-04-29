@@ -61,10 +61,10 @@ docker cp ./spark/processexcel/target/processexcel-1.0-SNAPSHOT-jar-with-depende
 ### For test, this spark job will count sum from 1 to 100 
 docker exec -it dse_007 dse spark-submit --class org.anant.DemoNumbersSum --master dse://172.20.10.9 /tmp/processexcel-1.0-SNAPSHOT.jar
 
-### THIS IS AN ALTERNATIVE TO THE NEXT STEP 
+### You can the spark job in standalone mode - but this is NOT FUN 
 mvn -f ./spark/processexcel/pom.xml exec:java -Dexec.mainClass="org.anant.DemoKafkaConsumer"
 
-### NOT WORKING YET This spark job will consume kafka messages and write them to cassandra 
+### This is where the FUN part is, spark job will consume kafka messages and write them to cassandra 
 docker exec -it dse_007 dse spark-submit --class org.anant.DemoKafkaConsumer --master dse://172.20.10.9 /tmp/processexcel-1.0-SNAPSHOT.jar spark.properties
 ```
 
