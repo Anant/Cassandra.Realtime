@@ -49,15 +49,17 @@ object DemoKafkaConsumer extends  App {
   stream.foreachRDD(rdd => {
     if (rdd.count() > 0) {
       val messageDf = SparkUtil.processKafkaMessage(rdd.map(record => record.value()), spark)
-      messageDf.createOrReplaceTempView("messageDfTable")
       val messageDataSource = messageDf.as[KafkaMessage]
       println("processing message recieved .. " + messageDataSource)
 
       import org.apache.spark.sql.functions._
       val msgWithTimeCol = messageDataSource
         .withColumn("message_insert_time", lit(current_timestamp()))
+      msgWithTimeCol.createOrReplaceTempView("messageDfTable")
+      val validDfForInsert =spark.sqlContext.sql("select message_insert_time, message_date_time, message_id, message_type,message_value from messageDfTable")
 
-      msgWithTimeCol.rdd.saveToCassandra("customerkeyspace", "messages")
+
+      validDfForInsert.rdd.saveToCassandra("customerkeyspace", "messages")
     }
   })
 
