@@ -92,7 +92,3 @@ Result should looks similar to the next block
 
 (5 rows)
 ```
-
-## Flow 2
-<img src="https://github.com/xingh/DART.POC/blob/master/realtime-data-platform-examples-reviewed/diagrams/flow2.png"
- alt="flow2" style="float: left; margin-right: 10px;" />

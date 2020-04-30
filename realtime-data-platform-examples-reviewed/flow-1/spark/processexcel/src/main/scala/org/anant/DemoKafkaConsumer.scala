@@ -15,11 +15,23 @@ object DemoKafkaConsumer extends App {
                           message_value: String,
                           message_id: String)
 
+  if (args.length < 1) {
+    println("A properties file is expected as 1st argument.")
+    System.exit(1)
+  }
+
+  val cassandraKeyspace = props.getProperty("cassandra.keyspace")
+  val cassandraTable = props.getProperty("cassandra.table")
+  val cassandraHost = props.getProperty("cassandra.host")
+  val kafkaHost = props.getProperty("kafka.host")
+  val topic = props.getProperty("kafka.topic")
+  val groupId = props.getProperty("kafka.consumer.group")
+
   val kafkaParams = Map[String, Object](
-    "bootstrap.servers" -> "172.20.10.12:9092",
+    "bootstrap.servers" -> kafkaHost,
     "key.deserializer" -> classOf[StringDeserializer],
     "value.deserializer" -> classOf[StringDeserializer],
-    "group.id" -> "use_a_separate_group_id_for_each_stream",
+    "group.id" -> groupId,
     "auto.offset.reset" -> "latest",
     "enable.auto.commit" -> (false: java.lang.Boolean)
   )
@@ -28,6 +40,7 @@ object DemoKafkaConsumer extends App {
     .setAppName("DemoKafkaCassandra")
     .setMaster("local[2]")
     .set("spark.driver.host", "localhost")
+    .set("spark.cassandra.connection.host", cassandraHost)
 
   val spark = SparkSession
     .builder
@@ -35,7 +48,7 @@ object DemoKafkaConsumer extends App {
     .getOrCreate()
 
   val streamingContext = new StreamingContext(spark.sparkContext, Seconds(3))
-  val topics = Array("testMessage")
+  val topics = Array(topic)
   val stream = KafkaUtils.createDirectStream[String, String](
     streamingContext,
     PreferConsistent,
@@ -58,7 +71,7 @@ object DemoKafkaConsumer extends App {
         .write
         .format("org.apache.spark.sql.cassandra")
         .mode("append")
-        .options(Map("table" -> "messages", "keyspace" -> "customerkeyspace"))
+        .options(Map("table" -> cassandraTable, "keyspace" -> cassandraKeyspace))
         .save()
     }
   })

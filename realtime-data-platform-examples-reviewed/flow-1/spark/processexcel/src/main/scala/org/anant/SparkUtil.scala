@@ -1,16 +1,17 @@
 package org.anant
 
-import java.io.FileInputStream
 import java.util.Properties
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
+import scala.io.Source
+
 object SparkUtil {
+
   def getProperties(filePath: String): Properties = {
-    val inputFile = new FileInputStream(filePath)
     val props = new Properties()
-    props.load(inputFile)
+    props.load(Source.fromFile(filePath).bufferedReader())
     props
   }
 
