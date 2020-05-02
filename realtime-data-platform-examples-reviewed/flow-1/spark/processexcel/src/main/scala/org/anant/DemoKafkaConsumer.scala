@@ -19,7 +19,7 @@ object DemoKafkaConsumer extends App {
     println("A properties file is expected as 1st argument.")
     System.exit(1)
   }
-
+  val props = SparkUtil.getProperties(args(0))
   val cassandraKeyspace = props.getProperty("cassandra.keyspace")
   val cassandraTable = props.getProperty("cassandra.table")
   val cassandraHost = props.getProperty("cassandra.host")
