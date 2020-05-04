@@ -88,19 +88,20 @@ services:
 
   ###
   ### KAFKA MANAGER
+  ### UNCOMMENT IT IF YOU WANT TO EXPERIMENT WITH THIS TOOL, ITS JOB IS ACHIEVED BY AKHQ
   ###
-  kafka-manager:
-    image: sheepkiller/kafka-manager:latest
-    container_name: kafka_manager
-    depends_on:
-      - zookeeper
-    environment:
-      ZK_HOSTS: 172.20.10.11:2181
-    ports:
-      - "29000:9000"
-    networks:
-      kafka_dse_network:
-        ipv4_address: 172.20.10.13
+  ### kafka-manager:
+  ###   image: sheepkiller/kafka-manager:latest
+  ###   container_name: kafka_manager
+  ###   depends_on:
+  ###     - zookeeper
+  ###   environment:
+  ###     ZK_HOSTS: 172.20.10.11:2181
+  ###   ports:
+  ###     - "29000:9000"
+  ###   networks:
+  ###     kafka_dse_network:
+  ###       ipv4_address: 172.20.10.13
 
   ###
   ### SCHEMA REGISTRY
