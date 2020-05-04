@@ -12,7 +12,7 @@
 #### PRE-STEP download datastax kafka connector
 https://downloads.datastax.com/#akc
 
-place `kafka-connect-dse-1.3.1.jar` next to this README.md file, because `docker-compose.yml` file expects to find it there.
+place `kafka-connect-dse-1.3.1.jar` next to this `README.md` file, because `docker-compose.yml` file expects to find it there.
 
 #### 1.1 Build docker image and run all docker containers
 ```
