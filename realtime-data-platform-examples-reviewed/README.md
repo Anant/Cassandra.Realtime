@@ -21,7 +21,9 @@ docker-compose up
 ```
 - cp-kafka
 - cp-zookeeper
-- kafka-manager
+- kafka-connect
+- schema-registry
+- akhq (former kafka-hq)
 - python-flask-app-for-kafka
 - dse-6.7.7
 
