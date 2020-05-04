@@ -9,6 +9,11 @@
 3. using a terminal a spark job is submitted to dse to consume kafka messages and write them to cassandra 
 4. datastax kafka connector is configured to consume the same topic and directly write messages to a separate cassandra table 
 
+#### PRE-STEP download datastax kafka connector
+https://downloads.datastax.com/#akc
+
+place `kafka-connect-dse-1.3.1.jar` next to this README.md file, because `docker-compose.yml` file expects to find it there.
+
 #### 1.1 Build docker image and run all docker containers
 ```
 cd flow-1
@@ -30,12 +35,21 @@ docker exec -it cp_kafka_007 kafka-topics --create --zookeeper 172.20.10.11:2181
 docker exec -it cp_kafka_007 kafka-topics --list --zookeeper 172.20.10.11:2181
 ```
 
-#### 2.3 ask python flask app to send a message to kafka by reading the excel file
+#### 2.3 create the schema for topic's messages value
+make sure your python environment has `requests` module installed
+```
+python ./kafka-schema/create-schema.py http://172.20.10.14:8081 testMessage ./kafka-schema/test-message.avsc
+
+### check that the schema exists
+curl http://172.20.10.14:8081/subjects
+```
+
+#### 2.4 ask python flask app to send a message to kafka by reading the excel file
 ```
 curl -i http://127.0.0.1:5000/xls
 ```
 
-#### 2.4 check the message arrived in kafka
+#### 2.5 check the message arrived in kafka
 ```
 docker exec -it cp_kafka_007 kafka-console-consumer --bootstrap-server localhost:9092 --topic testMessage --from-beginning
 ```
@@ -93,3 +107,6 @@ Result should looks similar to the next block
 
 (5 rows)
 ```
+
+
+extract the jar file 
