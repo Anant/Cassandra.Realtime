@@ -7,6 +7,7 @@
 1. a curl HTTP call will trigger python flask app
 2. flask app reads the Excel file and sends the content to kafka
 3. using a terminal a spark job is submitted to dse to consume kafka messages and write them to cassandra 
+4. datastax kafka connector is configured to consume the same topic and directly write messages to a separate cassandra table 
 
 #### 1.1 Build docker image and run all docker containers
 ```
