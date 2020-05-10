@@ -137,7 +137,7 @@ Result should looks similar to the next block, both cassandra tables containe si
 (3 rows)
 ```
 
-#### 4.4
+#### 4.4 truncate cassandra tables
 Optionally truncate cassandra tables to start fresh
 ```
 docker exec -it dse_007 cqlsh -e "TRUNCATE TABLE customerkeyspace.messages; TRUNCATE TABLE customerkeyspace.messages_avro;"
