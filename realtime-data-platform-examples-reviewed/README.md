@@ -5,9 +5,9 @@
  alt="flow1" width="800" style="float: left; margin-right: 10px;" />
 
 1. a curl HTTP call will trigger python flask app
-2. flask app reads the Excel file and sends the content to kafka
-3. using a terminal a spark job is submitted to dse to consume kafka messages and write them to cassandra 
-4. datastax kafka connector is configured to consume the same topic and directly write messages to a separate cassandra table 
+2. flask app reads the Excel file and sends the content to 2 separate kafka topics
+3. using a terminal a spark job is submitted to dse to consume kafka messages from one of the topics and write them to cassandra table 
+4. datastax kafka connector is configured to consume the other topic and directly write messages to a separate cassandra table 
 
 #### PRE-STEP download datastax kafka connector
 https://downloads.datastax.com/#akc
@@ -27,12 +27,15 @@ docker-compose up
 - python-flask-app-for-kafka
 - dse-6.7.7
 
-#### 2.1 create kafka topic
+#### 2.1 create kafka topics
 ```
 docker exec -it cp_kafka_007 kafka-topics --create --zookeeper 172.20.10.11:2181 --replication-factor 1 --partitions 1 --topic testMessage
 ```
+```
+docker exec -it cp_kafka_007 kafka-topics --create --zookeeper 172.20.10.11:2181 --replication-factor 1 --partitions 1 --topic testMessage-avro
+```
 
-#### 2.2 check the topic exists
+#### 2.2 check that both topics exist
 ```
 docker exec -it cp_kafka_007 kafka-topics --list --zookeeper 172.20.10.11:2181
 ```
@@ -40,24 +43,14 @@ docker exec -it cp_kafka_007 kafka-topics --list --zookeeper 172.20.10.11:2181
 #### 2.3 create the schema for topic's messages value
 make sure your python environment has `requests` module installed
 ```
-python ./kafka-schema/create-schema.py http://172.20.10.14:8081 testMessage ./kafka-schema/test-message.avsc
+python ./kafka/create-schema.py http://172.20.10.14:8081 testMessage-avro ./kafka/test-message.avsc
 
 ### check that the schema exists
-curl http://172.20.10.14:8081/subjects
+curl http://127.0.0.1:8081/subjects
 ```
+or alternatively you can check AKHQ for all kafka resources getting created at `http://127.0.0.1:8085/` 
 
-#### 2.4 ask python flask app to send a message to kafka by reading the excel file
-```
-curl -i http://127.0.0.1:5000/xls
-```
-
-#### 2.5 check the message arrived in kafka
-```
-docker exec -it cp_kafka_007 kafka-console-consumer --bootstrap-server localhost:9092 --topic testMessage --from-beginning
-```
-keep executing the curl command above to watch more messages arrive
-
-#### 3.1 create cassandra keyspace and table where spark will write the data
+#### 3.1 create cassandra keyspace and tables where spark and dse-connector will write the data
 ```
 docker exec -it dse_007 cqlsh -e "CREATE KEYSPACE IF NOT EXISTS customerkeyspace WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1}; \
 CREATE TABLE IF NOT EXISTS customerkeyspace.messages ( \
@@ -67,8 +60,17 @@ CREATE TABLE IF NOT EXISTS customerkeyspace.messages ( \
     message_type text, \
     message_value text, \
     PRIMARY KEY(message_insert_time, message_date_time) \
+);
+CREATE TABLE IF NOT EXISTS customerkeyspace.messages_avro ( \
+    message_insert_time timeuuid, \
+    message_date_time text, \
+    message_id text, \
+    message_type text, \
+    message_value text, \
+    PRIMARY KEY(message_insert_time, message_date_time) \
 );"
 ``` 
+
 #### 3.2 execute the spark job to pick up messages from kafka, analyze and write them to cassandra
 ```
 mvn -f ./spark/processexcel/pom.xml clean package
@@ -85,30 +87,58 @@ mvn -f ./spark/processexcel/pom.xml exec:java -Dexec.mainClass="org.anant.DemoKa
 docker exec -it dse_007 dse spark-submit --class org.anant.DemoKafkaConsumer --master dse://172.20.10.9 /tmp/processexcel-1.0-SNAPSHOT.jar spark.properties
 ```
 
-Open spark-ui in a browser to check jobs status at `http://127.0.0.1:4040/jobs/` or `http://127.0.0.1:7080` - spark master
+Optionally open spark-ui in a browser to check jobs status at `http://127.0.0.1:4040/jobs/` or `http://127.0.0.1:7080` - spark master
 
-#### 3.3 trigger more messages
-While spark streaming job is running trigger more kafka messages to be created with the same curl command 
+#### 3.3 configure dse connector to write messages from kafka topic into cassandra table
+```
+./kafka/deploy-dse-connector.sh
+```
+check the connector exists
+```
+curl http://127.0.0.1:8084/connectors
+```
+
+### 4.1 Start triggering messages by calling python flask app rest api
 ```
 curl -i http://127.0.0.1:5000/xls
 ```
 
-#### 3.4 check cassandra new records
+#### 4.2 check the message arrived in kafka topics
+check schemaless topic
 ```
-docker exec -it dse_007 cqlsh -e "SELECT * FROM customerkeyspace.messages;"
+docker exec -it cp_kafka_007 kafka-console-consumer --bootstrap-server localhost:9092 --topic testMessage --from-beginning
 ```
-Result should looks similar to the next block
+check schemafull topic
+```
+docker exec -it kafka-connect kafka-avro-console-consumer --topic testMessage-avro --bootstrap-server 172.20.10.12:9092 --from-beginning --property schema.registry.url=http://172.20.10.14:8081
+```
+hit the url a few times to generate more messages
+
+#### 4.3 check cassandra records
+```
+docker exec -it dse_007 cqlsh -e "SELECT * FROM customerkeyspace.messages; SELECT * FROM customerkeyspace.messages_avro;"
+```
+Result should looks similar to the next block, both cassandra tables containe similar info, except one is filled by the spark job and the other by dse-kafka-connector.
 ```
  message_insert_time      | message_date_time | message_id   | message_type | message_value
 --------------------------+-------------------+--------------+--------------+---------------
- 2020-04-25 20:31:06-0400 |        1578416560 | PAC-34f572ae |         Test |           100
- 2020-04-25 20:18:57-0400 |        1578416560 | PAC-34f572ae |         Test |           100
- 2020-04-25 20:07:59-0400 |        1578416560 | PAC-34f572ae |         Test |           100
- 2020-04-25 20:19:15-0400 |        1578416560 | PAC-34f572ae |         Test |           100
- 2020-04-25 20:18:05-0400 |        1578416560 | PAC-34f572ae |         Test |           100
+ 2020-05-10 18:30:06+0000 |        1578416560 | PAC-34f572ae |         Test |           100
+ 2020-05-10 18:30:12+0000 |        1578416560 | PAC-34f572ae |         Test |           100
+ 2020-05-10 18:30:15+0000 |        1578416560 | PAC-34f572ae |         Test |           100
+ 2020-05-10 18:30:18+0000 |        1578416560 | PAC-34f572ae |         Test |           100
 
-(5 rows)
+(4 rows)
+
+ message_insert_time                  | message_date_time | message_id   | message_type | message_value
+--------------------------------------+-------------------+--------------+--------------+---------------
+ 48a7e000-92ec-11ea-9f40-2336e6adf1a6 |        1578416560 | PAC-34f572ae |         Test |           100
+ 4bd61580-92ec-11ea-9f40-2336e6adf1a6 |        1578416560 | PAC-34f572ae |         Test |           100
+ 43a9a570-92ec-11ea-9f40-2336e6adf1a6 |        1578416560 | PAC-34f572ae |         Test |           100
+ 498f32c0-92ec-11ea-9f40-2336e6adf1a6 |        1578416560 | PAC-34f572ae |         Test |           100
 ```
 
-
-extract the jar file 
+#### 4.4
+Optionally truncate cassandra tables to start fresh
+```
+docker exec -it dse_007 cqlsh -e "TRUNCATE TABLE customerkeyspace.messages; TRUNCATE TABLE customerkeyspace.messages_avro;"
+```
