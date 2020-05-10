@@ -247,3 +247,25 @@ services:
     networks:
       kafka_dse_network:
         ipv4_address: 172.20.10.19
+
+###  dse-studio:
+###    image: datastax/dse-studio:6.7.0
+###    ports:
+###     - "9091:9091"
+###    depends_on:
+###     - dse
+###    environment:
+###     DS_LICENSE: accept
+###    networks:
+###      kafka_dse_network:
+###        ipv4_address: 172.20.10.20
+###
+###  dse-opscenter:
+###    image: datastax/dse-opscenter
+###    ports:
+###      - 8888:8888
+###    environment:
+###      - DS_LICENSE=accept
+###    networks:
+###      kafka_dse_network:
+###        ipv4_address: 172.20.10.21
