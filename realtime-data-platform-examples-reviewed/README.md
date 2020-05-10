@@ -104,11 +104,11 @@ curl -i http://127.0.0.1:5000/xls
 ```
 
 #### 4.2 check the message arrived in kafka topics
-check schemaless topic
+check schema-less topic
 ```
 docker exec -it cp_kafka_007 kafka-console-consumer --bootstrap-server localhost:9092 --topic testMessage --from-beginning
 ```
-check schemafull topic
+check schema-full topic
 ```
 docker exec -it kafka-connect kafka-avro-console-consumer --topic testMessage-avro --bootstrap-server 172.20.10.12:9092 --from-beginning --property schema.registry.url=http://172.20.10.14:8081
 ```
