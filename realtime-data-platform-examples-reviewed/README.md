@@ -122,19 +122,19 @@ Result should looks similar to the next block, both cassandra tables containe si
 ```
  message_insert_time      | message_date_time | message_id   | message_type | message_value
 --------------------------+-------------------+--------------+--------------+---------------
- 2020-05-10 18:30:06+0000 |        1578416560 | PAC-34f572ae |         Test |           100
- 2020-05-10 18:30:12+0000 |        1578416560 | PAC-34f572ae |         Test |           100
- 2020-05-10 18:30:15+0000 |        1578416560 | PAC-34f572ae |         Test |           100
- 2020-05-10 18:30:18+0000 |        1578416560 | PAC-34f572ae |         Test |           100
+ 2020-05-10 23:06:45+0000 |        1578416560 | PAC-34f572ae |         Test |           100
+ 2020-05-10 23:06:21+0000 |        1578416560 | PAC-34f572ae |         Test |           100
+ 2020-05-10 23:00:47+0000 |        1578416560 | PAC-34f572ae |         Test |           100
 
-(4 rows)
+(3 rows)
 
  message_insert_time                  | message_date_time | message_id   | message_type | message_value
 --------------------------------------+-------------------+--------------+--------------+---------------
- 48a7e000-92ec-11ea-9f40-2336e6adf1a6 |        1578416560 | PAC-34f572ae |         Test |           100
- 4bd61580-92ec-11ea-9f40-2336e6adf1a6 |        1578416560 | PAC-34f572ae |         Test |           100
- 43a9a570-92ec-11ea-9f40-2336e6adf1a6 |        1578416560 | PAC-34f572ae |         Test |           100
- 498f32c0-92ec-11ea-9f40-2336e6adf1a6 |        1578416560 | PAC-34f572ae |         Test |           100
+ cb663930-9312-11ea-a4b2-c9b00f6c8b52 |        1578416560 | PAC-34f572ae |         Test |           100
+ e9e22db0-9312-11ea-a4b2-c9b00f6c8b52 |        1578416560 | PAC-34f572ae |         Test |           100
+ db47c670-9312-11ea-a4b2-c9b00f6c8b52 |        1578416560 | PAC-34f572ae |         Test |           100
+
+(3 rows)
 ```
 
 #### 4.4
