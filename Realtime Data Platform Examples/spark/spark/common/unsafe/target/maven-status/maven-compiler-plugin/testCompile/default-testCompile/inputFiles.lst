@@ -1,5 +1,0 @@
-/root/dartpoc/Realtime Data Platform Examples/spark/common/unsafe/src/test/java/org/apache/spark/unsafe/hash/Murmur3_x86_32Suite.java
-/root/dartpoc/Realtime Data Platform Examples/spark/common/unsafe/src/test/java/org/apache/spark/unsafe/array/LongArraySuite.java
-/root/dartpoc/Realtime Data Platform Examples/spark/common/unsafe/src/test/java/org/apache/spark/unsafe/types/UTF8StringSuite.java
-/root/dartpoc/Realtime Data Platform Examples/spark/common/unsafe/src/test/java/org/apache/spark/unsafe/PlatformUtilSuite.java
-/root/dartpoc/Realtime Data Platform Examples/spark/common/unsafe/src/test/java/org/apache/spark/unsafe/types/CalendarIntervalSuite.java
