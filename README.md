@@ -14,6 +14,8 @@ https://downloads.datastax.com/#akc
 
 place `kafka-connect-dse-1.3.1.jar` next to this `README.md` file, because `docker-compose.yml` file expects to find it there.
 
+In gitpod, you can drag this file into the file explorer from your desktop.
+
 #### 1.1 Build docker image and run all docker containers
 ```
 cd flow-1
