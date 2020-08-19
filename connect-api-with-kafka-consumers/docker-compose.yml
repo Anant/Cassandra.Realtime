@@ -1,0 +1,110 @@
+---
+version: "2"
+
+networks:
+  kafka_dse_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.10.0/24
+          gateway: 172.20.10.1
+
+services:
+  ###
+  ### PYTHON FLASK
+  ###
+  python:
+    build: ./python
+    image: python-flask-app-for-kafka:latest
+    container_name: python_app
+    ports:
+      - "5000:5000"
+    networks:
+      kafka_dse_network:
+        ipv4_address: 172.20.10.10
+
+  ###
+  ### KAFKA ZOOKEEPER
+  ###
+  zookeeper:
+    image: confluentinc/cp-zookeeper:5.5.1
+    container_name: kafka_zk
+    ports:
+      - "22181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      kafka_dse_network:
+        ipv4_address: 172.20.10.11
+
+  ###
+  ### KAFKA WORKER
+  ###
+  kafka:
+    # latest as of Aug 2020. Provides Kafka 2.5.0
+    image: confluentinc/cp-kafka:5.5.1
+    container_name: cp_kafka_007
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 172.20.10.11:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://172.20.10.12:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      kafka_dse_network:
+        ipv4_address: 172.20.10.12
+
+  ###
+  ### SCHEMA REGISTRY
+  ###
+  schema-registry:
+    image: confluentinc/cp-schema-registry:5.5.1
+    container_name: schema-registry
+    depends_on:
+      - zookeeper
+      - kafka
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: 172.20.10.11:2181
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+    ports:
+      - "8081:8081"
+    networks:
+      kafka_dse_network:
+        ipv4_address: 172.20.10.14
+
+  ###
+  ### KAFKA-HQ
+  ###
+  kafka-hq:
+    image: tchiotludo/akhq
+    container_name: kafka-hq
+    environment:
+      AKHQ_CONFIGURATION: |
+        akhq:
+          server:
+            access-log:
+              enabled: true
+              name: org.akhq.log.access # Logger name
+              format: "[Date: {}] [Duration: {} ms] [Url: {} {} {}] [Status: {}] [Ip: {}] [Length: {}] [Port: {}]" # Logger format
+          connections:
+            docker-kafka-server:
+              properties:
+                bootstrap.servers: "172.20.10.12:9092"
+              schema-registry:
+                url: "http://172.20.10.14:8081"
+              connect:
+                - name: kafka-connect-1
+                  url: "http://172.20.10.18:8084"
+    ports:
+      - 8085:8080
+    networks:
+      kafka_dse_network:
+        ipv4_address: 172.20.10.19
+
