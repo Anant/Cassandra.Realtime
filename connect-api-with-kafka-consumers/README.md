@@ -31,58 +31,32 @@ curl http://127.0.0.1:8081/subjects
 ```
 or alternatively you can check AKHQ for all kafka resources getting created at `http://127.0.0.1:8085/` 
 
-#### 3.1 create cassandra keyspace and tables where spark and dse-connector will write the data
+# Setup Astra
+
+See instructions [here](https://github.com/Anant/cassandra.api/blob/master/README.md#setup), which apply for this project as well. 
+
+- We are assuming keyspace of `demo` and table of `leaves`, as mentioned in these instructions, but if you want to use a different keyspace or table it should work fine. Just know that this is why we named the kafka topic (as specified in config.ini) "record.cassandra.leaves"
+
+# Import the data
+
 ```
-docker exec -it dse_007 cqlsh -e "CREATE KEYSPACE IF NOT EXISTS customerkeyspace WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1}; \
-CREATE TABLE IF NOT EXISTS customerkeyspace.messages ( \
-    message_insert_time text, \
-    message_date_time text, \
-    message_id text, \
-    message_type text, \
-    message_value text, \
-    PRIMARY KEY(message_insert_time, message_date_time) \
-);
-CREATE TABLE IF NOT EXISTS customerkeyspace.messages_avro ( \
-    message_insert_time timeuuid, \
-    message_date_time text, \
-    message_id text, \
-    message_type text, \
-    message_value text, \
-    PRIMARY KEY(message_insert_time, message_date_time) \
-);"
-``` 
-
-#### 3.2 execute the spark job to pick up messages from kafka, analyze and write them to cassandra
-```
-mvn -f ./spark/processexcel/pom.xml clean package
-docker cp ./spark/processexcel/src/main/resources/spark.properties dse_007:/opt/dse/
-docker cp ./spark/processexcel/target/processexcel-1.0-SNAPSHOT-jar-with-dependencies.jar dse_007:/tmp/processexcel-1.0-SNAPSHOT.jar
-
-### For test, this spark job will count sum from 1 to 100 
-docker exec -it dse_007 dse spark-submit --class org.anant.DemoNumbersSum --master dse://172.20.10.9 /tmp/processexcel-1.0-SNAPSHOT.jar
-
-### You can of course run the spark job in standalone mode - but this is NOT FUN 
-mvn -f ./spark/processexcel/pom.xml exec:java -Dexec.mainClass="org.anant.DemoKafkaConsumer"
-
-### This is where the FUN part is, a spark job running on dse cluster will consume kafka messages and write them to cassandra 
-docker exec -it dse_007 dse spark-submit --class org.anant.DemoKafkaConsumer --master dse://172.20.10.9 /tmp/processexcel-1.0-SNAPSHOT.jar spark.properties
+pip3 install -r requirement.txt
+python3 data_importer.py
 ```
 
-Optionally open spark-ui in a browser to check jobs status at `http://127.0.0.1:4040/jobs/` or `http://127.0.0.1:7080` - spark master
 
-#### 3.3 configure dse connector to write messages from kafka topic into cassandra table
-```
-./kafka/deploy-dse-connector.sh
-```
-check the connector exists
-```
-curl http://127.0.0.1:8084/connectors
-```
 
-### 4.1 Start triggering messages by calling python flask app rest api
-```
-curl -i http://127.0.0.1:5000/xls
-```
+
+
+
+
+
+
+
+
+
+
+
 
 #### 4.2 check the message arrived in kafka topics
 check schema-less topic

@@ -38,21 +38,23 @@ value_schema_str = """
 value_schema = avro.loads(value_schema_str)
 
 
-class DataImporter
+class DataImporter:
     """
     this method publishes the same message to 2 separate kafka topics
     1. a schema-less topic consumed by a spark job and written ta a cassandra table
     2. a schema-full topic consumed by dse-connector and written to a separate cassandra table
+
+    TODOs
+    - add support for excel importing
     """
     def __init__(self):
-        # right now, json or excel
+        # right now, json or excel. But really, excel version isn't fully built out yet, just outlined
         self.data_type = "json"
 
         # whether we will use metadata from within the data file itself to determine things such as topic name
         self.using_metadata_from_data_file = True
 
-        self.config_file_name = "KafkaConfig.ini"
-        self.file_name = self.properties['FILE_NAME']
+        self.config_file_name = "config.ini"
 
 
     #######################
@@ -60,10 +62,22 @@ class DataImporter
     #######################
 
     def import_json(self):
-        json.load(self.file_name)
-        self.path_to_items = self.properties['PATH_TO_ITEMS']
+        data_json = None
+        data_file_name = self.properties['DATA_FILE_NAME']
+        with open(data_file_name) as read_file:
+            data_json = json.load(read_file)
 
-        self.messages = 
+        # dig into the json to get the list we want
+        path_to_items_str = self.properties['PATH_TO_ITEMS']
+        path_to_items_list = path_to_items_str.split(".")
+
+        # traverse the path
+        data = data_json
+        for segment in path_to_items_list:
+            data = data[segment]
+
+        # data should now be list of dicts, and each dict will be a message to send to kafka
+        self.messages = data
 
     def import_excel(self):
         # excel_sheet_name = self.properties['SHEET_NAME']
@@ -75,31 +89,47 @@ class DataImporter
             # create alias for message, "row" 
             # row = message
             # row.replace(['\u200b'], '')
-            # topic = row[self.excel_topic_column_name]
-            # avro_topic = "%s-avro" % topic
-            # del data_json[self.excel_topic_column_name]
+            pass
 
         elif self.data_type == "json":
+            # don't need to do anything yet
+            return message
+
+    def normalize_message(self, message):
+        """
+        use pandas to normalize json. 
+        Might not be necessary for when self.data_type is json, but was used for when it was excel
+        """
+        message_df = pd.DataFrame(json_normalize(message))
+        ### jr = message_df.drop([excel_topic_column_name], axis=1)
+        return message_df.to_json(orient='records')
 
     def send_one_message(self, message):
         """
         For excel, this will be called by rowFunction to send a single row.
         For json, this will send a single
         """
-        data_json_string = (row.to_json())
-        data_json = json.loads(data_json_string)
+        prepared_message = self.prepare_message(message)
+        normalized_message = self.normalize_message(prepared_message)
+
+        if self.key_for_topic is not None:
+            topic = prepared_message[self.key_for_topic]
+            del data_json[self.excel_topic_column_name]
+        else:
+            topic = self.default_topic
+
+        avro_topic = "%s-avro" % topic
+
         try:
             # send to topic with schema (avro)
             # value is a dict
-            avro_producer.produce(topic=avro_topic, value=data_json)
+            self.avro_producer.produce(topic=avro_topic, value=prepared_message)
 
             # send to topic without schema
-            # value is a json string
-            message_df = pd.DataFrame(json_normalize(data_json))
-            ### jr = message_df.drop([excel_topic_column_name], axis=1)
-            producer.produce(topic, value=message_df.to_json(orient='records'))
+            self.producer.produce(topic, value=normalized_message)
 
-            producer.flush()
+            # TODO flush avro_producer also?
+            self.producer.flush()
 
         except Exception as e:
             sys.stderr.write('%% Error while sending message to kafka %s\n' % str(e))
@@ -117,8 +147,7 @@ class DataImporter
     # main operations
     #####################
 
-
-    def setup_kafka(self):
+    def setup(self):
         """
         - extract data from config (.ini) file
         - initialize producer(s)
@@ -137,42 +166,46 @@ class DataImporter
         self.avro_producer = AvroProducer({'bootstrap.servers': kafka_server, 'schema.registry.url': sr_url, 'on_delivery': self.delivery_report},
                                           default_value_schema=value_schema)
 
-        # set topic
+        # set topic, or key_for_topic if topic depends on the message itself
+        # if both are set, then will just use key_for_topic
+        self.default_topic = self.properties.get('DEFAULT_TOPIC', None)
+
         if self.data_type == "json":
-            self.key_for_topic = self.properties['KEY_FOR_TOPIC']
+            self.key_for_topic = self.properties.get('KEY_FOR_TOPIC', None)
 
         elif self.data_type == "excel":
             self.excel_topic_column_name = self.properties['TOPIC_COLUMN_NAME']
 
 
     def import_data(self):
+        """
+        import data from file into this python job so it's ready to be sent
+        """
         if self.data_type == "json":
-            self.messages = import_json(self)
+            self.import_json()
 
         elif self.data_type == "excel":
-            # self.messages = import_excel(self)
+            # self.import_excel()
+            pass
 
     def send_messages(self):
 
         if self.data_type == "excel":
             # sheets.apply(rowFunction, axis=1)
+            pass
 
         elif self.data_type == "json":
             for message in self.messages:
-                send_one_message(message)
-
-    def send_to_kafka(self):
-        """
-        using data.json
-        """
+                self.send_one_message(message)
 
     #############################
     # main method
     #############################
     def run(self):
-        setup_kafka()
-        load_data()
-        delivery_report(err, msg)
+        self.setup()
+        self.import_data()
+        self.send_messages()
 
-#if __name__ == '__main__':
-#    sendJsonToKafka()
+if __name__ == '__main__':
+    import_job = DataImporter()
+    import_job.run()
