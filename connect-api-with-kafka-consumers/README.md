@@ -71,9 +71,19 @@ docker exec -it kafka-connect kafka-avro-console-consumer --topic record-cassand
 
 #### 3.2 execute the scala job to pick up messages from Kafka, deserialize and write them to Cassandra
 ```
-mvn -f ./kafka/kafka-to-cassandra/pom.xml clean package
-docker cp ./spark/processexcel/src/main/resources/spark.properties dse_007:/opt/dse/
+mvn -f ./consume-kafka-to-cassandra-worker/pom.xml clean package
+
+# there should now be two jars in ./kafka-to-cassandra-worker/target, one with-dependencies, one without. We'll use the one with dependencies
+mvn -f pom.xml exec:java -Dexec.mainClass="org.anant.DemoKafkaConsumer" -Dexec.args="target/classes/project.properties"
+
+
+
+
+
+# get it going in docker (NOTE outdated)
+docker cp ./spark/processexcel/src/main/resources/project.properties dse_007:/opt/dse/
 docker cp ./spark/processexcel/target/processexcel-1.0-SNAPSHOT-jar-with-dependencies.jar dse_007:/tmp/processexcel-1.0-SNAPSHOT.jar
+```
 
 
 
@@ -86,7 +96,7 @@ docker cp ./spark/processexcel/target/processexcel-1.0-SNAPSHOT-jar-with-depende
 mvn -f ./spark/processexcel/pom.xml exec:java -Dexec.mainClass="org.anant.DemoKafkaConsumer"
 
 ### This is where the FUN part is, a spark job running on dse cluster will consume kafka messages and write them to cassandra 
-docker exec -it dse_007 dse spark-submit --class org.anant.DemoKafkaConsumer --master dse://172.20.10.9 /tmp/processexcel-1.0-SNAPSHOT.jar spark.properties
+docker exec -it dse_007 dse spark-submit --class org.anant.DemoKafkaConsumer --master dse://172.20.10.9 /tmp/processexcel-1.0-SNAPSHOT.jar project.properties
 ```
 
 Optionally open spark-ui in a browser to check jobs status at `http://127.0.0.1:4040/jobs/` or `http://127.0.0.1:7080` - spark master
