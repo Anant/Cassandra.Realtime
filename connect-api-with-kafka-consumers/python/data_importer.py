@@ -174,10 +174,9 @@ class DataImporter:
             self.sent_to_schema_topic_count += 1
 
             # send to topic without schema
-            # not doing for now
-            # normalized_message = self.record_to_message(normalized_record)
-            # self.producer.produce(topic, value=normalized_message)
-            # self.sent_to_schemaless_topic_count += 1
+            # schemaless requires just sending bytes. 
+            self.producer.produce(topic, value=str(prepared_record))
+            self.sent_to_schemaless_topic_count += 1
 
             # TODO flush avro_producer also?
             self.producer.flush()
@@ -188,6 +187,9 @@ class DataImporter:
         except Exception as e:
             if self.debug_mode:
                 print(f"Failed producing record that has fields and types like:\n", self.schema_fields_for_record(record))
+                print(f"Limit was {self.max_bytes_limit}")
+                print(f"Bytes size of record as str was", sys.getsizeof(str(prepared_record)))
+
                 record.keys()
                 raise e
             else:
@@ -255,14 +257,19 @@ class DataImporter:
         kafka_server = self.properties['BOOTSTRAP_SERVERS_LOCAL']
 
         # TODO add on_delivery callback here too?
-        self.producer = Producer({'bootstrap.servers': kafka_server})
+        self.max_bytes_limit = 1500000
+        self.producer = Producer({
+            'bootstrap.servers': kafka_server,
+            'message.max.bytes': self.max_bytes_limit, 
+        })
 
         
+        # default max_request_size is 1000000. We have some big messages, especially when sending non-avro messages 
         self.avro_producer = AvroProducer({
             'bootstrap.servers': kafka_server, 
             'schema.registry.url': sr_url, 
             'on_delivery': self.delivery_report,
-            'message.max.bytes': 1500000, # default max_request_size is 1000000. We have some big messages
+            'message.max.bytes': self.max_bytes_limit, 
         }, default_value_schema=value_schema, )
 
         # set topic, or key_for_topic if topic depends on the message itself

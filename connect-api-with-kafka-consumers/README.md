@@ -55,6 +55,17 @@ See instructions [here](https://github.com/Anant/cassandra.api/blob/master/READM
 pip3 install -r requirement.txt
 python3 data_importer.py
 ```
+## check the message arrived in kafka topics
+check schema-less topic
+```
+docker exec -it cp_kafka_007 kafka-console-consumer --bootstrap-server localhost:9092 --topic record-cassandra-leaves --from-beginning
+```
+
+check topic that has schema:
+```
+docker exec -it kafka-connect kafka-avro-console-consumer --topic record-cassandra-leaves-avro --bootstrap-server 172.20.10.12:9092 --from-beginning --property schema.registry.url=http://172.20.10.14:8081
+
+
 
 # Consume from Kafka, write to Cassandra
 
@@ -64,8 +75,12 @@ mvn -f ./kafka/kafka-to-cassandra/pom.xml clean package
 docker cp ./spark/processexcel/src/main/resources/spark.properties dse_007:/opt/dse/
 docker cp ./spark/processexcel/target/processexcel-1.0-SNAPSHOT-jar-with-dependencies.jar dse_007:/tmp/processexcel-1.0-SNAPSHOT.jar
 
-### For test, this spark job will count sum from 1 to 100 
-docker exec -it dse_007 dse spark-submit --class org.anant.DemoNumbersSum --master dse://172.20.10.9 /tmp/processexcel-1.0-SNAPSHOT.jar
+
+
+
+
+
+
 
 ### You can of course run the spark job in standalone mode - but this is NOT FUN 
 mvn -f ./spark/processexcel/pom.xml exec:java -Dexec.mainClass="org.anant.DemoKafkaConsumer"
@@ -89,14 +104,6 @@ Optionally open spark-ui in a browser to check jobs status at `http://127.0.0.1:
 
 
 
-#### 4.2 check the message arrived in kafka topics
-check schema-less topic
-```
-docker exec -it cp_kafka_007 kafka-console-consumer --bootstrap-server localhost:9092 --topic record-cassandra-leaves --from-beginning
-```
-check schema-full topic
-```
-docker exec -it kafka-connect kafka-avro-console-consumer --topic record-cassandra-leaves-avro --bootstrap-server 172.20.10.12:9092 --from-beginning --property schema.registry.url=http://172.20.10.14:8081
 ```
 hit the url a few times to generate more messages
 
