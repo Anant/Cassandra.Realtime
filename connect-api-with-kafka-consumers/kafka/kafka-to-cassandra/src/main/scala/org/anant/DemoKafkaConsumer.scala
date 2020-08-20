@@ -2,7 +2,10 @@ package org.anant
 
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.kafka.clients.consumer.KafkaConsumer
+import java.util.{Collections, Properties}
 import scalaj.http._
+import scala.collection.JavaConversions._
+
 
 object DemoKafkaConsumer extends App {
 
@@ -17,14 +20,13 @@ object DemoKafkaConsumer extends App {
     System.exit(1)
   }
 
-	// TODO probably rename or split out SparkUtil
-  val props = SparkUtil.getProperties(args(0))
+  val props = KafkaUtil.getProperties(args(0))
   val cassandraKeyspace = props.getProperty("cassandra.keyspace")
   val cassandraTable = props.getProperty("cassandra.table")
   val cassandraHost = props.getProperty("cassandra.host")
   val kafkaHost = props.getProperty("kafka.host")
   val topic = props.getProperty("kafka.topic")
-  val topics = Array(topic)
+  val topics = Collections.singletonList(topic)
   val groupId = props.getProperty("kafka.consumer.group")
 
   val kafkaParams = Map[String, Object](
@@ -36,19 +38,23 @@ object DemoKafkaConsumer extends App {
     "enable.auto.commit" -> (false: java.lang.Boolean)
   )
 
-	KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
-	consumer.subscribe(Arrays.asList("foo", "bar"));
+  val consumer = new KafkaConsumer[String, String](props);
+
+  consumer.subscribe(topics)
+
 	while (true) {
-		ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
-		for (ConsumerRecord<String, String> record : records)
-			System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
+		val records = consumer.poll(1000);
+		for (record <- records) {
+			printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
 
 			// then write to C* using our cassandra flask api
 			val form = Seq(
-        "key" -> "value",
+        "key" -> "value"
       )
-			val response: HttpResponse[String] = Http(s"${flask_host}/api/leaves").postForm(form).asString
+			val response: HttpResponse[String] = Http(s"${flask_host}/api/leaves").postForm(form).asString;
 
-			System.out.printf("body", response.body)
-			System.out.printf("code", response.code)
+			printf("body", response.body)
+			printf("code", response.code)
+    }
+  }
 }

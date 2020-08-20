@@ -49,13 +49,32 @@ See instructions [here](https://github.com/Anant/cassandra.api/blob/master/READM
 
 - We are assuming keyspace of `demo` and table of `leaves`, as mentioned in these instructions, but if you want to use a different keyspace or table it should work fine. Just know that this is why we named the kafka topic (as specified in config.ini) "record-cassandra-leaves"
 
-# Import the data
+# Import the data into Kafka
 
 ```
 pip3 install -r requirement.txt
 python3 data_importer.py
 ```
 
+# Consume from Kafka, write to Cassandra
+
+#### 3.2 execute the scala job to pick up messages from Kafka, deserialize and write them to Cassandra
+```
+mvn -f ./kafka/kafka-to-cassandra/pom.xml clean package
+docker cp ./spark/processexcel/src/main/resources/spark.properties dse_007:/opt/dse/
+docker cp ./spark/processexcel/target/processexcel-1.0-SNAPSHOT-jar-with-dependencies.jar dse_007:/tmp/processexcel-1.0-SNAPSHOT.jar
+
+### For test, this spark job will count sum from 1 to 100 
+docker exec -it dse_007 dse spark-submit --class org.anant.DemoNumbersSum --master dse://172.20.10.9 /tmp/processexcel-1.0-SNAPSHOT.jar
+
+### You can of course run the spark job in standalone mode - but this is NOT FUN 
+mvn -f ./spark/processexcel/pom.xml exec:java -Dexec.mainClass="org.anant.DemoKafkaConsumer"
+
+### This is where the FUN part is, a spark job running on dse cluster will consume kafka messages and write them to cassandra 
+docker exec -it dse_007 dse spark-submit --class org.anant.DemoKafkaConsumer --master dse://172.20.10.9 /tmp/processexcel-1.0-SNAPSHOT.jar spark.properties
+```
+
+Optionally open spark-ui in a browser to check jobs status at `http://127.0.0.1:4040/jobs/` or `http://127.0.0.1:7080` - spark master
 
 
 
