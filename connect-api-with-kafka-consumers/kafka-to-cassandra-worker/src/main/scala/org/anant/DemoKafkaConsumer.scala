@@ -10,7 +10,6 @@ import scala.io.Source
 object DemoKafkaConsumer extends App {
 
   println("starting...")
-	val flask_host = "http://localhost:5000"
   case class KafkaMessage(message_date_time: String,
                           message_type: String,
                           message_value: String,
@@ -25,22 +24,31 @@ object DemoKafkaConsumer extends App {
   val projectProps = new Properties()
   projectProps.load(Source.fromFile(filePath).bufferedReader())
 
+  ////////////////////////////////
   // extract out non-kafka configs
+	// api to send kafka events
+	val apiHost = projectProps.getProperty("api.host")
+
+  // cassandra stuff
   val cassandraKeyspace = projectProps.getProperty("cassandra.keyspace")
   val cassandraTable = projectProps.getProperty("cassandra.table")
-  val cassandraHost = projectProps.getProperty("cassandra.host")
   val topic = projectProps.getProperty("kafka.topic")
+  val debugMode = projectProps.getProperty("debug-mode").toBoolean
 
-  // sets kafka properties based on project properties
-  val kafkaProps = KafkaUtil.getProperties(projectProps)
+  /////////////////////////////////
+  // set kafka properties based on project properties
+  val kafkaProps = KafkaUtil.getProperties(projectProps, debugMode)
 
   val consumer = new KafkaConsumer[String, String](kafkaProps);
 
+  /////////////////////////////////
+  // begin consuming from kafka
+	
 	// make a single item list before passing to kafka
 	val topics = Collections.singletonList(topic)
   consumer.subscribe(topics)
 
-  println("begin polling...");
+  println(s"begin polling topics ${topics}...");
 	var count = 0
 	var totalRecordsFound = 0
   println("");
@@ -59,16 +67,21 @@ object DemoKafkaConsumer extends App {
     print(message);
 
 		for (record <- records) {
-			printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
+			if (debugMode) {
+        println("");
+        println("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
+      }
 
-			// then write to C* using our cassandra flask api
+			// then write to C* using our cassandra api
 			val form = Seq(
         "key" -> "value"
       )
-			val response: HttpResponse[String] = Http(s"${flask_host}/api/leaves").postForm(form).asString;
+			val response: HttpResponse[String] = Http(s"${apiHost}/api/leaves").postForm(form).asString;
 
-			print("body", response.body)
-			print("code", response.code)
+			if (debugMode) {
+        println("body", response.body)
+        println("code", response.code)
+      }
     }
   }
 }

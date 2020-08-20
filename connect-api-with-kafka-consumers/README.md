@@ -65,8 +65,6 @@ check topic that has schema:
 ```
 docker exec -it kafka-connect kafka-avro-console-consumer --topic record-cassandra-leaves-avro --bootstrap-server 172.20.10.12:9092 --from-beginning --property schema.registry.url=http://172.20.10.14:8081
 
-
-
 # Consume from Kafka, write to Cassandra
 
 #### 3.2 execute the scala job to pick up messages from Kafka, deserialize and write them to Cassandra
@@ -75,8 +73,13 @@ mvn -f ./consume-kafka-to-cassandra-worker/pom.xml clean package
 
 # there should now be two jars in ./kafka-to-cassandra-worker/target, one with-dependencies, one without. We'll use the one with dependencies
 mvn -f pom.xml exec:java -Dexec.mainClass="org.anant.DemoKafkaConsumer" -Dexec.args="target/classes/project.properties"
-
-
+```
+You can confirm we are consuming the correct topic using AKHQ, at `http://localhost:8085/ui/docker-kafka-server/topic`. 
+- By default we are getting all messages every time by using offset of "earliest", but you can turn that off by setting "debug-mode" to false in your properties file.
+- Send more messages whenever you want to by re-running the python script from the python dir:
+    ```
+    python3 data_importer.py
+    ```
 
 
 
