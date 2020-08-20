@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import traceback
 import os
 import sys
 import requests
@@ -13,7 +14,6 @@ aboslute_path_to_schema = os.path.join(os.getcwd(), schema_file)
 print("Schema Registry URL: " + schema_registry_url)
 print("Topic: " + topic)
 print("Schema file: " + schema_file)
-print
 
 with open(aboslute_path_to_schema, 'r') as content_file:
     schema = content_file.read()
