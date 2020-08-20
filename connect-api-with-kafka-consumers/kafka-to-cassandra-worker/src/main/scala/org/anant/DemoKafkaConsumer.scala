@@ -42,15 +42,18 @@ object DemoKafkaConsumer extends App {
 
   println("begin polling...");
 	var count = 0
+	var totalRecordsFound = 0
   println("");
 
 	while (true) {
 
 		val records = consumer.poll(3000);
     count += 1
-    val message = s"polling... (poll count: ${count}). Found ${records.size} records"
-    // backspaces to clear last message, plus a couple more to message length in case previous message was longer
-	  val clear = "\b"* message.size + 2
+    totalRecordsFound += records.size
+    val message = s"polling... (poll count: ${count}). Found ${records.size} new records. Total records processed: ${totalRecordsFound}"
+    // backspaces to clear last message. 
+    // add a couple more to message length in case previous message was longer
+	  val clear = "\b"* (message.size + 2)
 
     print(clear);
     print(message);
