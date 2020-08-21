@@ -11,6 +11,13 @@
         <scala.version>2.11.12</scala.version>
     </properties>
 
+    <repositories>
+			<repository>
+				<id>confluent</id>
+				<url>http://packages.confluent.io/maven/</url>
+			</repository>
+    </repositories>
+
     <dependencies>
       <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
 			<dependency>
@@ -24,6 +31,20 @@
 				<artifactId>scalaj-http_${scala.major.version}</artifactId>
 				<version>2.4.2</version>
 			</dependency>  
+			<dependency>
+				<groupId>org.apache.avro</groupId>
+				<artifactId>avro</artifactId>
+				<version>1.10.0</version>
+			</dependency>
+
+      <!-- https://mvnrepository.com/artifact/io.confluent/kafka-avro-serializer -->
+			<dependency>
+				<groupId>io.confluent</groupId>
+				<artifactId>kafka-avro-serializer</artifactId>
+				<version>5.5.1</version>
+			</dependency>
+
+
     </dependencies>
 
     <build>
