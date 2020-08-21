@@ -1,6 +1,3 @@
 confluent-kafka
 avro-python3
 pandas
-jproperties
-xlrd
-httpie

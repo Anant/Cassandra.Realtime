@@ -34,7 +34,7 @@ services:
         ipv4_address: 172.20.10.11
 
   ###
-  ### KAFKA WORKER
+  ### KAFKA BROKER
   ###
   kafka:
     # latest as of Aug 2020. Provides Kafka 2.5.0
@@ -102,4 +102,26 @@ services:
     networks:
       kafka_dse_network:
         ipv4_address: 172.20.10.19
+
+  ###
+  ### KAFKA REST PROXY
+  ###
+  rest-proxy:
+    image: confluentinc/cp-kafka-rest:5.5.1
+    depends_on:
+      - zookeeper
+      - kafka # broker
+      - schema-registry
+    ports:
+      - 8082:8082
+    hostname: rest-proxy
+    container_name: rest-proxy
+    environment:
+      KAFKA_REST_HOST_NAME: rest-proxy
+      KAFKA_REST_BOOTSTRAP_SERVERS: 'cp_kafka_007:29092'
+      KAFKA_REST_LISTENERS: "http://0.0.0.0:8082"
+      KAFKA_REST_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'
+    networks:
+      kafka_dse_network:
+        ipv4_address: 172.20.10.20
 

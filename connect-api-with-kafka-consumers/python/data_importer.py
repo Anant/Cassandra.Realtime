@@ -4,16 +4,15 @@ import os
 from datetime import datetime
 import argparse
 import pathlib
+import http.client
 
 import traceback
 import pandas as pd
 from confluent_kafka import Producer
 from confluent_kafka import avro
 from confluent_kafka.avro import AvroProducer
-from jproperties import Properties
+import configparser
 from pandas import json_normalize
-
-sr_url = "http://172.20.10.14:8081"
 
 parent_dir = pathlib.Path().absolute()
 
@@ -43,11 +42,13 @@ class DataImporter:
         # real config
         self.config_file_path = kwargs["config_file_path"]
 
-        self.sent_to_schema_topic_count = 0
-        self.sent_to_schemaless_topic_count = 0
+        self.rest_sent_to_schema_topic_count = 0
+        self.producer_sent_to_schema_topic_count = 0
+        self.producer_sent_to_schemaless_topic_count = 0
 
         # throws more errors. That's all it does for now
         self.debug_mode = True
+
 
 
     #######################
@@ -99,7 +100,7 @@ class DataImporter:
 
         return json_str
     
-    def record_to_message(self, record):
+    def fit_record_to_schema(self, record):
         """
         takes record dict and into message according to our schema
         - Currently only have to convert timestamps into unix timestamps
@@ -162,36 +163,66 @@ class DataImporter:
         else:
             topic = self.default_topic
 
-        avro_topic = "%s-avro" % topic
 
         try:
-            # send to topic with schema (avro)
-            # value is a dict
-            prepared_message = self.record_to_message(prepared_record)
-            self.avro_producer.produce(topic=avro_topic, value=prepared_message)
-            self.sent_to_schema_topic_count += 1
+            if "avro-producer" in self.send_modes:
+                self.send_one_with_schema(prepared_record, topic, "producer")
 
-            # send to topic without schema
-            # schemaless requires just sending bytes. 
-            self.producer.produce(topic, value=str(prepared_record))
-            self.sent_to_schemaless_topic_count += 1
+            # NOTE don't use elif, all of these should run if true
+            if "rest-proxy" in self.send_modes:
+                self.send_one_with_schema(prepared_record, topic, "rest-proxy")
 
-            # TODO flush avro_producer also?
-            self.producer.flush()
-
-            print(f"sent message to schemaless topic with schema ({self.sent_to_schema_topic_count}) and schemaless topic ({self.sent_to_schemaless_topic_count})", flush=True)
+            if "producer" in self.send_modes:
+                self.send_one_without_schema(prepared_record, topic)
 
         except Exception as e:
             if self.debug_mode:
                 print(f"Failed producing record that has fields and types like:\n", self.schema_fields_for_record(record))
                 print(f"Limit was {self.max_bytes_limit}")
-                print(f"Bytes size of record as str was", sys.getsizeof(str(prepared_record)))
 
-                record.keys()
                 raise e
             else:
                 sys.stderr.write('%% Error while sending message to kafka %s\n' % str(e))
                 traceback.print_exc()
+
+        print(f"sent messages to topic with schema using producer ({self.producer_sent_to_schema_topic_count}) and over rest-proxy ({self.rest_sent_to_schema_topic_count}) and schemaless topic ({self.producer_sent_to_schemaless_topic_count})", flush=True)
+
+
+    def send_one_with_schema(self, prepared_record, topic, send_using):
+        """
+        send one message to kafka to a topic, with avro schema
+        - Can be sent using producer or using kafka rest-proxy
+        """
+        fit_message = self.fit_record_to_schema(prepared_record)
+
+        avro_topic = "%s-avro" % topic
+        if (send_using == 'producer'):
+            self.avro_producer.produce(topic=avro_topic, value=fit_message)
+
+            self.producer_sent_to_schema_topic_count += 1
+
+        elif (send_using == 'rest-proxy'):
+            # if sending using rest-client, setup a connection
+            rest_proxy_connection = http.client.HTTPSConnection(self.properties['REST_PROXY_HOST'])
+            rest_proxy_connection.request('POST', f"/topics/{avro_topic}", fit_message, self.rest_proxy_avro_http_headers)
+            response = rest_proxy_connection.getresponse()
+            print(response.read().decode())
+            self.rest_sent_to_schema_topic_count += 1
+
+
+
+    def send_one_without_schema(self, prepared_record, topic):
+        """
+        currently only supports using producer
+        """
+        # send to topic without schema
+        # schemaless requires just sending bytes. 
+        self.producer.produce(topic, value=str(prepared_record))
+        self.producer_sent_to_schemaless_topic_count += 1
+
+        # TODO flush avro_producer also? or just don't flush
+        self.producer.flush()
+
 
     def delivery_report(err, msg):
         """
@@ -202,9 +233,9 @@ class DataImporter:
         else:
             print('Message delivered to {} [{}]'.format(msg.topic(), msg.partition()))
 
-    ########################
-    # debugging helpers (can remove)
-    ########################
+    ################################################
+    # debugging helpers (can remove if remove all method calls)
+    ################################################
     def check_record_for_extra_field(self, record):
         """
         checks if record has a field that schema doesn't have
@@ -246,29 +277,45 @@ class DataImporter:
         - initialize producer(s)
         """
         print("started reading config", self.config_file_path)
-        with open(self.config_file_path, "rb") as f:
-            p = Properties()
-            p.load(f, "utf-8")
-            self.properties = p.properties
-        f.close()
+        props = configparser.ConfigParser()
+        props.read(self.config_file_path)
+        self.properties = props["DEFAULT"]
+
         print("finished reading")
 
-        kafka_server = self.properties['BOOTSTRAP_SERVERS_LOCAL']
+        # array of strings indicating how we want to send to kafka (including whether to use schema or not)
+        # also has bearing on what topics will be hit, since no schema == not hitting schema-less topics
+        print(self.properties)
+        self.send_modes = self.properties['SEND_USING']
 
+        # headers for avro. Would need different headers for just sending schemaless
+        self.rest_proxy_avro_http_headers = {
+            'Content-type': 'application/vnd.kafka.avro.v2+json',
+            'Accept': 'application/vnd.kafka.avro.v2+json',
+        }
+
+
+        ####################
+        # setup kafka
+
+        # schema registry url
+        sr_url = self.properties['SCHEMA_REGISTRY_URL']
+
+        kafka_server = self.properties['BOOTSTRAP_SERVERS_LOCAL']
         # TODO add on_delivery callback here too?
         self.max_bytes_limit = 1500000
         self.producer = Producer({
             'bootstrap.servers': kafka_server,
-            'message.max.bytes': self.max_bytes_limit, 
+            'message.max.bytes': self.max_bytes_limit,
         })
 
-        
+
         # default max_request_size is 1000000. We have some big messages, especially when sending non-avro messages 
         self.avro_producer = AvroProducer({
-            'bootstrap.servers': kafka_server, 
-            'schema.registry.url': sr_url, 
+            'bootstrap.servers': kafka_server,
+            'schema.registry.url': sr_url,
             'on_delivery': self.delivery_report,
-            'message.max.bytes': self.max_bytes_limit, 
+            'message.max.bytes': self.max_bytes_limit,
         }, default_value_schema=value_schema, )
         print("finished setting up producers")
 
