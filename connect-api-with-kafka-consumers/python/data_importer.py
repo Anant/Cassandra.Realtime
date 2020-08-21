@@ -2,6 +2,8 @@ import json
 import sys
 import os
 from datetime import datetime
+import argparse
+import pathlib
 
 import traceback
 import pandas as pd
@@ -13,7 +15,9 @@ from pandas import json_normalize
 
 sr_url = "http://172.20.10.14:8081"
 
-absolute_path_to_schema = os.path.join(os.getcwd(), "../kafka", "leaves-record-schema.avsc")
+parent_dir = pathlib.Path().absolute()
+
+absolute_path_to_schema = os.path.join(parent_dir, "../kafka", "leaves-record-schema.avsc")
 
 value_schema = None
 schema_dict = None
@@ -32,18 +36,12 @@ class DataImporter:
     TODOs
     - add support for excel importing
     """
-    def __init__(self):
+    def __init__(self, **kwargs):
         # right now, json or excel. But really, excel version isn't fully built out yet, just outlined
         self.data_type = "json"
 
-        # whether we will use metadata from within the data file itself to determine things such as topic name
-        self.using_metadata_from_data_file = True
-
         # real config
-        self.config_file_name = "config.ini"
-
-        # for testing against smaller sample
-        # self.config_file_name = "test_config.ini"
+        self.config_file_path = kwargs["config_file_path"]
 
         self.sent_to_schema_topic_count = 0
         self.sent_to_schemaless_topic_count = 0
@@ -183,7 +181,6 @@ class DataImporter:
 
             print(f"sent message to schemaless topic with schema ({self.sent_to_schema_topic_count}) and schemaless topic ({self.sent_to_schemaless_topic_count})", flush=True)
 
-
         except Exception as e:
             if self.debug_mode:
                 print(f"Failed producing record that has fields and types like:\n", self.schema_fields_for_record(record))
@@ -248,11 +245,13 @@ class DataImporter:
         - extract data from config (.ini) file
         - initialize producer(s)
         """
-        with open(self.config_file_name, "rb") as f:
+        print("started reading config", self.config_file_path)
+        with open(self.config_file_path, "rb") as f:
             p = Properties()
             p.load(f, "utf-8")
             self.properties = p.properties
         f.close()
+        print("finished reading")
 
         kafka_server = self.properties['BOOTSTRAP_SERVERS_LOCAL']
 
@@ -271,6 +270,7 @@ class DataImporter:
             'on_delivery': self.delivery_report,
             'message.max.bytes': self.max_bytes_limit, 
         }, default_value_schema=value_schema, )
+        print("finished setting up producers")
 
         # set topic, or key_for_topic if topic depends on the message itself
         # if both are set, then will just use key_for_topic
@@ -308,10 +308,24 @@ class DataImporter:
     # main method
     #############################
     def run(self):
+        print("== setup ==")
         self.setup()
+
+        print("== import data ==")
         self.import_data()
+
+        print("== send messages ==")
         self.send_messages()
 
 if __name__ == '__main__':
-    import_job = DataImporter()
+    parser = argparse.ArgumentParser(
+        description='import data from files into kafka',
+        usage='{config-file-path}')
+
+    parser.add_argument('--config-file-path', dest='config_file_path', help='path to your config.ini file')
+    parser.set_defaults(config_file_path=f"{parent_dir}/configs/config.ini")
+
+    args = parser.parse_args()
+
+    import_job = DataImporter(**args.__dict__)
     import_job.run()
