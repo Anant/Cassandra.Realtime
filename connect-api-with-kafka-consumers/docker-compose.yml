@@ -11,19 +11,6 @@ networks:
 
 services:
   ###
-  ### PYTHON FLASK API
-  ###
-  python:
-    build: ./api
-    image: flask-cassandra-api:latest
-    container_name: flask_cassandra_api
-    ports:
-      - "5000:5000"
-    networks:
-      kafka_dse_network:
-        ipv4_address: 172.20.10.10
-
-  ###
   ### PYTHON IMPORTER
   ###
   python:
