@@ -51,7 +51,6 @@ object DemoKafkaConsumer extends App {
   println(s"begin polling topics ${topics}...");
 	var count = 0
 	var totalRecordsFound = 0
-  println("");
 
 	while (true) {
 
@@ -66,21 +65,40 @@ object DemoKafkaConsumer extends App {
     print(clear);
     print(message);
 
+    if (debugMode) {
+      println("--------------------------")
+      println("hitting endpoint:" + apiHost)
+    }
+
 		for (record <- records) {
 			if (debugMode) {
         println("");
-        println("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
+        printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
       }
 
-			// then write to C* using our cassandra api
-			val form = Seq(
-        "key" -> "value"
-      )
-			val response: HttpResponse[String] = Http(s"${apiHost}/api/leaves").postForm(form).asString;
+			try {
+        // then write to C* using our cassandra api
+        // this is for our schemaless topic. So value is just a json string
+        val data = record.value()
 
-			if (debugMode) {
-        println("body", response.body)
-        println("code", response.code)
+        // if data is null, just skip
+        if (data != null) {
+          // NOTE currently fails since JSON we're receiving/sending has properties within single quotes, not double quotes. 
+          val response: HttpResponse[String] = Http(s"${apiHost}/api/leaves").postData(data).header("content-type", "application/json").asString;
+
+          if (debugMode) {
+            println(s"body: ${response.body}")
+            println(s"code: ${response.code}")
+          }
+        }
+
+      } catch {
+        case unknown: Throwable => println("Got some other kind of Throwable exception: " + unknown)
+        println
+        if (debugMode) {
+        //   throw unknown
+          println("continuing...")
+        }
       }
     }
   }

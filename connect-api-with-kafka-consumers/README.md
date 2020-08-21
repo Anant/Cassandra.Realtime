@@ -1,20 +1,14 @@
 # 1 Setup the Api
-#### 1.1 Setup Cassandra Astra 
-More or less, following directions from [here](https://github.com/Anant/cassandra.api). 
+#### 1.1 Setup Cassandra Astra and Cassandra API
+Following directions from [cassandra.api](https://github.com/Anant/cassandra.api). You can just clone it and run it.
 
-### 1.2 Setup credentials for our flask api
-- copy api/astra.credentials/UserCred.example.json to UserCred.json, then edit to fit your setup, including username and password for your cassandra db. 
-    * Table can be whatever you used, but default is "leaves".
+- However, be sure to clear your C* table at the end (you can use cqlsh in astra GUI if you want to) since we are going to see how to get records in from Kafka.
+
 ```
-cp ./api/astra.credentials/UserCred.example.json ./api/astra.credentials/UserCred.json
-vim ./api/astra.credentials/UserCred.json
-# ...
+cqlsh > TRUNCATE <keyspace>.<tablename> ;
 ```
 
-- get your secure-connect-<database_name>.zip from astra into the `astra.credentials/` directory
-```
-mv secure-connect-<database_name>.zip ./api/astra.credentials/
-```
+- Make sure the server is running at the end of it, and put the api port into your `kafka-to-cassandra-worker/src/main/resources/project.properties` (unless it is already at localhost:8000)
 
 
 #### 1.4 Build docker image and run all docker containers
@@ -25,7 +19,6 @@ docker-compose up
 - cp-zookeeper
 - schema-registry
 - akhq (former kafka-hq)
-- flask api
 - python data importer (imports into kafka)
 
 #### 2.1 create kafka topics
@@ -42,7 +35,7 @@ docker exec -it cp_kafka_007 kafka-topics --create --zookeeper 172.20.10.11:2181
 docker exec -it cp_kafka_007 kafka-topics --list --zookeeper 172.20.10.11:2181
 ```
 
-#### 2.3 create the schema for topic's messages value
+#### 2.3 create the Kafka schema for topic's messages value
 make sure your python environment has `requests` module installed
 ```
 python3 ./kafka/create-schema.py http://172.20.10.14:8081 record-cassandra-leaves ./kafka/leaves-record-schema.avsc
@@ -89,10 +82,10 @@ docker exec -it kafka-connect kafka-avro-console-consumer --topic record-cassand
 
 #### 3.2 execute the scala job to pick up messages from Kafka, deserialize and write them to Cassandra
 ```
-mvn -f ./consume-kafka-to-cassandra-worker/pom.xml clean package
+mvn -f ./kafka-to-cassandra-worker/pom.xml clean package
 
 # there should now be two jars in ./kafka-to-cassandra-worker/target, one with-dependencies, one without. We'll use the one with dependencies
-mvn -f pom.xml exec:java -Dexec.mainClass="org.anant.DemoKafkaConsumer" -Dexec.args="target/classes/project.properties"
+mvn -f ./kafka-to-cassandra-worker/pom.xml exec:java -Dexec.mainClass="org.anant.DemoKafkaConsumer" -Dexec.args="kafka-to-cassandra-worker/target/classes/project.properties"
 ```
 You can confirm we are consuming the correct topic using AKHQ, at `http://localhost:8085/ui/docker-kafka-server/topic`. 
 - By default we are getting all messages every time by using offset of "earliest", but you can turn that off by setting "debug-mode" to false in your properties file.
@@ -100,6 +93,9 @@ You can confirm we are consuming the correct topic using AKHQ, at `http://localh
     ```
     python3 data_importer.py
     ```
+
+
+
 
 
 #### 4.3 check cassandra records
