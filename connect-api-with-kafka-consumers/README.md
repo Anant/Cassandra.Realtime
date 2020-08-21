@@ -95,34 +95,10 @@ You can confirm we are consuming the correct topic using AKHQ, at `http://localh
     ```
 
 
+# Kafka REST Proxy
 
-
-
-#### 4.3 check cassandra records
+Check your topics 
 ```
-docker exec -it dse_007 cqlsh -e "SELECT * FROM customerkeyspace.messages; SELECT * FROM customerkeyspace.messages_avro;"
-```
-Result should looks similar to the next block, both cassandra tables containe similar info, except one is filled by the spark job and the other by dse-kafka-connector.
-```
- message_insert_time      | message_date_time | message_id   | message_type | message_value
---------------------------+-------------------+--------------+--------------+---------------
- 2020-05-10 23:06:45+0000 |        1578416560 | PAC-34f572ae |         Test |           100
- 2020-05-10 23:06:21+0000 |        1578416560 | PAC-34f572ae |         Test |           100
- 2020-05-10 23:00:47+0000 |        1578416560 | PAC-34f572ae |         Test |           100
-
-(3 rows)
-
- message_insert_time                  | message_date_time | message_id   | message_type | message_value
---------------------------------------+-------------------+--------------+--------------+---------------
- cb663930-9312-11ea-a4b2-c9b00f6c8b52 |        1578416560 | PAC-34f572ae |         Test |           100
- e9e22db0-9312-11ea-a4b2-c9b00f6c8b52 |        1578416560 | PAC-34f572ae |         Test |           100
- db47c670-9312-11ea-a4b2-c9b00f6c8b52 |        1578416560 | PAC-34f572ae |         Test |           100
-
-(3 rows)
-```
-
-#### 4.4 truncate cassandra tables
-Optionally truncate cassandra tables to start fresh
-```
-docker exec -it dse_007 cqlsh -e "TRUNCATE TABLE customerkeyspace.messages; TRUNCATE TABLE customerkeyspace.messages_avro;"
+curl http://172.20.10.20:8082/topics/
+curl http://172.20.10.20:8082/topics/record-cassandra-leaves-avro
 ```

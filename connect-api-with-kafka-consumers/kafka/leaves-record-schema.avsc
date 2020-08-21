@@ -2,7 +2,6 @@
   "type": "record",
   "name": "Leaves",
   "namespace": "org.anant.demo.leaves",
-  "version": "1",
   "fields": [
     {
       "name": "is_archived",

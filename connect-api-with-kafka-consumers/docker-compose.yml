@@ -12,11 +12,11 @@ networks:
 services:
   ###
   ### PYTHON IMPORTER
-  ###
+  ### TODO set this up, not currently working with current python code
   python:
     build: ./python
     image: python-kafka-importer:latest
-    container_name: python_kafka_api
+    container_name: python-kafka-importer
 
   ###
   ### KAFKA ZOOKEEPER
@@ -118,7 +118,7 @@ services:
     container_name: rest-proxy
     environment:
       KAFKA_REST_HOST_NAME: rest-proxy
-      KAFKA_REST_BOOTSTRAP_SERVERS: 'cp_kafka_007:29092'
+      KAFKA_REST_BOOTSTRAP_SERVERS: 'PLAINTEXT://172.20.10.12:9092'
       KAFKA_REST_LISTENERS: "http://0.0.0.0:8082"
       KAFKA_REST_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'
     networks:

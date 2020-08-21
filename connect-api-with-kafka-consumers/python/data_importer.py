@@ -4,7 +4,7 @@ import os
 from datetime import datetime
 import argparse
 import pathlib
-import http.client
+import requests
 
 import traceback
 import pandas as pd
@@ -13,6 +13,7 @@ from confluent_kafka import avro
 from confluent_kafka.avro import AvroProducer
 import configparser
 from pandas import json_normalize
+from copy import deepcopy
 
 parent_dir = pathlib.Path().absolute()
 
@@ -100,6 +101,36 @@ class DataImporter:
 
         return json_str
     
+    def dict_to_avro(self, dictionary):
+        """
+        NOTE this is not necessary when using AvroProducer
+        """
+        avro_dict = dictionary
+        py_to_avro_mapping = {
+            type(None): "null",
+            str: "string",
+            list: "array",
+            int: "int",
+        }
+
+        for field in schema_dict["fields"]:
+            # check schema for unions (where more than one is allowed). If union, specify type
+            # http://avro.apache.org/docs/current/spec.html#Unions
+            is_union = type(field["type"]) == list
+            field_name = field["name"]
+            record_value = dictionary.get(field_name, None)
+            record_field_type = type(record_value)
+
+            if is_union:
+                # check the value for this record, and mark accordingly
+                avro_type_for_record_field = py_to_avro_mapping[record_field_type]
+
+                avro_dict[field_name] = {avro_type_for_record_field: record_value}
+            else:
+                avro_dict[field_name] = record_value
+
+        return avro_dict
+                
     def fit_record_to_schema(self, record):
         """
         takes record dict and into message according to our schema
@@ -177,8 +208,7 @@ class DataImporter:
 
         except Exception as e:
             if self.debug_mode:
-                print(f"Failed producing record that has fields and types like:\n", self.schema_fields_for_record(record))
-                print(f"Limit was {self.max_bytes_limit}")
+                # print(f"Failed producing record that has fields and types like:\n", self.schema_fields_for_record(record))
 
                 raise e
             else:
@@ -202,11 +232,37 @@ class DataImporter:
             self.producer_sent_to_schema_topic_count += 1
 
         elif (send_using == 'rest-proxy'):
-            # if sending using rest-client, setup a connection
-            rest_proxy_connection = http.client.HTTPSConnection(self.properties['REST_PROXY_HOST'])
-            rest_proxy_connection.request('POST', f"/topics/{avro_topic}", fit_message, self.rest_proxy_avro_http_headers)
-            response = rest_proxy_connection.getresponse()
-            print(response.read().decode())
+            # rest proxy requires a different format than AvroProducer
+            avro_for_record = self.dict_to_avro(fit_message)
+            # with open('./assets/sample-avro-record.txt', 'w') as outfile:
+            #     # use this if want to test using:
+            #     # pip3 install -U avro_validator && avro_validator ../kafka/leaves-record-schema.avsc ./assets/sample-data.json
+            #     json.dump(avro_for_record, outfile)
+
+            rest_proxy_message_dict = {
+                # they want this as a string, see here: 
+                # https://docs.confluent.io/current/kafka-rest/api.html#post--topics-(string-topic_name)
+                "value_schema": value_schema_str,
+
+                # only sending one message at a time currently
+                "records": [
+                    {"value": avro_for_record}
+                ],
+            }
+
+            json_message = json.dumps(rest_proxy_message_dict)
+
+            print("sending headers", self.rest_proxy_avro_http_headers)
+            res = requests.post(f"http://{self.rest_proxy_host}/topics/{avro_topic}", 
+                                data=json_message,
+                                #json=rest_proxy_message_dict,
+                                headers=self.rest_proxy_avro_http_headers
+                                )
+            
+            print("response text", res.text)
+            print("response headers", res.headers)
+            res.raise_for_status()
+
             self.rest_sent_to_schema_topic_count += 1
 
 
@@ -276,12 +332,12 @@ class DataImporter:
         - extract data from config (.ini) file
         - initialize producer(s)
         """
-        print("started reading config", self.config_file_path)
         props = configparser.ConfigParser()
         props.read(self.config_file_path)
         self.properties = props["DEFAULT"]
 
-        print("finished reading")
+        # not necessarily set if we're not using rest proxy
+        self.rest_proxy_host = self.properties.get('REST_PROXY_HOST', None)
 
         # array of strings indicating how we want to send to kafka (including whether to use schema or not)
         # also has bearing on what topics will be hit, since no schema == not hitting schema-less topics
@@ -291,7 +347,7 @@ class DataImporter:
         # headers for avro. Would need different headers for just sending schemaless
         self.rest_proxy_avro_http_headers = {
             'Content-type': 'application/vnd.kafka.avro.v2+json',
-            'Accept': 'application/vnd.kafka.avro.v2+json',
+            #'Accept': 'application/vnd.kafka.avro.v2+json',
         }
 
 
