@@ -1,0 +1,7 @@
+{ 
+    "username": "username", 
+    "password": "password", 
+    "cluster": "cluster.name", 
+    "keyspace": "keyspace.name", 
+    "table": "leaves"
+}

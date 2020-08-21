@@ -1,0 +1,6 @@
+Flask==1.1.1
+Flask-RESTful==0.3.7
+cassandra-driver
+beautifulsoup4
+readtime
+Flask-Cors

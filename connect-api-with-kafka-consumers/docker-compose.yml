@@ -11,17 +11,25 @@ networks:
 
 services:
   ###
-  ### PYTHON FLASK
+  ### PYTHON FLASK API
   ###
   python:
-    build: ./python
-    image: python-api-for-kafka:latest
-    container_name: python_kafka_api
+    build: ./api
+    image: flask-cassandra-api:latest
+    container_name: flask_cassandra_api
     ports:
       - "5000:5000"
     networks:
       kafka_dse_network:
         ipv4_address: 172.20.10.10
+
+  ###
+  ### PYTHON IMPORTER
+  ###
+  python:
+    build: ./python
+    image: python-kafka-importer:latest
+    container_name: python_kafka_api
 
   ###
   ### KAFKA ZOOKEEPER

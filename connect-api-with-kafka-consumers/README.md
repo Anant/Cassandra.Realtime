@@ -1,4 +1,23 @@
-#### 1.1 Build docker image and run all docker containers
+# 1 Setup the Api
+#### 1.1 Setup Cassandra Astra 
+More or less, following directions from [here](https://github.com/Anant/cassandra.api). 
+
+### 1.2 Setup credentials for our flask api
+- copy api/astra.credentials/UserCred.example.json to UserCred.json, then edit to fit your setup, including username and password for your cassandra db. 
+    * Table can be whatever you used, but default is "leaves".
+```
+cp ./api/astra.credentials/UserCred.example.json ./api/astra.credentials/UserCred.json
+vim ./api/astra.credentials/UserCred.json
+# ...
+```
+
+- get your secure-connect-<database_name>.zip from astra into the `astra.credentials/` directory
+```
+mv secure-connect-<database_name>.zip ./api/astra.credentials/
+```
+
+
+#### 1.4 Build docker image and run all docker containers
 ```
 docker-compose up
 ```
@@ -6,7 +25,8 @@ docker-compose up
 - cp-zookeeper
 - schema-registry
 - akhq (former kafka-hq)
-- python-flask-app-for-kafka
+- flask api
+- python data importer (imports into kafka)
 
 #### 2.1 create kafka topics
 Assuming we have two topics, one with schema (`record-cassandra-leaves-avro`) and one without schema (`record.cassandra.leaves`):
@@ -81,44 +101,6 @@ You can confirm we are consuming the correct topic using AKHQ, at `http://localh
     python3 data_importer.py
     ```
 
-
-
-# get it going in docker (NOTE outdated)
-docker cp ./spark/processexcel/src/main/resources/project.properties dse_007:/opt/dse/
-docker cp ./spark/processexcel/target/processexcel-1.0-SNAPSHOT-jar-with-dependencies.jar dse_007:/tmp/processexcel-1.0-SNAPSHOT.jar
-```
-
-
-
-
-
-
-
-
-### You can of course run the spark job in standalone mode - but this is NOT FUN 
-mvn -f ./spark/processexcel/pom.xml exec:java -Dexec.mainClass="org.anant.DemoKafkaConsumer"
-
-### This is where the FUN part is, a spark job running on dse cluster will consume kafka messages and write them to cassandra 
-docker exec -it dse_007 dse spark-submit --class org.anant.DemoKafkaConsumer --master dse://172.20.10.9 /tmp/processexcel-1.0-SNAPSHOT.jar project.properties
-```
-
-Optionally open spark-ui in a browser to check jobs status at `http://127.0.0.1:4040/jobs/` or `http://127.0.0.1:7080` - spark master
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```
-hit the url a few times to generate more messages
 
 #### 4.3 check cassandra records
 ```
