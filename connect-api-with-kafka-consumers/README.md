@@ -102,3 +102,8 @@ Check your topics
 curl http://172.20.10.20:8082/topics/
 curl http://172.20.10.20:8082/topics/record-cassandra-leaves-avro
 ```
+
+Send using data importer's rest proxy mode:
+```
+python3 data_importer.py --config-file-path configs/rest-proxy-config.ini
+```
