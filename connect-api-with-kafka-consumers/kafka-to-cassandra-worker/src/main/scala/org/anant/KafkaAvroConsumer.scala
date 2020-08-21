@@ -1,5 +1,7 @@
 package org.anant
 
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericRecord;
@@ -61,6 +63,8 @@ object KafkaAvroConsumer extends App {
   println(s"begin polling topics ${topics}...");
 	var count = 0
 	var totalRecordsFound = 0
+  var totalSuccesfulWrites = 0
+  var totalFailedWrites = 0
 
   if (debugMode) {
     println("--------------------------")
@@ -72,36 +76,47 @@ object KafkaAvroConsumer extends App {
 		val records = consumer.poll(3000);
     count += 1
     totalRecordsFound += records.size
-    val message = s"polling... (poll count: ${count}). Found ${records.size} new records. Total records processed: ${totalRecordsFound}"
+    val message = s"polling... (poll count: ${count}). Found ${records.size} new records. Total records processed: ${totalRecordsFound}; Total successes: ${totalSuccesfulWrites}; Total Failures: ${totalFailedWrites}"
     // backspaces to clear last message. 
     // add a couple more to message length in case previous message was longer
-	  val clear = "\b"* (message.size + 2)
+	  val clear = "\b"* (message.size + 5)
 
     print(clear);
     print(message);
 
 		for (record <- records) {
 			try {
-				if (debugMode) {
-					println("");
-          val truncatedVal = if (record.value().toString().size > 30) record.value().toString().substring(0, 30) else record.value().toString()
-					printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), truncatedVal);
-				}
-
         // then write to C* using our cassandra api
         val avroData : GenericRecord = record.value()
 
 		    // convert to json for sending over the wire
 		    val jsonData : String = avroData.toString()
 
+				if (debugMode) {
+					println("");
+          val truncatedVal = if (jsonData.size > 30) jsonData.substring(0, 30) else jsonData
+					printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), truncatedVal);
+				}
+
         // if data is null, just skip
         if (jsonData != null) {
           // NOTE currently fails since JSON we're receiving/sending has properties within single quotes, not double quotes. 
-          val response: HttpResponse[String] = Http(s"${apiHost}/api/leaves").postData(jsonData : String).header("content-type", "application/json").asString;
+          val f = Future {
+            val response: HttpResponse[String] = Http(s"${apiHost}/api/leaves").postData(jsonData : String).header("content-type", "application/json").asString;
 
-          if (debugMode) {
-            println(s"code: ${response.code}")
+            if (199 < response.code && response.code < 300) {
+              totalSuccesfulWrites += 1
+            } else if (response.code > 399) {
+              totalFailedWrites += 1
+            } else {
+              if (debugMode) {
+                println(s"Another code: ${response.code}")
+                println(s"Response: ${response.body}")
+              }
+            }
           }
+
+          // for now, no reason to do anything with this future
         }
 
       } catch {
