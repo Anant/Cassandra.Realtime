@@ -21,6 +21,7 @@ object KafkaUtil {
     }
 
     props.setProperty("bootstrap.servers", projectProps.getProperty("kafka.host"))
+    // NOTE not currently using keys
     props.setProperty("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer") 
     props.setProperty("group.id", projectProps.getProperty("kafka.consumer.group"))
     props.setProperty("auto.offset.reset", initialOffset)
@@ -43,11 +44,4 @@ object KafkaUtil {
     props
   }
 
-  def getColumnMapping(): Map[String, (String, Boolean)] = {
-    Map(
-      "MessageDateTime" -> ("message_date_time", true),
-      "MessageType" -> ("message_type", true),
-      "MessageID" -> ("message_id", true),
-      "MessageValue" -> ("message_value", true))
-  }
 }

@@ -6,12 +6,13 @@
     <inceptionYear>2008</inceptionYear>
 
     <properties>
-				<!-- TODO consider using 2.12, which is what confluent 5.5.1 uses -->
-        <scala.major.version>2.11</scala.major.version>
-        <scala.version>2.11.12</scala.version>
+			<!-- TODO consider using 2.12, which is what confluent 5.5.1 uses -->
+			<scala.major.version>2.11</scala.major.version>
+			<scala.version>2.11.12</scala.version>
     </properties>
 
     <repositories>
+      <!-- needed for kafka-avro-serializer -->
 			<repository>
 				<id>confluent</id>
 				<url>http://packages.confluent.io/maven/</url>
@@ -19,18 +20,27 @@
     </repositories>
 
     <dependencies>
-      <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
+      <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients NOTE confluent 5.5.1 (which we use in docker) uses kafka 2.5.0 -->
 			<dependency>
-					<groupId>org.apache.kafka</groupId>
-					<artifactId>kafka-clients</artifactId>
-					<version>2.5.0</version>
+				<groupId>org.apache.kafka</groupId>
+				<artifactId>kafka-clients</artifactId>
+				<version>2.5.0</version>
 			</dependency>
 
+      <!-- https://docs.confluent.io/current/streams/developer-guide/dsl-api.html#kstreams-dsl-for-scala -->
+			<dependency>
+				<groupId>org.apache.kafka</groupId>
+				<artifactId>kafka-streams-scala_2.11</artifactId>
+        <version>5.5.1-ccs</version>
+			</dependency>
+
+      <!-- http lib -->
 			<dependency>
 				<groupId>org.scalaj</groupId>
 				<artifactId>scalaj-http_${scala.major.version}</artifactId>
 				<version>2.4.2</version>
 			</dependency>  
+
 			<dependency>
 				<groupId>org.apache.avro</groupId>
 				<artifactId>avro</artifactId>
