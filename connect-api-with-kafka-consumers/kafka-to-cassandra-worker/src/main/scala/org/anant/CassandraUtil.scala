@@ -33,8 +33,6 @@ object CassandraUtil {
       response
     }
 
-    // if (onComplete != null) {
-      f onComplete callback
-    // }
+    f onComplete callback
   }
 }

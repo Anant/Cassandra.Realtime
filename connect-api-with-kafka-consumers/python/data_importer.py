@@ -45,7 +45,6 @@ class DataImporter:
     # helpers
     #######################
 
-
     def send_one_record(self, record):
         """
         For excel, this will be called by rowFunction to send a single row.

@@ -96,8 +96,7 @@ object KafkaAvroConsumer extends App {
         if (jsonData != null) {
           // NOTE currently fails since JSON we're receiving/sending has properties within single quotes, not double quotes. 
 
-          // PartialFunction
-          val onComplete : PartialFunction[Try[_], Unit] = {
+          val onComplete : PartialFunction[Try[HttpResponse[String]], Unit] = {
             case Success(response : HttpResponse[String]) => counts("totalSuccesfulWrites") = counts("totalSuccesfulWrites") + 1
             case Failure(err) => counts("totalFailedWrites") = counts("totalFailedWrites") + 1
           }
