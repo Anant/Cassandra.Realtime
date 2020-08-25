@@ -8,6 +8,11 @@ plugin.path=/plugins/kafka-connect-cassandra-sink-1.4.0.jar
 # Topics to subscribe to, comma-delimited.
 topics=record-cassandra-leaves-avro
 
+# some custom configs
+# default is 500 ms, which is too low
+# https://docs.datastax.com/en/kafka/doc/kafka/kafkaSettingJavaDriverConfig.html
+datastax-java-driver.advanced.connection.init-query-timeout=2000 milliseconds
+
 # The location of the cloud secure bundle used to connect to Datastax Astra.
 # If you are connecting to the cloud, these parameters need to be provided.
 # The loadBalancing.localDc, contactPoints or any config under ssl prefix cannot be
