@@ -107,3 +107,8 @@ Send using data importer's rest proxy mode:
 ```
 python3 data_importer.py --config-file-path configs/rest-proxy-config.ini
 ```
+
+# Process messages using Kafka Streams and Processor API
+```
+mvn exec:java -Dexec.mainClass="org.anant.KafkaStreamsAvroConsumer" -Dexec.args="target/classes/project.properties"
+```

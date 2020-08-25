@@ -27,12 +27,19 @@ object KafkaUtil {
     props.setProperty("auto.offset.reset", initialOffset)
     props.setProperty("enable.auto.commit", "false")
 
+    // if we are using a schema, set config for schema
     if (projectProps.getProperty("kafka.schema") == "true") {
       props.setProperty("schema.registry.url", projectProps.getProperty("kafka.schema.registry.url"))
       props.setProperty("value.deserializer", "io.confluent.kafka.serializers.KafkaAvroDeserializer")
 
     } else {
       props.setProperty("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
+    }
+
+    // if using kstreams, will need to set some other configs. Default is false
+    if (projectProps.getProperty("streaming", "false") == "true") {
+      // "Each stream processing application must have a unique ID. The same ID must be given to all instances of the application"
+      props.setProperty("application.id", "streaming-leaves-with-avro-schema") 
     }
 
 

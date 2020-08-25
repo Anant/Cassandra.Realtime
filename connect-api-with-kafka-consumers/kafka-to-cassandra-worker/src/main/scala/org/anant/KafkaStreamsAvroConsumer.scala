@@ -46,6 +46,9 @@ object KafkaStreamsAvroConsumer extends App {
   val projectProps = new Properties()
   projectProps.load(Source.fromFile(projectPropertiesFilePath).bufferedReader())
   val topic = projectProps.getProperty("kafka.topic")
+
+  // set this as a streaming project (this property only used internally)
+  projectProps.setProperty("streaming", "true") 
   val debugMode = projectProps.getProperty("debug-mode").toBoolean
   val kafkaProps = KafkaUtil.getProperties(projectProps, debugMode)
 
