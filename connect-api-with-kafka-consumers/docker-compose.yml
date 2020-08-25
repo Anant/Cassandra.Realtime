@@ -13,10 +13,10 @@ services:
   ###
   ### PYTHON IMPORTER
   ### TODO set this up, not currently working with current python code
-  python:
-    build: ./python
-    image: python-kafka-importer:latest
-    container_name: python-kafka-importer
+  # python:
+  #   build: ./python
+  #   image: python-kafka-importer:latest
+  #   container_name: python-kafka-importer
 
   ###
   ### KAFKA ZOOKEEPER
@@ -77,6 +77,7 @@ services:
   ###
   ### KAFKA-HQ
   ###
+  # (Helpful but not required admin GUI for debugging and monitoring)
   kafka-hq:
     image: tchiotludo/akhq
     container_name: kafka-hq
@@ -106,6 +107,7 @@ services:
   ###
   ### KAFKA REST PROXY
   ###
+  # (only needed in this project if using kafka rest proxy to send messages to broker)
   rest-proxy:
     image: confluentinc/cp-kafka-rest:5.5.1
     depends_on:
@@ -125,3 +127,52 @@ services:
       kafka_dse_network:
         ipv4_address: 172.20.10.20
 
+  ###
+  ### KAFKA CONNECT
+  ### 
+  # (only needed in this project if using kafka connect to write to C*)
+  kafka-connect:
+    # using cp-kafka-connect, contrary to example we've been following in general here https://github.com/confluentinc/cp-all-in-one/blob/5.5.1-post/cp-all-in-one-community/docker-compose.yml
+    build: 
+      context: ./kafka/connect
+      args:
+        ASTRA_SECURE_BUNDLE_NAME: $ASTRA_SECURE_BUNDLE_NAME
+    image: demo-kafka-connect-astra:latest
+    hostname: kafka-connect
+    container_name: kafka-connect
+    depends_on:
+      - zookeeper
+      - kafka # broker
+      - schema-registry
+    ports:
+      - "8083:8083"
+    environment:
+      # copied into worker properties file as shown here: https://github.com/confluentinc/cp-docker-images/blob/2d1072207790a06b88b79fb129f72bb41b67532c/debian/kafka-connect-base/include/etc/confluent/docker/configure#L54
+      CONNECT_BOOTSTRAP_SERVERS: 'PLAINTEXT://172.20.10.12:9092'
+      CONNECT_REST_ADVERTISED_HOST_NAME: kafka-connect
+      CONNECT_REST_PORT: 8083
+      CONNECT_GROUP_ID: compose-connect-group
+      CONNECT_CONFIG_STORAGE_TOPIC: docker-connect-configs
+      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_OFFSET_FLUSH_INTERVAL_MS: 10000
+      CONNECT_OFFSET_STORAGE_TOPIC: docker-connect-offsets
+      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_STATUS_STORAGE_TOPIC: docker-connect-status
+      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_KEY_CONVERTER: org.apache.kafka.connect.storage.StringConverter
+      CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+      CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components" 
+      CONNECT_LOG4J_LOGGERS: org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR
+
+      # this isn't mentioned in their examples, but it appears we need this as well to avoid error: org.apache.kafka.common.config.ConfigException: Missing required configuration "offset.storage.file.filename" which has no default value.
+      # their script will strip off the CONNECT part and convert underscores to periods
+      # choosing what to set based on their example at /etc/kafka/connect-standalone.properties (path is within their docker image)
+      CONNECT_OFFSET_STORAGE_FILE_FILENAME: /tmp/connect.offsets
+    networks:
+      kafka_dse_network:
+        ipv4_address: 172.20.10.21
+      

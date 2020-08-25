@@ -44,7 +44,7 @@ python3 ./kafka/create-schema.py http://172.20.10.14:8081 record-cassandra-leave
 		* For example, take json in a format similar to what we have in `python/assets/sample-record.json`, and copy it into the toolslick tool. Then just change the name, type and namespace fields. 
 		* Also make sure the example record you use has all the fields in your db, or else if one record has a field that you don't include, kafka will throw an error for that as well
 		* If you have any timestamps, make sure to change logical_type of those in the schema from "date" to whatever you need, and make `type` `long` instead of `int`. Our app is currently configured only for timestamp-milliseconds. [See here](https://avro.apache.org/docs/1.8.0/spec.html#Timestamp+%28millisecond+precision%29) for avro docs on this issue.
-		* Also make sure to allow for any null values in your fields in your avro schema, if you have any null values (e.g., see [here](https://stackoverflow.com/a/45662702/6952495))
+		* Also make sure to allow for any null values in your fields in your avro schema, if you have any null values (e.g., see [here](https://stackoverflow.com/a/45662702/6952495)). Unless of course you don't want to allow records with null values for those fields to get sent in.
 		* Alternately, you can just write out your own schema manually.
 - If there's an HTTP error while creating the schema (e.g., a 422), you can check the schema registry logs:
     ```
@@ -95,7 +95,7 @@ You can confirm we are consuming the correct topic using AKHQ, at `http://localh
     ```
 
 
-# Kafka REST Proxy
+# Sending messages to Kafka using Kafka REST Proxy
 
 Check your topics 
 ```
@@ -108,7 +108,61 @@ Send using data importer's rest proxy mode:
 python3 data_importer.py --config-file-path configs/rest-proxy-config.ini
 ```
 
-# Process messages using Kafka Streams and Processor API
+# Process messages using Kafka Streams and writing to Cassandra using Processor API
+You can use the Kafka processor API if you want to send messages to Cassandra using the REST API we are using.
+
 ```
 mvn exec:java -Dexec.mainClass="org.anant.KafkaStreamsAvroConsumer" -Dexec.args="target/classes/project.properties"
 ```
+
+# Writing to Cassandra using Kafka Connect
+We used the Processor API to show what it would look like to write to Cassandra using Kafka Streams and a REST API, but it is generally recommended to use Kafka Connect. We will be using the [Datastax connector](https://www.confluent.io/hub/datastax/kafka-connect-cassandra-sink) since it has a free license, but there is also a Confluence Cassandra connector as well as other third party connectors available if you are interested. 
+
+## Setup Kafka Connect
+The Datastax Kafka connector also has instructions and a download link from [the Datastax website](https://docs.datastax.com/en/kafka/doc/kafka/install/kafkaInstall.html) as well as [Confluent Hub](https://www.confluent.io/hub/datastax/kafka-connect-cassandra-sink).
+
+
+See `kafka/connect` and `kafka/plugins`. These are copied into the kafka connect docker image for you already when you run `docker-compose up`. The confluent docker image we use provides a `kafka-connect.properties` (which are the worker properties) for us at `/etc/kafka-connect/kafka-connect.properties`, generated using the env vars we passed in using our docker-compose.yml (see [here](https://github.com/confluentinc/cp-docker-images/blob/2d1072207790a06b88b79fb129f72bb41b67532c/debian/kafka-connect-base/include/etc/confluent/docker/configure#L54) for where they do that).
+
+- You can see the worker properties they provide as defaults by running: 
+    ```
+    docker exec kafka-connect cat /etc/kafka-connect/kafka-connect.properties
+    ```
+
+## Setup worker properties
+We already made a `connect-standalone.properties.example` that is setup to run `kafka-connect-cassandra-sink-1.4.0.jar`. However, you will need to change:
+  1) the name of the astra credentials zip file, (cloud.secureConnectBundle). The path should be fine.
+  2) Topic settings, particularly keyspace and tablename, unless tablename is already leaves, then only change keyspace (topic.record-cassandra-leaves-avro.<my_ks>.leaves.mapping)
+  3) Astra db's password and username (auth.password)
+
+Fields that require changing are marked by `### TODO make sure to change!` in the example file.
+
+```
+cp kafka/connect/connect-standalone.properties.example kafka/connect/connect-standalone.properties
+vim kafka/connect/connect-standalone.properties
+# ...
+```
+
+## Setup Connect with Astra
+- If you have not already, make sure that your Datastax astra secure connect bundle is downloaded 
+- Place the secure creds bundle into astra.credentials
+
+  ```
+  mv ./path/to/astra.credentials/secure-connect-<database-name-in-astra>.zip ./kafka/connect/astra.credentials/
+  ```
+
+- set system env vars to specify where your bundle is and what its name is
+  ```
+  # this is filename
+  export ASTRA_SECURE_BUNDLE_NAME="secure-connect-<db-name>.zip"
+  ```
+
+## Rebuild and Restart Kafka Connect
+
+Before this, the kafka connect job tried to start but likely crashed since it needed your `connect-standalone.properties` file. Rebuild it, which will copy your `connect-standalone.properties` file over, then restart the container. 
+
+```
+docker-compose -up -d --build
+```
+
+- args passed in are as follows: `connect-standalone <worker.properties> <connector.properties>`
