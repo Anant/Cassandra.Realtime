@@ -3,7 +3,9 @@ package org.anant
 import scala.util.{Try, Success, Failure}
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+// TODO remove (?)
 import org.apache.avro.Schema;
+// TODO remove (?)
 import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.kafka.clients.consumer.KafkaConsumer

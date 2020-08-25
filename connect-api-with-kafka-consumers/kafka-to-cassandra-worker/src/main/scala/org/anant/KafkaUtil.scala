@@ -29,7 +29,6 @@ object KafkaUtil {
 
     if (projectProps.getProperty("kafka.schema") == "true") {
       props.setProperty("schema.registry.url", projectProps.getProperty("kafka.schema.registry.url"))
-      props.setProperty("schema.registry.url", projectProps.getProperty("kafka.schema.registry.url"))
       props.setProperty("value.deserializer", "io.confluent.kafka.serializers.KafkaAvroDeserializer")
 
     } else {

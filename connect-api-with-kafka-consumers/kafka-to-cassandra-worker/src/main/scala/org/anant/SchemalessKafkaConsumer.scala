@@ -7,7 +7,7 @@ import scala.collection.JavaConversions._
 
 import scala.io.Source
 
-// TODO not up to date, probably does not work. 
+// TODO WARNING not up to date, probably does not work. 
 object SchemalessKafkaConsumer extends App {
 
   println("starting...")
