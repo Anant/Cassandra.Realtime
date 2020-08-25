@@ -21,6 +21,11 @@ class RecordProcessor(projectProps : Properties) extends Processor[String, Gener
   private var topic : String = projectProps.getProperty("kafka.topic")
   private var debugMode : Boolean = projectProps.getProperty("debug-mode").toBoolean
 
+  // TODO ideally these would be in a state store, that is not just local to this machine. But this is helpful for debugging temporarily
+  private var successfulWrites : Int = 0
+  private var failedWrites : Int = 0
+  private var totalMessages : Int = 0
+
   // @SuppressWarnings("unchecked")
   // TODO find out how to do this in scala
   def init(pContext : ProcessorContext) {
@@ -40,8 +45,8 @@ class RecordProcessor(projectProps : Properties) extends Processor[String, Gener
   }
 
   def onComplete : PartialFunction[Try[HttpResponse[String]], Unit] = {
-    case Success(response : HttpResponse[String]) => print(response)
-    case Failure(err) => print(err)
+    case Success(response : HttpResponse[String]) => { successfulWrites += 1; println(s"Success! Total successes: ${successfulWrites}. Total Failures: ${failedWrites}")}
+    case Failure(err) => {failedWrites += 1; println(s"Failed... Total successes: ${successfulWrites}. Total Failures: ${failedWrites}")}
   }
 
   // takes two args, key and value. Our value is an Avro GenericRecord
@@ -59,6 +64,8 @@ class RecordProcessor(projectProps : Properties) extends Processor[String, Gener
       case _ => { print(context.topic()) }
     }
 
+    // can remove this if you want, but it helps for visualizing the asynchronous streaming of this app
+    println("Sent record to C* API, now continuing")
     context.forward(dummyKey, avroData);
   }
 
