@@ -4,6 +4,7 @@ FROM gitpod/workspace-full
 ENV BINARY_DIR /home/gitpod/lib
 # after unzipped, will look like this
 ENV CONFLUENT_HOME /home/gitpod/lib/confluent-5.5.1
+ENV PROJECT_HOME /workspace/cassandra.realtime/connect-api-with-kafka-consumers
 ENV PATH ${CONFLUENT_HOME}/bin:${PATH}
 
 

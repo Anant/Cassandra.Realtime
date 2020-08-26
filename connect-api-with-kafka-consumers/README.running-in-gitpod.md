@@ -71,29 +71,29 @@ python3 data_importer.py --config-file-path configs/gitpod-config.ini
 ```
 
 ## check the message arrived in kafka topics
-check schema-less topic
-```
-docker exec -it cp_kafka_007 kafka-console-consumer --bootstrap-server localhost:9092 --topic record-cassandra-leaves --from-beginning
-```
 
-check topic that has schema:
+check topic that has schema using `kafka-avro-console-consumer`:
+(WARNING: can potentially have lots of output)
 ```
-docker exec -it kafka-connect kafka-avro-console-consumer --topic record-cassandra-leaves-avro --bootstrap-server 172.20.10.12:9092 --from-beginning --property schema.registry.url=http://172.20.10.14:8081
+$CONFLUENT_HOME/bin/kafka-avro-console-consumer --topic record-cassandra-leaves-avro --bootstrap-server localhost:9092 --from-beginning --property schema.registry.url=http://localhost:8081
 
 # Consume from Kafka, write to Cassandra
 
-#### 3.2 execute the scala job to pick up messages from Kafka, deserialize and write them to Cassandra
+#### Execute the scala job to pick up messages from Kafka, deserialize and write them to Cassandra
 ```
-mvn -f ./connect-api-with-kafka-consumers/kafka-to-cassandra-worker/pom.xml clean package
+cd $PROJECT_HOME
+mvn -f ./kafka-to-cassandra-worker/pom.xml clean package
 
 # there should now be two jars in ./kafka-to-cassandra-worker/target, one with-dependencies, one without. We'll use the one with dependencies
-mvn -f ./kafka-to-cassandra-worker/pom.xml exec:java -Dexec.mainClass="org.anant.DemoKafkaConsumer" -Dexec.args="kafka-to-cassandra-worker/target/classes/project.properties"
+mvn -f ./kafka-to-cassandra-worker/pom.xml exec:java -Dexec.mainClass="org.anant.KafkaAvroConsumer" -Dexec.args="kafka-to-cassandra-worker/target/classes/project.properties"
 ```
+
 You can confirm we are consuming the correct topic using AKHQ, at `http://localhost:8085/ui/docker-kafka-server/topic`. 
 - By default we are getting all messages every time by using offset of "earliest", but you can turn that off by setting "debug-mode" to false in your properties file.
 - Send more messages whenever you want to by re-running the python script from the python dir:
     ```
-    python3 data_importer.py --config-file-path configs/gitpod-config.ini
+    cd $PROJECT_HOME/python
+    python data_importer.py --config-file-path configs/gitpod-config.ini
     ```
 
 
@@ -172,14 +172,13 @@ docker-compose -up -d --build
 # Using Kafka Connect
 ## Upload Astra secure bundle
 Place it here in Gitpod: 
-/workspace/cassandra.realtime/connect-api-with-kafka-consumers/kafka/connect/astra.credentials/
-
+`$PROJECT_HOME/kafka/connect/astra.credentials/`
 ## Set your configs
 ```
-cp /workspace/cassandra.realtime/connect-api-with-kafka-consumers/kafka/connect/connect-standalone.properties.gitpod-example /workspace/cassandra.realtime/connect-api-with-kafka-consumers/kafka/connect/connect-standalone.properties
-vim /workspace/cassandra.realtime/connect-api-with-kafka-consumers/kafka/connect/connect-standalone.properties
+cp $PROJECT_HOME/kafka/connect/connect-standalone.properties.gitpod-example $PROJECT_HOME/kafka/connect/connect-standalone.properties
+vim $PROJECT_HOME/kafka/connect/connect-standalone.properties
 # ...
 ```
 
 ## Run Kafka Connect
-${CONFLUENT_HOME}/bin/connect-standalone /workspace/cassandra.realtime/connect-api-with-kafka-consumers/kafka/connect/connect-standalone.properties
+${CONFLUENT_HOME}/bin/connect-standalone $PROJECT_HOME/kafka/connect/connect-standalone.properties
