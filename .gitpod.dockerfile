@@ -11,9 +11,9 @@ ENV PATH ${CONFLUENT_HOME}/bin:${PATH}
 # install tarballs for binaries that we need. Putting them in ~/lib
 # Kafka 2.5.0 via confluent community
 RUN mkdir -p ${BINARY_DIR}
-RUN curl -L -s http://packages.confluent.io/archive/5.5/confluent-community-5.5.1-2.12.tar.gz | tar xvz -C ${BINARY_DIR}
+RUN sudo curl -L -s http://packages.confluent.io/archive/5.5/confluent-community-5.5.1-2.12.tar.gz | tar xvz -C ${BINARY_DIR}
 # confluent cli
-RUN curl -L --http1.1 https://cnfl.io/cli | sh -s -- -b /usr/local/bin
+RUN curl -L --http1.1 https://cnfl.io/cli | sudo sh -s -- -b /usr/local/bin
 
   # curl -L -s "http://mirror.cc.columbia.edu/pub/software/apache/kafka/2.5.0/kafka_2.12-2.5.0.tgz" | tar xvz -C ~/lib && \
   # https://docs.confluent.io/current/installation/installing_cp/deb-ubuntu.html
