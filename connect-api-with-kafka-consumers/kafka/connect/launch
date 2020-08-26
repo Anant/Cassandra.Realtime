@@ -48,4 +48,6 @@ export CLASSPATH="/plugins/*"
 
 # what they had originally. This is the only other change we're making to this file. ${COMPONENT} returns kafka-connect, so we're specifying that more explicitly below
 # exec connect-distributed /etc/"${COMPONENT}"/"${COMPONENT}".properties
+# args passed in are as follows: `connect-standalone <worker.properties> <connector.properties>`
 exec connect-standalone /etc/kafka-connect/kafka-connect.properties /config/connect-standalone.properties
+

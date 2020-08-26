@@ -80,22 +80,32 @@ $CONFLUENT_HOME/bin/kafka-avro-console-consumer --topic record-cassandra-leaves-
 # Consume from Kafka, write to Cassandra
 
 #### Execute the scala job to pick up messages from Kafka, deserialize and write them to Cassandra
+
+First, edit the gitpod-project.properties file with the url of your running cassandra.api instance. 
+- You will need to change the `api.host` key, to something like `https://8000-c0f5dade-a15f-4d23-b52b-468e334d6abb.ws-us02.gitpod.io`.
+- Note that if you don't do this, the consumer will still run, but will just fail to write to Cassandra, since its current setting isn't stopping on errors.
+```
+vim $PROJECT_HOME/kafka-to-cassandra-worker/src/main/resources/gitpod-project.properties
+#...
+```
+
+Now package and run the project:
+
 ```
 cd $PROJECT_HOME
 mvn -f ./kafka-to-cassandra-worker/pom.xml clean package
 
 # there should now be two jars in ./kafka-to-cassandra-worker/target, one with-dependencies, one without. We'll use the one with dependencies
-mvn -f ./kafka-to-cassandra-worker/pom.xml exec:java -Dexec.mainClass="org.anant.KafkaAvroConsumer" -Dexec.args="kafka-to-cassandra-worker/target/classes/project.properties"
+mvn -f ./kafka-to-cassandra-worker/pom.xml exec:java -Dexec.mainClass="org.anant.KafkaAvroConsumer" -Dexec.args="kafka-to-cassandra-worker/target/classes/gitpod-project.properties"
 ```
 
-You can confirm we are consuming the correct topic using AKHQ, at `http://localhost:8085/ui/docker-kafka-server/topic`. 
-- By default we are getting all messages every time by using offset of "earliest", but you can turn that off by setting "debug-mode" to false in your properties file.
+You can confirm we are consuming the correct topic using AKHQ, at `http://8085<gitpod-url-for-akhq>/ui/docker-kafka-server/topic`. 
+- Offset is at `latest`, so you won't see anything unless you have messages actively coming in.
 - Send more messages whenever you want to by re-running the python script from the python dir:
     ```
     cd $PROJECT_HOME/python
     python data_importer.py --config-file-path configs/gitpod-config.ini
     ```
-
 
 # Sending messages to Kafka using Kafka REST Proxy
 
@@ -107,6 +117,7 @@ curl http://localhost:8082/topics/record-cassandra-leaves-avro
 
 Send using data importer's rest proxy mode:
 ```
+cd $PROJECT_HOME/python
 python3 data_importer.py --config-file-path configs/gitpod-rest-proxy-config.ini
 ```
 
@@ -114,7 +125,8 @@ python3 data_importer.py --config-file-path configs/gitpod-rest-proxy-config.ini
 You can use the Kafka processor API if you want to send messages to Cassandra using the REST API we are using.
 
 ```
-mvn exec:java -Dexec.mainClass="org.anant.KafkaStreamsAvroConsumer" -Dexec.args="target/classes/project.properties"
+cd $PROJECT_HOME
+mvn  -f ./kafka-to-cassandra-worker/pom.xml exec:java -Dexec.mainClass="org.anant.KafkaStreamsAvroConsumer" -Dexec.args="kafka-to-cassandra-worker/target/classes/gitpod-project.properties"
 ```
 
 # Writing to Cassandra using Kafka Connect
@@ -123,62 +135,39 @@ We used the Processor API to show what it would look like to write to Cassandra 
 ## Setup Kafka Connect
 The Datastax Kafka connector also has instructions and a download link from [the Datastax website](https://docs.datastax.com/en/kafka/doc/kafka/install/kafkaInstall.html) as well as [Confluent Hub](https://www.confluent.io/hub/datastax/kafka-connect-cassandra-sink).
 
+### Create a connector properties file
+We provide a `connect-standalone.properties.example` that is setup to run `kafka-connect-cassandra-sink-1.4.0.jar`. However, you will need to change:
 
-See `kafka/connect` and `kafka/plugins`. These are copied into the kafka connect docker image for you already when you run `docker-compose up`. The confluent docker image we use provides a `kafka-connect.properties` (which are the worker properties) for us at `/etc/kafka-connect/kafka-connect.properties`, generated using the env vars we passed in using our docker-compose.yml (see [here](https://github.com/confluentinc/cp-docker-images/blob/2d1072207790a06b88b79fb129f72bb41b67532c/debian/kafka-connect-base/include/etc/confluent/docker/configure#L54) for where they do that).
-
-- You can see the worker properties they provide as defaults by running: 
-    ```
-    docker exec kafka-connect cat /etc/kafka-connect/kafka-connect.properties
-    ```
-
-## Setup worker properties
-We already made a `connect-standalone.properties.example` that is setup to run `kafka-connect-cassandra-sink-1.4.0.jar`. However, you will need to change:
-  1) the name of the astra credentials zip file, (cloud.secureConnectBundle). The path should be fine.
+  1) the name of the astra credentials zip file (cloud.secureConnectBundle). The path should be fine.
   2) Topic settings, particularly keyspace and tablename, unless tablename is already leaves, then only change keyspace (topic.record-cassandra-leaves-avro.<my_ks>.leaves.mapping)
   3) Astra db's password and username (auth.password)
 
 Fields that require changing are marked by `### TODO make sure to change!` in the example file.
 
 ```
-cp kafka/connect/connect-standalone.properties.example kafka/connect/connect-standalone.properties
-vim kafka/connect/connect-standalone.properties
+cd $PROJECT_HOME/kafka/connect
+cp connect-standalone.properties.gitpod-example connect-standalone.properties
+vim connect-standalone.properties
 # ...
 ```
 
-## Setup Connect with Astra
+The worker properties file we provide (found at $PROJECT_HOME/kafka/connect/worker-properties/gitpod-avro-worker.properties) should work fine without modification.
+
+### Setup Connect with Astra
 - If you have not already, make sure that your Datastax astra secure connect bundle is downloaded 
 - Place the secure creds bundle into astra.credentials
 
   ```
-  mv ./path/to/astra.credentials/secure-connect-<database-name-in-astra>.zip ./kafka/connect/astra.credentials/
+  mv ./path/to/astra.credentials/secure-connect-<database-name-in-astra>.zip $PROJECT_HOME/kafka/connect/astra.credentials/
   ```
 
-- set system env vars to specify where your bundle is and what its name is
-  ```
-  # this is filename
-  export ASTRA_SECURE_BUNDLE_NAME="secure-connect-<db-name>.zip"
-  ```
+## Start Kafka Connect
 
-## Rebuild and Restart Kafka Connect
-
-Before this, the kafka connect job tried to start but likely crashed since it needed your `connect-standalone.properties` file. Rebuild it, which will copy your `connect-standalone.properties` file over, then restart the container. 
+Before this, the kafka connect job tried to start but likely crashed since it needed your `connect-standalone.properties` file. Start it using:
 
 ```
-docker-compose -up -d --build
-```
-
-- args passed in are as follows: `connect-standalone <worker.properties> <connector.properties>`
-
-# Using Kafka Connect
-## Upload Astra secure bundle
-Place it here in Gitpod: 
-`$PROJECT_HOME/kafka/connect/astra.credentials/`
-## Set your configs
-```
-cp $PROJECT_HOME/kafka/connect/connect-standalone.properties.gitpod-example $PROJECT_HOME/kafka/connect/connect-standalone.properties
-vim $PROJECT_HOME/kafka/connect/connect-standalone.properties
-# ...
+$CONFLUENT_HOME/bin/connect-standalone $PROJECT_HOME/kafka/connect/worker-properties/gitpod-avro-worker.properties $PROJECT_HOME/kafka/connect/connect-standalone.properties
 ```
 
 ## Run Kafka Connect
-${CONFLUENT_HOME}/bin/connect-standalone $PROJECT_HOME/kafka/connect/connect-standalone.properties
+

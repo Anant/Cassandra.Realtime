@@ -93,12 +93,10 @@ mvn -f ./kafka-to-cassandra-worker/pom.xml clean package
 mvn -f ./kafka-to-cassandra-worker/pom.xml exec:java -Dexec.mainClass="org.anant.KafkaAvroConsumer" -Dexec.args="kafka-to-cassandra-worker/target/classes/project.properties"
 ```
 You can confirm we are consuming the correct topic using AKHQ, at `http://localhost:8085/ui/docker-kafka-server/topic`. 
-- By default we are getting all messages every time by using offset of "earliest", but you can turn that off by setting "debug-mode" to false in your properties file.
 - Send more messages whenever you want to by re-running the python script from the python dir:
     ```
     python3 python/data_importer.py
     ```
-
 
 # Sending messages to Kafka using Kafka REST Proxy
 
@@ -110,6 +108,7 @@ curl http://172.20.10.20:8082/topics/record-cassandra-leaves-avro
 
 Send using data importer's rest proxy mode:
 ```
+cd ./python
 python3 data_importer.py --config-file-path configs/rest-proxy-config.ini
 ```
 
@@ -127,14 +126,14 @@ We used the Processor API to show what it would look like to write to Cassandra 
 The Datastax Kafka connector also has instructions and a download link from [the Datastax website](https://docs.datastax.com/en/kafka/doc/kafka/install/kafkaInstall.html) as well as [Confluent Hub](https://www.confluent.io/hub/datastax/kafka-connect-cassandra-sink).
 
 
-See `kafka/connect` and `kafka/plugins`. These are copied into the kafka connect docker image for you already when you run `docker-compose up`. The confluent docker image we use provides a `kafka-connect.properties` (which are the worker properties) for us at `/etc/kafka-connect/kafka-connect.properties`, generated using the env vars we passed in using our docker-compose.yml (see [here](https://github.com/confluentinc/cp-docker-images/blob/2d1072207790a06b88b79fb129f72bb41b67532c/debian/kafka-connect-base/include/etc/confluent/docker/configure#L54) for where they do that).
+See `$PROJECT_HOME/kafka/connect/Dockerfile` for the files that are copied into the kafka connect docker image for you already when you run `docker-compose up`. The confluent docker image we use provides a `kafka-connect.properties` (which are the worker properties) for us at `/etc/kafka-connect/kafka-connect.properties`, generated using the env vars we passed in using our docker-compose.yml (see [here](https://github.com/confluentinc/cp-docker-images/blob/2d1072207790a06b88b79fb129f72bb41b67532c/debian/kafka-connect-base/include/etc/confluent/docker/configure#L54) for where they do that).
 
 - You can see the worker properties they provide as defaults by running: 
     ```
     docker exec kafka-connect cat /etc/kafka-connect/kafka-connect.properties
     ```
 
-## Setup worker properties
+## Setup connector properties
 We already made a `connect-standalone.properties.example` that is setup to run `kafka-connect-cassandra-sink-1.4.0.jar`. However, you will need to change:
   1) the name of the astra credentials zip file, (cloud.secureConnectBundle). The path should be fine.
   2) Topic settings, particularly keyspace and tablename, unless tablename is already leaves, then only change keyspace (topic.record-cassandra-leaves-avro.<my_ks>.leaves.mapping)
