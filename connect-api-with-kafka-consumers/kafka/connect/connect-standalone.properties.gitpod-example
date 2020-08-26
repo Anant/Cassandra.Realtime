@@ -143,11 +143,11 @@ auth.password=
 # topic.record-cassandra-leaves-avro.<my_ks>.leaves.mapping = is_archived=value.is_archived, is_starred=value.is_starred, user_name=value.user_name, user_email=value.user_email, user_id=value.user_id, tags=value.tags, slugs=value.slugs, is_public=value.is_public, id=value.id, title=value.title, url=value.url, content_text=value.content_text, created_at=value.created_at, updated_at=value.updated_at, mimetype=value.mimetype, language=value.language, reading_time=value.reading_time, domain_name=value.domain_name, preview_picture=value.preview_picture, http_status=value.http_status, links=value.links, content=value.content 
 
 # Working example for (at least most of) our 1000 records
-# topic.record-cassandra-leaves-avro.all.leaves.mapping = is_archived=value.is_archived, is_starred=value.is_starred, user_name=value.user_name, user_email=value.user_email, user_id=value.user_id, is_public=value.is_public, id=value.id, title=value.title, url=value.url, created_at=value.created_at, updated_at=value.updated_at, reading_time=value.reading_time, domain_name=value.domain_name
+# topic.record-cassandra-leaves-avro.<my_ks>.leaves.mapping = is_archived=value.is_archived, is_starred=value.is_starred, user_name=value.user_name, user_email=value.user_email, user_id=value.user_id, is_public=value.is_public, id=value.id, title=value.title, url=value.url, created_at=value.created_at, updated_at=value.updated_at, reading_time=value.reading_time, domain_name=value.domain_name
 
 ### TODO make sure to change! change all <my_ks> especially. This assumes db table is called "leaves". If that is not true, be sure to change that as well
 # Seems worthless if we don't have at least content though. Still gets nearly all records, which is good enough
-topic.record-cassandra-leaves-avro.all.leaves.mapping = is_archived=value.is_archived, is_starred=value.is_starred, user_name=value.user_name, user_email=value.user_email, user_id=value.user_id, is_public=value.is_public, id=value.id, title=value.title, url=value.url, created_at=value.created_at, updated_at=value.updated_at, reading_time=value.reading_time, domain_name=value.domain_name, content=value.content 
+topic.record-cassandra-leaves-avro.<my_ks>.leaves.mapping = is_archived=value.is_archived, is_starred=value.is_starred, user_name=value.user_name, user_email=value.user_email, user_id=value.user_id, is_public=value.is_public, id=value.id, title=value.title, url=value.url, created_at=value.created_at, updated_at=value.updated_at, reading_time=value.reading_time, domain_name=value.domain_name, content=value.content 
 
 
 
