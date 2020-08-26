@@ -22,3 +22,6 @@ RUN mkdir -p ~/lib && \
 # RUN sudo apt-get update \
 #  && sudo apt-get install -y \
 #  && sudo rm -rf /var/lib/apt/lists/*
+
+# if don't have root priveleges, cannot start the systemctl services
+USER root
