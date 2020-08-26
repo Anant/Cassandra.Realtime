@@ -18,8 +18,3 @@ tasks:
   - command: sudo systemctl start confluent-kafka-rest
   - command: sudo systemctl start confluent-kafka-connect
 	- command: java -Dmicronaut.config.files=./connect-api-with-kafka-consumers/kafka/akhq/akhq-config.yml -jar ~/lib/akhq.jar
-
-  # these ones, user can start themselves when they want to use something in particular
-  # - command: sudo systemctl start confluent-kafka-rest
-
-
