@@ -8,9 +8,9 @@ akhq:
   connections:
     docker-kafka-server:
       properties:
-        bootstrap.servers: "172.20.10.12:9092"
+        bootstrap.servers: "localhost:9092"
       schema-registry:
-        url: "http://172.20.10.14:8081"
+        url: "http://localhost:8081"
       connect:
         - name: kafka-connect-1
-          url: "http://172.20.10.18:8084"
+          url: "http://localhost:8083"

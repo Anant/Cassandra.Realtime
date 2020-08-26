@@ -8,6 +8,7 @@ tasks:
 
   # Then, start Kafka using confluent community platform
   # https://docs.confluent.io/current/installation/installing_cp/zip-tar.html
+  # could also consider using confluent local services start
   - command: ${CONFLUENT_HOME}/bin/zookeeper-server-start ${CONFLUENT_HOME}/etc/kafka/zookeeper.properties
   - command: ${CONFLUENT_HOME}/bin/kafka-server-start ${CONFLUENT_HOME}/etc/kafka/server.properties
   - command: ${CONFLUENT_HOME}/bin/schema-registry-start ${CONFLUENT_HOME}/etc/schema-registry/schema-registry.properties
@@ -23,7 +24,7 @@ tasks:
   # - command: chown cp-ksql:confluent /var/log/confluent && chmod u+wx,g+wx,o= /var/log/confluent
   # - command: sudo systemctl start confluent-kafka-rest
   # - command: sudo systemctl start confluent-kafka-connect
-  - command: java -Dmicronaut.config.files=./connect-api-with-kafka-consumers/kafka/akhq/akhq-config.yml -jar ~/lib/akhq.jar
+  - command: java -Dmicronaut.config.files=./connect-api-with-kafka-consumers/kafka/akhq/gitpod-akhq-config.yml -jar ${BINARY_DIR}/akhq.jar
 
   # these ones, user can start themselves when they want to use something in particular
   # - command: sudo systemctl start confluent-kafka-rest

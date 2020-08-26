@@ -39,6 +39,7 @@ docker exec -it cp_kafka_007 kafka-topics --list --zookeeper 172.20.10.11:2181
 make sure your python environment has `requests` module installed
 ```
 python3 ./kafka/create-schema.py http://172.20.10.14:8081 record-cassandra-leaves ./kafka/leaves-record-schema.avsc
+```
 
 - If you are using records different from ours, you can generate fields for your own schema by taking one record (in json format) and using a tool such as [this one at toolslick.com](https://toolslick.com/generation/metadata/avro-schema-from-json) that takes a json record and creates a sample schema. 
 		* For example, take json in a format similar to what we have in `python/assets/sample-record.json`, and copy it into the toolslick tool. Then just change the name, type and namespace fields. 
@@ -52,6 +53,7 @@ python3 ./kafka/create-schema.py http://172.20.10.14:8081 record-cassandra-leave
     ```
 
 ### check that the schema exists
+```
 curl http://127.0.0.1:8081/subjects
 ```
 or alternatively you can check AKHQ for all kafka resources getting created at `http://127.0.0.1:8085/` 
@@ -65,9 +67,11 @@ See instructions [here](https://github.com/Anant/cassandra.api/blob/master/READM
 # Import the data into Kafka
 
 ```
+cd ./python
 pip3 install -r requirement.txt
 python3 data_importer.py
 ```
+
 ## check the message arrived in kafka topics
 check schema-less topic
 ```
