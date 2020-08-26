@@ -14,3 +14,8 @@ python astra.api/leaves.api.python/app.py
 
 ## get url for future reference
 gp url 8000
+
+# Open Cassandra Realtime in Gitpod
+We are going to use the gitpod branch (they provide a url as [explainet'sd here](https://www.gitpod.io/docs/context-urls/#branch-context))
+
+	https://gitpod.io/#https://github.com/Anant/cassandra.realtime/tree/gitpod
