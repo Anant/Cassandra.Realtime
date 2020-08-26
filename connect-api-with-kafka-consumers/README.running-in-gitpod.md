@@ -19,3 +19,18 @@ gp url 8000
 We are going to use the gitpod branch (they provide a url as [explainet'sd here](https://www.gitpod.io/docs/context-urls/#branch-context))
 
 	https://gitpod.io/#https://github.com/Anant/cassandra.realtime/tree/gitpod
+
+# Using Kafka Connect
+## Upload Astra secure bundle
+Place it here in Gitpod: 
+/workspace/cassandra.realtime/connect-api-with-kafka-consumers/kafka/connect/astra.credentials/
+
+## Set your configs
+```
+cp /workspace/cassandra.realtime/connect-api-with-kafka-consumers/kafka/connect/connect-standalone.properties.gitpod-example /workspace/cassandra.realtime/connect-api-with-kafka-consumers/kafka/connect/connect-standalone.properties
+vim /workspace/cassandra.realtime/connect-api-with-kafka-consumers/kafka/connect/connect-standalone.properties
+# ...
+```
+
+## Run Kafka Connect
+${CONFLUENT_HOME}/bin/connect-standalone /workspace/cassandra.realtime/connect-api-with-kafka-consumers/kafka/connect/connect-standalone.properties
