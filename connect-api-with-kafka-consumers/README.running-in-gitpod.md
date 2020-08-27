@@ -47,7 +47,7 @@ Check that the topic exists
 
 Make sure your python environment has `requests` module installed. You can install it using our requirements.txt file
 ```
-cd /workspace/cassandra.realtime/connect-api-with-kafka-consumers
+cd $PROJECT_HOME
 pip install -r python/requirement.txt
 ```
 
@@ -65,7 +65,7 @@ or alternatively you can check AKHQ for all kafka resources getting created at `
 # Import the data into Kafka
 
 ```
-cd ./python
+cd $PROJECT_HOME/python
 pip install -r requirement.txt
 python3 data_importer.py --config-file-path configs/gitpod-config.ini
 ```
@@ -169,5 +169,19 @@ Before this, the kafka connect job tried to start but likely crashed since it ne
 $CONFLUENT_HOME/bin/connect-standalone $PROJECT_HOME/kafka/connect/worker-properties/gitpod-avro-worker.properties $PROJECT_HOME/kafka/connect/connect-standalone.properties
 ```
 
-## Run Kafka Connect
+Don't forget to send some more messages:
+```
+cd $PROJECT_HOME/python
+python3 data_importer.py --config-file-path configs/gitpod-config.ini
+```
 
+If you're not sure if it's working or not, before sending messages to Kafka using the data_importer.py, in the astra console you can delete records previously created using:
+
+```
+TRUNCATE <your_ks>.leaves;
+```
+
+Then send messages, and run a count
+```
+SELECT COUNT(*) FROM <your_ks>.leaves;
+```

@@ -183,12 +183,14 @@ topic.record-cassandra-leaves-avro.<my_ks>.leaves.mapping = is_archived=value.is
 # So if your field used as a ttl is in different format (for example HOURS) set it to HOURS.
 # The connector will automatically transform it to proper database ttl format (to SECONDS)
 # The transformation also applies for static ttl field config.
+### TODO make sure to change! change all <my_ks> especially. 
 topic.record-cassandra-leaves-avro.my_ks.leaves.ttlTimeUnit=SECONDS
 
 # When you specify timestamp value to be used while inserting (by mapping __timestamp)
 # you may want to specify timeUnit of the provided timestamp. Default is MICROSECONDS.
 # So if your field used as a timestamp is in different format (for example HOURS) set it to HOURS.
 # The connector will automatically transform it to proper database ttl format (to MICROSECONDS)
+### TODO make sure to change! change all <my_ks> especially. 
 topic.record-cassandra-leaves-avro.my_ks.leaves.timestampTimeUnit=MICROSECONDS
 
 # Query consistency level; defaults to LOCAL_ONE.
