@@ -1,3 +1,5 @@
+# Cassandra Realtime Demo: Writing Apache Kafka™ Events into Apache Cassandra™
+
 # Setup Cassandra API
 First we will setup a REST API using NodeJS or Flask.
 
