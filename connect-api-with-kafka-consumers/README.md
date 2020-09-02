@@ -171,8 +171,7 @@ You can confirm we are consuming the correct topic using AKHQ, at `/ui/docker-ka
   ```
   gp preview $(gp url 8080)/ui/docker-kafka-server/topic
   ```
-
-You should see our consumer group (`send-to-cassandra-api-consumer`) listed as a consumer on topic `record-cassandra-leaves-avro`:
+(If AKHQ was already on that page, make sure to refresh the view). You should see our consumer group (`send-to-cassandra-api-consumer`) listed as a consumer on topic `record-cassandra-leaves-avro`:
 
 ![Topics in AKHQ](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/akhq-topics.png)
 
@@ -196,6 +195,12 @@ You can use the Kafka processor API if you want to send messages to Cassandra us
 ```
 cd $PROJECT_HOME
 mvn  -f ./kafka-to-cassandra-worker/pom.xml exec:java -Dexec.mainClass="org.anant.KafkaStreamsAvroConsumer" -Dexec.args="kafka-to-cassandra-worker/target/classes/gitpod-project.properties"
+```
+
+Make sure to keep sending messages in another terminal or nothing will happen. You can use the same command as before:
+```
+cd $PROJECT_HOME/python
+python3 data_importer.py --config-file-path configs/gitpod-rest-proxy-config.ini
 ```
 
 # Writing to Cassandra using Kafka Connect
