@@ -189,6 +189,11 @@ cd $PROJECT_HOME/python
 python3 data_importer.py --config-file-path configs/gitpod-rest-proxy-config.ini
 ```
 
+There should now be new messages for you to consume in your Kafka topic.
+
+![Rest Proxy](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/rest-proxy.png)
+
+
 # Process messages using Kafka Streams and writing to Cassandra using Processor API
 You can use the Kafka processor API if you want to send messages to Cassandra using the REST API we are using.
 
@@ -234,16 +239,21 @@ The worker properties file we provide (found at $PROJECT_HOME/kafka/connect/work
   ```
   mv ./path/to/astra.credentials/secure-connect-<database-name-in-astra>.zip $PROJECT_HOME/kafka/connect/astra.credentials/
   ```
+  In gitpod you can just drag and drop it into `$PROJECT_HOME/kafka/connect/astra.credentials/`.
 
 ## Start Kafka Connect
 
-Before this, the kafka connect job tried to start but likely crashed since it needed your `connect-standalone.properties` file. Start it using:
+Start Kafka connect using your `connect-standalone.properties` file. First you will have to stop the service that the confluent cli started. Start it using:
 
 ```
+confluent local stop connect
 $CONFLUENT_HOME/bin/connect-standalone $PROJECT_HOME/kafka/connect/worker-properties/gitpod-avro-worker.properties $PROJECT_HOME/kafka/connect/connect-standalone.properties
 ```
 
-Don't forget to send some more messages:
+![kafka connect logs](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/kafka-connect-logs.png)
+
+
+Don't forget to send some more messages in a separate terminal:
 ```
 cd $PROJECT_HOME/python
 python3 data_importer.py --config-file-path configs/gitpod-config.ini
@@ -259,3 +269,5 @@ Then send messages, and run a count
 ```
 SELECT COUNT(*) FROM <your_ks>.leaves;
 ```
+![kafka connect logs](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/astra-count.png)
+

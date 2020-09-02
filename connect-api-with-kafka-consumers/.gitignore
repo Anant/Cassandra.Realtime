@@ -1,4 +1,4 @@
-astra.credentials/secure-connect-*
+**/astra.credentials/secure-connect-*
 kafka/connect/connect-standalone.properties
 !kafka-connect-cassandra-sink-1.4.0.jar
 kafka-to-cassandra-worker/src/main/resources/gitpod-project.properties
