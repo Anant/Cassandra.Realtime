@@ -34,16 +34,16 @@ We are going to use the gitpod branch (they provide a url as [explained here](ht
 	https://gitpod.io/#https://github.com/Anant/cassandra.realtime/tree/gitpod/connect-api-with-kafka-consumers
 
 ## Setup Kafka
-Make sure Kafka services are up by running `confluent local services start`. Note that you don't need to start kafka connect yet (and indeed, it won't work until we set it up later on in this demo), but the others should be up. 
+Make sure Kafka services are up by running `confluent local start`. Note that you don't need to start kafka connect yet (and indeed, it won't work until we set it up later on in this demo), but the others should be up. 
 
 You can check with the confluent cli:
 ```
-confluent local services status
+confluent local status
 # if some are not up yet (running again doesn't hurt anything, so you can just run this either way):
-confluent local services start
+confluent local start
 ```
-![confluent local services start](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/confluent-local-services-start.png)
-confluent-local-services-start
+![confluent local start](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/confluent-local-services-start.png)
+- Note that the specific command you use in the Confluent CLI depends on the version of CLI you are using. Newer versions of the CLI will require you to use `confluent local services start`. In gitpod, we downloaded v.1.6.0 for you, so you can use the shorter syntax: `confluent local <cmd>`.
 
 ## Create a topic
 If you are in gitpod, we set `$CONFLUENT_HOME` for you. It points to where your confluent binary directory is (`/home/gitpod/lib/confluent-5.5.1`). If you are not running this in gitpod, you will have to set `$CONFLUENT_HOME` yourself.
@@ -132,7 +132,7 @@ $CONFLUENT_HOME/bin/kafka-avro-console-consumer --topic record-cassandra-leaves-
 ## Execute the scala job to pick up messages from Kafka, deserialize and write them to Cassandra
 
 First, edit the gitpod-project.properties file with the url of your running cassandra.api instance. 
-- You will need to change the `api.host` key, to something like `https://8000-c0f5dade-a15f-4d23-b52b-468e334d6abb.ws-us02.gitpod.io`.
+- You will need to change the `api.host` key. It will look something like `api.host=https://8000-c0f5dade-a15f-4d23-b52b-468e334d6abb.ws-us02.gitpod.io`. Again you can find it by running the following command in the gitpod instance running cassandra.api: `gp url 8000`.
 - Go ahead and change the `cassandra.keyspace` as well to whatever your keyspace is in Astra.
 - Note that if you don't do this, the consumer will still run, but will just fail to write to Cassandra, since its current setting isn't stopping on errors.
 ```
