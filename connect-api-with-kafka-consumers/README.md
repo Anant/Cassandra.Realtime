@@ -269,5 +269,5 @@ Then send messages, and run a count
 ```
 SELECT COUNT(*) FROM <your_ks>.leaves;
 ```
-![kafka connect logs](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/astra-count.png)
+![astra count](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/astra-count.png)
 
