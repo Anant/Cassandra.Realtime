@@ -10,9 +10,10 @@ kafka.initial-offset=latest
 # kafka.schema.filepath=../../../../kafka/leaves-record-schema.avsc
 
 cassandra.host=localhost
+# NOTE be sure to change this to your Keyspace in Astra
 cassandra.keyspace=customerkeyspace
-cassandra.table=messages
+cassandra.table=leaves
 debug-mode=true
-# NOTE be sure to change this to your cassandra.api url for exposed port 8000
+# NOTE be sure to change this to your cassandra.api url for exposed port 8000 (something like: https://8000-b2dfa015-856a-4fda-b510-e78aa8783c14.ws-us02.gitpod.io)
 api.host=http://localhost:8000
 

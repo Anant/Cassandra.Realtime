@@ -5,7 +5,7 @@ Pro tip: To view README in preview mode from Gitpod, right click on the file and
 ![Open README Preview](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/open-readme-preview.png )
 
 # Setup Cassandra API
-First we will setup a REST API using NodeJS or Flask.
+First we will setup a REST API for Cassandra. For this demo, Flask will work better .
 
 ## Open Cassandra API in Gitpod
 https://gitpod.io/#https://github.com/Anant/cassandra.api
@@ -84,8 +84,12 @@ python ./kafka/create-schema.py http://localhost:8081 record-cassandra-leaves ./
 curl http://127.0.0.1:8081/subjects
 # should return: ["record-cassandra-leaves-value"]
 ```
+Alternatively you can check AKHQ. Run this to start AKHQ:
 
-or alternatively you can check AKHQ for all kafka resources getting created at `http://127.0.0.1:8080/`. If you are using gitpod, we exposed 8080 for you by default. You can double check by clicking down here:
+  ```
+  java -Dmicronaut.config.files=$PROJECT_HOME/kafka/akhq/gitpod-akhq-config.yml -jar ${BINARY_DIR}/akhq.jar
+  ```
+You can see the AKHQ GUI at `http://127.0.0.1:8080/`. If you are using gitpod, we exposed 8080 for you by default. You can double check by clicking down here:
 
 ![view ports](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/open-ports-popup.png)
 
@@ -102,6 +106,7 @@ or alternatively you can check AKHQ for all kafka resources getting created at `
   It should look something like this:
 
   ![schema registry](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/akhq-schema-registry.png)
+
 
 # Import the data into Kafka
 We are now ready to start sending messages to Kafka:
@@ -128,6 +133,7 @@ $CONFLUENT_HOME/bin/kafka-avro-console-consumer --topic record-cassandra-leaves-
 
 First, edit the gitpod-project.properties file with the url of your running cassandra.api instance. 
 - You will need to change the `api.host` key, to something like `https://8000-c0f5dade-a15f-4d23-b52b-468e334d6abb.ws-us02.gitpod.io`.
+- Go ahead and change the `cassandra.keyspace` as well to whatever your keyspace is in Astra.
 - Note that if you don't do this, the consumer will still run, but will just fail to write to Cassandra, since its current setting isn't stopping on errors.
 ```
 cd $PROJECT_HOME/kafka-to-cassandra-worker/src/main/resources/
@@ -143,25 +149,32 @@ cd $PROJECT_HOME
 mvn -f ./kafka-to-cassandra-worker/pom.xml clean package
 ```
 
-There should now be two jars in ./kafka-to-cassandra-worker/target, one with-dependencies, one without. We'll use the one with dependencies
+This will install dependencies and package your jar. If you make changes to your `gitpod-project.properties` file, make sure to run `mvn clean package again`, using `-f` flag to point to the pom.xml file. 
+
+There should now be two jars in ./kafka-to-cassandra-worker/target, one with-dependencies, one without. We'll use the one with dependencies:
 ```
+cd $PROJECT_HOME
 mvn -f ./kafka-to-cassandra-worker/pom.xml exec:java -Dexec.mainClass="org.anant.KafkaAvroConsumer" -Dexec.args="kafka-to-cassandra-worker/target/classes/gitpod-project.properties"
 ```
 
 - Note that if your Cassandra.api gitpod workspace timed out, you might need to reopen it and restart the REST API server.
-
-You can confirm we are consuming the correct topic using AKHQ, at `https://8080<gitpod-url-for-akhq>/ui/docker-kafka-server/topic`. 
-  
-  ```
-  gp preview $(gp url 8080)
-  ```
-
 - Offset is at `latest`, so you won't see anything unless you have messages actively coming in.
 - Send more messages whenever you want to by re-running the python script from the python dir:
     ```
     cd $PROJECT_HOME/python
     python data_importer.py --config-file-path configs/gitpod-config.ini
     ```
+
+
+You can confirm we are consuming the correct topic using AKHQ, at `/ui/docker-kafka-server/topic`. 
+  
+  ```
+  gp preview $(gp url 8080)/ui/docker-kafka-server/topic
+  ```
+
+You should see our consumer group (`send-to-cassandra-api-consumer`) listed as a consumer on topic `record-cassandra-leaves-avro`:
+
+![Topics in AKHQ](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/akhq-topics.png)
 
 # Sending messages to Kafka using Kafka REST Proxy
 
