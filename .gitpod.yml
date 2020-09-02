@@ -15,6 +15,7 @@ tasks:
   # - command: ${CONFLUENT_HOME}/bin/kafka-server-start ${CONFLUENT_HOME}/etc/kafka/server.properties
   # - command: ${CONFLUENT_HOME}/bin/schema-registry-start ${CONFLUENT_HOME}/etc/schema-registry/schema-registry.properties
   # - command: ${CONFLUENT_HOME}/bin/kafka-rest-start ${CONFLUENT_HOME}/etc/kafka-rest/kafka-rest.properties
+  - command: confluent local services start
   
   # AKHQ
   # works better if they do it themselves, for some reason. Doesn't populate topics when we do it here
