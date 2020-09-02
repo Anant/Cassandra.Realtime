@@ -250,7 +250,7 @@ confluent local stop connect
 $CONFLUENT_HOME/bin/connect-standalone $PROJECT_HOME/kafka/connect/worker-properties/gitpod-avro-worker.properties $PROJECT_HOME/kafka/connect/connect-standalone.properties
 ```
 
-![kafka connect logs](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/kafka-connect-logs.png)
+![kafka connect logs](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/kafka-connect-logs-in-gitpod.png)
 
 
 Don't forget to send some more messages in a separate terminal:
@@ -269,5 +269,5 @@ Then send messages, and run a count
 ```
 SELECT COUNT(*) FROM <your_ks>.leaves;
 ```
-![astra count](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/astra-count.png)
+![astra count](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/astra-count-all.png)
 
