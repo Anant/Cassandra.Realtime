@@ -46,7 +46,7 @@ confluent local services start
 confluent-local-services-start
 
 ## Create a topic
-If you are in gitpod, we set `$CONFLUENT_HOME` for you. It points to where your confluent binary directory (`/home/gitpod/lib/confluent-5.5.1`). If you are not running this in gitpod, you will have to set `$CONFLUENT_HOME` yourself.
+If you are in gitpod, we set `$CONFLUENT_HOME` for you. It points to where your confluent binary directory is (`/home/gitpod/lib/confluent-5.5.1`). If you are not running this in gitpod, you will have to set `$CONFLUENT_HOME` yourself.
   ```
   $CONFLUENT_HOME/bin/kafka-topics --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic record-cassandra-leaves-avro
   ```
@@ -104,12 +104,16 @@ or alternatively you can check AKHQ for all kafka resources getting created at `
   ![schema registry](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/akhq-schema-registry.png)
 
 # Import the data into Kafka
+We are now ready to start sending messages to Kafka:
 
 ```
 cd $PROJECT_HOME/python
 pip install -r requirements.txt
 python3 data_importer.py --config-file-path configs/gitpod-config.ini
 ```
+
+![produce to Kafka](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/produce-to-kafka-stdout.png)
+
 
 ## Confirm that the message arrived in Kafka Topics
 
@@ -126,7 +130,9 @@ First, edit the gitpod-project.properties file with the url of your running cass
 - You will need to change the `api.host` key, to something like `https://8000-c0f5dade-a15f-4d23-b52b-468e334d6abb.ws-us02.gitpod.io`.
 - Note that if you don't do this, the consumer will still run, but will just fail to write to Cassandra, since its current setting isn't stopping on errors.
 ```
-vim $PROJECT_HOME/kafka-to-cassandra-worker/src/main/resources/gitpod-project.properties
+cd $PROJECT_HOME/kafka-to-cassandra-worker/src/main/resources/
+cp gitpod-project.properties.example gitpod-project.properties
+vim gitpod-project.properties
 #...
 ```
 

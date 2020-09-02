@@ -13,5 +13,6 @@ cassandra.host=localhost
 cassandra.keyspace=customerkeyspace
 cassandra.table=messages
 debug-mode=true
+# NOTE be sure to change this to your cassandra.api url for exposed port 8000
 api.host=http://localhost:8000
 
