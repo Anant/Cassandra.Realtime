@@ -8,7 +8,7 @@ tasks:
 
   # Then, start Kafka using confluent community platform
   # https://docs.confluent.io/current/installation/installing_cp/zip-tar.html
-  # could also consider using confluent local services start
+  # TODO also consider just using `confluent local services start` to keep it simple
   - command: ${CONFLUENT_HOME}/bin/zookeeper-server-start ${CONFLUENT_HOME}/etc/kafka/zookeeper.properties
   - command: ${CONFLUENT_HOME}/bin/kafka-server-start ${CONFLUENT_HOME}/etc/kafka/server.properties
   - command: ${CONFLUENT_HOME}/bin/schema-registry-start ${CONFLUENT_HOME}/etc/schema-registry/schema-registry.properties
@@ -29,4 +29,7 @@ tasks:
   # these ones, user can start themselves when they want to use something in particular
   # - command: sudo systemctl start confluent-kafka-rest
 
+# expose ports we want open
+ports:
+  - port: 8080
 

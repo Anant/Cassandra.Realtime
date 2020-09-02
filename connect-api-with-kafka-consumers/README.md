@@ -1,4 +1,8 @@
 # Cassandra Realtime Demo: Writing Apache Kafka™ Events into Apache Cassandra™
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Anant/cassandra.realtime/tree/gitpod/connect-api-with-kafka-consumers)
+
+Pro tip: To view README in preview mode from Gitpod, right click on the file and select `Open With > Preview`:
+![Open README Preview](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/open-readme-preview.png )
 
 # Setup Cassandra API
 First we will setup a REST API using NodeJS or Flask.
@@ -6,78 +10,117 @@ First we will setup a REST API using NodeJS or Flask.
 ## Open Cassandra API in Gitpod
 https://gitpod.io/#https://github.com/Anant/cassandra.api
 
-## Follow instructions in the [README](https://github.com/Anant/cassandra.api/blob/master/README.md):
+## Follow instructions in the Cassandra.api [README](https://github.com/Anant/cassandra.api/blob/master/README.md):
+- You can use either NodeJS or Flask for the API, it is up to you. 
+- We recommend naming your db table `leaves` in order to keep it simple when following this demo, but you can use a different tablename, as long as you change the tablename throughout the rest of the demo to use the same table.
 
-## Make the port public
+## Make port 8000 for your REST API public 
+Make sure your REST API's port 8000 is exposed, so that we can send requests to it later:
+![Make port 8000 public](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/open-port-8000.png)
 
-## get url for future reference
+Note that if you don't use this gitpod workspace frequently enough, it will timeout and spin down. If this happens, you can just reopen the workspace and restart the server (using `npm start` for NodeJS or `python3 app.py` for Python).
+
+## Get url for future reference
+```
 gp url 8000
+```
+![Get url for future reference](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/get-url-for-rest-api.png)
+
+We will refer to this later, when we tell our Kafka Consumer where to send events.
 
 # Open Cassandra Realtime in Gitpod
-We are going to use the gitpod branch (they provide a url as [explained here](https://www.gitpod.io/docs/context-urls/#branch-context))
+We are going to use the gitpod branch (they provide a url as [explained here](https://www.gitpod.io/docs/context-urls/#branch-context)). Open the project in gitpod by clicking the link below:
 
-	https://gitpod.io/#https://github.com/Anant/cassandra.realtime/tree/gitpod
+	https://gitpod.io/#https://github.com/Anant/cassandra.realtime/tree/gitpod/connect-api-with-kafka-consumers
 
 ## Setup Kafka
-We setup some of the services for you, but some might have failed. You don't need to start kafka connect yet (and indeed, it won't work until we set it up later on in this demo), but the others should be up. 
+Make sure Kafka services are up by running `confluent local services start`. Note that you don't need to start kafka connect yet (and indeed, it won't work until we set it up later on in this demo), but the others should be up. 
 
 You can check with the confluent cli:
 ```
 confluent local services status
-# if some are not up yet:
+# if some are not up yet (running again doesn't hurt anything, so you can just run this either way):
 confluent local services start
 ```
+![confluent local services start](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/confluent-local-services-start.png)
+confluent-local-services-start
 
 ## Create a topic
-We are only going to create a single topic with a schema for this demo.
-
+If you are in gitpod, we set `$CONFLUENT_HOME` for you. It points to where your confluent binary directory (`/home/gitpod/lib/confluent-5.5.1`). If you are not running this in gitpod, you will have to set `$CONFLUENT_HOME` yourself.
   ```
   $CONFLUENT_HOME/bin/kafka-topics --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic record-cassandra-leaves-avro
   ```
+![create a topic](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/create-kafka-topic.png)
 
 Check that the topic exists
   ```
   $CONFLUENT_HOME/bin/kafka-topics --list --zookeeper localhost:2181
   ```
-```
+  
+  ![check topic](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/check-kafka-topic.png)
+
 
 #### Create the Kafka schema for topic's messages value
 
-Make sure your python environment has `requests` module installed. You can install it using our requirements.txt file
+Make sure your python environment has `requests` and other modules installed. You can install it using our requirements.txt file:
 ```
 cd $PROJECT_HOME
-pip install -r python/requirement.txt
+pip install -r python/requirements.txt
 ```
+
+If you are in gitpod, we set `$PROJECT_HOME` for you. It is an absolute path to where this directory is inside this repo (`/workspace/cassandra.realtime/connect-api-with-kafka-consumers`). If you are not running this in gitpod, you will have to set `$PROJECT_HOME` yourself.
+
+![install requirements](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/install-requirements.txt.png)
 
 Now create the schema
 ```
 python ./kafka/create-schema.py http://localhost:8081 record-cassandra-leaves ./kafka/leaves-record-schema.avsc
 ```
 
-### check that the schema exists
+![create schema](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/create-schema.png)
+
+### Check that the schema exists
 ```
 curl http://127.0.0.1:8081/subjects
+# should return: ["record-cassandra-leaves-value"]
 ```
-or alternatively you can check AKHQ for all kafka resources getting created at `http://127.0.0.1:8085/` 
+
+or alternatively you can check AKHQ for all kafka resources getting created at `http://127.0.0.1:8080/`. If you are using gitpod, we exposed 8080 for you by default. You can double check by clicking down here:
+
+![view ports](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/open-ports-popup.png)
+
+  * Pro tip: Use this single-line command to open a preview for port 8080 in gitpod:  
+  
+  ```
+  gp preview $(gp url 8080)
+  ```
+  To see the AKHQ Schema registry view specifically:
+  ```
+  gp preview $(gp url 8080)/ui/docker-kafka-server/schema
+  ```
+  
+  It should look something like this:
+
+  ![schema registry](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/akhq-schema-registry.png)
 
 # Import the data into Kafka
 
 ```
 cd $PROJECT_HOME/python
-pip install -r requirement.txt
+pip install -r requirements.txt
 python3 data_importer.py --config-file-path configs/gitpod-config.ini
 ```
 
-## check the message arrived in kafka topics
+## Confirm that the message arrived in Kafka Topics
 
-check topic that has schema using `kafka-avro-console-consumer`:
+You can check the topic that has the schema using `kafka-avro-console-consumer`:
 (WARNING: can potentially have lots of output)
 ```
 $CONFLUENT_HOME/bin/kafka-avro-console-consumer --topic record-cassandra-leaves-avro --bootstrap-server localhost:9092 --from-beginning --property schema.registry.url=http://localhost:8081
-
+```
 # Consume from Kafka, write to Cassandra
 
-#### Execute the scala job to pick up messages from Kafka, deserialize and write them to Cassandra
+## Execute the scala job to pick up messages from Kafka, deserialize and write them to Cassandra
 
 First, edit the gitpod-project.properties file with the url of your running cassandra.api instance. 
 - You will need to change the `api.host` key, to something like `https://8000-c0f5dade-a15f-4d23-b52b-468e334d6abb.ws-us02.gitpod.io`.
@@ -92,12 +135,21 @@ Now package and run the project:
 ```
 cd $PROJECT_HOME
 mvn -f ./kafka-to-cassandra-worker/pom.xml clean package
+```
 
-# there should now be two jars in ./kafka-to-cassandra-worker/target, one with-dependencies, one without. We'll use the one with dependencies
+There should now be two jars in ./kafka-to-cassandra-worker/target, one with-dependencies, one without. We'll use the one with dependencies
+```
 mvn -f ./kafka-to-cassandra-worker/pom.xml exec:java -Dexec.mainClass="org.anant.KafkaAvroConsumer" -Dexec.args="kafka-to-cassandra-worker/target/classes/gitpod-project.properties"
 ```
 
-You can confirm we are consuming the correct topic using AKHQ, at `http://8085<gitpod-url-for-akhq>/ui/docker-kafka-server/topic`. 
+- Note that if your Cassandra.api gitpod workspace timed out, you might need to reopen it and restart the REST API server.
+
+You can confirm we are consuming the correct topic using AKHQ, at `https://8080<gitpod-url-for-akhq>/ui/docker-kafka-server/topic`. 
+  
+  ```
+  gp preview $(gp url 8080)
+  ```
+
 - Offset is at `latest`, so you won't see anything unless you have messages actively coming in.
 - Send more messages whenever you want to by re-running the python script from the python dir:
     ```
