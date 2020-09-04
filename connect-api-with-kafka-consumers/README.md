@@ -14,9 +14,8 @@ https://gitpod.io/#https://github.com/Anant/cassandra.api
 gp url 8000
 
 # Open Cassandra Realtime in Gitpod
-We are going to use the gitpod branch (they provide a url as [explained here](https://www.gitpod.io/docs/context-urls/#branch-context))
 
-	https://gitpod.io/#https://github.com/Anant/cassandra.realtime/tree/gitpod
+	https://gitpod.io/#https://github.com/Anant/cassandra.realtime/tree/master/connect-api-with-kafka-consumers
 
 ## Setup Kafka
 We setup some of the services for you, but some might have failed. You don't need to start kafka connect yet (and indeed, it won't work until we set it up later on in this demo), but the others should be up. 
