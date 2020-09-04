@@ -1,7 +1,7 @@
 # Reviewed version of realtime data platform
 
 ## Flow 1
-<img src="https://github.com/xingh/cassandra.realtime/blob/master/diagrams/flow1.png"
+<img src="https://github.com/xingh/cassandra.realtime/blob/master/other-examples/diagrams/flow1.png"
  alt="flow1" width="800" style="float: left; margin-right: 10px;" />
 
 1. a curl HTTP call will trigger python flask app
