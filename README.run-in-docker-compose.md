@@ -10,6 +10,11 @@ cqlsh > TRUNCATE <keyspace>.<tablename> ;
 
 - Make sure the server is running at the end of it, and put the api port into your `./kafka-to-cassandra-worker/src/main/resources/project.properties` (unless it is already at localhost:8000)
 
+```
+cp ./kafka-to-cassandra-worker/src/main/resources/project.properties.example ./kafka-to-cassandra-worker/src/main/resources/project.properties
+vim ./kafka-to-cassandra-worker/src/main/resources/project.properties
+# ...
+```
 
 #### 1.4 Build docker image and run all docker containers
 ```
@@ -19,7 +24,7 @@ docker-compose up
 - cp-zookeeper
 - schema-registry
 - akhq (former kafka-hq)
-- python data importer (imports into kafka)
+- python data importer (imports into kafka) # TODO currently not containerized
 
 #### 2.1 create kafka topics
 Assuming we have two topics, one with schema (`record-cassandra-leaves-avro`) and one without schema (`record.cassandra.leaves`):

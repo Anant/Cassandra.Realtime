@@ -36,8 +36,6 @@ object KafkaAvroConsumer extends App {
 	val apiHost = projectProps.getProperty("api.host")
 
   // cassandra stuff
-  val cassandraKeyspace = projectProps.getProperty("cassandra.keyspace")
-  val cassandraTable = projectProps.getProperty("cassandra.table")
   val topic = projectProps.getProperty("kafka.topic")
   val debugMode = projectProps.getProperty("debug-mode").toBoolean
 

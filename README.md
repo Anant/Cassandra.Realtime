@@ -8,7 +8,7 @@ Pro tip: To view README in preview mode from Gitpod, right click on the file and
 ![Open README Preview](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/screenshots/open-readme-preview.png )
 
 # Setup Cassandra API
-First we will setup a REST API for Cassandra. For this demo, Flask will work better .
+First we will setup a REST API for Cassandra. For this demo, the Flask version of Cassandra.api will work better.
 
 ## Open Cassandra API in Gitpod
 https://gitpod.io/#https://github.com/Anant/cassandra.api
