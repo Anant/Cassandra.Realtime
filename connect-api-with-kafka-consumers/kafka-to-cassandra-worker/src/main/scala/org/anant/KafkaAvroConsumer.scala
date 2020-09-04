@@ -13,6 +13,7 @@ import java.util.{Collections, Properties}
 import scalaj.http._
 import scala.collection.JavaConversions._
 import scala.collection.mutable.Map
+import java.io.{StringWriter, PrintWriter}
 
 import scala.io.Source
 
@@ -100,7 +101,10 @@ object KafkaAvroConsumer extends App {
 
           val onComplete : PartialFunction[Try[HttpResponse[String]], Unit] = {
             case Success(response : HttpResponse[String]) => counts("totalSuccesfulWrites") = counts("totalSuccesfulWrites") + 1
-            case Failure(err) => counts("totalFailedWrites") = counts("totalFailedWrites") + 1
+            case Failure(err) => {
+              counts("totalFailedWrites") = counts("totalFailedWrites") + 1
+              println(err)
+            }
           }
 
           val options = Map(
@@ -114,9 +118,12 @@ object KafkaAvroConsumer extends App {
 
       } catch {
         case unknown: Throwable => println("Got some other kind of Throwable exception: " + unknown)
-        println
+        // TODO add more error handling
+
         if (debugMode) {
-        //   throw unknown
+          val sw = new StringWriter
+          unknown.printStackTrace(new PrintWriter(sw))
+          println(sw.toString)
           println("continuing...")
         }
       }
