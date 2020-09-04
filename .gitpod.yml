@@ -3,7 +3,8 @@ image:
 
 tasks:
   # First, install external java packages. Runs only once per gitpod build
-  - init: mvn -f ./connect-api-with-kafka-consumers/kafka-to-cassandra-worker/pom.xml clean package
+  # NOTE starts at $PROJECT_HOME, i.e., /workspace/cassandra.realtime
+  - init: mvn -f ./kafka-to-cassandra-worker/pom.xml clean package
 
   # Then, start Kafka using confluent community platform
 

@@ -1,0 +1,271 @@
+---
+version: "2"
+
+networks:
+  kafka_dse_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.10.0/24
+          gateway: 172.20.10.1
+
+services:
+  ###
+  ### DSE
+  ###
+  dse:
+###    image: datastax/dse-server:6.8.0 # SPARK 2.4
+    image: datastax/dse-server:6.7.7  # SPARK-2.2
+    container_name: dse_007
+    command: [-k]
+    environment:
+      DS_LICENSE: accept
+      JVM_EXTRA_OPTS: -Xms2g -Xmx2g
+    cap_add:
+      - IPC_LOCK
+    ulimits:
+      memlock: -1
+    ports:
+      - "4040:4040"
+      - "7080:7080" # SPARK MASTER
+      - "7081:7081" # SPARK WORKER
+      - "8983:8983"
+      - "9042:9042"
+      - "9077:9077"
+      - "10000:10000"
+    networks:
+      kafka_dse_network:
+        ipv4_address: 172.20.10.9
+
+  ###
+  ### PYTHON FLASK, EXCEL FILE
+  ###
+  python:
+    build: ./python
+    image: python-flask-app-for-kafka:latest
+    container_name: python_app
+    ports:
+      - "5000:5000"
+    networks:
+      kafka_dse_network:
+        ipv4_address: 172.20.10.10
+
+  ###
+  ### KAFKA ZOOKEEPER
+  ###
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: kafka_zk
+    ports:
+      - "22181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      kafka_dse_network:
+        ipv4_address: 172.20.10.11
+
+  ###
+  ### KAFKA WORKER
+  ###
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: cp_kafka_007
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 172.20.10.11:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://172.20.10.12:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      kafka_dse_network:
+        ipv4_address: 172.20.10.12
+
+  ###
+  ### KAFKA MANAGER
+  ### UNCOMMENT IT IF YOU WANT TO EXPERIMENT WITH THIS TOOL, ITS JOB IS ACHIEVED BY AKHQ
+  ###
+  ### kafka-manager:
+  ###   image: sheepkiller/kafka-manager:latest
+  ###   container_name: kafka_manager
+  ###   depends_on:
+  ###     - zookeeper
+  ###   environment:
+  ###     ZK_HOSTS: 172.20.10.11:2181
+  ###   ports:
+  ###     - "29000:9000"
+  ###   networks:
+  ###     kafka_dse_network:
+  ###       ipv4_address: 172.20.10.13
+
+  ###
+  ### SCHEMA REGISTRY
+  ###
+  schema-registry:
+    image: confluentinc/cp-schema-registry:latest
+    container_name: schema-registry
+    depends_on:
+      - zookeeper
+      - kafka
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: 172.20.10.11:2181
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+    ports:
+      - "8081:8081"
+    networks:
+      kafka_dse_network:
+        ipv4_address: 172.20.10.14
+
+  ###
+  ### KAFKA REST PROXY
+  ### UNCOMMENT IT IF YOU WANT TO EXPERIMENT WITH THIS TOOL, ITS JOB IS ACHIEVED BY AKHQ
+  ###
+  ### kafka-rest-proxy:
+  ###   image: confluentinc/cp-kafka-rest:latest
+  ###   container_name: kafka-rest-proxy
+  ###   depends_on:
+  ###     - zookeeper
+  ###     - kafka
+  ###     - schema-registry
+  ###   environment:
+  ###     KAFKA_REST_HOST_NAME: 172.20.10.15
+  ###     KAFKA_REST_ZOOKEEPER_CONNECT: 172.20.10.11:2181
+  ###     KAFKA_REST_LISTENERS: http://0.0.0.0:8082
+  ###     KAFKA_REST_SCHEMA_REGISTRY_URL: http://172.20.10.14:8081
+  ###   ports:
+  ###     - "8082:8082"
+  ###   networks:
+  ###     kafka_dse_network:
+  ###       ipv4_address: 172.20.10.15
+
+
+  ###
+  ### SCHEMA REGISTRY UI
+  ### UNCOMMENT IT IF YOU WANT TO EXPERIMENT WITH THIS TOOL, ITS JOB IS ACHIEVED BY AKHQ
+  ###
+  ### schema-registry-ui:
+  ###   image: landoop/schema-registry-ui:latest
+  ###   container_name: schema-registry-ui
+  ###   depends_on:
+  ###     - schema-registry
+  ###   environment:
+  ###     SCHEMAREGISTRY_URL: "http://172.20.10.14:8081"
+  ###     PROXY: "true"
+  ###   ports:
+  ###     - "8001:8000"
+  ###   networks:
+  ###     kafka_dse_network:
+  ###       ipv4_address: 172.20.10.16
+
+  ###
+  ### KAFKA TOPICS UI
+  ### UNCOMMENT IT IF YOU WANT TO EXPERIMENT WITH THIS TOOL, ITS JOB IS ACHIEVED BY AKHQ
+  ###
+  ### kafka-topics-ui:
+  ###   image: landoop/kafka-topics-ui:latest
+  ###   container_name: kafka-topics-ui
+  ###   depends_on:
+  ###     - kafka-rest-proxy
+  ###   environment:
+  ###     KAFKA_REST_PROXY_URL: "http://172.20.10.15:8082"
+  ###     PROXY: "true"
+  ###   ports:
+  ###     - "8000:8000"
+  ###   networks:
+  ###     kafka_dse_network:
+  ###       ipv4_address: 172.20.10.17
+
+  ###
+  ### KAFKA CONNECT
+  ###
+  kafka-connect:
+    image: confluentinc/cp-kafka-connect
+    container_name: kafka-connect
+    depends_on:
+      - kafka
+      - schema-registry
+    environment:
+      CONNECT_BOOTSTRAP_SERVERS: 172.20.10.12:9092
+      CONNECT_REST_PORT: 8084
+      CONNECT_REST_LISTENERS: http://172.20.10.18:8084
+      CONNECT_REST_ADVERTISED_HOST_NAME: 172.20.10.18
+      CONNECT_CONFIG_STORAGE_TOPIC: __connect-config
+      CONNECT_OFFSET_STORAGE_TOPIC: __connect-offsets
+      CONNECT_STATUS_STORAGE_TOPIC: __connect-status
+      CONNECT_GROUP_ID: "kafka-connect"
+      CONNECT_KEY_CONVERTER_SCHEMAS_ENABLE: "true"
+      CONNECT_KEY_CONVERTER: io.confluent.connect.avro.AvroConverter
+      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: http://172.20.10.14:8081
+      CONNECT_VALUE_CONVERTER_SCHEMAS_ENABLE: "true"
+      CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://172.20.10.14:8081
+      CONNECT_INTERNAL_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_INTERNAL_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_PLUGIN_PATH: '/usr/share/java/'
+    volumes:
+       - "../kafka-connect-dse-1.3.1.jar:/usr/share/java/kafka-connect-dse-1.3.1.jar"
+    ports:
+      - 8084:8084
+    networks:
+      kafka_dse_network:
+        ipv4_address: 172.20.10.18
+
+  ###
+  ### KAFKA-HQ
+  ###
+  kafka-hq:
+    image: tchiotludo/akhq
+    container_name: kafka-hq
+    environment:
+      AKHQ_CONFIGURATION: |
+        akhq:
+          server:
+            access-log:
+              enabled: true
+              name: org.akhq.log.access # Logger name
+              format: "[Date: {}] [Duration: {} ms] [Url: {} {} {}] [Status: {}] [Ip: {}] [Length: {}] [Port: {}]" # Logger format
+          connections:
+            docker-kafka-server:
+              properties:
+                bootstrap.servers: "172.20.10.12:9092"
+              schema-registry:
+                url: "http://172.20.10.14:8081"
+              connect:
+                - name: kafka-connect-1
+                  url: "http://172.20.10.18:8084"
+    ports:
+      - 8085:8080
+    networks:
+      kafka_dse_network:
+        ipv4_address: 172.20.10.19
+
+###  dse-studio:
+###    image: datastax/dse-studio:6.7.0
+###    ports:
+###     - "9091:9091"
+###    depends_on:
+###     - dse
+###    environment:
+###     DS_LICENSE: accept
+###    networks:
+###      kafka_dse_network:
+###        ipv4_address: 172.20.10.20
+###
+###  dse-opscenter:
+###    image: datastax/dse-opscenter
+###    ports:
+###      - 8888:8888
+###    environment:
+###      - DS_LICENSE=accept
+###    networks:
+###      kafka_dse_network:
+###        ipv4_address: 172.20.10.21

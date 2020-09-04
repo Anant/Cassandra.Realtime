@@ -1,0 +1,16 @@
+# keep in sync with what we have in docker-compose, though with different ips/ports. This is for use in gitpod
+akhq:
+  server:
+    access-log:
+      enabled: true
+      name: org.akhq.log.access # Logger name
+      format: "[Date: {}] [Duration: {} ms] [Url: {} {} {}] [Status: {}] [Ip: {}] [Length: {}] [Port: {}]" # Logger format
+  connections:
+    docker-kafka-server:
+      properties:
+        bootstrap.servers: "localhost:9092"
+      schema-registry:
+        url: "http://localhost:8081"
+      connect:
+        - name: kafka-connect-1
+          url: "http://localhost:8083"

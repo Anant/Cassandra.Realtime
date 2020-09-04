@@ -1,0 +1,24 @@
+{
+  "type": "record",
+  "name": "MessageRecord",
+  "namespace": "org.anant.test.schema01",
+  "version": "1",
+  "fields": [
+    {
+      "name": "MessageID",
+      "type": "string"
+    },
+    {
+      "name": "MessageType",
+      "type": "string"
+    },
+    {
+      "name": "MessageValue",
+      "type": "long"
+    },
+    {
+      "name": "MessageDateTime",
+      "type": "long"
+    }
+  ]
+}

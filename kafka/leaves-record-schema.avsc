@@ -1,0 +1,127 @@
+{
+  "type": "record",
+  "name": "Leaves",
+  "namespace": "org.anant.demo.leaves",
+  "fields": [
+    {
+      "name": "is_archived",
+      "type": "int"
+    },
+    {
+      "name": "all",
+      "type": {
+        "type": "array",
+        "items": "string"
+      }
+    },
+    {
+      "name": "is_starred",
+      "type": "int"
+    },
+    {
+      "name": "user_name",
+      "type": "string"
+    },
+    {
+      "name": "user_email",
+      "type": "string"
+    },
+    {
+      "name": "user_id",
+      "type": "int"
+    },
+    {
+      "name": "tags",
+      "type": ["null", {
+        "type": "array",
+        "items": "string"
+      }]
+    },
+    {
+      "name": "slugs",
+      "type": ["null", {
+        "type": "array",
+        "items": "string"
+      }]
+    },
+    {
+      "name": "is_public",
+      "type": "boolean"
+    },
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "title",
+      "type": "string"
+    },
+    {
+      "name": "url",
+      "type": "string"
+    },
+    {
+      "name": "content_text",
+      "type": ["string", "null"]
+    },
+    {
+      "name": "created_at",
+      "type": "long",
+      "logicalType": "timestamp-millis"
+    },
+    {
+      "name": "updated_at",
+      "type": "long",
+      "logicalType": "timestamp-millis"
+    },
+    {
+      "name": "mimetype",
+      "type": ["string", "null"]
+    },
+    {
+      "name": "language",
+      "type": ["string", "null"]
+    },
+    {
+      "name": "reading_time",
+      "type": "int"
+    },
+    {
+      "name": "domain_name",
+      "type": "string"
+    },
+    {
+      "name": "preview_picture",
+      "type": ["string", "null"]
+    },
+    {
+      "name": "http_status",
+      "type": ["int", "null"]
+    },
+    {
+      "name": "_links",
+      "type": {
+        "type": "array",
+        "items": "string"
+      }
+    },
+    {
+      "name": "published_by",
+      "type": [{
+        "type": "array",
+        "items": "string"
+      }, "null"]
+    },
+    {
+      "name": "published_at",
+      "type": [{
+        "type": "array",
+        "items": "string"
+      }, "null"]
+    },
+    {
+      "name": "content",
+      "type": ["string", "null"]
+    }
+  ]
+}

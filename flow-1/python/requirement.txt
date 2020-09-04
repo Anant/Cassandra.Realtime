@@ -1,8 +1,0 @@
-confluent-kafka
-avro-python3
-pandas
-jproperties
-xlrd
-httpie
-Flask==1.1.1
-Flask-RESTful==0.3.7
