@@ -1,8 +1,8 @@
 # Cassandra Realtime Demo: Writing Apache Kafka™ Events into Apache Cassandra™
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Anant/cassandra.realtime/tree/gitpod/connect-api-with-kafka-consumers)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Anant/cassandra.realtime/tree/master/connect-api-with-kafka-consumers)
 
 Pro tip: To view README in preview mode from Gitpod, right click on the file and select `Open With > Preview`:
-![Open README Preview](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/open-readme-preview.png )
+![Open README Preview](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/connect-api-with-kafka-consumers/screenshots/open-readme-preview.png )
 
 # Setup Cassandra API
 First we will setup a REST API for Cassandra. For this demo, Flask will work better .
@@ -16,7 +16,7 @@ https://gitpod.io/#https://github.com/Anant/cassandra.api
 
 ## Make port 8000 for your REST API public 
 Make sure your REST API's port 8000 is exposed, so that we can send requests to it later:
-![Make port 8000 public](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/open-port-8000.png)
+![Make port 8000 public](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/connect-api-with-kafka-consumers/screenshots/open-port-8000.png)
 
 Note that if you don't use this gitpod workspace frequently enough, it will timeout and spin down. If this happens, you can just reopen the workspace and restart the server (using `npm start` for NodeJS or `python3 app.py` for Python).
 
@@ -24,7 +24,7 @@ Note that if you don't use this gitpod workspace frequently enough, it will time
 ```
 gp url 8000
 ```
-![Get url for future reference](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/get-url-for-rest-api.png)
+![Get url for future reference](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/connect-api-with-kafka-consumers/screenshots/get-url-for-rest-api.png)
 
 We will refer to this later, when we tell our Kafka Consumer where to send events.
 
@@ -41,7 +41,7 @@ confluent local status
 # if some are not up yet (running again doesn't hurt anything, so you can just run this either way):
 confluent local start
 ```
-![confluent local start](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/confluent-local-services-start.png)
+![confluent local start](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/connect-api-with-kafka-consumers/screenshots/confluent-local-services-start.png)
 - Note that the specific command you use in the Confluent CLI depends on the version of CLI you are using. Newer versions of the CLI will require you to use `confluent local services start`. In gitpod, we downloaded v.1.6.0 for you, so you can use the shorter syntax: `confluent local <cmd>`.
 
 ## Create a topic
@@ -49,14 +49,14 @@ If you are in gitpod, we set `$CONFLUENT_HOME` for you. It points to where your 
   ```
   $CONFLUENT_HOME/bin/kafka-topics --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic record-cassandra-leaves-avro
   ```
-![create a topic](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/create-kafka-topic.png)
+![create a topic](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/connect-api-with-kafka-consumers/screenshots/create-kafka-topic.png)
 
 Check that the topic exists
   ```
   $CONFLUENT_HOME/bin/kafka-topics --list --zookeeper localhost:2181
   ```
   
-  ![check topic](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/check-kafka-topic.png)
+  ![check topic](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/connect-api-with-kafka-consumers/screenshots/check-kafka-topic.png)
 
 
 #### Create the Kafka schema for topic's messages value
@@ -69,14 +69,14 @@ pip install -r python/requirements.txt
 
 If you are in gitpod, we set `$PROJECT_HOME` for you. It is an absolute path to where this directory is inside this repo (`/workspace/cassandra.realtime/connect-api-with-kafka-consumers`). If you are not running this in gitpod, you will have to set `$PROJECT_HOME` yourself.
 
-![install requirements](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/install-requirements.txt.png)
+![install requirements](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/connect-api-with-kafka-consumers/screenshots/install-requirements.txt.png)
 
 Now create the schema
 ```
 python ./kafka/create-schema.py http://localhost:8081 record-cassandra-leaves ./kafka/leaves-record-schema.avsc
 ```
 
-![create schema](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/create-schema.png)
+![create schema](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/connect-api-with-kafka-consumers/screenshots/create-schema.png)
 
 ### Check that the schema exists
 ```
@@ -90,7 +90,7 @@ Alternatively you can check AKHQ. Run this to start AKHQ:
   ```
 You can see the AKHQ GUI at `http://127.0.0.1:8080/`. If you are using gitpod, we exposed 8080 for you by default. You can double check by clicking down here:
 
-![view ports](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/open-ports-popup.png)
+![view ports](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/connect-api-with-kafka-consumers/screenshots/open-ports-popup.png)
 
   * Pro tip: Use this single-line command to open a preview for port 8080 in gitpod:  
   
@@ -104,7 +104,7 @@ You can see the AKHQ GUI at `http://127.0.0.1:8080/`. If you are using gitpod, w
   
   It should look something like this:
 
-  ![schema registry](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/akhq-schema-registry.png)
+  ![schema registry](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/connect-api-with-kafka-consumers/screenshots/akhq-schema-registry.png)
 
 
 # Import the data into Kafka
@@ -116,7 +116,7 @@ pip install -r requirements.txt
 python3 data_importer.py --config-file-path configs/gitpod-config.ini
 ```
 
-![produce to Kafka](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/produce-to-kafka-stdout.png)
+![produce to Kafka](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/connect-api-with-kafka-consumers/screenshots/produce-to-kafka-stdout.png)
 
 
 ## Confirm that the message arrived in Kafka Topics
@@ -172,7 +172,7 @@ You can confirm we are consuming the correct topic using AKHQ, at `/ui/docker-ka
   ```
 (If AKHQ was already on that page, make sure to refresh the view). You should see our consumer group (`send-to-cassandra-api-consumer`) listed as a consumer on topic `record-cassandra-leaves-avro`:
 
-![Topics in AKHQ](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/akhq-topics.png)
+![Topics in AKHQ](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/connect-api-with-kafka-consumers/screenshots/akhq-topics.png)
 
 # Sending messages to Kafka using Kafka REST Proxy
 
@@ -190,7 +190,7 @@ python3 data_importer.py --config-file-path configs/gitpod-rest-proxy-config.ini
 
 There should now be new messages for you to consume in your Kafka topic.
 
-![Rest Proxy](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/rest-proxy.png)
+![Rest Proxy](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/connect-api-with-kafka-consumers/screenshots/rest-proxy.png)
 
 
 # Process messages using Kafka Streams and writing to Cassandra using Processor API
@@ -249,7 +249,7 @@ confluent local stop connect
 $CONFLUENT_HOME/bin/connect-standalone $PROJECT_HOME/kafka/connect/worker-properties/gitpod-avro-worker.properties $PROJECT_HOME/kafka/connect/connect-standalone.properties
 ```
 
-![kafka connect logs](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/kafka-connect-logs-gp.png)
+![kafka connect logs](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/connect-api-with-kafka-consumers/screenshots/kafka-connect-logs-gp.png)
 
 
 Don't forget to send some more messages in a separate terminal:
@@ -268,5 +268,5 @@ Then send messages, and run a count
 ```
 SELECT COUNT(*) FROM <your_ks>.leaves;
 ```
-![astra count](https://raw.githubusercontent.com/Anant/cassandra.realtime/gitpod/connect-api-with-kafka-consumers/screenshots/astra-count-all-leaves.png)
+![astra count](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/connect-api-with-kafka-consumers/screenshots/astra-count-all-leaves.png)
 
