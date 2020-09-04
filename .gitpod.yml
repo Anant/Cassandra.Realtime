@@ -2,28 +2,14 @@ image:
   file: .gitpod.dockerfile
 
 tasks:
-  # currently only using command, but might try out init or prebuild later
   # First, install external java packages. Runs only once per gitpod build
   - init: mvn -f ./connect-api-with-kafka-consumers/kafka-to-cassandra-worker/pom.xml clean package
 
   # Then, start Kafka using confluent community platform
-  # https://docs.confluent.io/current/installation/installing_cp/zip-tar.html
-  # TODO also consider just using `confluent local services start` to keep it simple
 
   # Trying doing everything using confluent CLI once
-  # - command: ${CONFLUENT_HOME}/bin/zookeeper-server-start ${CONFLUENT_HOME}/etc/kafka/zookeeper.properties
-  # - command: ${CONFLUENT_HOME}/bin/kafka-server-start ${CONFLUENT_HOME}/etc/kafka/server.properties
-  # - command: ${CONFLUENT_HOME}/bin/schema-registry-start ${CONFLUENT_HOME}/etc/schema-registry/schema-registry.properties
-  # - command: ${CONFLUENT_HOME}/bin/kafka-rest-start ${CONFLUENT_HOME}/etc/kafka-rest/kafka-rest.properties
   - command: confluent local start
   
-  # AKHQ
-  # works better if they do it themselves, for some reason. Doesn't populate topics when we do it here
- # - command: java -Dmicronaut.config.files=./connect-api-with-kafka-consumers/kafka/akhq/gitpod-akhq-config.yml -jar ${BINARY_DIR}/akhq.jar
-
-  # these ones, user can start themselves when they want to use something in particular
-  # - command: sudo systemctl start confluent-kafka-rest
-
 # expose ports we want open
 ports:
   - port: 8080
