@@ -1,3 +1,7 @@
+# NOTE be sure to change this to your Keyspace in Astra
+cassandra.keyspace=customerkeyspace
+cassandra.table=leaves
+
 kafka.host=172.20.10.12:9092
 kafka.topic=record-cassandra-leaves
 kafka.consumer.group=send-to-cassandra-api-consumer

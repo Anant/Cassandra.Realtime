@@ -9,7 +9,6 @@ kafka.initial-offset=latest
 # relative path to schema file
 # kafka.schema.filepath=../../../../kafka/leaves-record-schema.avsc
 
-cassandra.host=localhost
 # NOTE be sure to change this to your Keyspace in Astra
 cassandra.keyspace=customerkeyspace
 cassandra.table=leaves
