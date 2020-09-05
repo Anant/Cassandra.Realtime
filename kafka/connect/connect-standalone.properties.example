@@ -155,9 +155,9 @@ topic.record-cassandra-leaves-avro.all.leaves.mapping = is_archived=value.is_arc
 # For the majority of use cases you should use standard mapping without `query` parameter.
 # This query will be used instead of an auto-generated one and has priority over it.
 # The bound variables used in the query needs to be provided in the mapping column, so for the given query:
-# topic.record-cassandra-leaves-avro.my_ks.leaves.query=INSERT INTO %s.types (bigintCol, intCol) VALUES (:some_name, :some_name_2)
+# topic.record-cassandra-leaves-avro.<my_ks>.leaves.query=INSERT INTO %s.types (bigintCol, intCol) VALUES (:some_name, :some_name_2)
 # mapping can look like this:
-# topic.record-cassandra-leaves-avro.my_ks.leaves.mapping=some_name=value.bigint, some_name_2=value.int
+# topic.record-cassandra-leaves-avro.<my_ks>.leaves.mapping=some_name=value.bigint, some_name_2=value.int
 #
 # Please note that bound variables that can be used in the query may not be present in the database table.
 # Due to that fact, when providing the query, validation of mapping columns is not performed.
@@ -183,31 +183,31 @@ topic.record-cassandra-leaves-avro.all.leaves.mapping = is_archived=value.is_arc
 # So if your field used as a ttl is in different format (for example HOURS) set it to HOURS.
 # The connector will automatically transform it to proper database ttl format (to SECONDS)
 # The transformation also applies for static ttl field config.
-topic.record-cassandra-leaves-avro.my_ks.leaves.ttlTimeUnit=SECONDS
+topic.record-cassandra-leaves-avro.<my_ks>.leaves.ttlTimeUnit=SECONDS
 
 # When you specify timestamp value to be used while inserting (by mapping __timestamp)
 # you may want to specify timeUnit of the provided timestamp. Default is MICROSECONDS.
 # So if your field used as a timestamp is in different format (for example HOURS) set it to HOURS.
 # The connector will automatically transform it to proper database ttl format (to MICROSECONDS)
-topic.record-cassandra-leaves-avro.my_ks.leaves.timestampTimeUnit=MICROSECONDS
+topic.record-cassandra-leaves-avro.<my_ks>.leaves.timestampTimeUnit=MICROSECONDS
 
 # Query consistency level; defaults to LOCAL_ONE.
-#topic.record-cassandra-leaves-avro.my_ks.leaves.consistencyLevel=LOCAL_ONE
+#topic.record-cassandra-leaves-avro.<my_ks>.leaves.consistencyLevel=LOCAL_ONE
 
 # Time-to-live. Set to the number of seconds before the data is automatically deleted in the
 # database.
 # Defaults to -1 (disabled).
-#topic.record-cassandra-leaves-avro.my_ks.leaves.ttl=-1
+#topic.record-cassandra-leaves-avro.<my_ks>.leaves.ttl=-1
 
 # Whether to treat nulls in Kafka as UNSET in teh database. DataStax recommends using the default to
 # avoid creating unnecessary tombstones. Defaults to true.
-#topic.record-cassandra-leaves-avro.my_ks.leaves.nullToUnset=true
+#topic.record-cassandra-leaves-avro.<my_ks>.leaves.nullToUnset=true
 
 # When enabled, treat records that after mapping would result in only non-null values for
 # primary key columns as deletes, rather than inserting/updating nulls for all regular columns.
 # Note that for this behavior to trigger, the mapping specification must map all columns in the
 # table. Defaults to true.
-#topic.record-cassandra-leaves-avro.my_ks.leaves.deletesEnabled=true
+#topic.record-cassandra-leaves-avro.<my_ks>.leaves.deletesEnabled=true
 
 #### Record decoding settings in topic record-cassandra-leaves-avro ####
 # Locale to use for locale-sensitive conversions. Defaults to en_US.
