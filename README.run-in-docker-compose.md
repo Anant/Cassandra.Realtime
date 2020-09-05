@@ -41,7 +41,11 @@ docker exec -it cp_kafka_007 kafka-topics --list --zookeeper 172.20.10.11:2181
 ```
 
 #### 2.3 create the Kafka schema for topic's messages value
-make sure your python environment has `requests` module installed
+Make sure your python environment has `requests` module and other dependencies installed. We are using Python3 for this project.
+```
+pip3 install -r ./python/requirements.txt
+```
+Then you can run the script to create a Kafka schema:
 ```
 python3 ./kafka/create-schema.py http://172.20.10.14:8081 record-cassandra-leaves ./kafka/leaves-record-schema.avsc
 ```
@@ -73,7 +77,7 @@ See instructions [here](https://github.com/Anant/cassandra.api/blob/master/READM
 
 ```
 cd ./python
-pip3 install -r requirement.txt
+pip3 install -r requirements.txt
 python3 data_importer.py
 ```
 
