@@ -232,7 +232,7 @@ vim connect-standalone.properties
 # ...
 ```
 
-The worker properties file we provide (found at $PROJECT_HOME/kafka/connect/worker-properties/gitpod-avro-worker.properties) should work fine without modification.
+The worker properties file we provide (found at $PROJECT_HOME/kafka/connect/worker-properties/gitpod-avro-worker.properties) should work fine without modification in gitpod. However, if you are not using gitpod, you will need to change `/workspace/cassandra.realtime` in the plugin path if you are not using gitpod, to whatever your $PROJECT_HOME is. 
 
 ### Setup Connect with Astra
 - If you have not already, make sure that your Datastax astra secure connect bundle is downloaded 

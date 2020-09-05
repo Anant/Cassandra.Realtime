@@ -3,7 +3,8 @@
 name=cassandra-sink
 connector.class=com.datastax.oss.kafka.sink.CassandraSinkConnector
 tasks.max=1
-plugin.path=/workspace/cassandra.realtime/connect-api-with-kafka-consumers/kafka/connect/kafka-connect-cassandra-sink-1.4.0.jar
+# NOTE might not be used 
+plugin.path=/workspace/cassandra.realtime/kafka/connect/kafka-connect-cassandra-sink-1.4.0.jar
 
 # Topics to subscribe to, comma-delimited.
 topics=record-cassandra-leaves-avro
@@ -21,7 +22,7 @@ datastax-java-driver.advanced.connection.init-query-timeout=2000 milliseconds
 
 # NOTE this is path within kafka connect docker container 
 ### TODO make sure to change! 
-cloud.secureConnectBundle = /workspace/cassandra.realtime/connect-api-with-kafka-consumers/kafka/connect/astra.credentials/secure-connect-<database-name-in-astra>.zip
+cloud.secureConnectBundle = /workspace/cassandra.realtime/kafka/connect/astra.credentials/secure-connect-<database-name-in-astra>.zip
 
 # Comma-separated list of cluster contact points. Used by the DataStax Driver to discover
 # cluster topology. Defaults to empty, meaning localhost.
