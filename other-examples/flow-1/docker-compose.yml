@@ -212,7 +212,7 @@ services:
       CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
       CONNECT_PLUGIN_PATH: '/usr/share/java/'
     volumes:
-       - "../kafka-connect-dse-1.3.1.jar:/usr/share/java/kafka-connect-dse-1.3.1.jar"
+       - "./kafka-connect-cassandra-sink-1.4.0.jar:/usr/share/java/kafka-connect-cassandra-sink-1.4.0.jar"
     ports:
       - 8084:8084
     networks:

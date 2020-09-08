@@ -13,10 +13,7 @@
 https://downloads.datastax.com/#akc
 
 
-place `kafka-connect-dse-1.3.1.jar` next to this `README.md` file, because `docker-compose.yml` file expects to find it there.
-**NOTE** perhaps this is outdated, and need to change the docker-compose file to reflect this comment TODO
-
-In gitpod, you can drag this file into the file explorer from your desktop.
+place `kafka-connect-cassandra-sink-1.4.0.jar` next to this `README.md` file, because `docker-compose.yml` file expects to find it there. Note that if you are using a different version than 1.4.0, you will have to change the docker-compose volume to match.
 
 #### 1.1 Build docker image and run all docker containers
 ```
