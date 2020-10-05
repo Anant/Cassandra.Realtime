@@ -3,7 +3,7 @@
 This project is part of the **Event Driven Toolkit for Kafka & Cassandra** initiative from Anant
 where we build step-by-step and distributed message processing architecture.
 
-![Splash](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/screenshots/splash.png)
+![Splash](/screenshots/splash.png)
 
 ## 📚 Table of Contents
 
@@ -35,11 +35,11 @@ For refernce, recording of first episode is [available on youtube](https://www.y
 ### 1.b - Setup the Cassandra.API in Gitpod
 
 To allow best connectivity make sure your REST API's port 8000 is exposed, so that we can send requests to it later:
-![Make port 8000 public](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/screenshots/open-port-8000.png)
+![Make port 8000 public](/screenshots/open-port-8000.png)
 
 ℹ️ **Informations** : If you don't use this gitpod workspace frequently enough, it will timeout and spin down. If this happens, you can just reopen the workspace and restart the server (using `npm start` for NodeJS or `python3 app.py` for Python).
 
-### 1.d - Get url for future reference
+### 1.c - Get url for future reference
 
 When we will tell Kafka Consumer where to send events we will need the public URL for the API. To get it use:
 
@@ -47,10 +47,10 @@ When we will tell Kafka Consumer where to send events we will need the public UR
 gp url 8000
 ```
 
-![Get url for future reference](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/screenshots/get-url-for-rest-api.png)
+![Get url for future reference](/screenshots/get-url-for-rest-api.png)
 
 This is what you have running as of now:
-![Get url for future reference](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/screenshots/episode1.png)
+![Get url for future reference](/screenshots/episode1.png)
 
 ## 2. Writing Apache Kafka™ Events into Apache Cassandra™
 
@@ -59,7 +59,7 @@ As before, initialize your environment by simply click on the button below *(CTR
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Anant/cassandra.realtime)
 
 Pro tip: To view README in preview mode from Gitpod, right click on the file and select `Open With > Preview`:
-![Open README Preview](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/screenshots/open-readme-preview.png )
+![Open README Preview](/screenshots/open-readme-preview.png )
 
 ```
 ⚠️ By default Autosave is not enabled in Gitpod. Don't forget to save your modifications with CTRL+S
