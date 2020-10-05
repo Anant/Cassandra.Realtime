@@ -1,37 +1,69 @@
-# Cassandra Realtime
-Sample projects for using Cassandra with a realtime, event-based infrastructure.
+# Building an Event Driven API with Kafka and Cassandra!
 
-## Cassandra Realtime Demo: Writing Apache Kafka™ Events into Apache Cassandra™
+This project is part of the **Event Driven Toolkit for Kafka & Cassandra** initiative from Anant
+where we build step-by-step and distributed message processing architecture.
+
+✨ This is episode 2/3
+
+## 📚 Table of Contents
+
+| Description and Link | Tools
+|---|---|
+| 1. [Reminders on Episode 1, start Cassandra API](#1-create-your-astra-instance-reminders) | Node, Python,Astra |
+| 2. [Writing Apache Kafka™ Events into Apache Cassandra™](#1-create-your-astra-instance-reminders) | Api, Kafka
+| 1. Exercise : The spacecraft nodebook | [Create Schema](#2-exercise--the-spacecraft-nodebook) |
+| 2. Exercise : Connectivity to Cassandra | [Connectivity](#3-connectivity-to-cassandra) |
+
+
+## 1. Reminders on Episode 1, setup Cassandra API
+
+### 1.a - Building the Cassandra.api 
+
+This work has been realized during first workshop. 
+
+- The procedure is described step-by-step in the following [README](https://github.com/Anant/cassandra.api/blob/master/README.md).
+
+ℹ️ **Informations** : During this session we implemented the API both in NodeJS (express) and Python (Flask) pick the one you like most for today. We recommend naming your db table `leaves` in order to keep it simple when following this demo, but you can use a different tablename, as long as you change the tablename throughout the rest of the demo to use the same table.
+
+### 1.b - Open Cassandra.API in Gitpod
+
+[Gitpod](http://www.gitpod.io/?utm_source=datastax&utm_medium=referral&utm_campaign=datastaxworkshops) is an IDE 100% online based on Eclipse Theia. To initialize your environment simply click on the button below *(CTRL + Click to open in new tab)*
+
+- To initialize the **Cassandra API** in Gitpod 
+- Click on the button below *(CTRL + Click to open in new tab)* =>  [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Anant/cassandra.api)
+
+### 1.c - Setup the Cassandra.API in Gitpod
+
+To allow best connectivity make sure your REST API's port 8000 is exposed, so that we can send requests to it later:
+![Make port 8000 public](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/screenshots/open-port-8000.png)
+
+ℹ️ **Informations** : If you don't use this gitpod workspace frequently enough, it will timeout and spin down. If this happens, you can just reopen the workspace and restart the server (using `npm start` for NodeJS or `python3 app.py` for Python).
+
+### 1.d - Get url for future reference
+
+When we will tell Kafka Consumer where to send events we will need the public URL for the API. To get it use:
+
+```bash
+gp url 8000
+```
+
+![Get url for future reference](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/screenshots/get-url-for-rest-api.png)
+
+This is what you have running as of now:
+![Get url for future reference](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/screenshots/episode1.png)
+
+## 2. Writing Apache Kafka™ Events into Apache Cassandra™
+
+As before, initialize your environment by simply click on the button below *(CTRL + Click to open in new tab)*. This will open a **second** gitpod workspaces. They will communicate to each other.
+
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Anant/cassandra.realtime)
 
 Pro tip: To view README in preview mode from Gitpod, right click on the file and select `Open With > Preview`:
 ![Open README Preview](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/screenshots/open-readme-preview.png )
 
-# Setup Cassandra API
-First we will setup a REST API for Cassandra. For this demo, the Flask version of Cassandra.api will work better.
-
-## Open Cassandra API in Gitpod
-https://gitpod.io/#https://github.com/Anant/cassandra.api
-
-## Follow instructions in the Cassandra.api [README](https://github.com/Anant/cassandra.api/blob/master/README.md):
-- You can use either NodeJS or Flask for the API, it is up to you. 
-- We recommend naming your db table `leaves` in order to keep it simple when following this demo, but you can use a different tablename, as long as you change the tablename throughout the rest of the demo to use the same table.
-
-## Make port 8000 for your REST API public 
-Make sure your REST API's port 8000 is exposed, so that we can send requests to it later:
-![Make port 8000 public](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/screenshots/open-port-8000.png)
-
-Note that if you don't use this gitpod workspace frequently enough, it will timeout and spin down. If this happens, you can just reopen the workspace and restart the server (using `npm start` for NodeJS or `python3 app.py` for Python).
-
-## Get url for future reference
 ```
-gp url 8000
+⚠️ By default Autosave is not enabled in Gitpod. Don't forget to save your modifications with CTRL+S
 ```
-![Get url for future reference](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/screenshots/get-url-for-rest-api.png)
-
-We will refer to this later, when we tell our Kafka Consumer where to send events.
-
-# Open Cassandra Realtime in Gitpod
 
   [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Anant/cassandra.realtime)
 
