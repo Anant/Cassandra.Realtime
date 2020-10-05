@@ -3,9 +3,11 @@
 This project is part of the **Event Driven Toolkit for Kafka & Cassandra** initiative from Anant
 where we build step-by-step and distributed message processing architecture.
 
-✨ This is episode 2/3
+![Splash](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/screenshots/splash.png)
 
 ## 📚 Table of Contents
+
+✨ This is episode 2
 
 | Description and Link | Tools
 |---|---|
@@ -17,22 +19,20 @@ where we build step-by-step and distributed message processing architecture.
 
 ## 1. Reminders on Episode 1, setup Cassandra API
 
-### 1.a - Building the Cassandra.api 
+This work has been realized during first workshop. The procedure is described step-by-step in the following [README](https://github.com/Anant/cassandra.api/blob/master/README.md).
 
-This work has been realized during first workshop. 
-
-- The procedure is described step-by-step in the following [README](https://github.com/Anant/cassandra.api/blob/master/README.md).
+For refernce, recording of first episode is [available on youtube](https://www.youtube.com/watch?v=kRYMwOl6Uo4)
 
 ℹ️ **Informations** : During this session we implemented the API both in NodeJS (express) and Python (Flask) pick the one you like most for today. We recommend naming your db table `leaves` in order to keep it simple when following this demo, but you can use a different tablename, as long as you change the tablename throughout the rest of the demo to use the same table.
 
-### 1.b - Open Cassandra.API in Gitpod
+### 1.a - Open Cassandra.API in Gitpod
 
 [Gitpod](http://www.gitpod.io/?utm_source=datastax&utm_medium=referral&utm_campaign=datastaxworkshops) is an IDE 100% online based on Eclipse Theia. To initialize your environment simply click on the button below *(CTRL + Click to open in new tab)*
 
 - To initialize the **Cassandra API** in Gitpod 
 - Click on the button below *(CTRL + Click to open in new tab)* =>  [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Anant/cassandra.api)
 
-### 1.c - Setup the Cassandra.API in Gitpod
+### 1.b - Setup the Cassandra.API in Gitpod
 
 To allow best connectivity make sure your REST API's port 8000 is exposed, so that we can send requests to it later:
 ![Make port 8000 public](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/screenshots/open-port-8000.png)
