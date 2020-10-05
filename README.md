@@ -230,14 +230,14 @@ mvn -f ./kafka-to-cassandra-worker/pom.xml exec:java -Dexec.mainClass="org.anant
 
 > **Note:** if your Cassandra.api gitpod workspace timed out, you might need to reopen it and restart the REST API server. Offset is at `latest`, so you won't see anything unless you have messages actively coming in.
 
-- **✅ Send more messages whenever you want to by re-running the python script **
+- **✅ Send more messages whenever you want to by re-running the python script**
 
 ```bash
 cd $PROJECT_HOME/python
 python data_importer.py --config-file-path configs/gitpod-config.ini
 ```
 
-- **✅ confirm we are consuming the correct topic using AKHQ, at `/ui/docker-kafka-server/topic`. **
+- **✅ confirm we are consuming the correct topic using AKHQ, at `/ui/docker-kafka-server/topic`.**
   
 ```bash
 gp preview $(gp url 8080)/ui/docker-kafka-server/topic
@@ -304,6 +304,8 @@ We provide a `connect-standalone.properties.example` that is setup to run `kafka
 
 Fields that require changing are marked by `### TODO make sure to change!` in the example file.
 
+- **✅ Edit `connect-standalone.properties.example`**
+
 ```bash
 cd $PROJECT_HOME/kafka/connect
 cp connect-standalone.properties.gitpod-example connect-standalone.properties
@@ -315,18 +317,42 @@ The worker properties file we provide (found at `$PROJECT_HOME/kafka/connect/wor
 
 ### 3.g - Setup Connect with Astra
 
-- If you have not already, make sure that your Datastax astra secure connect bundle is downloaded 
-- Place the secure creds bundle into astra.credentials
+REMINDER create you Astra Account [here](https://dtsx.io/workshop) 
 
+If you have not already, make sure that your Datastax astra secure connect bundle is downloaded.
+
+- **✅ Get the secure cloud bundle**
+
+Display the summary screen and locate the `connect` button.
+
+![pic](https://github.com/datastaxdevs/shared-assets/blob/master/astra/summary-1000-connect.png?raw=true)
+
+On the connect screen pick `drivers`
+
+![pic](https://github.com/datastaxdevs/shared-assets/blob/master/astra/connect-rest-driver.png?raw=true)
+
+Finally click the download secure bundle button to download the zip of right-click to the button to get the url 
+
+![pic](https://github.com/datastaxdevs/shared-assets/blob/master/astra/connect-driver-1000.png?raw=true)
+
+- **✅ Place the secure creds bundle into astra.credentials**
+
+If you copied the link....
 ```bash
-  mv ./path/to/astra.credentials/secure-connect-<database-name-in-astra>.zip $PROJECT_HOME/kafka/connect/astra.credentials/
+cd $PROJECT_HOME/kafka/connect/astra.credentials/
+curl -L "<YOU_LINK>"  > secure-connect-<database-name-in-astra>.zip
 ```
 
-In gitpod you can just drag and drop it into `$PROJECT_HOME/kafka/connect/astra.credentials/`
+if you have the zip, upload file to gitpod with menu or drag and drop it into `$PROJECT_HOME/kafka/connect/astra.credentials/`
+```bash
+mv ./path/to/astra.credentials/secure-connect-<database-name-in-astra>.zip $PROJECT_HOME/kafka/connect/astra.credentials/
+```
 
 ### 3.h - Start Kafka Connect
 
-Start Kafka connect using your `connect-standalone.properties` file. First you will have to stop the service that the confluent cli started. Start it using:
+Start Kafka connect using your `connect-standalone.properties` file. First you will have to stop the service that the confluent cli started. 
+
+- **✅ Start Kafka-Connect**
 
 ```bash
 confluent local stop connect
@@ -336,7 +362,8 @@ $CONFLUENT_HOME/bin/connect-standalone $PROJECT_HOME/kafka/connect/worker-proper
 *Expected output*
 ![kafka connect logs](/screenshots/kafka-connect-logs-gp.png)
 
-Don't forget to send some more messages in a separate terminal:
+- **✅ Send more messages in a separate terminal**
+
 ```bash
 cd $PROJECT_HOME/python
 python3 data_importer.py --config-file-path configs/gitpod-config.ini
