@@ -12,15 +12,14 @@ where we build step-by-step and distributed message processing architecture.
 | Description and Link | Tools
 |---|---|
 | 1. [Reminders on Episode 1, start Cassandra API](#1-reminders-on-episode-1-setup-cassandra-api) | Node, Python,Astra |
-| 2. [ Start and Steup Apache Kafka™ ](#2-writing-apache-kafka-events-into-apache-cassandra) | Api, Kafka
-| 3. [ Write into Cassandra](#1-create-your-astra-instance-reminders) | Api, Kafka
-
+| 2. [ Start and Setup Apache Kafka™ ](#2-start-and-setup-apache-kafka) | Api, Kafka
+| 3. [ Write into Cassandra](#3-consume-from-kafka-write-to-cassandra) | Astra, Kafka
 
 ## 1. Reminders on Episode 1, setup Cassandra API
 
 This work has been realized during first workshop. The procedure is described step-by-step in the following [README](https://github.com/Anant/cassandra.api/blob/master/README.md).
 
-For refernce, recording of first episode is [available on youtube](https://www.youtube.com/watch?v=kRYMwOl6Uo4)
+For reference, recording of first episode is [available on youtube](https://www.youtube.com/watch?v=kRYMwOl6Uo4)
 
 ℹ️ **Informations** : During this session we implemented the API both in NodeJS (express) and Python (Flask) pick the one you like most for today. We recommend naming your db table `leaves` in order to keep it simple when following this demo, but you can use a different tablename, as long as you change the tablename throughout the rest of the demo to use the same table.
 
@@ -57,7 +56,7 @@ gp url 8000
 *This is what you have running as of now:*
 ![Get url for future reference](/screenshots/episode1.png)
 
-## 2. Start and Steup Apache Kafka™ 
+## 2. Start and Setup Apache Kafka™ 
 
 ### 2.a - Open Cassandra.Realtime in Gitpod
 As before, initialize your environment by simply click on the button below *(CTRL + Click to open in new tab)*. This will open a **second** gitpod workspaces. They will communicate to each other.
@@ -249,99 +248,112 @@ gp preview $(gp url 8080)/ui/docker-kafka-server/topic
 *Expected Output*
 ![Topics in AKHQ](/screenshots/akhq-topics.png)
 
-# Sending messages to Kafka using Kafka REST Proxy
+### 3.b - Sending messages to Kafka using Kafka REST Proxy
 
-Check your topics 
-```
+- **✅ Check your topics**
+
+```bash
 curl http://localhost:8082/topics/
 curl http://localhost:8082/topics/record-cassandra-leaves-avro
 ```
 
-Send using data importer's rest proxy mode:
-```
+- **✅ Send using data importer's rest proxy mode**
+
+```bash
 cd $PROJECT_HOME/python
 python3 data_importer.py --config-file-path configs/gitpod-rest-proxy-config.ini
 ```
 
 There should now be new messages for you to consume in your Kafka topic.
 
-![Rest Proxy](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/screenshots/rest-proxy.png)
+*Expected output*
+![Rest Proxy](/screenshots/rest-proxy.png)
 
+### 3.c - Process messages using Kafka Streams and writing to Cassandra using Processor API
 
-# Process messages using Kafka Streams and writing to Cassandra using Processor API
 You can use the Kafka processor API if you want to send messages to Cassandra using the REST API we are using.
 
-```
+- **✅ Send message to Cassandra**
+
+```bash
 cd $PROJECT_HOME
 mvn  -f ./kafka-to-cassandra-worker/pom.xml exec:java -Dexec.mainClass="org.anant.KafkaStreamsAvroConsumer" -Dexec.args="kafka-to-cassandra-worker/target/classes/gitpod-project.properties"
 ```
 
 Make sure to keep sending messages in another terminal or nothing will happen. You can use the same command as before:
-```
+```bash
 cd $PROJECT_HOME/python
 python3 data_importer.py --config-file-path configs/gitpod-rest-proxy-config.ini
 ```
 
-# Writing to Cassandra using Kafka Connect
+### 3.d - Writing to Cassandra using Kafka Connect
+
 We used the Processor API to show what it would look like to write to Cassandra using Kafka Streams and a REST API, but it is generally recommended to use Kafka Connect. We will be using the [Datastax connector](https://www.confluent.io/hub/datastax/kafka-connect-cassandra-sink), but there is also a Confluence Cassandra connector as well as other third party connectors available if you are interested. 
 
-## Setup Kafka Connect
+### 3.e - Setup Kafka Connect
+
 The Datastax Kafka connector also has instructions and a download link from [the Datastax website](https://docs.datastax.com/en/kafka/doc/kafka/install/kafkaInstall.html) as well as [Confluent Hub](https://www.confluent.io/hub/datastax/kafka-connect-cassandra-sink).
 
-### Create a connector properties file
+### 3.f - Create a connector properties file
+
 We provide a `connect-standalone.properties.example` that is setup to run `kafka-connect-cassandra-sink-1.4.0.jar`. However, you will need to change:
 
-  1) the name of the astra credentials zip file (cloud.secureConnectBundle). The path should be fine.
-  2) Topic settings, particularly keyspace and tablename, unless tablename is already leaves, then only change keyspace (topic.record-cassandra-leaves-avro.<my_ks>.leaves.mapping)
-  3) Astra db's password and username (auth.password)
+1. the name of the astra credentials zip file (cloud.secureConnectBundle). The path should be fine.
+2. Topic settings, particularly keyspace and tablename, unless tablename is already leaves, then only change keyspace `(topic.record-cassandra-leaves-avro.<my_ks>.leaves.mapping)`
+3. Astra dbs password and username (auth.password)
 
 Fields that require changing are marked by `### TODO make sure to change!` in the example file.
 
-```
+```bash
 cd $PROJECT_HOME/kafka/connect
 cp connect-standalone.properties.gitpod-example connect-standalone.properties
 vim connect-standalone.properties
 # ...
 ```
 
-The worker properties file we provide (found at $PROJECT_HOME/kafka/connect/worker-properties/gitpod-avro-worker.properties) should work fine without modification in gitpod. However, if you are not using gitpod, you will need to change `/workspace/cassandra.realtime` in the plugin path if you are not using gitpod, to whatever your $PROJECT_HOME is. 
+The worker properties file we provide (found at `$PROJECT_HOME/kafka/connect/worker-properties/gitpod-avro-worker.properties`) should work fine without modification in gitpod. However, if you are not using gitpod, you will need to change `/workspace/cassandra.realtime` in the plugin path if you are not using gitpod, to whatever your $PROJECT_HOME is. 
 
-### Setup Connect with Astra
+### 3.g - Setup Connect with Astra
+
 - If you have not already, make sure that your Datastax astra secure connect bundle is downloaded 
 - Place the secure creds bundle into astra.credentials
 
-  ```
+```bash
   mv ./path/to/astra.credentials/secure-connect-<database-name-in-astra>.zip $PROJECT_HOME/kafka/connect/astra.credentials/
-  ```
-  In gitpod you can just drag and drop it into `$PROJECT_HOME/kafka/connect/astra.credentials/`.
+```
 
-## Start Kafka Connect
+In gitpod you can just drag and drop it into `$PROJECT_HOME/kafka/connect/astra.credentials/`
+
+### 3.h - Start Kafka Connect
 
 Start Kafka connect using your `connect-standalone.properties` file. First you will have to stop the service that the confluent cli started. Start it using:
 
-```
+```bash
 confluent local stop connect
 $CONFLUENT_HOME/bin/connect-standalone $PROJECT_HOME/kafka/connect/worker-properties/gitpod-avro-worker.properties $PROJECT_HOME/kafka/connect/connect-standalone.properties
 ```
 
-![kafka connect logs](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/screenshots/kafka-connect-logs-gp.png)
-
+*Expected output*
+![kafka connect logs](/screenshots/kafka-connect-logs-gp.png)
 
 Don't forget to send some more messages in a separate terminal:
-```
+```bash
 cd $PROJECT_HOME/python
 python3 data_importer.py --config-file-path configs/gitpod-config.ini
 ```
 
 If you're not sure if it's working or not, before sending messages to Kafka using the data_importer.py, in the astra console you can delete records previously created using:
 
-```
+```sql
 TRUNCATE <your_ks>.leaves;
 ```
 
 Then send messages, and run a count
-```
+
+```sql
 SELECT COUNT(*) FROM <your_ks>.leaves;
 ```
-![astra count](https://raw.githubusercontent.com/Anant/cassandra.realtime/master/screenshots/astra-count-all-leaves.png)
+![astra count](/screenshots/astra-count-all-leaves.png)
+
+## THE END
 
