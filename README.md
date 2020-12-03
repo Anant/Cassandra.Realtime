@@ -3,7 +3,7 @@
 This project is part of the **Event Driven Toolkit for Kafka & Cassandra** initiative from Anant
 where we build step-by-step and distributed message processing architecture.
 
-![Splash](/screenshots/splash.png)
+![Splash](/screenshots/spark-cassandra-hero.jpeg)
 
 ## 📚 Table of Contents
 
@@ -385,7 +385,7 @@ SELECT COUNT(*) FROM <your_ks>.leaves;
 
 ## 4. Run Apache Spark Jobs Against DataStax Astra
 
-### 4.a Setup
+### 4.a - Setup
 
 - **✅ Download Apache Spark 3.0.1**
 ```bash
@@ -435,7 +435,7 @@ CREATE TABLE <your-keyspace>.tags (
 );
 ```
 
-### 4.b Start Apache Spark in Standalone Cluster Mode with 1 worker
+### 4.b - Start Apache Spark in Standalone Cluster Mode with 1 worker
 - **✅ Open a new terminal and start master**
 ```bash
 cd $PROJECT_HOME/spark/spark-3.0.1-bin-hadoop2.7/
@@ -453,29 +453,37 @@ cd $PROJECT_HOME/spark/spark-3.0.1-bin-hadoop2.7/
 gp preview $(gp url 8080)
 ```
 
-### 4.c Start sbt Server in `spark-cassandra` directory
+*Expected Output once master and worker started*
+![spark-ui-with-worker](/screenshots/spark-ui-with-worker.png)
+
+### 4.c - Start sbt Server in `spark-cassandra` directory
 - **✅ Open a new terminal and start sbt server**
 ```bash
 cd $PROJECT_HOME/spark/spark-cassandra/
 ../sbt/bin/sbt
 ```
-*Expected Output*
-This may take a minute, but you should see this when done:
+*Expected Output (This may take a minute, but you should see this when done)*
+![started-sbt-server](/screenshots/started-sbt-server.png)
 
 
-### 4.d Add User Specific Configs into Job files
+### 4.d - Add User Specific Configs into Job files
 - **✅ Open `/spark-cassandra/src/main/scala/leavesByTag.scala`**
   - **Edit lines 21-25 with your specific configs**
   - **Save file**
 - **✅ Open `/spark-cassandra/src/main/scala/tags.scala`**
   - **Edit lines 13-17 with your specific configs**
   - **Save file**
+  
+*Example Configs*
+![code-config-example](/screenshots/code-config-example.png)
 
-### 4.e Create Fat JAR
+
+### 4.e - Create Fat JAR
 - **✅ Run `assembly` in sbt server terminal**
 *Expected Output*
+![assembly-complete](/screenshots/assembly-complete.png)
 
-### 4.f Run 1st Apache Spark Job
+### 4.f - Run 1st Apache Spark Job
 In the first job, we are going to read the Kafka stream, manipulate the data, and save the data into the leaves_by_tag table we created earlier.
 
 - **✅ Go to the terminal that we used to start Apache Spark in standalone mode and run the below code block with your specific database name in the designated spot for the --files option**
@@ -486,8 +494,10 @@ In the first job, we are going to read the Kafka stream, manipulate the data, an
 ```
 
 *Expected Output Once the Job is Watching for the Kafka Stream*
+![spark-stream](/screenshots/spark-stream.png)
 
-### 4.g Run Kafka Connect
+
+### 4.g - Run Kafka Connect
 
 - **✅ If you stopped Kafka Connect, restart it in a seperate terminal**
 
@@ -505,17 +515,21 @@ cd $PROJECT_HOME/python
 python3 data_importer.py --config-file-path configs/gitpod-config.ini
 ```
 
-### 4.h Confirm Data Was Written to Astra
-- **✅ Stop Spark Job with `CTRL + C` once there is a steady stream of the following in the terminal**
-*Expected Output*
+### 4.h - Confirm Data Was Written to Astra
+- **✅ Stop Spark Job with `CTRL + C` once there is a steady stream of the following in the terminal with no changes:**
+![spark-stream](/screenshots/spark-stream.png)
+
 
 - **✅ Check count of rows with the tag of 'spark' in CQLSH or Astra Studio**
+<br></br>
 CQLSH:
 ```sql 
 select tag, count(*) from <your-keyspace>.leaves_by_tag where tag='spark';
 ```
 
 *Expected Output*
+![cqlsh-verify-leaves-by-tag](/screenshots/cqlsh-verify-leaves-by-tag.png)
+
 
 Astra Studio:
 ```sql
@@ -523,8 +537,11 @@ select tag, count(*) from leaves_by_tag where tag='spark';
 ```
 
 *Expected Output*
+<br></br>
+![studio-verify-leaves-by-tag](/screenshots/studio-verify-leaves-by-tag.png)
 
-### 4.i Run Second Apache Spark Job
+
+### 4.i - Run the 2nd Apache Spark Job
 In this job, we are going to take the data we sent via Kafka into the leaves table, transform it with Apache Spark, and write the transformed data into the tags table we created during setup.
 
 - **✅ Run the following code block in terminal you previously ran the first Spark Job. Again, be sure to input your specific database name in the --files option where designated**
@@ -537,15 +554,21 @@ In this job, we are going to take the data we sent via Kafka into the leaves tab
 The job will complete on its own, so you do not have to manually end it. 
 
 *Expected Output*
+![completed-spark-job-2](/screenshots/completed-spark-job-2.png)
 
-### 4.j Confirm Data was Written To Astra
+
+### 4.j - Confirm Data was Written To Astra
 - **✅ Check count of rows with the tag of 'spark' in CQLSH or Astra Studio**
+<br></br>
 CQLSH:
 ```sql
 select * from <your-keyspace>.tags where tag='spark';
 ```
 
 *Expected Output*
+<br></br>
+![cqlsh-verify-tags](/screenshots/cqlsh-verify-tags.png)
+
 
 Astra Studio:
 ```sql
@@ -553,6 +576,9 @@ select * from tags where tag='spark';
 ```
 
 *Expected Output*
+</br>
+![astra-studio-verify-tags](/screenshots/astra-studio-verify-tags.png)
+
 
 ## THE END
 
