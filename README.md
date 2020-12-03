@@ -443,7 +443,9 @@ cd $PROJECT_HOME/spark/spark-3.0.1-bin-hadoop2.7/
 ```
 
 - **✅ Start worker**
-```./sbin/start-slave.sh <master-url>```
+```bash
+./sbin/start-slave.sh <master-url>
+```
 
 >💡 **ProTip** : Use this single-line command to open a preview for port 8080 in gitpod to get the Spark master URL:  
  
@@ -462,10 +464,10 @@ This may take a minute, but you should see this when done:
 
 
 ### 4.d Add User Specific Configs into Job files
-- **✅ Open `/spark-cassandra/src/main/scala/leavesByTag.scala**`
+- **✅ Open `/spark-cassandra/src/main/scala/leavesByTag.scala`**
   - **Edit lines 21-25 with your specific configs**
   - **Save file**
-- **✅ Open `/spark-cassandra/src/main/scala/tags.scala**`
+- **✅ Open `/spark-cassandra/src/main/scala/tags.scala`**
   - **Edit lines 13-17 with your specific configs**
   - **Save file**
 
@@ -525,7 +527,7 @@ select tag, count(*) from leaves_by_tag where tag='spark';
 ### 4.i Run Second Apache Spark Job
 In this job, we are going to take the data we sent via Kafka into the leaves table, transform it with Apache Spark, and write the transformed data into the tags table we created during setup.
 
-- **✅ Run the following code block in terminal you previously ran the first Spark Job. Again, be sure to input your specific database name in the --files option where designated
+- **✅ Run the following code block in terminal you previously ran the first Spark Job. Again, be sure to input your specific database name in the --files option where designated**
 ```bash
 ./bin/spark-submit --class sparkCassandra.Tags \
 --files /workspace/cassandra.realtime/spark/secure-connect-<your-database-name>.zip \
