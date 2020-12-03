@@ -18,13 +18,19 @@ object LeavesByTag {
 
     def main(args: Array[String]){
 
+        val username = ""
+        val password = ""
+        val masterURL = ""
+        val dbName = ""
+        val keyspace = ""
+
         val spark = SparkSession
             .builder()
             .appName("Leaves")
-            .master("spark://ws-b9e764f6-cc53-4af3-9730-8554a30bc8a3:7077")
-            .config("spark.cassandra.connection.config.cloud.path", "secure-connect-demo.zip")
-            .config("spark.cassandra.auth.username", "username")
-            .config("spark.cassandra.auth.password", "password")
+            .master(masterURL)
+            .config("spark.cassandra.connection.config.cloud.path", s"secure-connect-$dbName.zip")
+            .config("spark.cassandra.auth.username", username)
+            .config("spark.cassandra.auth.password", password)
             .config("spark.sql.extensions", "com.datastax.spark.connector.CassandraSparkExtensions")
             .getOrCreate()
         
@@ -53,7 +59,7 @@ object LeavesByTag {
 
         val leavesByTagQuery = leaves_by_tag.writeStream
         .option("checkpointLocation", "/tmp/checkpoint/leavesByTag")
-        .cassandraFormat("leaves_by_tag", "test")
+        .cassandraFormat("leaves_by_tag", keyspace)
         .outputMode("append")
         .start()
 
