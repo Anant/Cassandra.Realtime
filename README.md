@@ -400,6 +400,7 @@ curl -L -s https://github.com/sbt/sbt/releases/download/v1.4.3/sbt-1.4.3.tgz | t
 - **✅ Drag-and-drop a Copy of Your Secure Connect Bundle into the `/spark` directory**
 
 - **✅ Create 2 tables in DataStax Astra**
+<br></br>
 For Astra Studio
 ```sql
 CREATE TABLE leaves_by_tag (
