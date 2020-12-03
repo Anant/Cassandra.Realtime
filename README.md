@@ -1,4 +1,4 @@
-# Building an Event Driven API with Kafka and Cassandra!
+# Getting started with Cassandra and Spark!
 
 This project is part of the **Event Driven Toolkit for Kafka & Cassandra** initiative from Anant
 where we build step-by-step and distributed message processing architecture.
@@ -7,13 +7,14 @@ where we build step-by-step and distributed message processing architecture.
 
 ## 📚 Table of Contents
 
-✨ This is episode 2
+✨ This is episode 3
 
 | Description and Link | Tools
 |---|---|
 | 1. [Reminders on Episode 1, start Cassandra API](#1-reminders-on-episode-1-setup-cassandra-api) | Node, Python,Astra |
-| 2. [ Start and Setup Apache Kafka™ ](#2-start-and-setup-apache-kafka) | Api, Kafka
-| 3. [ Write into Cassandra](#3-consume-from-kafka-write-to-cassandra) | Astra, Kafka
+| 2. [ Start and Setup Apache Kafka™ ](#2-start-and-setup-apache-kafka) | Api, Kafka |
+| 3. [ Write into Cassandra](#3-consume-from-kafka-write-to-cassandra) | Astra, Kafka |
+| 4. [Run Apache Spark Jobs against DataStax Astra](#4-run-apache-spark-jobs-against-datastax-astra) | Astra, Spark, Kafka |
 
 ## 1. Reminders on Episode 1, setup Cassandra API
 
@@ -382,5 +383,175 @@ SELECT COUNT(*) FROM <your_ks>.leaves;
 ```
 ![astra count](/screenshots/astra-count-all-leaves.png)
 
+## 4. Run Apache Spark Jobs Against DataStax Astra
+
+### 4.a Setup
+
+- **✅ Download Apache Spark 3.0.1**
+```bash
+curl -L -s https://apache.osuosl.org/spark/spark-3.0.1/spark-3.0.1-bin-hadoop2.7.tgz | tar xvz -C /workspace/cassandra.realtime/spark
+```
+
+- **✅ Download sbt 1.4.3**
+```bash
+curl -L -s https://github.com/sbt/sbt/releases/download/v1.4.3/sbt-1.4.3.tgz | tar xvz -C /workspace/cassandra.realtime/spark
+```
+
+- **✅ Drag-and-drop a Copy of Your Secure Connect Bundle into the `/spark` directory**
+
+- **✅ Create 2 tables in DataStax Astra**
+For Astra Studio
+```sql
+CREATE TABLE leaves_by_tag (
+   tag text,
+   title text,
+   tags list<text>,
+   url text,
+   PRIMARY KEY ((tag), title)
+);
+
+CREATE TABLE tags (
+   tag text,
+   count int,
+   PRIMARY KEY (tag)
+);
+```
+
+For CQLSH
+```sql
+CREATE TABLE <your-keyspace>.leaves_by_tag (
+   tag text,
+   title text,
+   tags list<text>,
+   url text,
+   PRIMARY KEY ((tag), title)
+);
+
+CREATE TABLE <your-keyspace>.tags (
+   tag text,
+   count int,
+   PRIMARY KEY (tag)
+);
+```
+
+### 4.b Start Apache Spark in Standalone Cluster Mode with 1 worker
+- **✅ Open a new terminal and start master**
+```bash
+cd $PROJECT_HOME/spark/spark-3.0.1-bin-hadoop2.7/
+./sbin/start-master.sh
+```
+
+- **✅ Start worker**
+```./sbin/start-slave.sh <master-url>```
+
+>💡 **ProTip** : Use this single-line command to open a preview for port 8080 in gitpod to get the Spark master URL:  
+ 
+```bash
+gp preview $(gp url 8080)
+```
+
+### 4.c Start sbt Server in `spark-cassandra` directory
+- **✅ Open a new terminal and start sbt server**
+```bash
+cd $PROJECT_HOME/spark/spark-cassandra/
+../sbt/bin/sbt
+```
+*Expected Output*
+This may take a minute, but you should see this when done:
+
+
+### 4.d Add User Specific Configs into Job files
+- **✅ Open `/spark-cassandra/src/main/scala/leavesByTag.scala**`
+  - **Edit lines 21-25 with your specific configs**
+  - **Save file**
+- **✅ Open `/spark-cassandra/src/main/scala/tags.scala**`
+  - **Edit lines 13-17 with your specific configs**
+  - **Save file**
+
+### 4.e Create Fat JAR
+- **✅ Run `assembly` in sbt server terminal**
+*Expected Output*
+
+### 4.f Run 1st Apache Spark Job
+In the first job, we are going to read the Kafka stream, manipulate the data, and save the data into the leaves_by_tag table we created earlier.
+
+- **✅ Go to the terminal that we used to start Apache Spark in standalone mode and run the below code block with your specific database name in the designated spot for the --files option**
+```bash
+./bin/spark-submit --class sparkCassandra.LeavesByTag \
+--files /workspace/cassandra.realtime/spark/secure-connect-<your-db-name>.zip \
+/workspace/cassandra.realtime/spark/spark-cassandra/target/scala-2.12/spark-cassandra-assembly-0.1.0-SNAPSHOT.jar
+```
+
+*Expected Output Once the Job is Watching for the Kafka Stream*
+
+### 4.g Run Kafka Connect
+
+- **✅ If you stopped Kafka Connect, restart it in a seperate terminal**
+
+```bash
+$CONFLUENT_HOME/bin/connect-standalone $PROJECT_HOME/kafka/connect/worker-properties/gitpod-avro-worker.properties $PROJECT_HOME/kafka/connect/connect-standalone.properties
+```
+
+*Expected output*
+![kafka connect logs](/screenshots/kafka-connect-logs-gp.png)
+
+- **✅ Send more messages in a separate terminal**
+
+```bash
+cd $PROJECT_HOME/python
+python3 data_importer.py --config-file-path configs/gitpod-config.ini
+```
+
+### 4.h Confirm Data Was Written to Astra
+- **✅ Stop Spark Job with `CTRL + C` once there is a steady stream of the following in the terminal**
+*Expected Output*
+
+- **✅ Check count of rows with the tag of 'spark' in CQLSH or Astra Studio**
+CQLSH:
+```sql 
+select tag, count(*) from <your-keyspace>.leaves_by_tag where tag='spark';
+```
+
+*Expected Output*
+
+Astra Studio:
+```sql
+select tag, count(*) from leaves_by_tag where tag='spark';
+```
+
+*Expected Output*
+
+### 4.i Run Second Apache Spark Job
+In this job, we are going to take the data we sent via Kafka into the leaves table, transform it with Apache Spark, and write the transformed data into the tags table we created during setup.
+
+- **✅ Run the following code block in terminal you previously ran the first Spark Job. Again, be sure to input your specific database name in the --files option where designated
+```bash
+./bin/spark-submit --class sparkCassandra.Tags \
+--files /workspace/cassandra.realtime/spark/secure-connect-<your-database-name>.zip \
+/workspace/cassandra.realtime/spark/spark-cassandra/target/scala-2.12/spark-cassandra-assembly-0.1.0-SNAPSHOT.jar
+```
+
+The job will complete on its own, so you do not have to manually end it. 
+
+*Expected Output*
+
+### 4.j Confirm Data was Written To Astra
+- **✅ Check count of rows with the tag of 'spark' in CQLSH or Astra Studio**
+CQLSH:
+```sql
+select * from <your-keyspace>.tags where tag='spark';
+```
+
+*Expected Output*
+
+Astra Studio:
+```sql
+select * from tags where tag='spark';
+```
+
+*Expected Output*
+
 ## THE END
+
+
 
