@@ -480,7 +480,9 @@ cd $PROJECT_HOME/spark/spark-cassandra/
 
 ### 4.e - Create Fat JAR
 - **✅ Run `assembly` in sbt server terminal**
+<br></br>
 *Expected Output*
+<br></br>
 ![assembly-complete](/screenshots/assembly-complete.png)
 
 ### 4.f - Run 1st Apache Spark Job
@@ -528,6 +530,7 @@ select tag, count(*) from <your-keyspace>.leaves_by_tag where tag='spark';
 ```
 
 *Expected Output*
+<br></br>
 ![cqlsh-verify-leaves-by-tag](/screenshots/cqlsh-verify-leaves-by-tag.png)
 
 
@@ -576,7 +579,7 @@ select * from tags where tag='spark';
 ```
 
 *Expected Output*
-</br>
+<br></br>
 ![astra-studio-verify-tags](/screenshots/astra-studio-verify-tags.png)
 
 
