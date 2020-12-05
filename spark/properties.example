@@ -1,0 +1,20 @@
+### IMPORTANT: Remember to keep one whitespace between the paramater and value
+
+### TODO: Enter Spark master URL 
+spark.master <spark-master-url>
+
+### TODO: Enter your specific database name in the designated spot
+spark.cassandra.connection.config.cloud.path secure-connect-<database-name>.zip
+
+### TODO: Enter your specific Astra username, password, database name, and keyspace name in the designated spots
+spark.cassandra.auth.username <username>
+spark.cassandra.auth.password <password>
+spark.database.name <database-name>
+spark.keyspace.name <keyspace-name>
+
+### TODO: Enter your specific database name in the designated spot
+spark.files /workspace/cassandra.realtime/spark/secure-connect-<database-name>.zip
+
+# Defaults
+spark.app.name Leaves
+spark.sql.extensions com.datastax.spark.connector.CassandraSparkExtensions
