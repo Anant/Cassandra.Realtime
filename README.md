@@ -466,17 +466,15 @@ cd $PROJECT_HOME/spark/spark-cassandra/
 ![started-sbt-server](/screenshots/started-sbt-server.png)
 
 
-### 4.d - Add User Specific Configs into Job files
-- **✅ Open `/spark-cassandra/src/main/scala/leavesByTag.scala`**
-  - **Edit lines 21-25 with your specific configs**
-  - **Save file**
-- **✅ Open `/spark-cassandra/src/main/scala/tags.scala`**
-  - **Edit lines 13-17 with your specific configs**
-  - **Save file**
-  
-*Example Configs*
-![code-config-example](/screenshots/code-config-example.png)
+### 4.d - Create `properties.conf` file 
+We provide a `properties.example` file that is setup to run with our Spark jobs. However, you will need to input your own specific configs into the designated spots. Fields that require changing are marked by `### TODO` in the example file. *IMPORTANT*: Remember to keep *1 whitespace* between each parameter and value.
 
+- **✅ Open a new terminal and edit the `properties.example` file**
+```
+cd $PROJECT_HOME/spark
+cp properties.example properties.conf
+vim properties.conf
+```
 
 ### 4.e - Create Fat JAR
 - **✅ Run `assembly` in sbt server terminal**
@@ -490,9 +488,7 @@ In the first job, we are going to read the Kafka stream, manipulate the data, an
 
 - **✅ Go to the terminal that we used to start Apache Spark in standalone mode and run the below code block with your specific database name in the designated spot for the --files option**
 ```bash
-./bin/spark-submit --class sparkCassandra.LeavesByTag \
---files /workspace/cassandra.realtime/spark/secure-connect-<your-db-name>.zip \
-/workspace/cassandra.realtime/spark/spark-cassandra/target/scala-2.12/spark-cassandra-assembly-0.1.0-SNAPSHOT.jar
+./bin/spark-submit --class sparkCassandra.LeavesByTag --properties-file $PROJECT_HOME/spark/properties.conf --files $PROJECT_HOME/spark/secure-connect-<your-database-name>.zip $PROJECT_HOME/spark/spark-cassandra/target/scala-2.12/spark-cassandra-assembly-0.1.0-SNAPSHOT.jar
 ```
 
 *Expected Output Once the Job is Watching for the Kafka Stream*
@@ -549,9 +545,7 @@ In this job, we are going to take the data we sent via Kafka into the leaves tab
 
 - **✅ Run the following code block in terminal you previously ran the first Spark Job. Again, be sure to input your specific database name in the --files option where designated**
 ```bash
-./bin/spark-submit --class sparkCassandra.Tags \
---files /workspace/cassandra.realtime/spark/secure-connect-<your-database-name>.zip \
-/workspace/cassandra.realtime/spark/spark-cassandra/target/scala-2.12/spark-cassandra-assembly-0.1.0-SNAPSHOT.jar
+./bin/spark-submit --class sparkCassandra.Tags --properties-file $PROJECT_HOME/spark/properties.conf --files $PROJECT_HOME/spark/secure-connect-<your-database-name>.zip $PROJECT_HOME/spark/spark-cassandra/target/scala-2.12/spark-cassandra-assembly-0.1.0-SNAPSHOT.jar
 ```
 
 The job will complete on its own, so you do not have to manually end it. 
