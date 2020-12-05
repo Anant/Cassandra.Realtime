@@ -389,12 +389,12 @@ SELECT COUNT(*) FROM <your_ks>.leaves;
 
 - **✅ Download Apache Spark 3.0.1**
 ```bash
-curl -L -s https://apache.osuosl.org/spark/spark-3.0.1/spark-3.0.1-bin-hadoop2.7.tgz | tar xvz -C /workspace/cassandra.realtime/spark
+curl -L -s https://apache.osuosl.org/spark/spark-3.0.1/spark-3.0.1-bin-hadoop2.7.tgz | tar xvz -C $PROJECT_HOME/spark
 ```
 
 - **✅ Download sbt 1.4.3**
 ```bash
-curl -L -s https://github.com/sbt/sbt/releases/download/v1.4.3/sbt-1.4.3.tgz | tar xvz -C /workspace/cassandra.realtime/spark
+curl -L -s https://github.com/sbt/sbt/releases/download/v1.4.3/sbt-1.4.3.tgz | tar xvz -C $PROJECT_HOME/spark
 ```
 
 - **✅ Drag-and-drop a Copy of Your Secure Connect Bundle into the `/spark` directory**
