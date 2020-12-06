@@ -543,7 +543,7 @@ select tag, count(*) from leaves_by_tag where tag='spark';
 ### 4.i - Run the 2nd Apache Spark Job
 In this job, we are going to take the data we sent via Kafka into the leaves table, transform it with Apache Spark, and write the transformed data into the tags table we created during setup.
 
-- **✅ Run the following code block in terminal you previously ran the first Spark Job. Again, be sure to input your specific database name in the --files option where designated**
+- **✅ Run the following code block in the terminal where you previously ran the first Spark Job. Again, be sure to input your specific database name in the --files option where designated**
 ```bash
 ./bin/spark-submit --class sparkCassandra.Tags --properties-file $PROJECT_HOME/spark/properties.conf --files $PROJECT_HOME/spark/secure-connect-<your-database-name>.zip $PROJECT_HOME/spark/spark-cassandra/target/scala-2.12/spark-cassandra-assembly-0.1.0-SNAPSHOT.jar
 ```
