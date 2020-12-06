@@ -1,6 +1,6 @@
-# Getting started with Cassandra and Spark!
+# Getting started with Cassandra, Spark, and Kafka!
 
-This project is part of the **Event Driven Toolkit for Kafka & Cassandra** initiative from Anant
+This project is part of the **Event Driven Toolkit for Cassandra, Spark, Kafka** initiative from Anant
 where we build step-by-step and distributed message processing architecture.
 
 ![Splash](/screenshots/spark-cassandra-hero.jpeg)
