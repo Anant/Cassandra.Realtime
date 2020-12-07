@@ -6,7 +6,7 @@ ENV BINARY_DIR /home/gitpod/lib
 ENV CONFLUENT_HOME /home/gitpod/lib/confluent-5.5.1
 ENV PROJECT_HOME /workspace/cassandra.realtime
 ENV PATH ${CONFLUENT_HOME}/bin:${PATH}
-
+ENV PATH /home/gitpod/bin:${PATH}
 
 # using confluent community, and tarball, since gitpod doesn't allow sudo use, so can't do sudo systemctl... in gitpod
 # install tarballs for binaries that we need. Putting them in ~/lib
