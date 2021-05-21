@@ -301,7 +301,7 @@ We provide a `connect-standalone.properties.example` that is setup to run `kafka
 
 1. the name of the astra credentials zip file (cloud.secureConnectBundle). The path should be fine.
 2. Topic settings, particularly keyspace and tablename, unless tablename is already leaves, then only change keyspace `(topic.record-cassandra-leaves-avro.<my_ks>.leaves.mapping)`
-3. Astra dbs password and username (auth.password)
+3. Astra database client id and client secret (auth.username should be your client-id and auth.password should be your client-secret)
 
 Fields that require changing are marked by `### TODO make sure to change!` in the example file.
 
@@ -389,7 +389,7 @@ SELECT COUNT(*) FROM <your_ks>.leaves;
 
 - **✅ Download Apache Spark 3.0.1**
 ```bash
-curl -L -s https://apache.osuosl.org/spark/spark-3.0.1/spark-3.0.1-bin-hadoop2.7.tgz | tar xvz -C $PROJECT_HOME/spark
+curl -L -s https://archive.apache.org/dist/spark/spark-3.0.1/spark-3.0.1-bin-hadoop2.7.tgz | tar xvz -C $PROJECT_HOME/spark
 ```
 
 - **✅ Download sbt 1.4.3**
@@ -452,6 +452,10 @@ cd $PROJECT_HOME/spark/spark-3.0.1-bin-hadoop2.7/
 ```bash
 gp preview $(gp url 8080)
 ```
+
+Important note: May have to open a port slightly above 8080 depending on what is running in your gitpod/local instance (i.e. AKHQ). 
+
+Once spark master is started, it should open in a mini window in gitpod and that will show what port to use the gp preview command on, as well as show the spark master url at the top.
 
 *Expected Output once master and worker started*
 ![spark-ui-with-worker](/screenshots/spark-ui-with-worker.png)
