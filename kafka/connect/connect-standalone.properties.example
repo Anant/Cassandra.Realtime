@@ -80,10 +80,10 @@ auth.provider=PLAIN
 
 ### TODO make sure to change! 
 # Username for PLAIN authentication
-auth.username=
+auth.username=client-id
 
 # Password for PLAIN authentication
-auth.password=
+auth.password=client-secret
 
 # Kerberos keytab file (GSSAPI provider)
 #auth.gssapi.keyTab=
